@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>syllabus – Computing Using R &amp; Python</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-172ba59bd5e0b52282274ba0c0cc16fc.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Computing Using R &amp; Python</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="./syllabus.html" aria-current="page"> 
+<span class="menu-text">Syllabus</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#math-5200-computing-using-r-python" id="toc-math-5200-computing-using-r-python" class="nav-link active" data-scroll-target="#math-5200-computing-using-r-python">MATH 5200: Computing Using R &amp; Python</a>
+  <ul class="collapse">
+  <li><a href="#course-description" id="toc-course-description" class="nav-link" data-scroll-target="#course-description">Course Description</a></li>
+  <li><a href="#prerequisites" id="toc-prerequisites" class="nav-link" data-scroll-target="#prerequisites">Prerequisites</a></li>
+  <li><a href="#instructor" id="toc-instructor" class="nav-link" data-scroll-target="#instructor">Instructor</a></li>
+  <li><a href="#assistant" id="toc-assistant" class="nav-link" data-scroll-target="#assistant">Assistant</a></li>
+  <li><a href="#course-materials-and-software" id="toc-course-materials-and-software" class="nav-link" data-scroll-target="#course-materials-and-software">Course Materials and Software</a></li>
+  <li><a href="#course-organization" id="toc-course-organization" class="nav-link" data-scroll-target="#course-organization">Course Organization</a></li>
+  <li><a href="#course-philosophy" id="toc-course-philosophy" class="nav-link" data-scroll-target="#course-philosophy">Course Philosophy</a></li>
+  <li><a href="#assessment" id="toc-assessment" class="nav-link" data-scroll-target="#assessment">Assessment</a></li>
+  <li><a href="#assignments-and-collaboration" id="toc-assignments-and-collaboration" class="nav-link" data-scroll-target="#assignments-and-collaboration">Assignments and Collaboration</a></li>
+  <li><a href="#generative-ai-and-other-computational-tools" id="toc-generative-ai-and-other-computational-tools" class="nav-link" data-scroll-target="#generative-ai-and-other-computational-tools">Generative AI and Other Computational Tools</a></li>
+  <li><a href="#attendance-and-participation" id="toc-attendance-and-participation" class="nav-link" data-scroll-target="#attendance-and-participation">Attendance and Participation</a></li>
+  <li><a href="#communication" id="toc-communication" class="nav-link" data-scroll-target="#communication">Communication</a></li>
+  <li><a href="#tentative-course-calendar" id="toc-tentative-course-calendar" class="nav-link" data-scroll-target="#tentative-course-calendar">Tentative Course Calendar</a></li>
+  <li><a href="#course-project" id="toc-course-project" class="nav-link" data-scroll-target="#course-project">Course Project</a></li>
+  <li><a href="#academic-integrity" id="toc-academic-integrity" class="nav-link" data-scroll-target="#academic-integrity">Academic Integrity</a></li>
+  <li><a href="#university-policies" id="toc-university-policies" class="nav-link" data-scroll-target="#university-policies">University Policies</a></li>
+  <li><a href="#course-resources" id="toc-course-resources" class="nav-link" data-scroll-target="#course-resources">Course Resources</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+
+
+
+
+<section id="math-5200-computing-using-r-python" class="level1">
+<h1>MATH 5200: Computing Using R &amp; Python</h1>
+<p><strong>Fall 2026</strong><br>
+<strong>Day/Time:</strong> XXX<br>
+<strong>Location:</strong> XXX</p>
+<section id="course-description" class="level2">
+<h2 class="anchored" data-anchor-id="course-description">Course Description</h2>
+<p>This course provides a fast-paced introduction to programming and computational methods for graduate study in mathematics and statistics. We will use <strong>Python and R</strong> to develop practical programming skills while also introducing fundamental ideas from computer science, numerical computing, data management, and reproducible research.</p>
+<p>The course emphasizes <strong>problem solving and computational thinking rather than memorization of language syntax</strong>. Topics include programming fundamentals, data structures, algorithms, numerical representation and error, data manipulation and visualization, simulation, statistical computing, software organization, version control, testing and debugging, and reproducible computational workflows.</p>
+<p>An important goal is to prepare students not only to write programs for this course, but also to approach computational problems effectively in subsequent coursework, research, and professional settings. We will therefore discuss practices used in real computational work, including organizing projects, managing dependencies and data, writing maintainable code, testing programs, documenting work, and using Git and GitHub.</p>
+<p>The course uses Python and R throughout. Students will generally learn concepts first through Python and then see how similar computational ideas are expressed in R.</p>
+</section>
+<section id="prerequisites" class="level2">
+<h2 class="anchored" data-anchor-id="prerequisites">Prerequisites</h2>
+<p>Basic mathematics and statistics and familiarity with computers. No prior programming experience is required.</p>
+<p>Students should be comfortable with algebra and basic mathematical notation and should be prepared to learn programming at a relatively rapid pace.</p>
+</section>
+<section id="instructor" class="level2">
+<h2 class="anchored" data-anchor-id="instructor">Instructor</h2>
+<p><strong>Phillip Monin, PhD, CFA, FRM</strong><br>
+<a href="mailto:pm1091@georgetown.edu">pm1091@georgetown.edu</a></p>
+<p>Office: XXX<br>
+Office hours: XXX</p>
+<p>Additional meetings are available by appointment.</p>
+</section>
+<section id="assistant" class="level2">
+<h2 class="anchored" data-anchor-id="assistant">Assistant</h2>
+<p><strong>XXX</strong><br>
+<a href="mailto:XXX">XXX@georgetown.edu</a></p>
+<p>Office hours: XXX</p>
+</section>
+<section id="course-materials-and-software" class="level2">
+<h2 class="anchored" data-anchor-id="course-materials-and-software">Course Materials and Software</h2>
+<p>There is no required textbook. The course will be driven primarily by lecture notes, examples, and programming exercises provided through the course GitHub repository.</p>
+<p>Students will use:</p>
+<ul>
+<li>Python 3</li>
+<li>R</li>
+<li>Visual Studio Code</li>
+<li>Quarto</li>
+<li>Git and GitHub</li>
+</ul>
+<p>Detailed installation and setup instructions will be provided at the beginning of the course.</p>
+<p>The course repository will contain lecture materials, exercises, assignments, examples, and other resources. Students will use Git and GitHub as part of the course itself, providing an opportunity to practice the same tools used to organize and share computational work professionally.</p>
+<p>Additional readings and references will occasionally be assigned or recommended.</p>
+</section>
+<section id="course-organization" class="level2">
+<h2 class="anchored" data-anchor-id="course-organization">Course Organization</h2>
+<p>The course is organized around several broad themes:</p>
+<ol type="1">
+<li><strong>Programming fundamentals:</strong> variables, types, expressions, control flow, functions, data structures, and program state.</li>
+<li><strong>Computational foundations:</strong> algorithms, binary and numerical representation, floating-point arithmetic, numerical error, and computational complexity.</li>
+<li><strong>Data and scientific computing:</strong> working with arrays and data frames, data cleaning and transformation, visualization, simulation, and numerical computation.</li>
+<li><strong>Statistical computing:</strong> applying computational methods to statistical problems and working with real datasets.</li>
+<li><strong>Software and data practices:</strong> testing, debugging, documentation, project organization, version control, dependency management, and reproducibility.</li>
+<li><strong>Python and R:</strong> learning the common computational ideas that underlie both languages while becoming comfortable using each language in practice.</li>
+</ol>
+<p>The course will move quickly. Class meetings will combine short lectures with live coding, demonstrations, and exercises that students complete individually or collaboratively.</p>
+</section>
+<section id="course-philosophy" class="level2">
+<h2 class="anchored" data-anchor-id="course-philosophy">Course Philosophy</h2>
+<p>The goal of this course is not to memorize Python or R syntax. The goal is to become someone who can <strong>solve problems computationally</strong>.</p>
+<p>A typical computational workflow looks something like:</p>
+<blockquote class="blockquote">
+<p><strong>Problem → algorithm → implementation → testing → analysis → results</strong></p>
+</blockquote>
+<p>We will pay attention to every part of this process. In particular, students will learn to recognize that producing an answer is not necessarily the same thing as producing a correct, reliable, or reproducible computational result.</p>
+<p>Students are encouraged to ask questions, experiment, make mistakes, and use computational tools to investigate ideas. At the same time, submitted work should demonstrate that students understand the code they write and the methods they use.</p>
+</section>
+<section id="assessment" class="level2">
+<h2 class="anchored" data-anchor-id="assessment">Assessment</h2>
+<p>The course will include:</p>
+<ul>
+<li><strong>Weekly homework assignments:</strong> programming exercises and short computational problems.</li>
+<li><strong>Short quizzes:</strong> brief assessments of concepts and programming fundamentals.</li>
+<li><strong>Semester project:</strong> an extended computational project developed in several stages.</li>
+<li><strong>Participation and engagement:</strong> active participation in class exercises and discussions.</li>
+</ul>
+<p>The precise weighting will be:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Component</th>
+<th style="text-align: right;">Weight</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Homework</td>
+<td style="text-align: right;">XX%</td>
+</tr>
+<tr class="even">
+<td>Quizzes</td>
+<td style="text-align: right;">XX%</td>
+</tr>
+<tr class="odd">
+<td>Semester project</td>
+<td style="text-align: right;">XX%</td>
+</tr>
+<tr class="even">
+<td>Participation/engagement</td>
+<td style="text-align: right;">XX%</td>
+</tr>
+<tr class="odd">
+<td><strong>Total</strong></td>
+<td style="text-align: right;"><strong>100%</strong></td>
+</tr>
+</tbody>
+</table>
+<p>The semester project will give students an opportunity to apply the skills developed throughout the course to a problem of their choosing. Projects may involve data analysis, simulation, numerical computing, or another computational problem approved by the instructor.</p>
+<p>More information about the project, including its phases and evaluation criteria, is provided in a separate project document.</p>
+</section>
+<section id="assignments-and-collaboration" class="level2">
+<h2 class="anchored" data-anchor-id="assignments-and-collaboration">Assignments and Collaboration</h2>
+<p>Homework will generally be assigned weekly and will be submitted through the course GitHub repository or another electronic submission system as specified in the assignment.</p>
+<p>Students are encouraged to discuss course concepts and homework problems with one another. However, submitted work must represent the student’s own work. Students should not copy another student’s code or submit code that they do not understand.</p>
+<p>When substantial assistance is received from another student, the instructor, an online resource, or an AI tool, students should acknowledge that assistance as appropriate. Such acknowledgments are not penalized.</p>
+<p>Specific assignments may have additional collaboration rules, which will be stated on the assignment.</p>
+</section>
+<section id="generative-ai-and-other-computational-tools" class="level2">
+<h2 class="anchored" data-anchor-id="generative-ai-and-other-computational-tools">Generative AI and Other Computational Tools</h2>
+<p>Generative AI tools can be useful programming assistants, but learning to program requires students to understand the code they write rather than simply obtain working code from an external system.</p>
+<p>Unless an assignment specifies otherwise, students may use AI tools for purposes such as:</p>
+<ul>
+<li>explaining programming concepts;</li>
+<li>helping diagnose an error;</li>
+<li>suggesting approaches to a problem;</li>
+<li>generating examples for experimentation;</li>
+<li>helping improve documentation.</li>
+</ul>
+<p>Students remain responsible for verifying, understanding, testing, and appropriately citing or acknowledging AI-generated material used in submitted work.</p>
+<p>Some assignments may deliberately restrict or prohibit AI assistance when the purpose is to assess unaided programming knowledge. The applicable rules will always be stated on the assignment.</p>
+</section>
+<section id="attendance-and-participation" class="level2">
+<h2 class="anchored" data-anchor-id="attendance-and-participation">Attendance and Participation</h2>
+<p>Class attendance is expected. Much of the course will be conducted through live coding and collaborative exercises, and students are responsible for material covered in class as well as in the lecture notes.</p>
+<p>If you anticipate missing a class, please notify the instructor in advance when possible.</p>
+<p>Course materials, including lecture notes and exercise files, will be posted to the course GitHub repository. Additional announcements and course logistics will be communicated through XXX.</p>
+</section>
+<section id="communication" class="level2">
+<h2 class="anchored" data-anchor-id="communication">Communication</h2>
+<p>Please use XXX for course-related announcements and XXX for submitting questions or assignments.</p>
+<p>Students are welcome to contact the instructor by email. I am happy to discuss course material, assignments, projects, or other questions about the course.</p>
+</section>
+<section id="tentative-course-calendar" class="level2">
+<h2 class="anchored" data-anchor-id="tentative-course-calendar">Tentative Course Calendar</h2>
+<p>The following is a broad outline. The schedule may change as the course progresses.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Week</th>
+<th>Topic</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>Computing foundations, Python, program state, binary and numerical representation</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>Control flow, data structures, functions, and testing</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>Algorithms, files, exceptions, and debugging</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>NumPy and numerical computing</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>Pandas and data manipulation</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td>Data visualization and exploratory data analysis</td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td>Simulation and statistical computing</td>
+</tr>
+<tr class="even">
+<td>8</td>
+<td>R fundamentals and the R computational model</td>
+</tr>
+<tr class="odd">
+<td>9</td>
+<td>Data management and visualization in R</td>
+</tr>
+<tr class="even">
+<td>10</td>
+<td>Statistical modeling and computational statistics</td>
+</tr>
+<tr class="odd">
+<td>11</td>
+<td>Reproducible research, Git/GitHub, and project development</td>
+</tr>
+<tr class="even">
+<td>12</td>
+<td>Advanced topics and project work</td>
+</tr>
+<tr class="odd">
+<td>13</td>
+<td>Project presentations / final project work</td>
+</tr>
+</tbody>
+</table>
+<p>Specific dates and project deadlines will be provided on the course schedule.</p>
+</section>
+<section id="course-project" class="level2">
+<h2 class="anchored" data-anchor-id="course-project">Course Project</h2>
+<p>The semester project is a substantial computational investigation of a topic chosen by the student in consultation with the instructor.</p>
+<p>Projects may involve:</p>
+<ul>
+<li>data analysis;</li>
+<li>simulation;</li>
+<li>numerical computation;</li>
+<li>algorithmic experiments;</li>
+<li>statistical modeling; or</li>
+<li>another computational project approved by the instructor.</li>
+</ul>
+<p>The project will develop through several stages:</p>
+<ol type="1">
+<li><strong>Proposal</strong></li>
+<li><strong>Preliminary analysis / computational development</strong></li>
+<li><strong>Final analysis and final product</strong></li>
+<li><strong>Presentation</strong></li>
+</ol>
+<p>The purpose of the project is to give students an opportunity to work on a problem of genuine interest while practicing the complete computational workflow developed in the course.</p>
+<p>A separate project description provides detailed requirements, examples, and guidance for selecting a topic.</p>
+</section>
+<section id="academic-integrity" class="level2">
+<h2 class="anchored" data-anchor-id="academic-integrity">Academic Integrity</h2>
+<p>Everything submitted for a grade must represent the student’s own work, except for clearly acknowledged and appropriately cited material from other sources or assistance explicitly permitted by the instructor.</p>
+<p>Students may discuss homework and projects with classmates unless an assignment specifies otherwise, but they should not copy another student’s work.</p>
+<p>Examinations and other assessments designated as individual work may have substantially more restrictive collaboration and resource rules. Those rules will be stated explicitly when the assessment is assigned.</p>
+<p>Students are responsible for understanding and following Georgetown University’s academic integrity policies.</p>
+</section>
+<section id="university-policies" class="level2">
+<h2 class="anchored" data-anchor-id="university-policies">University Policies</h2>
+<p>Students should consult the University syllabus policies and resources for information concerning accommodations, Title IX and sexual misconduct, academic integrity, accessibility, and other University policies.</p>
+<p>[Georgetown University syllabus policies and resources: XXX]</p>
+</section>
+<section id="course-resources" class="level2">
+<h2 class="anchored" data-anchor-id="course-resources">Course Resources</h2>
+<p>The primary course resources will be:</p>
+<ul>
+<li><strong>Course GitHub repository:</strong> XXX</li>
+<li><strong>Course website:</strong> XXX</li>
+<li><strong>Canvas:</strong> XXX</li>
+<li><strong>Instructor email:</strong> XXX</li>
+</ul>
+<p>Students should begin with the <strong>Start Here</strong> guide in the course repository, which contains instructions for installing the required software, configuring the development environment, and obtaining the course materials.</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

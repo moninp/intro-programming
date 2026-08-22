@@ -1,0 +1,1695 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Lecture 1 — Foundations, Computation &amp; Binary Representations – Computing Using R &amp; Python</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-172ba59bd5e0b52282274ba0c0cc16fc.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Computing Using R &amp; Python</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../syllabus.html"> 
+<span class="menu-text">Syllabus</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#what-is-computation" id="toc-what-is-computation" class="nav-link active" data-scroll-target="#what-is-computation">What Is Computation?</a>
+  <ul class="collapse">
+  <li><a href="#learning-objectives" id="toc-learning-objectives" class="nav-link" data-scroll-target="#learning-objectives">Learning objectives</a></li>
+  </ul></li>
+  <li><a href="#what-is-computational-work" id="toc-what-is-computational-work" class="nav-link" data-scroll-target="#what-is-computational-work">1. What Is Computational Work?</a>
+  <ul class="collapse">
+  <li><a href="#exercise-1-mathematics-versus-computation" id="toc-exercise-1-mathematics-versus-computation" class="nav-link" data-scroll-target="#exercise-1-mathematics-versus-computation">Exercise 1 — Mathematics versus computation</a>
+  <ul class="collapse">
+  <li><a href="#discussion" id="toc-discussion" class="nav-link" data-scroll-target="#discussion">Discussion</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#mathematical-variables-versus-programming-variables" id="toc-mathematical-variables-versus-programming-variables" class="nav-link" data-scroll-target="#mathematical-variables-versus-programming-variables">2. Mathematical Variables versus Programming Variables</a>
+  <ul class="collapse">
+  <li><a href="#exercise-2-predict-the-program-state" id="toc-exercise-2-predict-the-program-state" class="nav-link" data-scroll-target="#exercise-2-predict-the-program-state">Exercise 2 — Predict the program state</a>
+  <ul class="collapse">
+  <li><a href="#before-running-the-code" id="toc-before-running-the-code" class="nav-link" data-scroll-target="#before-running-the-code">Before running the code</a></li>
+  <li><a href="#now-run" id="toc-now-run" class="nav-link" data-scroll-target="#now-run">Now run:</a></li>
+  <li><a href="#discussion-1" id="toc-discussion-1" class="nav-link" data-scroll-target="#discussion-1">Discussion</a></li>
+  </ul></li>
+  <li><a href="#exercise-2b-trace-the-state" id="toc-exercise-2b-trace-the-state" class="nav-link" data-scroll-target="#exercise-2b-trace-the-state">Exercise 2B — Trace the state</a></li>
+  </ul></li>
+  <li><a href="#types-what-kind-of-thing-is-this" id="toc-types-what-kind-of-thing-is-this" class="nav-link" data-scroll-target="#types-what-kind-of-thing-is-this">3. Types: What Kind of Thing Is This?</a>
+  <ul class="collapse">
+  <li><a href="#exercise-3-predict-the-type" id="toc-exercise-3-predict-the-type" class="nav-link" data-scroll-target="#exercise-3-predict-the-type">Exercise 3 — Predict the type</a></li>
+  <li><a href="#exercise-3b-when-types-matter" id="toc-exercise-3b-when-types-matter" class="nav-link" data-scroll-target="#exercise-3b-when-types-matter">Exercise 3B — When types matter</a>
+  <ul class="collapse">
+  <li><a href="#discussion-2" id="toc-discussion-2" class="nav-link" data-scroll-target="#discussion-2">Discussion</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#from-mathematical-expressions-to-programs" id="toc-from-mathematical-expressions-to-programs" class="nav-link" data-scroll-target="#from-mathematical-expressions-to-programs">4. From Mathematical Expressions to Programs</a>
+  <ul class="collapse">
+  <li><a href="#exercise-4-translate-mathematics-into-python" id="toc-exercise-4-translate-mathematics-into-python" class="nav-link" data-scroll-target="#exercise-4-translate-mathematics-into-python">Exercise 4 — Translate mathematics into Python</a>
+  <ul class="collapse">
+  <li><a href="#a." id="toc-a." class="nav-link" data-scroll-target="#a.">A.</a></li>
+  <li><a href="#b." id="toc-b." class="nav-link" data-scroll-target="#b.">B.</a></li>
+  <li><a href="#c." id="toc-c." class="nav-link" data-scroll-target="#c.">C.</a></li>
+  <li><a href="#d." id="toc-d." class="nav-link" data-scroll-target="#d.">D.</a></li>
+  </ul></li>
+  <li><a href="#exercise-4b-write-your-first-function" id="toc-exercise-4b-write-your-first-function" class="nav-link" data-scroll-target="#exercise-4b-write-your-first-function">Exercise 4B — Write your first function</a>
+  <ul class="collapse">
+  <li><a href="#testing-question" id="toc-testing-question" class="nav-link" data-scroll-target="#testing-question">Testing question</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#binary-representation" id="toc-binary-representation" class="nav-link" data-scroll-target="#binary-representation">5. Binary Representation</a>
+  <ul class="collapse">
+  <li><a href="#exercise-5-convert-decimal-to-binary" id="toc-exercise-5-convert-decimal-to-binary" class="nav-link" data-scroll-target="#exercise-5-convert-decimal-to-binary">Exercise 5 — Convert decimal to binary</a></li>
+  <li><a href="#exercise-5b-explore-pythons-representation" id="toc-exercise-5b-explore-pythons-representation" class="nav-link" data-scroll-target="#exercise-5b-explore-pythons-representation">Exercise 5B — Explore Python’s representation</a></li>
+  </ul></li>
+  <li><a href="#how-many-integers-can-a-computer-represent" id="toc-how-many-integers-can-a-computer-represent" class="nav-link" data-scroll-target="#how-many-integers-can-a-computer-represent">6. How Many Integers Can a Computer Represent?</a>
+  <ul class="collapse">
+  <li><a href="#exercise-6-fixed-width-integers" id="toc-exercise-6-fixed-width-integers" class="nav-link" data-scroll-target="#exercise-6-fixed-width-integers">Exercise 6 — Fixed-width integers</a>
+  <ul class="collapse">
+  <li><a href="#a.-1" id="toc-a.-1" class="nav-link" data-scroll-target="#a.-1">A.</a></li>
+  <li><a href="#b.-1" id="toc-b.-1" class="nav-link" data-scroll-target="#b.-1">B.</a></li>
+  <li><a href="#c.-1" id="toc-c.-1" class="nav-link" data-scroll-target="#c.-1">C.</a></li>
+  <li><a href="#d.-1" id="toc-d.-1" class="nav-link" data-scroll-target="#d.-1">D.</a></li>
+  </ul></li>
+  <li><a href="#discussion-pythons-int" id="toc-discussion-pythons-int" class="nav-link" data-scroll-target="#discussion-pythons-int">Discussion — Python’s <code>int</code></a>
+  <ul class="collapse">
+  <li><a href="#question" id="toc-question" class="nav-link" data-scroll-target="#question">Question</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#signed-integers-and-twos-complement" id="toc-signed-integers-and-twos-complement" class="nav-link" data-scroll-target="#signed-integers-and-twos-complement">7. Signed Integers and Two’s Complement</a>
+  <ul class="collapse">
+  <li><a href="#exercise-7-twos-complement" id="toc-exercise-7-twos-complement" class="nav-link" data-scroll-target="#exercise-7-twos-complement">Exercise 7 — Two’s complement</a>
+  <ul class="collapse">
+  <li><a href="#a.-2" id="toc-a.-2" class="nav-link" data-scroll-target="#a.-2">A.</a></li>
+  <li><a href="#b.-2" id="toc-b.-2" class="nav-link" data-scroll-target="#b.-2">B.</a></li>
+  <li><a href="#c.-2" id="toc-c.-2" class="nav-link" data-scroll-target="#c.-2">C.</a></li>
+  <li><a href="#discussion-3" id="toc-discussion-3" class="nav-link" data-scroll-target="#discussion-3">Discussion</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#floating-point-numbers" id="toc-floating-point-numbers" class="nav-link" data-scroll-target="#floating-point-numbers">8. Floating-Point Numbers</a>
+  <ul class="collapse">
+  <li><a href="#exercise-8-what-does-python-know-about-floating-point" id="toc-exercise-8-what-does-python-know-about-floating-point" class="nav-link" data-scroll-target="#exercise-8-what-does-python-know-about-floating-point">Exercise 8 — What does Python know about floating point?</a>
+  <ul class="collapse">
+  <li><a href="#questions" id="toc-questions" class="nav-link" data-scroll-target="#questions">Questions</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#why-is-0.1-0.2-not-exactly-0.3" id="toc-why-is-0.1-0.2-not-exactly-0.3" class="nav-link" data-scroll-target="#why-is-0.1-0.2-not-exactly-0.3">9. Why Is <code>0.1 + 0.2</code> Not Exactly <code>0.3</code>?</a>
+  <ul class="collapse">
+  <li><a href="#exercise-9-investigate-the-discrepancy" id="toc-exercise-9-investigate-the-discrepancy" class="nav-link" data-scroll-target="#exercise-9-investigate-the-discrepancy">Exercise 9 — Investigate the discrepancy</a>
+  <ul class="collapse">
+  <li><a href="#questions-1" id="toc-questions-1" class="nav-link" data-scroll-target="#questions-1">Questions</a></li>
+  </ul></li>
+  <li><a href="#exercise-9b-construct-your-own-examples" id="toc-exercise-9b-construct-your-own-examples" class="nav-link" data-scroll-target="#exercise-9b-construct-your-own-examples">Exercise 9B — Construct your own examples</a></li>
+  </ul></li>
+  <li><a href="#floating-point-error-can-accumulate" id="toc-floating-point-error-can-accumulate" class="nav-link" data-scroll-target="#floating-point-error-can-accumulate">10. Floating-Point Error Can Accumulate</a>
+  <ul class="collapse">
+  <li><a href="#exercise-10" id="toc-exercise-10" class="nav-link" data-scroll-target="#exercise-10">Exercise 10</a></li>
+  <li><a href="#questions-2" id="toc-questions-2" class="nav-link" data-scroll-target="#questions-2">Questions</a></li>
+  </ul></li>
+  <li><a href="#absolute-and-relative-error" id="toc-absolute-and-relative-error" class="nav-link" data-scroll-target="#absolute-and-relative-error">11. Absolute and Relative Error</a>
+  <ul class="collapse">
+  <li><a href="#exercise-11-absolute-versus-relative-error" id="toc-exercise-11-absolute-versus-relative-error" class="nav-link" data-scroll-target="#exercise-11-absolute-versus-relative-error">Exercise 11 — Absolute versus relative error</a>
+  <ul class="collapse">
+  <li><a href="#discussion-4" id="toc-discussion-4" class="nav-link" data-scroll-target="#discussion-4">Discussion</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#comparing-floating-point-numbers" id="toc-comparing-floating-point-numbers" class="nav-link" data-scroll-target="#comparing-floating-point-numbers">12. Comparing Floating-Point Numbers</a>
+  <ul class="collapse">
+  <li><a href="#exercise-12-design-a-numerical-comparison" id="toc-exercise-12-design-a-numerical-comparison" class="nav-link" data-scroll-target="#exercise-12-design-a-numerical-comparison">Exercise 12 — Design a numerical comparison</a>
+  <ul class="collapse">
+  <li><a href="#question-1" id="toc-question-1" class="nav-link" data-scroll-target="#question-1">Question</a></li>
+  </ul></li>
+  <li><a href="#exercise-12b-improve-the-comparison" id="toc-exercise-12b-improve-the-comparison" class="nav-link" data-scroll-target="#exercise-12b-improve-the-comparison">Exercise 12B — Improve the comparison</a></li>
+  </ul></li>
+  <li><a href="#cancellation-and-loss-of-precision" id="toc-cancellation-and-loss-of-precision" class="nav-link" data-scroll-target="#cancellation-and-loss-of-precision">13. Cancellation and Loss of Precision</a>
+  <ul class="collapse">
+  <li><a href="#exercise-13-find-a-better-formulation" id="toc-exercise-13-find-a-better-formulation" class="nav-link" data-scroll-target="#exercise-13-find-a-better-formulation">Exercise 13 — Find a better formulation</a>
+  <ul class="collapse">
+  <li><a href="#questions-3" id="toc-questions-3" class="nav-link" data-scroll-target="#questions-3">Questions</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#challenge-computation-is-an-algorithm-not-a-calculator" id="toc-challenge-computation-is-an-algorithm-not-a-calculator" class="nav-link" data-scroll-target="#challenge-computation-is-an-algorithm-not-a-calculator">14. Challenge — Computation Is an Algorithm, Not a Calculator</a>
+  <ul class="collapse">
+  <li><a href="#approach-1-loop" id="toc-approach-1-loop" class="nav-link" data-scroll-target="#approach-1-loop">Approach 1 — Loop</a></li>
+  <li><a href="#approach-2-closed-form" id="toc-approach-2-closed-form" class="nav-link" data-scroll-target="#approach-2-closed-form">Approach 2 — Closed form</a></li>
+  <li><a href="#exercise-14-compare-the-algorithms" id="toc-exercise-14-compare-the-algorithms" class="nav-link" data-scroll-target="#exercise-14-compare-the-algorithms">Exercise 14 — Compare the algorithms</a>
+  <ul class="collapse">
+  <li><a href="#questions-4" id="toc-questions-4" class="nav-link" data-scroll-target="#questions-4">Questions</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#putting-it-all-together" id="toc-putting-it-all-together" class="nav-link" data-scroll-target="#putting-it-all-together">15. Putting It All Together</a></li>
+  <li><a href="#exit-questions" id="toc-exit-questions" class="nav-link" data-scroll-target="#exit-questions">Exit Questions</a>
+  <ul class="collapse">
+  <li><a href="#section" id="toc-section" class="nav-link" data-scroll-target="#section">1.</a></li>
+  <li><a href="#section-1" id="toc-section-1" class="nav-link" data-scroll-target="#section-1">2.</a></li>
+  <li><a href="#section-2" id="toc-section-2" class="nav-link" data-scroll-target="#section-2">3.</a></li>
+  <li><a href="#section-3" id="toc-section-3" class="nav-link" data-scroll-target="#section-3">4.</a></li>
+  <li><a href="#section-4" id="toc-section-4" class="nav-link" data-scroll-target="#section-4">5.</a></li>
+  <li><a href="#section-5" id="toc-section-5" class="nav-link" data-scroll-target="#section-5">6.</a></li>
+  </ul></li>
+  <li><a href="#looking-ahead" id="toc-looking-ahead" class="nav-link" data-scroll-target="#looking-ahead">Looking Ahead</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Lecture 1 — Foundations, Computation &amp; Binary Representations</h1>
+<p class="subtitle lead">In-Class Exercises</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="what-is-computation" class="level1">
+<h1>What Is Computation?</h1>
+<section id="learning-objectives" class="level2">
+<h2 class="anchored" data-anchor-id="learning-objectives">Learning objectives</h2>
+<p>By the end of today’s class, you should be able to:</p>
+<ul>
+<li><p>distinguish a mathematical variable from a programming variable;</p></li>
+<li><p>explain the idea of <strong>program state</strong>;</p></li>
+<li><p>work with basic Python types;</p></li>
+<li><p>explain how integers and floating-point numbers are represented computationally;</p></li>
+<li><p>recognize that computer arithmetic is performed using finite representations;</p></li>
+<li><p>explain why floating-point calculations are approximate;</p></li>
+<li><p>quantify numerical error using absolute and relative error;</p></li>
+<li><p>compare floating-point numbers using appropriate tolerances;</p></li>
+<li><p>describe a basic computational workflow:</p>
+<p><strong>problem → algorithm → implementation → testing → results</strong></p></li>
+</ul>
+<p>Throughout the class, we will use a recurring pattern:</p>
+<blockquote class="blockquote">
+<p><strong>Predict → Run → Inspect → Explain → Modify</strong></p>
+</blockquote>
+<hr>
+</section>
+</section>
+<section id="what-is-computational-work" class="level1">
+<h1>1. What Is Computational Work?</h1>
+<p>Before writing any code, consider the following distinction.</p>
+<p>Suppose a mathematician wants to calculate</p>
+<p><span class="math display">\[
+\sum_{i=1}^{n} i^2.
+\]</span></p>
+<p>A mathematical treatment might focus on deriving the identity</p>
+<p><span class="math display">\[
+\sum_{i=1}^{n} i^2
+=
+\frac{n(n+1)(2n+1)}{6}.
+\]</span></p>
+<p>A computational treatment has additional questions:</p>
+<ul>
+<li>How should the problem be represented?</li>
+<li>What algorithm should we use?</li>
+<li>How will we implement it?</li>
+<li>What types of numbers will we use?</li>
+<li>How will we know the implementation is correct?</li>
+<li>What happens when <span class="math inline">\(n\)</span> is extremely large?</li>
+<li>How do we reproduce the calculation later?</li>
+<li>How do we communicate the result?</li>
+</ul>
+<section id="exercise-1-mathematics-versus-computation" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-1-mathematics-versus-computation">Exercise 1 — Mathematics versus computation</h2>
+<p>Consider the problem:</p>
+<blockquote class="blockquote">
+<p>Given <span class="math inline">\(n\)</span>, calculate <span class="math inline">\(\sum_{i=1}^{n} i^2\)</span>.</p>
+</blockquote>
+<p>Write down:</p>
+<ol type="1">
+<li>A mathematical solution.</li>
+<li>An algorithm for computing the answer.</li>
+<li>What a Python implementation would have to specify that the mathematical solution does not.</li>
+<li>At least one way the implementation could be tested.</li>
+</ol>
+<section id="discussion" class="level3">
+<h3 class="anchored" data-anchor-id="discussion">Discussion</h3>
+<p>A useful computational workflow is:</p>
+<pre class="text"><code>Problem
+   ↓
+Algorithm
+   ↓
+Implementation
+   ↓
+Testing
+   ↓
+Results
+   ↓
+Communication / Reproducibility</code></pre>
+<p>Keep this workflow in mind throughout the course.</p>
+<hr>
+</section>
+</section>
+</section>
+<section id="mathematical-variables-versus-programming-variables" class="level1">
+<h1>2. Mathematical Variables versus Programming Variables</h1>
+<p>In mathematics, when we write</p>
+<p><span class="math display">\[
+x = 10,
+\]</span></p>
+<p>we mean that the mathematical variable <span class="math inline">\(x\)</span> has value 10.</p>
+<p>In Python:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="dv">10</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>is better thought of as:</p>
+<blockquote class="blockquote">
+<p>Bind the name <code>x</code> to an object representing the integer 10.</p>
+</blockquote>
+<p>The distinction becomes important when program state changes.</p>
+<hr>
+<section id="exercise-2-predict-the-program-state" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-2-predict-the-program-state">Exercise 2 — Predict the program state</h2>
+<p>Consider:</p>
+<div id="271960d3" class="cell" data-execution_count="1">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> x</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="dv">20</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<section id="before-running-the-code" class="level3">
+<h3 class="anchored" data-anchor-id="before-running-the-code">Before running the code</h3>
+<p>What are the values of <code>x</code> and <code>y</code>?</p>
+<p>Write down your prediction before executing anything.</p>
+</section>
+<section id="now-run" class="level3">
+<h3 class="anchored" data-anchor-id="now-run">Now run:</h3>
+<div id="f2adf771" class="cell" data-execution_count="2">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(x)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(y)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>20
+10</code></pre>
+</div>
+</div>
+</section>
+<section id="discussion-1" class="level3">
+<h3 class="anchored" data-anchor-id="discussion-1">Discussion</h3>
+<p>Why is <code>y</code> still 10?</p>
+<p>What does this tell us about the difference between:</p>
+<ul>
+<li>a mathematical variable;</li>
+<li>a programming variable;</li>
+<li>the state of a running program?</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="exercise-2b-trace-the-state" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-2b-trace-the-state">Exercise 2B — Trace the state</h2>
+<p>Consider:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="dv">5</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> <span class="dv">2</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> x <span class="op">+</span> y</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> x <span class="op">+</span> y</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> y <span class="op">-</span> x</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Without running the code, construct a table:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Statement</th>
+<th style="text-align: right;"><code>x</code></th>
+<th style="text-align: right;"><code>y</code></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>after <code>x = 5</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td>after <code>y = 2</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td>after <code>x = x + y</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td>after <code>y = x + y</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td>after <code>x = y - x</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+</tbody>
+</table>
+<p>Then execute the code and check your answer.</p>
+<hr>
+</section>
+</section>
+<section id="types-what-kind-of-thing-is-this" class="level1">
+<h1>3. Types: What Kind of Thing Is This?</h1>
+<p>A programming language needs to know what kind of object it is dealing with.</p>
+<p>Some basic Python types are:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="bu">int</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="bu">float</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="bu">str</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="bu">bool</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<hr>
+<section id="exercise-3-predict-the-type" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-3-predict-the-type">Exercise 3 — Predict the type</h2>
+<p>For each expression below, predict both its value and its type.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Expression</th>
+<th>Value</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>10</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>10.0</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>"10"</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>True</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>10 / 2</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>10 // 2</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>10 / 3</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>10 ** 2</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>2 == 2</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>2 != 3</code></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Now use Python to check your answers.</p>
+<div id="1f915f14" class="cell" data-execution_count="3">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Try some of the expressions above.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p>You can inspect an object’s type using:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(...)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<hr>
+</section>
+<section id="exercise-3b-when-types-matter" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-3b-when-types-matter">Exercise 3B — When types matter</h2>
+<p>What do you expect this to do?</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">"10"</span> <span class="op">+</span> <span class="st">"20"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Now compare:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="dv">10</span> <span class="op">+</span> <span class="dv">20</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>What about:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">"10"</span> <span class="op">+</span> <span class="dv">20</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="discussion-2" class="level3">
+<h3 class="anchored" data-anchor-id="discussion-2">Discussion</h3>
+<p>Why is the last expression different?</p>
+<p>What does this suggest about the relationship between:</p>
+<ul>
+<li>values;</li>
+<li>types;</li>
+<li>operations?</li>
+</ul>
+<hr>
+</section>
+</section>
+</section>
+<section id="from-mathematical-expressions-to-programs" class="level1">
+<h1>4. From Mathematical Expressions to Programs</h1>
+<p>Python can express many mathematical operations directly.</p>
+<p>For example:</p>
+<p><span class="math display">\[
+f(x) = x^2 + 2x + 1
+\]</span></p>
+<p>can be written:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>x<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> <span class="dv">2</span><span class="op">*</span>x <span class="op">+</span> <span class="dv">1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<hr>
+<section id="exercise-4-translate-mathematics-into-python" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-4-translate-mathematics-into-python">Exercise 4 — Translate mathematics into Python</h2>
+<p>Translate each expression into Python.</p>
+<section id="a." class="level3">
+<h3 class="anchored" data-anchor-id="a.">A.</h3>
+<p><span class="math display">\[
+x^2 + 3x + 2
+\]</span></p>
+</section>
+<section id="b." class="level3">
+<h3 class="anchored" data-anchor-id="b.">B.</h3>
+<p><span class="math display">\[
+\frac{x+y}{x-y}
+\]</span></p>
+</section>
+<section id="c." class="level3">
+<h3 class="anchored" data-anchor-id="c.">C.</h3>
+<p><span class="math display">\[
+\sqrt{x^2+y^2}
+\]</span></p>
+<p>For C, you will need to find a way to calculate a square root.</p>
+<p>You may use Python’s documentation or experiment with the tools available to you.</p>
+</section>
+<section id="d." class="level3">
+<h3 class="anchored" data-anchor-id="d.">D.</h3>
+<p><span class="math display">\[
+e^{-x^2}
+\]</span></p>
+<p>Again, determine what Python facility you need.</p>
+<hr>
+</section>
+</section>
+<section id="exercise-4b-write-your-first-function" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-4b-write-your-first-function">Exercise 4B — Write your first function</h2>
+<p>Turn one of the expressions above into a Python function.</p>
+<p>For example:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f(x):</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    ...</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Your function should:</p>
+<ol type="1">
+<li>accept an input;</li>
+<li>calculate the expression;</li>
+<li>return the result.</li>
+</ol>
+<p>Test it on several inputs.</p>
+<section id="testing-question" class="level3">
+<h3 class="anchored" data-anchor-id="testing-question">Testing question</h3>
+<p>What inputs would you choose to test whether your function is correct?</p>
+<hr>
+</section>
+</section>
+</section>
+<section id="binary-representation" class="level1">
+<h1>5. Binary Representation</h1>
+<p>Mathematics allows us to think about numbers abstractly.</p>
+<p>Computers must represent numbers using finite collections of bits.</p>
+<p>A <strong>bit</strong> can take one of two values:</p>
+<pre class="text"><code>0
+1</code></pre>
+<p>A byte contains 8 bits.</p>
+<p>Binary uses positional notation just as decimal does.</p>
+<p>For example,</p>
+<p><span class="math display">\[
+1101_2
+=
+1(2^3)+1(2^2)+0(2^1)+1(2^0)
+=
+13.
+\]</span></p>
+<hr>
+<section id="exercise-5-convert-decimal-to-binary" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-5-convert-decimal-to-binary">Exercise 5 — Convert decimal to binary</h2>
+<p>Convert the following numbers from decimal to binary <strong>by hand</strong>:</p>
+<ol type="1">
+<li><span class="math inline">\(1\)</span></li>
+<li><span class="math inline">\(2\)</span></li>
+<li><span class="math inline">\(5\)</span></li>
+<li><span class="math inline">\(10\)</span></li>
+<li><span class="math inline">\(13\)</span></li>
+<li><span class="math inline">\(25\)</span></li>
+<li><span class="math inline">\(42\)</span></li>
+</ol>
+<p>Do not use Python yet.</p>
+<p>Then check your answers.</p>
+<hr>
+</section>
+<section id="exercise-5b-explore-pythons-representation" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-5b-explore-pythons-representation">Exercise 5B — Explore Python’s representation</h2>
+<p>Python provides:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="bu">bin</span>(...)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Try:</p>
+<div id="5dd6f8d2" class="cell" data-execution_count="4">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="bu">bin</span>(<span class="dv">13</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<pre><code>'0b1101'</code></pre>
+</div>
+</div>
+<p>and:</p>
+<div id="518511f3" class="cell" data-execution_count="5">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="bu">bin</span>(<span class="dv">42</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="5">
+<pre><code>'0b101010'</code></pre>
+</div>
+</div>
+<p>What does the prefix <code>0b</code> mean?</p>
+<p>Now try converting binary strings back to integers:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="bu">int</span>(<span class="st">"1101"</span>, <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Try several examples of your own.</p>
+<hr>
+</section>
+</section>
+<section id="how-many-integers-can-a-computer-represent" class="level1">
+<h1>6. How Many Integers Can a Computer Represent?</h1>
+<p>Suppose we have an unsigned integer represented using 8 bits.</p>
+<p>Each bit can be either 0 or 1.</p>
+<p>How many distinct values can we represent?</p>
+<hr>
+<section id="exercise-6-fixed-width-integers" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-6-fixed-width-integers">Exercise 6 — Fixed-width integers</h2>
+<section id="a.-1" class="level3">
+<h3 class="anchored" data-anchor-id="a.-1">A.</h3>
+<p>How many distinct values can be represented using:</p>
+<ul>
+<li>1 bit?</li>
+<li>2 bits?</li>
+<li>4 bits?</li>
+<li>8 bits?</li>
+<li>16 bits?</li>
+<li>32 bits?</li>
+</ul>
+<p>Find the general formula.</p>
+</section>
+<section id="b.-1" class="level3">
+<h3 class="anchored" data-anchor-id="b.-1">B.</h3>
+<p>What is the largest unsigned integer that can be represented using 8 bits?</p>
+</section>
+<section id="c.-1" class="level3">
+<h3 class="anchored" data-anchor-id="c.-1">C.</h3>
+<p>What is the smallest unsigned integer?</p>
+</section>
+<section id="d.-1" class="level3">
+<h3 class="anchored" data-anchor-id="d.-1">D.</h3>
+<p>What happens if we try to represent 256 using an 8-bit unsigned integer?</p>
+<hr>
+</section>
+</section>
+<section id="discussion-pythons-int" class="level2">
+<h2 class="anchored" data-anchor-id="discussion-pythons-int">Discussion — Python’s <code>int</code></h2>
+<p>There is an important subtlety here.</p>
+<p>Real computer hardware uses fixed-width representations for ordinary machine integers.</p>
+<p>Python’s built-in <code>int</code>, however, is <strong>arbitrary precision</strong>: Python can represent integers much larger than would fit into a typical fixed-width machine integer.</p>
+<p>Try:</p>
+<div id="10d94b00" class="cell" data-execution_count="6">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="dv">10</span><span class="op">**</span><span class="dv">100</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(x)</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">type</span>(x))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+&lt;class 'int'&gt;</code></pre>
+</div>
+</div>
+<section id="question" class="level3">
+<h3 class="anchored" data-anchor-id="question">Question</h3>
+<p>Does Python’s ability to represent arbitrarily large integers mean that computers have no finite limits?</p>
+<p>Think carefully about the distinction between:</p>
+<ul>
+<li>mathematical integers;</li>
+<li>Python integers;</li>
+<li>hardware representations;</li>
+<li>memory and computational resources.</li>
+</ul>
+<hr>
+</section>
+</section>
+</section>
+<section id="signed-integers-and-twos-complement" class="level1">
+<h1>7. Signed Integers and Two’s Complement</h1>
+<p>So far we have considered unsigned integers.</p>
+<p>Computers also need to represent negative integers.</p>
+<p>A common representation is <strong>two’s complement</strong>.</p>
+<p>For an 8-bit signed integer, the representable range is:</p>
+<p><span class="math display">\[
+-128,\ldots,127.
+\]</span></p>
+<hr>
+<section id="exercise-7-twos-complement" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-7-twos-complement">Exercise 7 — Two’s complement</h2>
+<p>For an 8-bit signed integer:</p>
+<section id="a.-2" class="level3">
+<h3 class="anchored" data-anchor-id="a.-2">A.</h3>
+<p>How many distinct values can be represented?</p>
+</section>
+<section id="b.-2" class="level3">
+<h3 class="anchored" data-anchor-id="b.-2">B.</h3>
+<p>Why is the range asymmetric?</p>
+</section>
+<section id="c.-2" class="level3">
+<h3 class="anchored" data-anchor-id="c.-2">C.</h3>
+<p>What happens if we add 1 to the largest representable value?</p>
+<p>Think about this conceptually rather than worrying about Python’s <code>int</code>.</p>
+</section>
+<section id="discussion-3" class="level3">
+<h3 class="anchored" data-anchor-id="discussion-3">Discussion</h3>
+<p>This illustrates an important point:</p>
+<blockquote class="blockquote">
+<p>The arithmetic rules we learn mathematically may not correspond exactly to arithmetic on a finite machine representation.</p>
+</blockquote>
+<p>Python often hides these hardware details from us. That is convenient, but it is important to understand what is underneath the abstraction.</p>
+<hr>
+</section>
+</section>
+</section>
+<section id="floating-point-numbers" class="level1">
+<h1>8. Floating-Point Numbers</h1>
+<p>Integers are relatively straightforward because every integer within the relevant range can be represented exactly.</p>
+<p>Real numbers are different.</p>
+<p>There are infinitely many real numbers, but a computer has finite memory.</p>
+<p>Therefore, most real numbers cannot be represented exactly.</p>
+<p>A floating-point number is represented approximately using components that can be thought of conceptually as:</p>
+<pre class="text"><code>sign × significand × base^exponent</code></pre>
+<p>IEEE 754 specifies widely used representations and arithmetic rules for floating-point numbers.</p>
+<hr>
+<section id="exercise-8-what-does-python-know-about-floating-point" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-8-what-does-python-know-about-floating-point">Exercise 8 — What does Python know about floating point?</h2>
+<p>Python provides information about the floating-point system through <code>sys.float_info</code>.</p>
+<p>Run:</p>
+<div id="d0a66e07" class="cell" data-execution_count="7">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>sys.float_info</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<pre><code>sys.float_info(max=1.7976931348623157e+308, max_exp=1024, max_10_exp=308, min=2.2250738585072014e-308, min_exp=-1021, min_10_exp=-307, dig=15, mant_dig=53, epsilon=2.220446049250313e-16, radix=2, rounds=1)</code></pre>
+</div>
+</div>
+<p>Look at:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>sys.float_info.<span class="bu">max</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>sys.float_info.<span class="bu">min</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>sys.float_info.epsilon</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>sys.float_info.dig</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="questions" class="level3">
+<h3 class="anchored" data-anchor-id="questions">Questions</h3>
+<ol type="1">
+<li>What is the largest finite floating-point number?</li>
+<li>What is the smallest positive <em>normalized</em> floating-point number?</li>
+<li>What is machine epsilon?</li>
+<li>Approximately how many decimal digits of precision does a Python <code>float</code> provide?</li>
+</ol>
+<hr>
+</section>
+</section>
+</section>
+<section id="why-is-0.1-0.2-not-exactly-0.3" class="level1">
+<h1>9. Why Is <code>0.1 + 0.2</code> Not Exactly <code>0.3</code>?</h1>
+<p>Consider:</p>
+<div id="35352878" class="cell" data-execution_count="8">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="fl">0.1</span> <span class="op">+</span> <span class="fl">0.2</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> <span class="fl">0.3</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(x)</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(y)</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(x <span class="op">==</span> y)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>0.30000000000000004
+0.3
+False</code></pre>
+</div>
+</div>
+<p>You may find the result surprising.</p>
+<hr>
+<section id="exercise-9-investigate-the-discrepancy" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-9-investigate-the-discrepancy">Exercise 9 — Investigate the discrepancy</h2>
+<p>Calculate:</p>
+<div id="c2ce7b41" class="cell" data-execution_count="9">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="fl">0.1</span> <span class="op">+</span> <span class="fl">0.2</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> <span class="fl">0.3</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>x <span class="op">-</span> y</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="9">
+<pre><code>5.551115123125783e-17</code></pre>
+</div>
+</div>
+<p>Now calculate:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="bu">abs</span>(x <span class="op">-</span> y)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="questions-1" class="level3">
+<h3 class="anchored" data-anchor-id="questions-1">Questions</h3>
+<ol type="1">
+<li>Is the error large or small?</li>
+<li>Is it exactly zero?</li>
+<li>Why might we still care about such a small error?</li>
+</ol>
+<hr>
+</section>
+</section>
+<section id="exercise-9b-construct-your-own-examples" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-9b-construct-your-own-examples">Exercise 9B — Construct your own examples</h2>
+<p>Find examples of floating-point calculations for which:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>calculation <span class="op">==</span> mathematically_expected_value</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>is <code>False</code>.</p>
+<p>Try to find at least three different examples.</p>
+<p>What do they have in common?</p>
+<hr>
+</section>
+</section>
+<section id="floating-point-error-can-accumulate" class="level1">
+<h1>10. Floating-Point Error Can Accumulate</h1>
+<p>A tiny error in one operation does not necessarily remain tiny after many operations.</p>
+<p>Consider:</p>
+<div id="a689602c" class="cell" data-execution_count="10">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="fl">0.0</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">10</span>):</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>    x <span class="op">+=</span> <span class="fl">0.1</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(x)</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(x <span class="op">==</span> <span class="fl">1.0</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>0.9999999999999999
+False</code></pre>
+</div>
+</div>
+<section id="exercise-10" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-10">Exercise 10</h3>
+<p>Before running the code:</p>
+<blockquote class="blockquote">
+<p>What do you expect <code>x</code> to be?</p>
+</blockquote>
+<p>Now run it.</p>
+</section>
+<section id="questions-2" class="level3">
+<h3 class="anchored" data-anchor-id="questions-2">Questions</h3>
+<ol type="1">
+<li>What happened?</li>
+<li>Why can repeated operations make numerical error more important?</li>
+<li>Does this mean floating-point arithmetic is “bad”?</li>
+</ol>
+<hr>
+</section>
+</section>
+<section id="absolute-and-relative-error" class="level1">
+<h1>11. Absolute and Relative Error</h1>
+<p>Suppose the exact value of a quantity is <span class="math inline">\(x\)</span>, and our computed approximation is <span class="math inline">\(\hat{x}\)</span>.</p>
+<p>The <strong>absolute error</strong> is</p>
+<p><span class="math display">\[
+|\hat{x}-x|.
+\]</span></p>
+<p>A common measure of relative error is</p>
+<p><span class="math display">\[
+\frac{|\hat{x}-x|}{|x|}.
+\]</span></p>
+<p>Relative error is often more informative when comparing errors across quantities of different magnitudes.</p>
+<hr>
+<section id="exercise-11-absolute-versus-relative-error" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-11-absolute-versus-relative-error">Exercise 11 — Absolute versus relative error</h2>
+<p>Suppose the true value is:</p>
+<p><span class="math display">\[
+x = 1000.
+\]</span></p>
+<p>Compare two approximations:</p>
+<p><span class="math display">\[
+\hat{x}_1 = 999.9
+\]</span></p>
+<p>and</p>
+<p><span class="math display">\[
+\hat{x}_2 = 1000.1.
+\]</span></p>
+<p>Calculate the absolute and relative errors.</p>
+<p>Now compare:</p>
+<p><span class="math display">\[
+x = 0.001
+\]</span></p>
+<p>with</p>
+<p><span class="math display">\[
+\hat{x}=0.0011.
+\]</span></p>
+<section id="discussion-4" class="level3">
+<h3 class="anchored" data-anchor-id="discussion-4">Discussion</h3>
+<p>Why can the same absolute error have very different significance depending on the scale of the quantity?</p>
+<hr>
+</section>
+</section>
+</section>
+<section id="comparing-floating-point-numbers" class="level1">
+<h1>12. Comparing Floating-Point Numbers</h1>
+<p>Because floating-point calculations are approximate, this can be dangerous:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">==</span> y</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>when <code>x</code> and <code>y</code> are supposed to represent the results of numerical calculations.</p>
+<p>A common approach is to ask whether the values are sufficiently close.</p>
+<hr>
+<section id="exercise-12-design-a-numerical-comparison" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-12-design-a-numerical-comparison">Exercise 12 — Design a numerical comparison</h2>
+<p>Suppose we want a function:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>approximately_equal(x, y, tolerance)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>that returns <code>True</code> when two numbers are sufficiently close.</p>
+<p>Start with the simple idea:</p>
+<p><span class="math display">\[
+|x-y| &lt; \epsilon.
+\]</span></p>
+<p>Implement:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> approximately_equal(x, y, tolerance<span class="op">=</span><span class="fl">1e-10</span>):</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>    ...</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Test it with:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>approximately_equal(<span class="fl">0.1</span> <span class="op">+</span> <span class="fl">0.2</span>, <span class="fl">0.3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Then test:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>approximately_equal(<span class="dv">1000000</span>, <span class="fl">1000000.00001</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>and:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>approximately_equal(<span class="fl">0.000001</span>, <span class="fl">0.0000011</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="question-1" class="level3">
+<h3 class="anchored" data-anchor-id="question-1">Question</h3>
+<p>Is an absolute tolerance alone always appropriate?</p>
+<hr>
+</section>
+</section>
+<section id="exercise-12b-improve-the-comparison" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-12b-improve-the-comparison">Exercise 12B — Improve the comparison</h2>
+<p>Modify your function so that it uses both:</p>
+<ul>
+<li>an absolute tolerance;</li>
+<li>a relative tolerance.</li>
+</ul>
+<p>A useful criterion is:</p>
+<p><span class="math display">\[
+|x-y|
+\le
+\text{atol}
++
+\text{rtol}\,|y|.
+\]</span></p>
+<p>Try to implement:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> approximately_equal(x, y, atol<span class="op">=</span><span class="fl">1e-10</span>, rtol<span class="op">=</span><span class="fl">1e-10</span>):</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>    ...</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Then test it on values of very different magnitudes.</p>
+<hr>
+</section>
+</section>
+<section id="cancellation-and-loss-of-precision" class="level1">
+<h1>13. Cancellation and Loss of Precision</h1>
+<p>Floating-point problems aren’t limited to simple rounding.</p>
+<p>Consider:</p>
+<p><span class="math display">\[
+f(x)=\sqrt{x^2+1}-x.
+\]</span></p>
+<p>Mathematically, this is perfectly well behaved.</p>
+<p>But for large positive <span class="math inline">\(x\)</span>, the two terms</p>
+<p><span class="math display">\[
+\sqrt{x^2+1}
+\]</span></p>
+<p>and</p>
+<p><span class="math display">\[
+x
+\]</span></p>
+<p>are extremely close.</p>
+<p>Subtracting two nearly equal floating-point numbers can cause loss of significant digits. This is called <strong>cancellation</strong>.</p>
+<hr>
+<section id="exercise-13-find-a-better-formulation" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-13-find-a-better-formulation">Exercise 13 — Find a better formulation</h2>
+<p>Start with:</p>
+<p><span class="math display">\[
+\sqrt{x^2+1}-x.
+\]</span></p>
+<p>Multiply the numerator and denominator by the conjugate:</p>
+<p><span class="math display">\[
+\sqrt{x^2+1}-x
+=
+\frac{1}{\sqrt{x^2+1}+x}.
+\]</span></p>
+<p>Implement both versions:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> math</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f1(x):</span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> math.sqrt(x<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> <span class="dv">1</span>) <span class="op">-</span> x</span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f2(x):</span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">1</span> <span class="op">/</span> (math.sqrt(x<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> <span class="dv">1</span>) <span class="op">+</span> x)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Compare:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="dv">10</span><span class="op">**</span><span class="dv">8</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(f1(x))</span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(f2(x))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="questions-3" class="level3">
+<h3 class="anchored" data-anchor-id="questions-3">Questions</h3>
+<ol type="1">
+<li>Why are the two mathematical expressions equivalent?</li>
+<li>Why might their numerical behavior differ?</li>
+<li>Which implementation would you prefer for large <code>x</code>?</li>
+<li>What does this tell us about the relationship between mathematics and computation?</li>
+</ol>
+<hr>
+</section>
+</section>
+</section>
+<section id="challenge-computation-is-an-algorithm-not-a-calculator" class="level1">
+<h1>14. Challenge — Computation Is an Algorithm, Not a Calculator</h1>
+<p>We began with:</p>
+<p><span class="math display">\[
+\sum_{i=1}^{n} i^2.
+\]</span></p>
+<p>There are at least two obvious implementations.</p>
+<section id="approach-1-loop" class="level3">
+<h3 class="anchored" data-anchor-id="approach-1-loop">Approach 1 — Loop</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> sum_of_squares(n):</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>    total <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, n <span class="op">+</span> <span class="dv">1</span>):</span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>        total <span class="op">+=</span> i<span class="op">**</span><span class="dv">2</span></span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> total</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="approach-2-closed-form" class="level3">
+<h3 class="anchored" data-anchor-id="approach-2-closed-form">Approach 2 — Closed form</h3>
+<p><span class="math display">\[
+\frac{n(n+1)(2n+1)}{6}.
+\]</span></p>
+<hr>
+</section>
+<section id="exercise-14-compare-the-algorithms" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-14-compare-the-algorithms">Exercise 14 — Compare the algorithms</h2>
+<p>Implement both approaches.</p>
+<p>Then check that they agree for several values of <code>n</code>.</p>
+<section id="questions-4" class="level3">
+<h3 class="anchored" data-anchor-id="questions-4">Questions</h3>
+<ol type="1">
+<li>How would you test the implementations?</li>
+<li>Which implementation is faster for very large <code>n</code>?</li>
+<li>Which implementation is easier to verify mathematically?</li>
+<li>What happens if we change the problem so that there is no convenient closed-form solution?</li>
+<li>What does this illustrate about the relationship between mathematics, algorithms, and implementation?</li>
+</ol>
+<hr>
+</section>
+</section>
+</section>
+<section id="putting-it-all-together" class="level1">
+<h1>15. Putting It All Together</h1>
+<p>Today’s central idea is:</p>
+<blockquote class="blockquote">
+<p><strong>A computer does not manipulate mathematical objects directly. It executes algorithms using finite representations of information.</strong></p>
+</blockquote>
+<p>This creates several layers between a mathematical problem and a computational result:</p>
+<pre class="text"><code>Mathematical problem
+        ↓
+Representation
+        ↓
+Algorithm
+        ↓
+Implementation
+        ↓
+Finite arithmetic
+        ↓
+Computed result
+        ↓
+Validation</code></pre>
+<p>The fact that a computer produces an answer does <strong>not</strong> establish that the answer is correct.</p>
+<p>A responsible computational workflow therefore includes:</p>
+<pre class="text"><code>Problem
+   ↓
+Algorithm
+   ↓
+Implementation
+   ↓
+Testing
+   ↓
+Numerical validation
+   ↓
+Results
+   ↓
+Reproducibility</code></pre>
+<hr>
+</section>
+<section id="exit-questions" class="level1">
+<h1>Exit Questions</h1>
+<p>Before leaving, answer these without running Python.</p>
+<section id="section" class="level3">
+<h3 class="anchored" data-anchor-id="section">1.</h3>
+<p>What is the difference between:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="dv">10</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>and the mathematical statement <span class="math inline">\(x=10\)</span>?</p>
+</section>
+<section id="section-1" class="level3">
+<h3 class="anchored" data-anchor-id="section-1">2.</h3>
+<p>Why can a Python <code>int</code> represent values much larger than a typical fixed-width machine integer?</p>
+</section>
+<section id="section-2" class="level3">
+<h3 class="anchored" data-anchor-id="section-2">3.</h3>
+<p>Why can’t most real numbers be represented exactly by a computer?</p>
+</section>
+<section id="section-3" class="level3">
+<h3 class="anchored" data-anchor-id="section-3">4.</h3>
+<p>Why can:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fl">0.1</span> <span class="op">+</span> <span class="fl">0.2</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>differ from:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fl">0.3</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>?</p>
+</section>
+<section id="section-4" class="level3">
+<h3 class="anchored" data-anchor-id="section-4">5.</h3>
+<p>Why isn’t “the program ran without an error” sufficient evidence that a computational result is correct?</p>
+</section>
+<section id="section-5" class="level3">
+<h3 class="anchored" data-anchor-id="section-5">6.</h3>
+<p>Give one example of a situation in which a mathematically equivalent reformulation can produce a numerically better algorithm.</p>
+<hr>
+</section>
+</section>
+<section id="looking-ahead" class="level1">
+<h1>Looking Ahead</h1>
+<p>Next time we will move from individual values to <strong>collections of data and control flow</strong>.</p>
+<p>We will introduce:</p>
+<ul>
+<li>strings, lists, tuples, dictionaries, and sets;</li>
+<li>indexing and slicing;</li>
+<li>iteration;</li>
+<li>conditional statements;</li>
+<li>writing functions that operate on data;</li>
+<li>the idea of choosing an appropriate data structure.</li>
+</ul>
+<p>These concepts will give us the tools to write substantially more interesting programs.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

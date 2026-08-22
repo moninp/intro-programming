@@ -1,0 +1,1897 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>project_ideas – Computing Using R &amp; Python</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-172ba59bd5e0b52282274ba0c0cc16fc.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Computing Using R &amp; Python</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../syllabus.html"> 
+<span class="menu-text">Syllabus</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#semester-project-ideas" id="toc-semester-project-ideas" class="nav-link active" data-scroll-target="#semester-project-ideas">Semester Project Ideas</a>
+  <ul class="collapse">
+  <li><a href="#data-analysis-projects" id="toc-data-analysis-projects" class="nav-link" data-scroll-target="#data-analysis-projects">Data Analysis Projects</a>
+  <ul class="collapse">
+  <li><a href="#what-makes-a-car-expensive" id="toc-what-makes-a-car-expensive" class="nav-link" data-scroll-target="#what-makes-a-car-expensive">1. What Makes a Car Expensive?</a></li>
+  <li><a href="#what-makes-a-wine-highly-rated" id="toc-what-makes-a-wine-highly-rated" class="nav-link" data-scroll-target="#what-makes-a-wine-highly-rated">2. What Makes a Wine Highly Rated?</a></li>
+  <li><a href="#can-we-predict-whether-someone-has-heart-disease" id="toc-can-we-predict-whether-someone-has-heart-disease" class="nav-link" data-scroll-target="#can-we-predict-whether-someone-has-heart-disease">3. Can We Predict Whether Someone Has Heart Disease?</a></li>
+  <li><a href="#what-predicts-student-performance" id="toc-what-predicts-student-performance" class="nav-link" data-scroll-target="#what-predicts-student-performance">4. What Predicts Student Performance?</a></li>
+  <li><a href="#can-we-predict-whether-a-bank-customer-will-subscribe-to-a-term-deposit" id="toc-can-we-predict-whether-a-bank-customer-will-subscribe-to-a-term-deposit" class="nav-link" data-scroll-target="#can-we-predict-whether-a-bank-customer-will-subscribe-to-a-term-deposit">5. Can We Predict Whether a Bank Customer Will Subscribe to a Term Deposit?</a></li>
+  <li><a href="#can-we-predict-income-from-census-characteristics" id="toc-can-we-predict-income-from-census-characteristics" class="nav-link" data-scroll-target="#can-we-predict-income-from-census-characteristics">6. Can We Predict Income from Census Characteristics?</a></li>
+  <li><a href="#what-determines-the-price-of-an-online-product" id="toc-what-determines-the-price-of-an-online-product" class="nav-link" data-scroll-target="#what-determines-the-price-of-an-online-product">7. What Determines the Price of an Online Product?</a></li>
+  <li><a href="#how-does-weather-vary-over-time" id="toc-how-does-weather-vary-over-time" class="nav-link" data-scroll-target="#how-does-weather-vary-over-time">8. How Does Weather Vary Over Time?</a></li>
+  <li><a href="#what-can-we-learn-from-economic-time-series" id="toc-what-can-we-learn-from-economic-time-series" class="nav-link" data-scroll-target="#what-can-we-learn-from-economic-time-series">9. What Can We Learn from Economic Time Series?</a></li>
+  <li><a href="#what-happened-to-interest-rates-during-major-economic-events" id="toc-what-happened-to-interest-rates-during-major-economic-events" class="nav-link" data-scroll-target="#what-happened-to-interest-rates-during-major-economic-events">10. What Happened to Interest Rates During Major Economic Events?</a></li>
+  <li><a href="#is-there-a-relationship-between-movie-characteristics-and-box-office-success" id="toc-is-there-a-relationship-between-movie-characteristics-and-box-office-success" class="nav-link" data-scroll-target="#is-there-a-relationship-between-movie-characteristics-and-box-office-success">11. Is There a Relationship Between Movie Characteristics and Box Office Success?</a></li>
+  <li><a href="#what-makes-a-song-popular" id="toc-what-makes-a-song-popular" class="nav-link" data-scroll-target="#what-makes-a-song-popular">12. What Makes a Song Popular?</a></li>
+  <li><a href="#how-have-music-trends-changed-over-time" id="toc-how-have-music-trends-changed-over-time" class="nav-link" data-scroll-target="#how-have-music-trends-changed-over-time">13. How Have Music Trends Changed Over Time?</a></li>
+  <li><a href="#which-sports-statistics-actually-predict-winning" id="toc-which-sports-statistics-actually-predict-winning" class="nav-link" data-scroll-target="#which-sports-statistics-actually-predict-winning">14. Which Sports Statistics Actually Predict Winning?</a></li>
+  <li><a href="#does-home-field-advantage-still-exist" id="toc-does-home-field-advantage-still-exist" class="nav-link" data-scroll-target="#does-home-field-advantage-still-exist">15. Does Home-Field Advantage Still Exist?</a></li>
+  <li><a href="#how-much-does-randomness-matter-in-sports" id="toc-how-much-does-randomness-matter-in-sports" class="nav-link" data-scroll-target="#how-much-does-randomness-matter-in-sports">16. How Much Does Randomness Matter in Sports?</a></li>
+  <li><a href="#is-a-coin-really-fair" id="toc-is-a-coin-really-fair" class="nav-link" data-scroll-target="#is-a-coin-really-fair">17. Is a Coin Really Fair?</a></li>
+  <li><a href="#how-many-simulations-are-enough" id="toc-how-many-simulations-are-enough" class="nav-link" data-scroll-target="#how-many-simulations-are-enough">18. How Many Simulations Are Enough?</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#numerical-and-computational-projects" id="toc-numerical-and-computational-projects" class="nav-link" data-scroll-target="#numerical-and-computational-projects">Numerical and Computational Projects</a>
+  <ul class="collapse">
+  <li><a href="#how-accurate-are-different-methods-of-computing-π" id="toc-how-accurate-are-different-methods-of-computing-π" class="nav-link" data-scroll-target="#how-accurate-are-different-methods-of-computing-π">19. How Accurate Are Different Methods of Computing π?</a></li>
+  <li><a href="#numerical-integration-how-good-are-different-methods" id="toc-numerical-integration-how-good-are-different-methods" class="nav-link" data-scroll-target="#numerical-integration-how-good-are-different-methods">20. Numerical Integration: How Good Are Different Methods?</a></li>
+  <li><a href="#finding-roots-numerically" id="toc-finding-roots-numerically" class="nav-link" data-scroll-target="#finding-roots-numerically">21. Finding Roots Numerically</a></li>
+  <li><a href="#how-does-newtons-method-behave" id="toc-how-does-newtons-method-behave" class="nav-link" data-scroll-target="#how-does-newtons-method-behave">22. How Does Newton’s Method Behave?</a></li>
+  <li><a href="#floating-point-arithmetic-can-break-mathematical-intuition" id="toc-floating-point-arithmetic-can-break-mathematical-intuition" class="nav-link" data-scroll-target="#floating-point-arithmetic-can-break-mathematical-intuition">23. Floating-Point Arithmetic Can Break Mathematical Intuition</a></li>
+  <li><a href="#does-the-order-of-addition-matter" id="toc-does-the-order-of-addition-matter" class="nav-link" data-scroll-target="#does-the-order-of-addition-matter">24. Does the Order of Addition Matter?</a></li>
+  <li><a href="#compare-sorting-algorithms" id="toc-compare-sorting-algorithms" class="nav-link" data-scroll-target="#compare-sorting-algorithms">25. Compare Sorting Algorithms</a></li>
+  <li><a href="#how-fast-do-algorithms-really-get" id="toc-how-fast-do-algorithms-really-get" class="nav-link" data-scroll-target="#how-fast-do-algorithms-really-get">26. How Fast Do Algorithms Really Get?</a></li>
+  <li><a href="#recursion-versus-iteration" id="toc-recursion-versus-iteration" class="nav-link" data-scroll-target="#recursion-versus-iteration">27. Recursion Versus Iteration</a></li>
+  </ul></li>
+  <li><a href="#simulation-projects" id="toc-simulation-projects" class="nav-link" data-scroll-target="#simulation-projects">Simulation Projects</a>
+  <ul class="collapse">
+  <li><a href="#how-does-the-law-of-large-numbers-appear-computationally" id="toc-how-does-the-law-of-large-numbers-appear-computationally" class="nav-link" data-scroll-target="#how-does-the-law-of-large-numbers-appear-computationally">28. How Does the Law of Large Numbers Appear Computationally?</a></li>
+  <li><a href="#how-does-the-central-limit-theorem-work-in-practice" id="toc-how-does-the-central-limit-theorem-work-in-practice" class="nav-link" data-scroll-target="#how-does-the-central-limit-theorem-work-in-practice">29. How Does the Central Limit Theorem Work in Practice?</a></li>
+  <li><a href="#how-much-data-do-we-need" id="toc-how-much-data-do-we-need" class="nav-link" data-scroll-target="#how-much-data-do-we-need">30. How Much Data Do We Need?</a></li>
+  <li><a href="#multiple-testing-and-false-discoveries" id="toc-multiple-testing-and-false-discoveries" class="nav-link" data-scroll-target="#multiple-testing-and-false-discoveries">31. Multiple Testing and False Discoveries</a></li>
+  <li><a href="#how-does-bootstrapping-work" id="toc-how-does-bootstrapping-work" class="nav-link" data-scroll-target="#how-does-bootstrapping-work">32. How Does Bootstrapping Work?</a></li>
+  </ul></li>
+  <li><a href="#machine-learning-projects" id="toc-machine-learning-projects" class="nav-link" data-scroll-target="#machine-learning-projects">Machine Learning Projects</a>
+  <ul class="collapse">
+  <li><a href="#predict-wine-quality" id="toc-predict-wine-quality" class="nav-link" data-scroll-target="#predict-wine-quality">33. Predict Wine Quality</a></li>
+  <li><a href="#predict-whether-a-bank-customer-will-subscribe" id="toc-predict-whether-a-bank-customer-will-subscribe" class="nav-link" data-scroll-target="#predict-whether-a-bank-customer-will-subscribe">34. Predict Whether a Bank Customer Will Subscribe</a></li>
+  <li><a href="#predict-student-performance" id="toc-predict-student-performance" class="nav-link" data-scroll-target="#predict-student-performance">35. Predict Student Performance</a></li>
+  <li><a href="#how-does-training-test-splitting-affect-results" id="toc-how-does-training-test-splitting-affect-results" class="nav-link" data-scroll-target="#how-does-training-test-splitting-affect-results">36. How Does Training-Test Splitting Affect Results?</a></li>
+  <li><a href="#can-we-predict-handwritten-digits" id="toc-can-we-predict-handwritten-digits" class="nav-link" data-scroll-target="#can-we-predict-handwritten-digits">37. Can We Predict Handwritten Digits?</a></li>
+  </ul></li>
+  <li><a href="#projects-that-combine-data-and-simulation" id="toc-projects-that-combine-data-and-simulation" class="nav-link" data-scroll-target="#projects-that-combine-data-and-simulation">Projects That Combine Data and Simulation</a>
+  <ul class="collapse">
+  <li><a href="#how-much-does-selection-bias-matter" id="toc-how-much-does-selection-bias-matter" class="nav-link" data-scroll-target="#how-much-does-selection-bias-matter">38. How Much Does Selection Bias Matter?</a></li>
+  <li><a href="#how-much-does-measurement-error-matter" id="toc-how-much-does-measurement-error-matter" class="nav-link" data-scroll-target="#how-much-does-measurement-error-matter">39. How Much Does Measurement Error Matter?</a></li>
+  <li><a href="#how-does-missing-data-affect-analysis" id="toc-how-does-missing-data-affect-analysis" class="nav-link" data-scroll-target="#how-does-missing-data-affect-analysis">40. How Does Missing Data Affect Analysis?</a></li>
+  </ul></li>
+  <li><a href="#projects-using-apis-and-real-time-data" id="toc-projects-using-apis-and-real-time-data" class="nav-link" data-scroll-target="#projects-using-apis-and-real-time-data">Projects Using APIs and Real-Time Data</a>
+  <ul class="collapse">
+  <li><a href="#build-a-small-economic-data-pipeline" id="toc-build-a-small-economic-data-pipeline" class="nav-link" data-scroll-target="#build-a-small-economic-data-pipeline">41. Build a Small Economic Data Pipeline</a></li>
+  <li><a href="#track-a-time-series-automatically" id="toc-track-a-time-series-automatically" class="nav-link" data-scroll-target="#track-a-time-series-automatically">42. Track a Time Series Automatically</a></li>
+  <li><a href="#compare-two-economic-time-series" id="toc-compare-two-economic-time-series" class="nav-link" data-scroll-target="#compare-two-economic-time-series">43. Compare Two Economic Time Series</a></li>
+  </ul></li>
+  <li><a href="#build-something-projects" id="toc-build-something-projects" class="nav-link" data-scroll-target="#build-something-projects">“Build Something” Projects</a>
+  <ul class="collapse">
+  <li><a href="#build-a-monte-carlo-simulation-tool" id="toc-build-a-monte-carlo-simulation-tool" class="nav-link" data-scroll-target="#build-a-monte-carlo-simulation-tool">44. Build a Monte Carlo Simulation Tool</a></li>
+  <li><a href="#build-a-numerical-root-finding-library" id="toc-build-a-numerical-root-finding-library" class="nav-link" data-scroll-target="#build-a-numerical-root-finding-library">45. Build a Numerical Root-Finding Library</a></li>
+  <li><a href="#build-a-simple-data-analysis-pipeline" id="toc-build-a-simple-data-analysis-pipeline" class="nav-link" data-scroll-target="#build-a-simple-data-analysis-pipeline">46. Build a Simple Data-Analysis Pipeline</a></li>
+  <li><a href="#build-a-text-analysis-tool" id="toc-build-a-text-analysis-tool" class="nav-link" data-scroll-target="#build-a-text-analysis-tool">47. Build a Text Analysis Tool</a></li>
+  <li><a href="#analyze-a-collection-of-books" id="toc-analyze-a-collection-of-books" class="nav-link" data-scroll-target="#analyze-a-collection-of-books">48. Analyze a Collection of Books</a></li>
+  </ul></li>
+  <li><a href="#a-few-especially-good-safe-choices" id="toc-a-few-especially-good-safe-choices" class="nav-link" data-scroll-target="#a-few-especially-good-safe-choices">A Few Especially Good “Safe Choices”</a>
+  <ul class="collapse">
+  <li><a href="#easiest-data-analysis-choices" id="toc-easiest-data-analysis-choices" class="nav-link" data-scroll-target="#easiest-data-analysis-choices">Easiest data-analysis choices</a></li>
+  <li><a href="#easiest-simulation-choices" id="toc-easiest-simulation-choices" class="nav-link" data-scroll-target="#easiest-simulation-choices">Easiest simulation choices</a></li>
+  <li><a href="#easiest-numericalcomputer-science-choices" id="toc-easiest-numericalcomputer-science-choices" class="nav-link" data-scroll-target="#easiest-numericalcomputer-science-choices">Easiest numerical/computer-science choices</a></li>
+  </ul></li>
+  <li><a href="#how-to-tell-whether-your-idea-is-good-enough" id="toc-how-to-tell-whether-your-idea-is-good-enough" class="nav-link" data-scroll-target="#how-to-tell-whether-your-idea-is-good-enough">How to Tell Whether Your Idea Is Good Enough</a>
+  <ul class="collapse">
+  <li><a href="#can-i-state-the-question-in-one-or-two-sentences" id="toc-can-i-state-the-question-in-one-or-two-sentences" class="nav-link" data-scroll-target="#can-i-state-the-question-in-one-or-two-sentences">1. Can I state the question in one or two sentences?</a></li>
+  <li><a href="#can-i-get-the-data-or-define-the-computational-experiment" id="toc-can-i-get-the-data-or-define-the-computational-experiment" class="nav-link" data-scroll-target="#can-i-get-the-data-or-define-the-computational-experiment">2. Can I get the data or define the computational experiment?</a></li>
+  <li><a href="#can-i-imagine-writing-at-least-several-hundred-lines-of-meaningful-code-over-the-course-of-the-project" id="toc-can-i-imagine-writing-at-least-several-hundred-lines-of-meaningful-code-over-the-course-of-the-project" class="nav-link" data-scroll-target="#can-i-imagine-writing-at-least-several-hundred-lines-of-meaningful-code-over-the-course-of-the-project">3. Can I imagine writing at least several hundred lines of meaningful code over the course of the project?</a></li>
+  <li><a href="#can-i-produce-several-useful-outputs" id="toc-can-i-produce-several-useful-outputs" class="nav-link" data-scroll-target="#can-i-produce-several-useful-outputs">4. Can I produce several useful outputs?</a></li>
+  <li><a href="#can-i-imagine-discovering-something" id="toc-can-i-imagine-discovering-something" class="nav-link" data-scroll-target="#can-i-imagine-discovering-something">5. Can I imagine discovering something?</a></li>
+  <li><a href="#can-i-test-whether-my-code-is-correct" id="toc-can-i-test-whether-my-code-is-correct" class="nav-link" data-scroll-target="#can-i-test-whether-my-code-is-correct">6. Can I test whether my code is correct?</a></li>
+  <li><a href="#can-i-finish-it" id="toc-can-i-finish-it" class="nav-link" data-scroll-target="#can-i-finish-it">7. Can I finish it?</a></li>
+  </ul></li>
+  <li><a href="#the-minimum-viable-project" id="toc-the-minimum-viable-project" class="nav-link" data-scroll-target="#the-minimum-viable-project">The “Minimum Viable Project”</a></li>
+  <li><a href="#where-to-find-data" id="toc-where-to-find-data" class="nav-link" data-scroll-target="#where-to-find-data">Where to Find Data</a>
+  <ul class="collapse">
+  <li><a href="#uci-machine-learning-repository" id="toc-uci-machine-learning-repository" class="nav-link" data-scroll-target="#uci-machine-learning-repository">UCI Machine Learning Repository</a></li>
+  <li><a href="#fred" id="toc-fred" class="nav-link" data-scroll-target="#fred">FRED</a></li>
+  <li><a href="#data.gov" id="toc-data.gov" class="nav-link" data-scroll-target="#data.gov">Data.gov</a></li>
+  <li><a href="#other-sources" id="toc-other-sources" class="nav-link" data-scroll-target="#other-sources">Other sources</a></li>
+  </ul></li>
+  <li><a href="#one-final-piece-of-advice" id="toc-one-final-piece-of-advice" class="nav-link" data-scroll-target="#one-final-piece-of-advice">One Final Piece of Advice</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+
+
+
+
+<section id="semester-project-ideas" class="level1">
+<h1>Semester Project Ideas</h1>
+<p>One of the hardest parts of a project like this is deciding what to work on.</p>
+<p>You do <strong>not</strong> need to come up with a groundbreaking research question. You do not need to use a huge dataset. You do not need to build a sophisticated machine-learning model.</p>
+<p>A good project is one where you can:</p>
+<ol type="1">
+<li>ask a reasonably interesting question;</li>
+<li>obtain data or define a computational experiment;</li>
+<li>write a meaningful amount of code;</li>
+<li>investigate the question carefully;</li>
+<li>test and validate your code and results; and</li>
+<li>communicate what you learned.</li>
+</ol>
+<p>In fact, <strong>a relatively simple question investigated carefully is a better project than an ambitious question that you cannot finish.</strong></p>
+<p>The ideas below are intended to give you a sense of the appropriate scale. You are welcome to use one of these ideas, modify one, combine ideas, or develop something completely different.</p>
+<hr>
+<section id="data-analysis-projects" class="level2">
+<h2 class="anchored" data-anchor-id="data-analysis-projects">Data Analysis Projects</h2>
+<section id="what-makes-a-car-expensive" class="level3">
+<h3 class="anchored" data-anchor-id="what-makes-a-car-expensive">1. What Makes a Car Expensive?</h3>
+<p><strong>Basic idea:</strong> Investigate which characteristics of automobiles are associated with their prices.</p>
+<p>You can use the <strong>Automobile</strong> dataset from the UCI Machine Learning Repository, which contains automobile characteristics and prices. The UCI repository currently maintains hundreds of datasets intended for computational and statistical analysis. (<a href="https://archive.ics.uci.edu/?utm_source=chatgpt.com" title="UCI Machine Learning Repository">UCI Machine Learning Repository</a>)</p>
+<p>Possible questions:</p>
+<ul>
+<li>Which characteristics are most strongly associated with automobile price?</li>
+<li>Is engine size more important than horsepower?</li>
+<li>Does fuel type matter after accounting for other characteristics?</li>
+<li>Can you predict the price of a car from its characteristics?</li>
+<li>Are some relationships nonlinear?</li>
+</ul>
+<p>Possible analysis:</p>
+<ul>
+<li>clean the data;</li>
+<li>examine distributions;</li>
+<li>visualize relationships between price and characteristics;</li>
+<li>calculate correlations;</li>
+<li>fit a few linear regression models;</li>
+<li>compare models using out-of-sample prediction;</li>
+<li>examine residuals;</li>
+<li>investigate whether transformations such as <code>log(price)</code> improve the model.</li>
+</ul>
+<p><strong>Why this is a good project:</strong> The question is intuitive, the dataset is manageable, and there is plenty to analyze without requiring sophisticated methods.</p>
+<p><strong>Possible extension:</strong> Compare a simple linear model with a tree-based prediction method.</p>
+<hr>
+</section>
+<section id="what-makes-a-wine-highly-rated" class="level3">
+<h3 class="anchored" data-anchor-id="what-makes-a-wine-highly-rated">2. What Makes a Wine Highly Rated?</h3>
+<p>Use the UCI <strong>Wine Quality</strong> dataset, which contains physicochemical measurements of Portuguese wine samples and quality ratings. (<a href="https://archive.ics.uci.edu/?utm_source=chatgpt.com" title="UCI Machine Learning Repository">UCI Machine Learning Repository</a>)</p>
+<p>Questions:</p>
+<ul>
+<li>Which chemical characteristics are associated with wine quality?</li>
+<li>Can wine quality be predicted from chemical measurements?</li>
+<li>Is red wine easier to predict than white wine?</li>
+<li>Which variables are most useful for prediction?</li>
+<li>Does treating quality as a continuous variable produce different conclusions from treating it as a categorical variable?</li>
+</ul>
+<p>Possible analysis:</p>
+<ol type="1">
+<li>Explore the distributions of the chemical variables.</li>
+<li>Examine correlations.</li>
+<li>Visualize relationships with quality.</li>
+<li>Fit a regression model.</li>
+<li>Evaluate prediction out of sample.</li>
+<li>Try a classification version of the problem.</li>
+<li>Compare the results.</li>
+</ol>
+<p><strong>Good project size:</strong> Very manageable.</p>
+<p><strong>Potential pitfall:</strong> Do not turn this into a competition to maximize prediction accuracy. The interesting part is understanding what the models are doing.</p>
+<hr>
+</section>
+<section id="can-we-predict-whether-someone-has-heart-disease" class="level3">
+<h3 class="anchored" data-anchor-id="can-we-predict-whether-someone-has-heart-disease">3. Can We Predict Whether Someone Has Heart Disease?</h3>
+<p>The UCI repository contains a classic <strong>Heart Disease</strong> dataset with patient characteristics and a heart-disease outcome. (<a href="https://archive.ics.uci.edu/?utm_source=chatgpt.com" title="UCI Machine Learning Repository">UCI Machine Learning Repository</a>)</p>
+<p>The basic question is:</p>
+<blockquote class="blockquote">
+<p>Can a relatively small set of measured characteristics predict whether a patient is classified as having heart disease?</p>
+</blockquote>
+<p>You could:</p>
+<ul>
+<li>inspect the variables;</li>
+<li>examine differences between the two groups;</li>
+<li>visualize important predictors;</li>
+<li>fit logistic regression;</li>
+<li>evaluate classification accuracy;</li>
+<li>construct a confusion matrix;</li>
+<li>investigate sensitivity and specificity;</li>
+<li>compare logistic regression with another classification method.</li>
+</ul>
+<p><strong>Important:</strong> This should be presented as an exercise in statistical/computational modeling, <strong>not as a medical diagnostic tool</strong>.</p>
+<p><strong>Why it works:</strong> There is a clear outcome, a manageable number of variables, and an obvious opportunity to discuss classification and model evaluation.</p>
+<hr>
+</section>
+<section id="what-predicts-student-performance" class="level3">
+<h3 class="anchored" data-anchor-id="what-predicts-student-performance">4. What Predicts Student Performance?</h3>
+<p>The UCI <strong>Student Performance</strong> dataset contains information about students and their academic performance. It includes demographic, social, school-related, and academic variables. (<a href="https://www.archive.ics.uci.edu/datasets?utm_source=chatgpt.com" title="UCI Machine Learning Repository">UCI Machine Learning Repository</a>)</p>
+<p>Possible questions:</p>
+<ul>
+<li>Which characteristics are associated with final grades?</li>
+<li>Can final performance be predicted from information available earlier?</li>
+<li>Do study habits appear to matter?</li>
+<li>Are there nonlinear relationships?</li>
+<li>How well can a model predict whether a student achieves a particular grade threshold?</li>
+</ul>
+<p>Possible methods:</p>
+<ul>
+<li>descriptive statistics;</li>
+<li>visualization;</li>
+<li>linear regression;</li>
+<li>logistic regression;</li>
+<li>train/test splits;</li>
+<li>model comparison.</li>
+</ul>
+<p><strong>A particularly nice version:</strong> Restrict yourself to variables that would plausibly be available <em>before</em> the final outcome. Discuss why using information that occurs after the outcome would be problematic.</p>
+<hr>
+</section>
+<section id="can-we-predict-whether-a-bank-customer-will-subscribe-to-a-term-deposit" class="level3">
+<h3 class="anchored" data-anchor-id="can-we-predict-whether-a-bank-customer-will-subscribe-to-a-term-deposit">5. Can We Predict Whether a Bank Customer Will Subscribe to a Term Deposit?</h3>
+<p>The UCI <strong>Bank Marketing</strong> dataset contains more than 45,000 observations and 17 features concerning a Portuguese bank’s marketing campaigns. The outcome is whether the customer subscribed to a term deposit. (<a href="https://www.archive.ics.uci.edu/datasets?utm_source=chatgpt.com" title="UCI Machine Learning Repository">UCI Machine Learning Repository</a>)</p>
+<p>Possible questions:</p>
+<ul>
+<li>Which customer characteristics predict subscription?</li>
+<li>How well can subscription be predicted?</li>
+<li>Which variables have the greatest predictive value?</li>
+<li>Does a simple logistic model perform reasonably well?</li>
+<li>How does a more flexible model compare?</li>
+</ul>
+<p>Possible computational tasks:</p>
+<ul>
+<li>clean categorical variables;</li>
+<li>encode categorical variables;</li>
+<li>perform exploratory analysis;</li>
+<li>fit logistic regression;</li>
+<li>construct a confusion matrix;</li>
+<li>calculate precision, recall, and accuracy;</li>
+<li>compare with a tree-based model.</li>
+</ul>
+<p>This is a good project for students interested in business, economics, finance, or data science.</p>
+<hr>
+</section>
+<section id="can-we-predict-income-from-census-characteristics" class="level3">
+<h3 class="anchored" data-anchor-id="can-we-predict-income-from-census-characteristics">6. Can We Predict Income from Census Characteristics?</h3>
+<p>The UCI <strong>Adult</strong> dataset contains approximately 49,000 observations and asks whether an individual’s annual income exceeds $50,000 based on census characteristics. (<a href="https://www.archive.ics.uci.edu/datasets?utm_source=chatgpt.com" title="UCI Machine Learning Repository">UCI Machine Learning Repository</a>)</p>
+<p>Possible questions:</p>
+<ul>
+<li>How accurately can income category be predicted?</li>
+<li>Which variables are most informative?</li>
+<li>How does model performance change with different sets of predictors?</li>
+<li>How does a simple model compare with a more flexible model?</li>
+</ul>
+<p>This project also provides an opportunity to discuss:</p>
+<ul>
+<li>categorical variables;</li>
+<li>missing data;</li>
+<li>model evaluation;</li>
+<li>class imbalance;</li>
+<li>fairness and responsible interpretation of predictive models.</li>
+</ul>
+<p><strong>Important:</strong> Students should not make claims about individual people based on such a model. The project is about understanding statistical prediction.</p>
+<hr>
+</section>
+<section id="what-determines-the-price-of-an-online-product" class="level3">
+<h3 class="anchored" data-anchor-id="what-determines-the-price-of-an-online-product">7. What Determines the Price of an Online Product?</h3>
+<p>The UCI <strong>Online Retail</strong> dataset contains more than 500,000 transactions from a UK online retailer. (<a href="https://www.archive.ics.uci.edu/datasets?utm_source=chatgpt.com" title="UCI Machine Learning Repository">UCI Machine Learning Repository</a>)</p>
+<p>A student could investigate:</p>
+<ul>
+<li>Which products generate the most revenue?</li>
+<li>How does purchasing behavior vary over time?</li>
+<li>What are the most common purchase quantities?</li>
+<li>How concentrated are sales among customers?</li>
+<li>Which customers generate the most revenue?</li>
+<li>Are there seasonal patterns?</li>
+<li>How frequently do customers return?</li>
+</ul>
+<p>Possible computational tasks:</p>
+<ul>
+<li>clean transaction data;</li>
+<li>remove or investigate cancellations;</li>
+<li>construct customer-level variables;</li>
+<li>aggregate transactions;</li>
+<li>calculate revenue;</li>
+<li>visualize time patterns;</li>
+<li>identify high-value customers;</li>
+<li>investigate product concentration.</li>
+</ul>
+<p>This is particularly good for learning <strong>data manipulation and aggregation</strong> rather than just regression.</p>
+<hr>
+</section>
+<section id="how-does-weather-vary-over-time" class="level3">
+<h3 class="anchored" data-anchor-id="how-does-weather-vary-over-time">8. How Does Weather Vary Over Time?</h3>
+<p>Use publicly available weather observations to investigate a question such as:</p>
+<ul>
+<li>Has the distribution of daily temperatures changed?</li>
+<li>How variable is temperature throughout the year?</li>
+<li>How unusual was a particular year?</li>
+<li>Are extreme temperatures becoming more common?</li>
+<li>How does precipitation vary by month?</li>
+</ul>
+<p>A particularly accessible version is to choose <strong>one location</strong> and analyze several years of daily observations.</p>
+<p>The project could involve:</p>
+<ul>
+<li>downloading data;</li>
+<li>parsing dates;</li>
+<li>dealing with missing observations;</li>
+<li>aggregating daily observations to monthly or annual statistics;</li>
+<li>calculating rolling averages;</li>
+<li>plotting distributions;</li>
+<li>identifying extreme observations.</li>
+</ul>
+<p>The project does not need to make a claim about climate change. A careful descriptive analysis of weather at one location is sufficient.</p>
+<hr>
+</section>
+<section id="what-can-we-learn-from-economic-time-series" class="level3">
+<h3 class="anchored" data-anchor-id="what-can-we-learn-from-economic-time-series">9. What Can We Learn from Economic Time Series?</h3>
+<p>The Federal Reserve Bank of St.&nbsp;Louis provides the FRED database and an API through which programs can retrieve economic data. (<a href="https://fred.stlouisfed.org/docs/api/fred/overview.html?utm_source=chatgpt.com" title="St. Louis Fed Web Services: FRED® API Overview">FRED</a>)</p>
+<p>Pick two or three economic variables that interest you.</p>
+<p>Examples:</p>
+<ul>
+<li>unemployment and inflation;</li>
+<li>interest rates and housing prices;</li>
+<li>GDP and unemployment;</li>
+<li>oil prices and inflation;</li>
+<li>Treasury yields at different maturities;</li>
+<li>consumer confidence and economic activity.</li>
+</ul>
+<p>Possible questions:</p>
+<ul>
+<li>How have the variables moved over time?</li>
+<li>Are they correlated?</li>
+<li>Do relationships differ across periods?</li>
+<li>Does one variable tend to lead another?</li>
+<li>How do correlations change during recessions?</li>
+</ul>
+<p>A simple version can involve nothing more complicated than downloading several time series, cleaning them, plotting them, calculating correlations, and investigating several historical episodes.</p>
+<p><strong>This is a particularly good project for economics/finance students.</strong></p>
+<hr>
+</section>
+<section id="what-happened-to-interest-rates-during-major-economic-events" class="level3">
+<h3 class="anchored" data-anchor-id="what-happened-to-interest-rates-during-major-economic-events">10. What Happened to Interest Rates During Major Economic Events?</h3>
+<p>Use FRED data to investigate one or more historical episodes.</p>
+<p>For example:</p>
+<ul>
+<li>the 2008 financial crisis;</li>
+<li>the COVID-19 pandemic;</li>
+<li>the 2022 inflation episode;</li>
+<li>a particular Federal Reserve tightening cycle.</li>
+</ul>
+<p>Possible questions:</p>
+<ul>
+<li>How did short- and long-term interest rates respond?</li>
+<li>How did the yield curve change?</li>
+<li>Did different maturities behave differently?</li>
+<li>How unusual was the movement relative to historical volatility?</li>
+</ul>
+<p>A particularly nice project would calculate:</p>
+<ul>
+<li>changes in yields;</li>
+<li>yield-curve slopes;</li>
+<li>rolling volatility;</li>
+<li>correlations across maturities.</li>
+</ul>
+<p>The FRED API is especially useful here because students can practice retrieving data programmatically rather than manually downloading spreadsheets. (<a href="https://fred.stlouisfed.org/docs/api/fred/overview.html?utm_source=chatgpt.com" title="St. Louis Fed Web Services: FRED® API Overview">FRED</a>)</p>
+<hr>
+</section>
+<section id="is-there-a-relationship-between-movie-characteristics-and-box-office-success" class="level3">
+<h3 class="anchored" data-anchor-id="is-there-a-relationship-between-movie-characteristics-and-box-office-success">11. Is There a Relationship Between Movie Characteristics and Box Office Success?</h3>
+<p>Find a public movie dataset containing variables such as:</p>
+<ul>
+<li>budget;</li>
+<li>genre;</li>
+<li>runtime;</li>
+<li>release year;</li>
+<li>ratings;</li>
+<li>number of votes;</li>
+<li>box-office revenue.</li>
+</ul>
+<p>Possible questions:</p>
+<ul>
+<li>Does budget predict revenue?</li>
+<li>Are some genres more commercially successful?</li>
+<li>Does higher audience rating correspond to greater revenue?</li>
+<li>How has the relationship changed over time?</li>
+<li>Can revenue be predicted reasonably well?</li>
+</ul>
+<p>This can be a straightforward regression/data-visualization project.</p>
+<hr>
+</section>
+<section id="what-makes-a-song-popular" class="level3">
+<h3 class="anchored" data-anchor-id="what-makes-a-song-popular">12. What Makes a Song Popular?</h3>
+<p>Use a public music dataset containing characteristics such as:</p>
+<ul>
+<li>tempo;</li>
+<li>energy;</li>
+<li>danceability;</li>
+<li>acousticness;</li>
+<li>loudness;</li>
+<li>duration;</li>
+<li>genre;</li>
+<li>popularity.</li>
+</ul>
+<p>Possible questions:</p>
+<ul>
+<li>Which characteristics are associated with popularity?</li>
+<li>Are some genres systematically different?</li>
+<li>Is there an ideal tempo?</li>
+<li>Are popularity relationships nonlinear?</li>
+<li>Can popularity be predicted?</li>
+</ul>
+<p>This is a good project because the subject matter is immediately understandable, but the student can still do serious quantitative analysis.</p>
+<hr>
+</section>
+<section id="how-have-music-trends-changed-over-time" class="level3">
+<h3 class="anchored" data-anchor-id="how-have-music-trends-changed-over-time">13. How Have Music Trends Changed Over Time?</h3>
+<p>Instead of predicting popularity, investigate how characteristics of popular music have changed.</p>
+<p>Questions might include:</p>
+<ul>
+<li>Has average song duration changed?</li>
+<li>Has tempo changed?</li>
+<li>Has musical energy changed?</li>
+<li>Have genres become more or less concentrated?</li>
+<li>How has the distribution of musical characteristics changed?</li>
+</ul>
+<p>The main methods can simply be:</p>
+<ul>
+<li>grouping;</li>
+<li>summary statistics;</li>
+<li>rolling averages;</li>
+<li>distributions;</li>
+<li>visualization.</li>
+</ul>
+<p>This is an excellent example of a project that is <strong>simple computationally but can still produce an interesting final product</strong>.</p>
+<hr>
+</section>
+<section id="which-sports-statistics-actually-predict-winning" class="level3">
+<h3 class="anchored" data-anchor-id="which-sports-statistics-actually-predict-winning">14. Which Sports Statistics Actually Predict Winning?</h3>
+<p>Choose a sport with accessible historical data.</p>
+<p>Examples:</p>
+<ul>
+<li>baseball;</li>
+<li>basketball;</li>
+<li>football;</li>
+<li>hockey;</li>
+<li>soccer.</li>
+</ul>
+<p>Ask:</p>
+<blockquote class="blockquote">
+<p>Which team statistics are most strongly associated with winning?</p>
+</blockquote>
+<p>Possible approaches:</p>
+<ul>
+<li>calculate win percentage;</li>
+<li>compare successful and unsuccessful teams;</li>
+<li>examine correlations;</li>
+<li>build a regression or classification model;</li>
+<li>investigate whether certain statistics predict future rather than contemporaneous performance.</li>
+</ul>
+<p>A particularly nice project would distinguish between:</p>
+<blockquote class="blockquote">
+<p>“What statistics are associated with winning?”</p>
+</blockquote>
+<p>and</p>
+<blockquote class="blockquote">
+<p>“What statistics can predict future winning?”</p>
+</blockquote>
+<p>The second is a more genuinely predictive question and naturally introduces train/test splits.</p>
+<hr>
+</section>
+<section id="does-home-field-advantage-still-exist" class="level3">
+<h3 class="anchored" data-anchor-id="does-home-field-advantage-still-exist">15. Does Home-Field Advantage Still Exist?</h3>
+<p>Use historical sports data to investigate home advantage.</p>
+<p>Possible questions:</p>
+<ul>
+<li>What fraction of games are won by the home team?</li>
+<li>Does home advantage differ by sport?</li>
+<li>Has home advantage changed over time?</li>
+<li>Does it differ between regular-season and playoff games?</li>
+<li>Are some teams unusually strong or weak at home?</li>
+</ul>
+<p>This can be done with relatively simple data and provides opportunities for:</p>
+<ul>
+<li>grouping;</li>
+<li>proportions;</li>
+<li>confidence intervals;</li>
+<li>hypothesis testing;</li>
+<li>visualization;</li>
+<li>time trends.</li>
+</ul>
+<hr>
+</section>
+<section id="how-much-does-randomness-matter-in-sports" class="level3">
+<h3 class="anchored" data-anchor-id="how-much-does-randomness-matter-in-sports">16. How Much Does Randomness Matter in Sports?</h3>
+<p>Use historical game results to simulate a season.</p>
+<p>For example:</p>
+<ol type="1">
+<li>Estimate team strengths from historical data.</li>
+<li>Build a simple probabilistic model for game outcomes.</li>
+<li>Simulate many seasons.</li>
+<li>Compare simulated standings with actual standings.</li>
+<li>Investigate how much variation in final standings can arise from randomness.</li>
+</ol>
+<p>This is a wonderful project because it combines <strong>data analysis and simulation</strong> without requiring advanced mathematics.</p>
+<hr>
+</section>
+<section id="is-a-coin-really-fair" class="level3">
+<h3 class="anchored" data-anchor-id="is-a-coin-really-fair">17. Is a Coin Really Fair?</h3>
+<p>This sounds almost too simple—and that is precisely why it is a good project.</p>
+<p>Use simulation to investigate:</p>
+<ul>
+<li>how often a fair coin produces apparently unusual sequences;</li>
+<li>how many flips are needed before an unfair coin can reliably be detected;</li>
+<li>how sample size affects statistical power;</li>
+<li>how multiple testing can produce apparently surprising results.</li>
+</ul>
+<p>You could begin with a theoretical probability calculation, then verify it computationally.</p>
+<p>For example:</p>
+<blockquote class="blockquote">
+<p>If I flip a fair coin 100 times, how unusual is it to observe at least 60 heads?</p>
+</blockquote>
+<p>Then generalize the question using simulation.</p>
+<p>This is an excellent project for a student interested in statistics who does not want to find a large real-world dataset.</p>
+<hr>
+</section>
+<section id="how-many-simulations-are-enough" class="level3">
+<h3 class="anchored" data-anchor-id="how-many-simulations-are-enough">18. How Many Simulations Are Enough?</h3>
+<p>Choose a quantity that can be estimated using Monte Carlo simulation.</p>
+<p>Examples:</p>
+<ul>
+<li>an integral;</li>
+<li>a probability;</li>
+<li>an expected value;</li>
+<li>the area of a geometric region.</li>
+</ul>
+<p>Investigate:</p>
+<blockquote class="blockquote">
+<p>How does the accuracy of a Monte Carlo estimate improve as the number of simulations increases?</p>
+</blockquote>
+<p>The project could compare:</p>
+<ul>
+<li>100 simulations;</li>
+<li>1,000;</li>
+<li>10,000;</li>
+<li>100,000;</li>
+<li>1,000,000.</li>
+</ul>
+<p>Then examine:</p>
+<ul>
+<li>error;</li>
+<li>runtime;</li>
+<li>convergence;</li>
+<li>variability across repeated simulations.</li>
+</ul>
+<p>This is a very good project for demonstrating that <strong>computational accuracy and computational cost are often traded off against one another</strong>.</p>
+<hr>
+</section>
+</section>
+</section>
+<section id="numerical-and-computational-projects" class="level1">
+<h1>Numerical and Computational Projects</h1>
+<p>These projects do not require a real-world dataset. The “data” are generated by mathematics or by the computer.</p>
+<p>That is completely legitimate for this course.</p>
+<hr>
+<section id="how-accurate-are-different-methods-of-computing-π" class="level3">
+<h3 class="anchored" data-anchor-id="how-accurate-are-different-methods-of-computing-π">19. How Accurate Are Different Methods of Computing π?</h3>
+<p>Compare several methods for estimating π.</p>
+<p>For example:</p>
+<ul>
+<li>Leibniz’s series;</li>
+<li>Monte Carlo simulation;</li>
+<li>numerical integration;</li>
+<li>another method you research.</li>
+</ul>
+<p>For each method, investigate:</p>
+<ul>
+<li>accuracy;</li>
+<li>convergence;</li>
+<li>runtime;</li>
+<li>numerical error.</li>
+</ul>
+<p>A particularly good project would show that methods that are mathematically correct can have <strong>very different computational properties</strong>.</p>
+<hr>
+</section>
+<section id="numerical-integration-how-good-are-different-methods" class="level3">
+<h3 class="anchored" data-anchor-id="numerical-integration-how-good-are-different-methods">20. Numerical Integration: How Good Are Different Methods?</h3>
+<p>Choose a few functions and compare:</p>
+<ul>
+<li>left/right Riemann sums;</li>
+<li>trapezoidal rule;</li>
+<li>Simpson’s rule;</li>
+<li>numerical integration from a library.</li>
+</ul>
+<p>Investigate how error changes with the number of evaluation points.</p>
+<p>Questions:</p>
+<ul>
+<li>Which method converges fastest?</li>
+<li>Does the answer depend on the function?</li>
+<li>When does floating-point error become relevant?</li>
+<li>How much computation is required for a desired accuracy?</li>
+</ul>
+<p>This is an excellent project because the mathematics is accessible while the computational questions are substantive.</p>
+<hr>
+</section>
+<section id="finding-roots-numerically" class="level3">
+<h3 class="anchored" data-anchor-id="finding-roots-numerically">21. Finding Roots Numerically</h3>
+<p>Compare methods for solving equations such as</p>
+<p>[ f(x)=0.]</p>
+<p>For example:</p>
+<ul>
+<li>bisection;</li>
+<li>Newton’s method;</li>
+<li>secant method.</li>
+</ul>
+<p>Investigate:</p>
+<ul>
+<li>number of iterations;</li>
+<li>accuracy;</li>
+<li>convergence;</li>
+<li>sensitivity to initial conditions;</li>
+<li>situations in which a method fails.</li>
+</ul>
+<p>A nice project does not need to investigate dozens of functions. Three or four carefully chosen examples are enough.</p>
+<hr>
+</section>
+<section id="how-does-newtons-method-behave" class="level3">
+<h3 class="anchored" data-anchor-id="how-does-newtons-method-behave">22. How Does Newton’s Method Behave?</h3>
+<p>Take Newton’s method and investigate what happens under different starting values.</p>
+<p>For a function such as</p>
+<p>[ f(x)=x^3-x,]</p>
+<p>different starting values can lead to different roots.</p>
+<p>Visualize:</p>
+<ul>
+<li>the function;</li>
+<li>starting points;</li>
+<li>convergence paths.</li>
+</ul>
+<p>Then investigate numerically how the initial condition affects the result.</p>
+<p>This is a particularly nice project because the final product can combine <strong>mathematics, visualization, algorithms, and experimentation</strong>.</p>
+<hr>
+</section>
+<section id="floating-point-arithmetic-can-break-mathematical-intuition" class="level3">
+<h3 class="anchored" data-anchor-id="floating-point-arithmetic-can-break-mathematical-intuition">23. Floating-Point Arithmetic Can Break Mathematical Intuition</h3>
+<p>Build a collection of computational experiments illustrating numerical precision.</p>
+<p>For example:</p>
+<ul>
+<li><code>0.1 + 0.2</code>;</li>
+<li>subtracting nearly equal numbers;</li>
+<li>adding a very small number to a very large number;</li>
+<li>summing numbers in different orders;</li>
+<li>overflow and underflow.</li>
+</ul>
+<p>Then investigate:</p>
+<blockquote class="blockquote">
+<p>How large can the numerical error become, and under what circumstances?</p>
+</blockquote>
+<p>The project could compare naive algorithms with numerically more stable alternatives.</p>
+<p>This would be a very natural extension of Lecture 1.</p>
+<hr>
+</section>
+<section id="does-the-order-of-addition-matter" class="level3">
+<h3 class="anchored" data-anchor-id="does-the-order-of-addition-matter">24. Does the Order of Addition Matter?</h3>
+<p>Construct arrays of numbers containing a mixture of very large and very small values.</p>
+<p>Compare:</p>
+<ul>
+<li>summing from smallest to largest;</li>
+<li>summing from largest to smallest;</li>
+<li>ordinary sequential summation;</li>
+<li>pairwise summation;</li>
+<li>a library implementation.</li>
+</ul>
+<p>Investigate how the answers differ.</p>
+<p>This is a small project with a surprisingly deep lesson:</p>
+<blockquote class="blockquote">
+<p>mathematically equivalent operations need not be computationally equivalent.</p>
+</blockquote>
+<hr>
+</section>
+<section id="compare-sorting-algorithms" class="level3">
+<h3 class="anchored" data-anchor-id="compare-sorting-algorithms">25. Compare Sorting Algorithms</h3>
+<p>Implement or use several sorting algorithms.</p>
+<p>For example:</p>
+<ul>
+<li>insertion sort;</li>
+<li>selection sort;</li>
+<li>merge sort;</li>
+<li>Python’s built-in sorting.</li>
+</ul>
+<p>Investigate:</p>
+<ul>
+<li>runtime as a function of input size;</li>
+<li>behavior on already sorted data;</li>
+<li>behavior on reverse-sorted data;</li>
+<li>behavior on random data.</li>
+</ul>
+<p>Plot runtime against sample size.</p>
+<p>This project introduces algorithmic complexity in a concrete way.</p>
+<p><strong>Important:</strong> You do not need to implement every sophisticated sorting algorithm. Three simple algorithms plus the built-in implementation are plenty.</p>
+<hr>
+</section>
+<section id="how-fast-do-algorithms-really-get" class="level3">
+<h3 class="anchored" data-anchor-id="how-fast-do-algorithms-really-get">26. How Fast Do Algorithms Really Get?</h3>
+<p>Choose a simple computational task and implement multiple versions.</p>
+<p>For example:</p>
+<ul>
+<li>searching for an element;</li>
+<li>computing a moving average;</li>
+<li>calculating pairwise distances;</li>
+<li>matrix multiplication.</li>
+</ul>
+<p>Compare:</p>
+<ul>
+<li>a straightforward Python implementation;</li>
+<li>a vectorized implementation;</li>
+<li>a library implementation.</li>
+</ul>
+<p>Measure runtime as the input size increases.</p>
+<p>This is a good project for students who are more interested in programming and computer science than data analysis.</p>
+<hr>
+</section>
+<section id="recursion-versus-iteration" class="level3">
+<h3 class="anchored" data-anchor-id="recursion-versus-iteration">27. Recursion Versus Iteration</h3>
+<p>Choose a problem that can naturally be solved recursively and iteratively.</p>
+<p>For example:</p>
+<ul>
+<li>Fibonacci numbers;</li>
+<li>factorials;</li>
+<li>tree traversal;</li>
+<li>binary search.</li>
+</ul>
+<p>Compare:</p>
+<ul>
+<li>implementation complexity;</li>
+<li>runtime;</li>
+<li>memory usage;</li>
+<li>behavior as the problem size increases.</li>
+</ul>
+<p>A particularly interesting experiment is to show that a mathematically elegant recursive implementation can be computationally terrible.</p>
+<hr>
+</section>
+</section>
+<section id="simulation-projects" class="level1">
+<h1>Simulation Projects</h1>
+<section id="how-does-the-law-of-large-numbers-appear-computationally" class="level3">
+<h3 class="anchored" data-anchor-id="how-does-the-law-of-large-numbers-appear-computationally">28. How Does the Law of Large Numbers Appear Computationally?</h3>
+<p>Simulate repeated samples from a known distribution.</p>
+<p>For example, repeatedly sample from:</p>
+<ul>
+<li>a Bernoulli distribution;</li>
+<li>a normal distribution;</li>
+<li>a uniform distribution.</li>
+</ul>
+<p>Track the sample mean as sample size increases.</p>
+<p>Investigate:</p>
+<ul>
+<li>how quickly the sample mean stabilizes;</li>
+<li>how the result changes with variance;</li>
+<li>how repeated simulations differ.</li>
+</ul>
+<p>Then visualize many simulation paths.</p>
+<p>This is simple enough for almost anyone to complete but can produce an excellent final report.</p>
+<hr>
+</section>
+<section id="how-does-the-central-limit-theorem-work-in-practice" class="level3">
+<h3 class="anchored" data-anchor-id="how-does-the-central-limit-theorem-work-in-practice">29. How Does the Central Limit Theorem Work in Practice?</h3>
+<p>Choose a non-normal distribution, such as:</p>
+<ul>
+<li>uniform;</li>
+<li>exponential;</li>
+<li>Bernoulli;</li>
+<li>Poisson.</li>
+</ul>
+<p>Repeatedly draw samples and calculate the sample mean.</p>
+<p>Then examine the distribution of those sample means.</p>
+<p>Investigate how it changes as sample size increases.</p>
+<p>This project can demonstrate:</p>
+<ul>
+<li>simulation;</li>
+<li>histograms;</li>
+<li>means and variances;</li>
+<li>standardization;</li>
+<li>the Central Limit Theorem.</li>
+</ul>
+<hr>
+</section>
+<section id="how-much-data-do-we-need" class="level3">
+<h3 class="anchored" data-anchor-id="how-much-data-do-we-need">30. How Much Data Do We Need?</h3>
+<p>Choose a statistical estimation problem and investigate how performance changes with sample size.</p>
+<p>For example:</p>
+<blockquote class="blockquote">
+<p>How accurately can we estimate the mean of a population?</p>
+</blockquote>
+<p>or</p>
+<blockquote class="blockquote">
+<p>How accurately can we estimate the slope in a regression?</p>
+</blockquote>
+<p>Simulate datasets with different sample sizes and examine:</p>
+<ul>
+<li>bias;</li>
+<li>variance;</li>
+<li>confidence interval width;</li>
+<li>probability of rejecting a false null hypothesis;</li>
+<li>prediction error.</li>
+</ul>
+<p>This is a very good project because the student can make the experiment as simple or sophisticated as their interests permit.</p>
+<hr>
+</section>
+<section id="multiple-testing-and-false-discoveries" class="level3">
+<h3 class="anchored" data-anchor-id="multiple-testing-and-false-discoveries">31. Multiple Testing and False Discoveries</h3>
+<p>Simulate a situation in which <strong>none of the hypotheses are actually true</strong>.</p>
+<p>For example:</p>
+<ol type="1">
+<li>Generate many independent datasets.</li>
+<li>Conduct 100 hypothesis tests.</li>
+<li>Count how many apparently significant results occur.</li>
+<li>Repeat the experiment many times.</li>
+</ol>
+<p>Then investigate:</p>
+<ul>
+<li>how many false positives you expect;</li>
+<li>what happens when the number of tests increases;</li>
+<li>how Bonferroni correction changes the results;</li>
+<li>how false discovery rate methods behave.</li>
+</ul>
+<p>This is an excellent statistics project that requires very little external data.</p>
+<hr>
+</section>
+<section id="how-does-bootstrapping-work" class="level3">
+<h3 class="anchored" data-anchor-id="how-does-bootstrapping-work">32. How Does Bootstrapping Work?</h3>
+<p>Choose a dataset and estimate some statistic—for example:</p>
+<ul>
+<li>mean;</li>
+<li>median;</li>
+<li>correlation;</li>
+<li>regression coefficient.</li>
+</ul>
+<p>Then use the bootstrap to estimate uncertainty.</p>
+<p>Compare the bootstrap results with a theoretical standard error or confidence interval where possible.</p>
+<p>Questions:</p>
+<ul>
+<li>How well does the bootstrap work?</li>
+<li>Does it work equally well for the mean and median?</li>
+<li>How does sample size affect the result?</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="machine-learning-projects" class="level1">
+<h1>Machine Learning Projects</h1>
+<p>The following projects are deliberately designed so that students <strong>do not need to build neural networks from scratch</strong>.</p>
+<p>The objective is to learn how to formulate, train, evaluate, and interpret computational models.</p>
+<hr>
+<section id="predict-wine-quality" class="level3">
+<h3 class="anchored" data-anchor-id="predict-wine-quality">33. Predict Wine Quality</h3>
+<p>Use the UCI Wine Quality dataset.</p>
+<p>Compare perhaps:</p>
+<ol type="1">
+<li>linear regression;</li>
+<li>a decision tree;</li>
+<li>a random forest.</li>
+</ol>
+<p>Evaluate out-of-sample prediction.</p>
+<p>The interesting question is not:</p>
+<blockquote class="blockquote">
+<p>“Can I get the highest possible accuracy?”</p>
+</blockquote>
+<p>It is:</p>
+<blockquote class="blockquote">
+<p>“How do different modeling approaches behave on this problem?”</p>
+</blockquote>
+<p>The dataset is small enough that students can iterate quickly. (<a href="https://archive.ics.uci.edu/?utm_source=chatgpt.com" title="UCI Machine Learning Repository">UCI Machine Learning Repository</a>)</p>
+<hr>
+</section>
+<section id="predict-whether-a-bank-customer-will-subscribe" class="level3">
+<h3 class="anchored" data-anchor-id="predict-whether-a-bank-customer-will-subscribe">34. Predict Whether a Bank Customer Will Subscribe</h3>
+<p>Use the UCI Bank Marketing dataset.</p>
+<p>Compare two or three classification methods.</p>
+<p>Investigate:</p>
+<ul>
+<li>accuracy;</li>
+<li>precision;</li>
+<li>recall;</li>
+<li>ROC curves;</li>
+<li>confusion matrices.</li>
+</ul>
+<p>Then ask:</p>
+<blockquote class="blockquote">
+<p>Which model would you actually use if the cost of a false positive differed from the cost of a false negative?</p>
+</blockquote>
+<p>That last question turns a simple machine-learning exercise into a useful decision-making problem.</p>
+<hr>
+</section>
+<section id="predict-student-performance" class="level3">
+<h3 class="anchored" data-anchor-id="predict-student-performance">35. Predict Student Performance</h3>
+<p>Use the UCI Student Performance dataset.</p>
+<p>Compare:</p>
+<ul>
+<li>a baseline prediction;</li>
+<li>linear regression;</li>
+<li>a tree-based method.</li>
+</ul>
+<p>Investigate how much predictive performance improves as additional variables are included.</p>
+<p>This also provides an opportunity to discuss <strong>data leakage</strong>—whether information used to predict the outcome would actually be available at the time the prediction was supposed to be made.</p>
+<hr>
+</section>
+<section id="how-does-training-test-splitting-affect-results" class="level3">
+<h3 class="anchored" data-anchor-id="how-does-training-test-splitting-affect-results">36. How Does Training-Test Splitting Affect Results?</h3>
+<p>Choose a relatively simple prediction problem.</p>
+<p>Repeatedly divide the data into training and test sets.</p>
+<p>Investigate:</p>
+<ul>
+<li>how much estimated performance varies;</li>
+<li>what happens with different random seeds;</li>
+<li>what happens with different training-set sizes;</li>
+<li>why a single train/test split can be noisy.</li>
+</ul>
+<p>This is a great project for teaching the idea that <strong>a model’s reported performance is itself an estimate</strong>.</p>
+<hr>
+</section>
+<section id="can-we-predict-handwritten-digits" class="level3">
+<h3 class="anchored" data-anchor-id="can-we-predict-handwritten-digits">37. Can We Predict Handwritten Digits?</h3>
+<p>The UCI repository contains the <strong>Optical Recognition of Handwritten Digits</strong> dataset. (<a href="https://archive.ics.uci.edu/datasets?search=31&amp;utm_source=chatgpt.com" title="UCI Machine Learning Repository">UCI Machine Learning Repository</a>)</p>
+<p>The problem is to classify handwritten digits.</p>
+<p>A student could:</p>
+<ul>
+<li>visualize example digits;</li>
+<li>examine the feature representation;</li>
+<li>fit a simple classifier;</li>
+<li>evaluate errors;</li>
+<li>examine which digits are most frequently confused.</li>
+</ul>
+<p>They do not need to build a neural network.</p>
+<p>A simple classifier can provide plenty of material for a good project.</p>
+<hr>
+</section>
+</section>
+<section id="projects-that-combine-data-and-simulation" class="level1">
+<h1>Projects That Combine Data and Simulation</h1>
+<section id="how-much-does-selection-bias-matter" class="level3">
+<h3 class="anchored" data-anchor-id="how-much-does-selection-bias-matter">38. How Much Does Selection Bias Matter?</h3>
+<p>Create a simulated population with a known relationship between two variables.</p>
+<p>Then introduce a selection mechanism.</p>
+<p>For example:</p>
+<ol type="1">
+<li>Generate a population in which <code>X</code> and <code>Y</code> have a known relationship.</li>
+<li>Select observations according to a third variable.</li>
+<li>Estimate the relationship in the selected sample.</li>
+<li>Compare it with the true population relationship.</li>
+</ol>
+<p>Investigate how selection changes the result.</p>
+<p>This is a particularly nice project for students with a statistics background.</p>
+<hr>
+</section>
+<section id="how-much-does-measurement-error-matter" class="level3">
+<h3 class="anchored" data-anchor-id="how-much-does-measurement-error-matter">39. How Much Does Measurement Error Matter?</h3>
+<p>Simulate a regression model with a known coefficient.</p>
+<p>Then add measurement error to the explanatory variable.</p>
+<p>Compare:</p>
+<ul>
+<li>the true relationship;</li>
+<li>the relationship estimated using the true variable;</li>
+<li>the relationship estimated using the noisy measurement.</li>
+</ul>
+<p>Investigate how the amount of measurement error affects the estimate.</p>
+<p>This is a relatively simple simulation with a meaningful statistical lesson.</p>
+<hr>
+</section>
+<section id="how-does-missing-data-affect-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="how-does-missing-data-affect-analysis">40. How Does Missing Data Affect Analysis?</h3>
+<p>Start with a dataset with complete observations.</p>
+<p>Then artificially remove observations under different mechanisms:</p>
+<ul>
+<li>completely at random;</li>
+<li>depending on another variable;</li>
+<li>depending on the variable being studied.</li>
+</ul>
+<p>Compare the resulting estimates.</p>
+<p>Investigate:</p>
+<blockquote class="blockquote">
+<p>When does missing data materially change the conclusions?</p>
+</blockquote>
+<p>This provides an excellent opportunity to combine:</p>
+<ul>
+<li>simulation;</li>
+<li>data manipulation;</li>
+<li>visualization;</li>
+<li>statistical reasoning.</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="projects-using-apis-and-real-time-data" class="level1">
+<h1>Projects Using APIs and Real-Time Data</h1>
+<p>These projects are particularly good if you want students to practice <strong>programmatically acquiring data</strong>, rather than downloading a CSV manually.</p>
+<section id="build-a-small-economic-data-pipeline" class="level3">
+<h3 class="anchored" data-anchor-id="build-a-small-economic-data-pipeline">41. Build a Small Economic Data Pipeline</h3>
+<p>Use the FRED API to retrieve several economic series. The API is explicitly designed to allow programs to retrieve FRED and ALFRED data programmatically. (<a href="https://fred.stlouisfed.org/docs/api/fred/overview.html?utm_source=chatgpt.com" title="St. Louis Fed Web Services: FRED® API Overview">FRED</a>)</p>
+<p>For example:</p>
+<ol type="1">
+<li>retrieve unemployment;</li>
+<li>retrieve inflation;</li>
+<li>retrieve a Treasury yield;</li>
+<li>combine the series;</li>
+<li>clean the dates;</li>
+<li>calculate derived quantities;</li>
+<li>produce plots;</li>
+<li>save a processed dataset.</li>
+</ol>
+<p>The analysis itself can remain simple.</p>
+<p>The interesting computational component is building a <strong>reproducible data pipeline</strong>.</p>
+<hr>
+</section>
+<section id="track-a-time-series-automatically" class="level3">
+<h3 class="anchored" data-anchor-id="track-a-time-series-automatically">42. Track a Time Series Automatically</h3>
+<p>Choose a publicly available series that changes over time.</p>
+<p>Write a program that:</p>
+<ol type="1">
+<li>downloads the data;</li>
+<li>stores it locally;</li>
+<li>cleans it;</li>
+<li>updates the stored data;</li>
+<li>produces a graph.</li>
+</ol>
+<p>Then design the program so that it can be run again without manually repeating the analysis.</p>
+<p>This project is especially useful for demonstrating:</p>
+<ul>
+<li>APIs;</li>
+<li>file I/O;</li>
+<li>functions;</li>
+<li>error handling;</li>
+<li>reproducibility;</li>
+<li>project organization.</li>
+</ul>
+<hr>
+</section>
+<section id="compare-two-economic-time-series" class="level3">
+<h3 class="anchored" data-anchor-id="compare-two-economic-time-series">43. Compare Two Economic Time Series</h3>
+<p>Use FRED to retrieve two or three related series.</p>
+<p>For example:</p>
+<ul>
+<li>unemployment and inflation;</li>
+<li>mortgage rates and housing prices;</li>
+<li>oil prices and gasoline prices;</li>
+<li>Treasury yields at different maturities.</li>
+</ul>
+<p>Ask a focused question about their relationship.</p>
+<p>The project should emphasize <strong>careful data handling and visualization</strong>, rather than sophisticated econometrics.</p>
+<hr>
+</section>
+</section>
+<section id="build-something-projects" class="level1">
+<h1>“Build Something” Projects</h1>
+<p>These are appropriate for students who are more interested in programming than statistical analysis.</p>
+<section id="build-a-monte-carlo-simulation-tool" class="level3">
+<h3 class="anchored" data-anchor-id="build-a-monte-carlo-simulation-tool">44. Build a Monte Carlo Simulation Tool</h3>
+<p>Create a reusable Python or R program that lets the user specify:</p>
+<ul>
+<li>a probability distribution;</li>
+<li>a number of simulations;</li>
+<li>a statistic of interest.</li>
+</ul>
+<p>The program should then:</p>
+<ul>
+<li>run the simulation;</li>
+<li>summarize results;</li>
+<li>display a visualization;</li>
+<li>report computation time.</li>
+</ul>
+<p>The project can investigate the accuracy of the tool and demonstrate that it works for several different distributions.</p>
+<hr>
+</section>
+<section id="build-a-numerical-root-finding-library" class="level3">
+<h3 class="anchored" data-anchor-id="build-a-numerical-root-finding-library">45. Build a Numerical Root-Finding Library</h3>
+<p>Implement several root-finding methods as reusable functions.</p>
+<p>For example:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>bisection(f, a, b)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>newton(f, x0)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>secant(f, x0, x1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Then create tests for the functions.</p>
+<p>Investigate:</p>
+<ul>
+<li>accuracy;</li>
+<li>convergence;</li>
+<li>runtime;</li>
+<li>failure cases.</li>
+</ul>
+<p>This is a particularly good project because the <strong>software itself is part of the result</strong>.</p>
+<hr>
+</section>
+<section id="build-a-simple-data-analysis-pipeline" class="level3">
+<h3 class="anchored" data-anchor-id="build-a-simple-data-analysis-pipeline">46. Build a Simple Data-Analysis Pipeline</h3>
+<p>Choose a dataset and build a reusable pipeline that:</p>
+<ol type="1">
+<li>reads the raw data;</li>
+<li>validates it;</li>
+<li>cleans it;</li>
+<li>produces summary statistics;</li>
+<li>creates standard visualizations;</li>
+<li>saves the results.</li>
+</ol>
+<p>The project could be framed as:</p>
+<blockquote class="blockquote">
+<p>“I want to turn this messy dataset into a reproducible analysis with one command.”</p>
+</blockquote>
+<p>This is an excellent project for students interested in data science or professional programming.</p>
+<hr>
+</section>
+<section id="build-a-text-analysis-tool" class="level3">
+<h3 class="anchored" data-anchor-id="build-a-text-analysis-tool">47. Build a Text Analysis Tool</h3>
+<p>Choose a collection of public-domain text.</p>
+<p>For example:</p>
+<ul>
+<li>novels;</li>
+<li>speeches;</li>
+<li>news articles;</li>
+<li>poems.</li>
+</ul>
+<p>Build a program that calculates things such as:</p>
+<ul>
+<li>word frequencies;</li>
+<li>vocabulary size;</li>
+<li>average word length;</li>
+<li>sentence length;</li>
+<li>most common words;</li>
+<li>changes in vocabulary across documents.</li>
+</ul>
+<p>Then ask a focused question.</p>
+<p>For example:</p>
+<blockquote class="blockquote">
+<p>How does vocabulary differ among several authors?</p>
+</blockquote>
+<p>or:</p>
+<blockquote class="blockquote">
+<p>How does the vocabulary of an author change over time?</p>
+</blockquote>
+<p>This is a very approachable project that provides plenty of opportunities to practice strings, dictionaries, functions, data structures, visualization, and file handling.</p>
+<hr>
+</section>
+<section id="analyze-a-collection-of-books" class="level3">
+<h3 class="anchored" data-anchor-id="analyze-a-collection-of-books">48. Analyze a Collection of Books</h3>
+<p>Download a collection of public-domain books from a source such as Project Gutenberg.</p>
+<p>Build a small text-processing pipeline.</p>
+<p>Investigate something like:</p>
+<ul>
+<li>word-frequency distributions;</li>
+<li>vocabulary growth;</li>
+<li>sentence length;</li>
+<li>character names;</li>
+<li>dialogue versus narration;</li>
+<li>changes in writing style.</li>
+</ul>
+<p>Students should be encouraged to pick books they actually care about.</p>
+<p>The project does not need natural-language processing or machine learning.</p>
+<hr>
+</section>
+</section>
+<section id="a-few-especially-good-safe-choices" class="level1">
+<h1>A Few Especially Good “Safe Choices”</h1>
+<p>If you have <strong>no idea what you want to do</strong>, I particularly recommend one of these:</p>
+<section id="easiest-data-analysis-choices" class="level3">
+<h3 class="anchored" data-anchor-id="easiest-data-analysis-choices">Easiest data-analysis choices</h3>
+<ol type="1">
+<li><strong>What makes a car expensive?</strong></li>
+<li><strong>What makes a wine highly rated?</strong></li>
+<li><strong>What predicts student performance?</strong></li>
+<li><strong>What statistics predict sports success?</strong></li>
+<li><strong>How have weather patterns changed over time?</strong></li>
+<li><strong>What can we learn from two economic time series?</strong></li>
+</ol>
+</section>
+<section id="easiest-simulation-choices" class="level3">
+<h3 class="anchored" data-anchor-id="easiest-simulation-choices">Easiest simulation choices</h3>
+<ol start="7" type="1">
+<li><strong>How does the Central Limit Theorem appear computationally?</strong></li>
+<li><strong>How does the Law of Large Numbers appear computationally?</strong></li>
+<li><strong>How many simulations are enough?</strong></li>
+<li><strong>How does sample size affect statistical estimation?</strong></li>
+</ol>
+</section>
+<section id="easiest-numericalcomputer-science-choices" class="level3">
+<h3 class="anchored" data-anchor-id="easiest-numericalcomputer-science-choices">Easiest numerical/computer-science choices</h3>
+<ol start="11" type="1">
+<li><strong>Compare numerical integration methods.</strong></li>
+<li><strong>Compare root-finding methods.</strong></li>
+<li><strong>Investigate floating-point error.</strong></li>
+<li><strong>Compare sorting algorithms.</strong></li>
+<li><strong>Investigate the effect of order of addition.</strong></li>
+</ol>
+<p>None of these would be considered a “lesser” project. A carefully executed project on one of these topics can be an excellent final project.</p>
+<hr>
+</section>
+</section>
+<section id="how-to-tell-whether-your-idea-is-good-enough" class="level1">
+<h1>How to Tell Whether Your Idea Is Good Enough</h1>
+<p>You do <strong>not</strong> need to answer an important question about the world.</p>
+<p>Instead, ask whether your idea passes these tests.</p>
+<section id="can-i-state-the-question-in-one-or-two-sentences" class="level3">
+<h3 class="anchored" data-anchor-id="can-i-state-the-question-in-one-or-two-sentences">1. Can I state the question in one or two sentences?</h3>
+<p>If you cannot, the project may be too broad.</p>
+</section>
+<section id="can-i-get-the-data-or-define-the-computational-experiment" class="level3">
+<h3 class="anchored" data-anchor-id="can-i-get-the-data-or-define-the-computational-experiment">2. Can I get the data or define the computational experiment?</h3>
+<p>If you don’t have the data yet, <strong>get it before committing to the project</strong>.</p>
+</section>
+<section id="can-i-imagine-writing-at-least-several-hundred-lines-of-meaningful-code-over-the-course-of-the-project" class="level3">
+<h3 class="anchored" data-anchor-id="can-i-imagine-writing-at-least-several-hundred-lines-of-meaningful-code-over-the-course-of-the-project">3. Can I imagine writing at least several hundred lines of meaningful code over the course of the project?</h3>
+<p>The exact number does not matter, but the project should involve substantial programming.</p>
+</section>
+<section id="can-i-produce-several-useful-outputs" class="level3">
+<h3 class="anchored" data-anchor-id="can-i-produce-several-useful-outputs">4. Can I produce several useful outputs?</h3>
+<p>For example:</p>
+<ul>
+<li>figures;</li>
+<li>tables;</li>
+<li>model results;</li>
+<li>simulations;</li>
+<li>numerical comparisons;</li>
+<li>performance measurements.</li>
+</ul>
+</section>
+<section id="can-i-imagine-discovering-something" class="level3">
+<h3 class="anchored" data-anchor-id="can-i-imagine-discovering-something">5. Can I imagine discovering something?</h3>
+<p>The answer does not have to be surprising. It just needs to be possible for the result to differ from your initial expectation.</p>
+</section>
+<section id="can-i-test-whether-my-code-is-correct" class="level3">
+<h3 class="anchored" data-anchor-id="can-i-test-whether-my-code-is-correct">6. Can I test whether my code is correct?</h3>
+<p>This is particularly important for this course.</p>
+</section>
+<section id="can-i-finish-it" class="level3">
+<h3 class="anchored" data-anchor-id="can-i-finish-it">7. Can I finish it?</h3>
+<p>This is perhaps the most important question.</p>
+<p>A project that is “too easy” is much better than a project that is impossible to finish.</p>
+<hr>
+</section>
+</section>
+<section id="the-minimum-viable-project" class="level1">
+<h1>The “Minimum Viable Project”</h1>
+<p>If you are worried that your idea is too simple, think in terms of a <strong>minimum viable project</strong>.</p>
+<p>A project can start with something as simple as:</p>
+<blockquote class="blockquote">
+<p>“I want to know whether X is related to Y.”</p>
+</blockquote>
+<p>Then build it in stages:</p>
+<pre class="text"><code>Stage 1
+Get the data
+        ↓
+Stage 2
+Clean the data
+        ↓
+Stage 3
+Make some plots
+        ↓
+Stage 4
+Calculate descriptive statistics
+        ↓
+Stage 5
+Fit a simple model / run a computational experiment
+        ↓
+Stage 6
+Test and validate the analysis
+        ↓
+Stage 7
+Ask a more interesting follow-up question
+        ↓
+Stage 8
+Add one robustness check</code></pre>
+<p>This is a feature, not a problem.</p>
+<p><strong>Do not start by trying to design the final project. Start by designing the smallest project that could work.</strong></p>
+<p>If the initial analysis turns out to be interesting, expand it.</p>
+<hr>
+</section>
+<section id="where-to-find-data" class="level1">
+<h1>Where to Find Data</h1>
+<p>Several sources are particularly useful for projects in this course.</p>
+<section id="uci-machine-learning-repository" class="level3">
+<h3 class="anchored" data-anchor-id="uci-machine-learning-repository">UCI Machine Learning Repository</h3>
+<p><a href="https://archive.ics.uci.edu/?utm_source=chatgpt.com">UCI Machine Learning Repository</a></p>
+<p>UCI currently provides hundreds of datasets, including relatively small datasets such as Iris, Wine Quality, Student Performance, Automobile, and Bank Marketing, as well as much larger datasets. (<a href="https://archive.ics.uci.edu/?utm_source=chatgpt.com" title="UCI Machine Learning Repository">UCI Machine Learning Repository</a>)</p>
+<p>This is probably the <strong>best starting point for students who want a ready-to-use dataset</strong>.</p>
+</section>
+<section id="fred" class="level3">
+<h3 class="anchored" data-anchor-id="fred">FRED</h3>
+<p><a href="https://fred.stlouisfed.org/?utm_source=chatgpt.com">Federal Reserve Bank of St.&nbsp;Louis FRED</a></p>
+<p>FRED contains a very large collection of economic and financial time series and provides an API specifically designed for programmatic data retrieval. (<a href="https://fred.stlouisfed.org/docs/api/fred/overview.html?utm_source=chatgpt.com" title="St. Louis Fed Web Services: FRED® API Overview">FRED</a>)</p>
+</section>
+<section id="data.gov" class="level3">
+<h3 class="anchored" data-anchor-id="data.gov">Data.gov</h3>
+<p><a href="https://www.data.gov/?utm_source=chatgpt.com">Data.gov</a></p>
+<p>Data.gov is a useful starting point for U.S. government datasets.</p>
+</section>
+<section id="other-sources" class="level3">
+<h3 class="anchored" data-anchor-id="other-sources">Other sources</h3>
+<p>You may also consider:</p>
+<ul>
+<li>Census data;</li>
+<li>CDC data;</li>
+<li>NOAA/weather data;</li>
+<li>sports data;</li>
+<li>public financial data;</li>
+<li>scientific datasets;</li>
+<li>public-domain text;</li>
+<li>datasets associated with academic research.</li>
+</ul>
+<p>When evaluating a dataset, <strong>do not choose it merely because it is large</strong>. A clean dataset with 5,000 observations may be much better for this project than a messy dataset with 50 million observations.</p>
+<hr>
+</section>
+</section>
+<section id="one-final-piece-of-advice" class="level1">
+<h1>One Final Piece of Advice</h1>
+<p>Your project does <strong>not</strong> have to be original research.</p>
+<p>It is perfectly acceptable to take a well-known dataset or computational problem and investigate it yourself.</p>
+<p>For this course, the important question is not:</p>
+<blockquote class="blockquote">
+<p>“Has anyone ever done this before?”</p>
+</blockquote>
+<p>The important question is:</p>
+<blockquote class="blockquote">
+<p><strong>“Can I use this problem to demonstrate that I can do computational work well?”</strong></p>
+</blockquote>
+<p>That means that a project such as</p>
+<blockquote class="blockquote">
+<p>“I am going to compare three numerical integration methods”</p>
+</blockquote>
+<p>can be every bit as good as</p>
+<blockquote class="blockquote">
+<p>“I am going to investigate a novel question using a massive proprietary dataset.”</p>
+</blockquote>
+<p>In fact, the first may be the <strong>better Math 5200 project</strong> if it results in careful implementation, testing, experimentation, visualization, and clear conclusions.</p>
+<p>The best project is one that is <strong>interesting enough to keep you engaged, small enough to finish, and rich enough to teach you something.</strong></p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

@@ -1,0 +1,1600 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>project – Computing Using R &amp; Python</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-172ba59bd5e0b52282274ba0c0cc16fc.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Computing Using R &amp; Python</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../syllabus.html"> 
+<span class="menu-text">Syllabus</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#math-5200-semester-project" id="toc-math-5200-semester-project" class="nav-link active" data-scroll-target="#math-5200-semester-project">Math 5200 Semester Project</a>
+  <ul class="collapse">
+  <li><a href="#a-computational-project" id="toc-a-computational-project" class="nav-link" data-scroll-target="#a-computational-project">A Computational Project</a></li>
+  </ul></li>
+  <li><a href="#project-options" id="toc-project-options" class="nav-link" data-scroll-target="#project-options">Project Options</a>
+  <ul class="collapse">
+  <li><a href="#data-analysis" id="toc-data-analysis" class="nav-link" data-scroll-target="#data-analysis">Data analysis</a></li>
+  <li><a href="#statistical-investigation" id="toc-statistical-investigation" class="nav-link" data-scroll-target="#statistical-investigation">Statistical investigation</a></li>
+  <li><a href="#scientific-or-numerical-computing" id="toc-scientific-or-numerical-computing" class="nav-link" data-scroll-target="#scientific-or-numerical-computing">Scientific or numerical computing</a></li>
+  <li><a href="#machine-learning" id="toc-machine-learning" class="nav-link" data-scroll-target="#machine-learning">Machine learning</a></li>
+  <li><a href="#other-computational-projects" id="toc-other-computational-projects" class="nav-link" data-scroll-target="#other-computational-projects">Other computational projects</a></li>
+  </ul></li>
+  <li><a href="#an-important-restriction" id="toc-an-important-restriction" class="nav-link" data-scroll-target="#an-important-restriction">An Important Restriction</a></li>
+  <li><a href="#project-timeline" id="toc-project-timeline" class="nav-link" data-scroll-target="#project-timeline">Project Timeline</a></li>
+  <li><a href="#project-repository" id="toc-project-repository" class="nav-link" data-scroll-target="#project-repository">Project Repository</a></li>
+  <li><a href="#phase-i-proposal" id="toc-phase-i-proposal" class="nav-link" data-scroll-target="#phase-i-proposal">Phase I: Proposal</a>
+  <ul class="collapse">
+  <li><a href="#purpose" id="toc-purpose" class="nav-link" data-scroll-target="#purpose">Purpose</a></li>
+  <li><a href="#proposal" id="toc-proposal" class="nav-link" data-scroll-target="#proposal">Proposal</a>
+  <ul class="collapse">
+  <li><a href="#title" id="toc-title" class="nav-link" data-scroll-target="#title">1. Title</a></li>
+  <li><a href="#project-summary" id="toc-project-summary" class="nav-link" data-scroll-target="#project-summary">2. Project Summary</a></li>
+  <li><a href="#problem-research-question" id="toc-problem-research-question" class="nav-link" data-scroll-target="#problem-research-question">3. Problem / Research Question</a></li>
+  <li><a href="#background" id="toc-background" class="nav-link" data-scroll-target="#background">4. Background</a></li>
+  <li><a href="#data-inputs-or-computational-resources" id="toc-data-inputs-or-computational-resources" class="nav-link" data-scroll-target="#data-inputs-or-computational-resources">5. Data, Inputs, or Computational Resources</a></li>
+  <li><a href="#proposed-computational-approach" id="toc-proposed-computational-approach" class="nav-link" data-scroll-target="#proposed-computational-approach">6. Proposed Computational Approach</a></li>
+  <li><a href="#expected-results" id="toc-expected-results" class="nav-link" data-scroll-target="#expected-results">7. Expected Results</a></li>
+  <li><a href="#initial-project-plan" id="toc-initial-project-plan" class="nav-link" data-scroll-target="#initial-project-plan">8. Initial Project Plan</a></li>
+  </ul></li>
+  <li><a href="#proposal-deliverable" id="toc-proposal-deliverable" class="nav-link" data-scroll-target="#proposal-deliverable">Proposal Deliverable</a></li>
+  </ul></li>
+  <li><a href="#phase-ii-preliminary-analysis-prototype" id="toc-phase-ii-preliminary-analysis-prototype" class="nav-link" data-scroll-target="#phase-ii-preliminary-analysis-prototype">Phase II: Preliminary Analysis / Prototype</a>
+  <ul class="collapse">
+  <li><a href="#purpose-1" id="toc-purpose-1" class="nav-link" data-scroll-target="#purpose-1">Purpose</a></li>
+  <li><a href="#revised-problem-statement" id="toc-revised-problem-statement" class="nav-link" data-scroll-target="#revised-problem-statement">1. Revised Problem Statement</a></li>
+  <li><a href="#data-and-computational-inputs" id="toc-data-and-computational-inputs" class="nav-link" data-scroll-target="#data-and-computational-inputs">2. Data and Computational Inputs</a></li>
+  <li><a href="#data-management-preparation" id="toc-data-management-preparation" class="nav-link" data-scroll-target="#data-management-preparation">3. Data Management / Preparation</a></li>
+  <li><a href="#exploratory-analysis-or-computational-experiments" id="toc-exploratory-analysis-or-computational-experiments" class="nav-link" data-scroll-target="#exploratory-analysis-or-computational-experiments">4. Exploratory Analysis or Computational Experiments</a></li>
+  <li><a href="#initial-implementation" id="toc-initial-implementation" class="nav-link" data-scroll-target="#initial-implementation">5. Initial Implementation</a></li>
+  <li><a href="#testing-and-validation" id="toc-testing-and-validation" class="nav-link" data-scroll-target="#testing-and-validation">6. Testing and Validation</a></li>
+  <li><a href="#revised-hypotheses-questions-success-criteria" id="toc-revised-hypotheses-questions-success-criteria" class="nav-link" data-scroll-target="#revised-hypotheses-questions-success-criteria">7. Revised Hypotheses / Questions / Success Criteria</a></li>
+  <li><a href="#plan-for-final-analysis" id="toc-plan-for-final-analysis" class="nav-link" data-scroll-target="#plan-for-final-analysis">8. Plan for Final Analysis</a></li>
+  <li><a href="#preliminary-deliverable" id="toc-preliminary-deliverable" class="nav-link" data-scroll-target="#preliminary-deliverable">Preliminary Deliverable</a></li>
+  </ul></li>
+  <li><a href="#phase-iii-final-project" id="toc-phase-iii-final-project" class="nav-link" data-scroll-target="#phase-iii-final-project">Phase III: Final Project</a>
+  <ul class="collapse">
+  <li><a href="#title-1" id="toc-title-1" class="nav-link" data-scroll-target="#title-1">1. Title</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">2. Summary</a></li>
+  <li><a href="#problem-research-question-1" id="toc-problem-research-question-1" class="nav-link" data-scroll-target="#problem-research-question-1">3. Problem / Research Question</a></li>
+  <li><a href="#background-1" id="toc-background-1" class="nav-link" data-scroll-target="#background-1">4. Background</a></li>
+  <li><a href="#data-inputs" id="toc-data-inputs" class="nav-link" data-scroll-target="#data-inputs">5. Data / Inputs</a></li>
+  <li><a href="#methods" id="toc-methods" class="nav-link" data-scroll-target="#methods">6. Methods</a></li>
+  <li><a href="#exploratory-analysis-computational-results" id="toc-exploratory-analysis-computational-results" class="nav-link" data-scroll-target="#exploratory-analysis-computational-results">7. Exploratory Analysis / Computational Results</a></li>
+  <li><a href="#main-results" id="toc-main-results" class="nav-link" data-scroll-target="#main-results">8. Main Results</a></li>
+  <li><a href="#validation-and-robustness" id="toc-validation-and-robustness" class="nav-link" data-scroll-target="#validation-and-robustness">9. Validation and Robustness</a></li>
+  <li><a href="#interpretation" id="toc-interpretation" class="nav-link" data-scroll-target="#interpretation">10. Interpretation</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">11. Conclusion</a></li>
+  <li><a href="#computational-documentation" id="toc-computational-documentation" class="nav-link" data-scroll-target="#computational-documentation">12. Computational Documentation</a></li>
+  </ul></li>
+  <li><a href="#code-quality" id="toc-code-quality" class="nav-link" data-scroll-target="#code-quality">Code Quality</a></li>
+  <li><a href="#version-control" id="toc-version-control" class="nav-link" data-scroll-target="#version-control">Version Control</a></li>
+  <li><a href="#reproducibility" id="toc-reproducibility" class="nav-link" data-scroll-target="#reproducibility">Reproducibility</a></li>
+  <li><a href="#use-of-generative-ai" id="toc-use-of-generative-ai" class="nav-link" data-scroll-target="#use-of-generative-ai">Use of Generative AI</a></li>
+  <li><a href="#final-presentation" id="toc-final-presentation" class="nav-link" data-scroll-target="#final-presentation">Final Presentation</a>
+  <ul class="collapse">
+  <li><a href="#slide-1-problem" id="toc-slide-1-problem" class="nav-link" data-scroll-target="#slide-1-problem">Slide 1 — Problem</a></li>
+  <li><a href="#slide-2-approach" id="toc-slide-2-approach" class="nav-link" data-scroll-target="#slide-2-approach">Slide 2 — Approach</a></li>
+  <li><a href="#slides-34-results" id="toc-slides-34-results" class="nav-link" data-scroll-target="#slides-34-results">Slides 3–4 — Results</a></li>
+  <li><a href="#slide-5-conclusion" id="toc-slide-5-conclusion" class="nav-link" data-scroll-target="#slide-5-conclusion">Slide 5 — Conclusion</a></li>
+  </ul></li>
+  <li><a href="#suggested-final-repository" id="toc-suggested-final-repository" class="nav-link" data-scroll-target="#suggested-final-repository">Suggested Final Repository</a></li>
+  <li><a href="#grading" id="toc-grading" class="nav-link" data-scroll-target="#grading">Grading</a>
+  <ul class="collapse">
+  <li><a href="#what-distinguishes-an-excellent-project" id="toc-what-distinguishes-an-excellent-project" class="nav-link" data-scroll-target="#what-distinguishes-an-excellent-project">What distinguishes an excellent project?</a></li>
+  </ul></li>
+  <li><a href="#choosing-a-good-project" id="toc-choosing-a-good-project" class="nav-link" data-scroll-target="#choosing-a-good-project">Choosing a Good Project</a></li>
+  <li><a href="#example-project-ideas" id="toc-example-project-ideas" class="nav-link" data-scroll-target="#example-project-ideas">Example Project Ideas</a>
+  <ul class="collapse">
+  <li><a href="#data-analysis-1" id="toc-data-analysis-1" class="nav-link" data-scroll-target="#data-analysis-1">Data analysis</a></li>
+  <li><a href="#simulation" id="toc-simulation" class="nav-link" data-scroll-target="#simulation">Simulation</a></li>
+  <li><a href="#numerical-computing" id="toc-numerical-computing" class="nav-link" data-scroll-target="#numerical-computing">Numerical computing</a></li>
+  <li><a href="#machine-learning-1" id="toc-machine-learning-1" class="nav-link" data-scroll-target="#machine-learning-1">Machine learning</a></li>
+  <li><a href="#other" id="toc-other" class="nav-link" data-scroll-target="#other">Other</a></li>
+  </ul></li>
+  <li><a href="#final-advice" id="toc-final-advice" class="nav-link" data-scroll-target="#final-advice">Final Advice</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+
+
+
+
+<section id="math-5200-semester-project" class="level1">
+<h1>Math 5200 Semester Project</h1>
+<section id="a-computational-project" class="level2">
+<h2 class="anchored" data-anchor-id="a-computational-project">A Computational Project</h2>
+<p>The semester project is an opportunity to work at length on a computational problem that genuinely interests you while putting together the skills you develop throughout Math 5200.</p>
+<p>The project is deliberately open-ended. You may work on a data-analysis problem, a statistical investigation, a simulation, a numerical-computing problem, a machine-learning application, or another computational problem that you propose.</p>
+<p>The goal is not simply to produce an interesting result. The goal is to demonstrate that you can carry out a <strong>professional computational workflow</strong>:</p>
+<pre class="text"><code>Problem
+   ↓
+Representation
+   ↓
+Algorithm / Method
+   ↓
+Implementation
+   ↓
+Testing
+   ↓
+Analysis
+   ↓
+Validation
+   ↓
+Communication</code></pre>
+<p>A successful project should therefore demonstrate both <strong>substantive thinking</strong> about the problem and <strong>good computational practice</strong>.</p>
+<p>Ideally, the final project will be something you can show to a prospective employer, use as a portfolio piece, or build on in a future course or research project.</p>
+<p>Most importantly, choose something that you find interesting. You will learn more if you are genuinely curious about the problem.</p>
+<hr>
+</section>
+</section>
+<section id="project-options" class="level1">
+<h1>Project Options</h1>
+<p>Your project may take many forms. For example:</p>
+<section id="data-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="data-analysis">Data analysis</h3>
+<p>Investigate an interesting question using one or more real-world datasets.</p>
+<p>Examples might include:</p>
+<ul>
+<li>an economic or financial question;</li>
+<li>a sports question;</li>
+<li>a public-health question;</li>
+<li>an environmental question;</li>
+<li>a question about social or demographic data;</li>
+<li>analysis of a dataset related to your intended profession.</li>
+</ul>
+</section>
+<section id="statistical-investigation" class="level3">
+<h3 class="anchored" data-anchor-id="statistical-investigation">Statistical investigation</h3>
+<p>Use simulation or statistical methods to investigate a question.</p>
+<p>For example:</p>
+<ul>
+<li>investigate the properties of a statistical estimator;</li>
+<li>compare competing statistical methods;</li>
+<li>study the behavior of a hypothesis test;</li>
+<li>investigate bootstrap or Monte Carlo methods;</li>
+<li>examine statistical properties that are difficult to see analytically.</li>
+</ul>
+</section>
+<section id="scientific-or-numerical-computing" class="level3">
+<h3 class="anchored" data-anchor-id="scientific-or-numerical-computing">Scientific or numerical computing</h3>
+<p>Implement and investigate a computational method.</p>
+<p>For example:</p>
+<ul>
+<li>compare numerical methods for solving an equation;</li>
+<li>investigate numerical integration or differentiation;</li>
+<li>study an iterative algorithm;</li>
+<li>solve a differential equation numerically;</li>
+<li>investigate convergence or numerical stability;</li>
+<li>compare alternative algorithms for a computational problem.</li>
+</ul>
+</section>
+<section id="machine-learning" class="level3">
+<h3 class="anchored" data-anchor-id="machine-learning">Machine learning</h3>
+<p>Use a dataset to investigate a prediction or classification problem.</p>
+<p>For example:</p>
+<ul>
+<li>compare several predictive models;</li>
+<li>investigate model performance under different conditions;</li>
+<li>examine feature selection;</li>
+<li>study model validation and out-of-sample performance.</li>
+</ul>
+</section>
+<section id="other-computational-projects" class="level3">
+<h3 class="anchored" data-anchor-id="other-computational-projects">Other computational projects</h3>
+<p>You are welcome to propose another type of project if it involves substantial computational work.</p>
+<p>If you have an idea that does not fit neatly into these categories, discuss it with me.</p>
+<p>The important requirement is that the project should provide a meaningful opportunity to apply the skills developed in Math 5200.</p>
+<hr>
+</section>
+</section>
+<section id="an-important-restriction" class="level1">
+<h1>An Important Restriction</h1>
+<p>The project may <strong>not</strong> simply be a project that you are simultaneously completing for another course or a project that you have already completed.</p>
+<p>You may, however, choose a topic related to your academic or professional interests.</p>
+<p>For example, if you are working on a research topic in another course, you could investigate a related but distinct computational question. The work submitted for Math 5200 must represent substantial new work.</p>
+<p>If you are uncertain whether a proposed project satisfies this requirement, ask me.</p>
+<hr>
+</section>
+<section id="project-timeline" class="level1">
+<h1>Project Timeline</h1>
+<p>The project will develop in three major phases:</p>
+<ol type="1">
+<li><strong>Proposal</strong></li>
+<li><strong>Preliminary Analysis / Prototype</strong></li>
+<li><strong>Final Project</strong></li>
+</ol>
+<p>There will also be a short final presentation.</p>
+<p>The purpose of the staged process is to make the project manageable and to give you feedback before you have invested too much time in an approach that may not work.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 26%">
+<col style="width: 58%">
+<col style="width: 15%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Phase</th>
+<th>Purpose</th>
+<th>Approximate timing</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Proposal</td>
+<td>Define the problem and proposed approach</td>
+<td>XXX</td>
+</tr>
+<tr class="even">
+<td>Preliminary analysis / prototype</td>
+<td>Obtain data or implement an initial method and demonstrate feasibility</td>
+<td>XXX</td>
+</tr>
+<tr class="odd">
+<td>Final project</td>
+<td>Complete the analysis, implementation, validation, and communication</td>
+<td>XXX</td>
+</tr>
+<tr class="even">
+<td>Presentation</td>
+<td>Communicate the main results</td>
+<td>XXX</td>
+</tr>
+</tbody>
+</table>
+<p>Specific deadlines are listed on the course syllabus.</p>
+<hr>
+</section>
+<section id="project-repository" class="level1">
+<h1>Project Repository</h1>
+<p>Your project should be maintained in a Git repository.</p>
+<p>The repository should contain the code, documentation, data-management instructions, and other computational materials necessary to understand and reproduce your work.</p>
+<p>A typical project might have a structure such as:</p>
+<pre class="text"><code>my-project/
+│
+├── README.md
+├── requirements.txt        # if needed
+├── renv.lock               # if using R/renv
+│
+├── data/
+│   ├── raw/
+│   └── processed/
+│
+├── src/
+│   ├── analysis.py
+│   └── ...
+│
+├── tests/
+│   └── ...
+│
+├── notebooks/
+│   └── ...
+│
+├── output/
+│   ├── figures/
+│   └── tables/
+│
+└── report/
+    └── final_report.qmd</code></pre>
+<p>Your project does <strong>not</strong> have to use exactly this structure. The appropriate organization will depend on the project.</p>
+<p>However, your repository should make it reasonably easy for another person to answer:</p>
+<ul>
+<li>What is this project?</li>
+<li>How do I run it?</li>
+<li>What software do I need?</li>
+<li>Where does the data come from?</li>
+<li>How are the data processed?</li>
+<li>Where is the main analysis?</li>
+<li>How are the results generated?</li>
+<li>How can I reproduce the results?</li>
+</ul>
+<p>You will be assessed partly on how well your repository communicates this information.</p>
+<hr>
+</section>
+<section id="phase-i-proposal" class="level1">
+<h1>Phase I: Proposal</h1>
+<section id="purpose" class="level2">
+<h2 class="anchored" data-anchor-id="purpose">Purpose</h2>
+<p>The purpose of the proposal is to identify an interesting computational problem and develop a plausible initial plan for addressing it.</p>
+<p>You do <strong>not</strong> need to know exactly what your final analysis or implementation will look like. In fact, some evolution of the project is expected.</p>
+<p>You should, however, demonstrate that:</p>
+<ol type="1">
+<li>you have identified a meaningful problem;</li>
+<li>you understand why it is interesting;</li>
+<li>you have identified the resources needed to work on it;</li>
+<li>you have a plausible computational approach;</li>
+<li>the project is feasible within the time available.</li>
+</ol>
+</section>
+<section id="proposal" class="level2">
+<h2 class="anchored" data-anchor-id="proposal">Proposal</h2>
+<p>Your proposal should contain the following sections.</p>
+<section id="title" class="level3">
+<h3 class="anchored" data-anchor-id="title">1. Title</h3>
+<p>Give your project a tentative title.</p>
+<p>The title can change later.</p>
+</section>
+<section id="project-summary" class="level3">
+<h3 class="anchored" data-anchor-id="project-summary">2. Project Summary</h3>
+<p><strong>Approximately 100 words.</strong></p>
+<p>Briefly describe:</p>
+<ul>
+<li>the problem;</li>
+<li>why it is interesting;</li>
+<li>the approach you expect to take;</li>
+<li>what you hope to learn or demonstrate.</li>
+</ul>
+<p>Write this section last.</p>
+</section>
+<section id="problem-research-question" class="level3">
+<h3 class="anchored" data-anchor-id="problem-research-question">3. Problem / Research Question</h3>
+<p>What computational problem are you trying to solve?</p>
+<p>For a data-analysis project, this may be a research question.</p>
+<p>For a numerical-computing project, it might be a computational objective.</p>
+<p>For a machine-learning project, it might be a prediction or classification problem.</p>
+<p>Try to state the central question or objective as clearly as possible.</p>
+<p>Also explain why you are interested in it.</p>
+</section>
+<section id="background" class="level3">
+<h3 class="anchored" data-anchor-id="background">4. Background</h3>
+<p>Provide enough background for an educated reader to understand the problem.</p>
+<p>You do not need to write a comprehensive literature review.</p>
+<p>Instead, explain:</p>
+<ul>
+<li>what the broader problem is;</li>
+<li>what is already known;</li>
+<li>why your question or computational problem is interesting;</li>
+<li>who might care about the answer.</li>
+</ul>
+<p>Include relevant references where appropriate.</p>
+</section>
+<section id="data-inputs-or-computational-resources" class="level3">
+<h3 class="anchored" data-anchor-id="data-inputs-or-computational-resources">5. Data, Inputs, or Computational Resources</h3>
+<p>Describe the data or other inputs you expect to use.</p>
+<p>For a data-based project, discuss:</p>
+<ul>
+<li>the data source;</li>
+<li>how you will obtain the data;</li>
+<li>the observations and variables that are relevant;</li>
+<li>expected data-cleaning requirements;</li>
+<li>any limitations of the data.</li>
+</ul>
+<p>For a simulation or numerical project, describe:</p>
+<ul>
+<li>the mathematical inputs;</li>
+<li>algorithms or methods you expect to implement;</li>
+<li>relevant computational resources;</li>
+<li>any software or packages you expect to use.</li>
+</ul>
+<p><strong>Important:</strong> Make sure that the resources you propose to use are actually available.</p>
+<p>For a data project, you should obtain at least a sample of the data before submitting the proposal.</p>
+</section>
+<section id="proposed-computational-approach" class="level3">
+<h3 class="anchored" data-anchor-id="proposed-computational-approach">6. Proposed Computational Approach</h3>
+<p>Describe what you expect to do.</p>
+<p>This section should be concrete.</p>
+<p>For example:</p>
+<ul>
+<li>What algorithms will you implement?</li>
+<li>What quantities will you calculate?</li>
+<li>What transformations will you perform?</li>
+<li>What models will you estimate?</li>
+<li>What simulations will you conduct?</li>
+<li>What comparisons will you make?</li>
+<li>What visualizations will you produce?</li>
+<li>What computational experiments will you perform?</li>
+</ul>
+<p>Your proposed approach does not need to be final.</p>
+<p>Exploratory work may cause you to change your approach.</p>
+</section>
+<section id="expected-results" class="level3">
+<h3 class="anchored" data-anchor-id="expected-results">7. Expected Results</h3>
+<p>What do you expect to learn?</p>
+<p>Whenever possible, formulate specific hypotheses, predictions, comparisons, or success criteria.</p>
+<p>For example:</p>
+<ul>
+<li>“Method A should converge faster than Method B for…”</li>
+<li>“I expect X to be positively associated with Y.”</li>
+<li>“I will compare predictive performance using out-of-sample RMSE.”</li>
+<li>“I will investigate how the estimator’s bias changes as the sample size increases.”</li>
+</ul>
+<p>You should approach the project with expectations, even though the data or computational experiments may ultimately surprise you.</p>
+</section>
+<section id="initial-project-plan" class="level3">
+<h3 class="anchored" data-anchor-id="initial-project-plan">8. Initial Project Plan</h3>
+<p>Provide a short list of the major steps you expect to take.</p>
+<p>For example:</p>
+<pre class="text"><code>1. Obtain and inspect the data.
+2. Clean and transform the data.
+3. Construct initial descriptive statistics.
+4. Implement the baseline algorithm.
+5. Validate the implementation.
+6. Conduct exploratory analysis.
+7. Estimate the proposed models.
+8. Perform robustness checks.
+9. Produce final figures and tables.
+10. Write and document the final project.</code></pre>
+<p>This plan is expected to evolve.</p>
+</section>
+</section>
+<section id="proposal-deliverable" class="level2">
+<h2 class="anchored" data-anchor-id="proposal-deliverable">Proposal Deliverable</h2>
+<p>Submit:</p>
+<ul>
+<li>the written proposal;</li>
+<li>the URL to your project repository;</li>
+<li>any initial code, data, or computational prototype that demonstrates feasibility.</li>
+</ul>
+<p><strong>Format:</strong> XXX</p>
+<hr>
+</section>
+</section>
+<section id="phase-ii-preliminary-analysis-prototype" class="level1">
+<h1>Phase II: Preliminary Analysis / Prototype</h1>
+<section id="purpose-1" class="level2">
+<h2 class="anchored" data-anchor-id="purpose-1">Purpose</h2>
+<p>The purpose of this phase is to determine whether your proposed project actually works.</p>
+<p>This is where you move from an idea to a functioning computational project.</p>
+<p>By the end of this phase, you should have:</p>
+<ul>
+<li>obtained and inspected your data or computational inputs;</li>
+<li>established a workable project structure;</li>
+<li>implemented at least an initial version of your computational approach;</li>
+<li>performed meaningful exploratory analysis or computational experiments;</li>
+<li>identified important problems or limitations;</li>
+<li>refined your research question or computational objective;</li>
+<li>developed a more specific plan for the final project.</li>
+</ul>
+<p>The preliminary phase is <strong>not expected to be polished</strong>. It is an opportunity to discover what does and does not work.</p>
+<hr>
+</section>
+<section id="revised-problem-statement" class="level2">
+<h2 class="anchored" data-anchor-id="revised-problem-statement">1. Revised Problem Statement</h2>
+<p>Begin by briefly restating your original problem or research question.</p>
+<p>Explain any important changes from the proposal and why you made them.</p>
+<hr>
+</section>
+<section id="data-and-computational-inputs" class="level2">
+<h2 class="anchored" data-anchor-id="data-and-computational-inputs">2. Data and Computational Inputs</h2>
+<p>Describe the data or inputs that you actually obtained.</p>
+<p>For data projects, include:</p>
+<ul>
+<li>data sources;</li>
+<li>number of observations;</li>
+<li>relevant variables;</li>
+<li>missing observations;</li>
+<li>unusual or problematic observations;</li>
+<li>important transformations.</li>
+</ul>
+<p>For numerical or simulation projects, describe:</p>
+<ul>
+<li>the computational inputs;</li>
+<li>parameter choices;</li>
+<li>algorithms implemented;</li>
+<li>numerical methods;</li>
+<li>relevant assumptions.</li>
+</ul>
+<hr>
+</section>
+<section id="data-management-preparation" class="level2">
+<h2 class="anchored" data-anchor-id="data-management-preparation">3. Data Management / Preparation</h2>
+<p>Document the steps required to turn the original inputs into usable analysis data.</p>
+<p>For example:</p>
+<ul>
+<li>importing files;</li>
+<li>parsing data types;</li>
+<li>cleaning variables;</li>
+<li>handling missing observations;</li>
+<li>identifying duplicates;</li>
+<li>joining datasets;</li>
+<li>transforming variables;</li>
+<li>filtering observations;</li>
+<li>creating derived variables.</li>
+</ul>
+<p>Your goal is not simply to produce a clean dataset. You should be able to explain <strong>how you produced it</strong>.</p>
+<p>The code used to perform these steps should be part of your project repository.</p>
+<hr>
+</section>
+<section id="exploratory-analysis-or-computational-experiments" class="level2">
+<h2 class="anchored" data-anchor-id="exploratory-analysis-or-computational-experiments">4. Exploratory Analysis or Computational Experiments</h2>
+<p>Investigate your data or computational problem.</p>
+<p>Depending on the project, this might include:</p>
+<ul>
+<li>descriptive statistics;</li>
+<li>distributions;</li>
+<li>correlations;</li>
+<li>scatter plots;</li>
+<li>time-series plots;</li>
+<li>comparisons across groups;</li>
+<li>simulations;</li>
+<li>numerical experiments;</li>
+<li>convergence analysis;</li>
+<li>computational benchmarks;</li>
+<li>preliminary model estimates.</li>
+</ul>
+<p>Do not simply produce a collection of plots.</p>
+<p>Explain what you learned from them.</p>
+<p>Identify patterns that matter for your original question and identify anything unexpected.</p>
+<hr>
+</section>
+<section id="initial-implementation" class="level2">
+<h2 class="anchored" data-anchor-id="initial-implementation">5. Initial Implementation</h2>
+<p>Provide an initial working implementation of the main computational method.</p>
+<p>The implementation does not need to be final, but it should be sufficiently developed to demonstrate that the proposed approach is feasible.</p>
+<p>Discuss:</p>
+<ul>
+<li>the algorithm or method;</li>
+<li>important implementation decisions;</li>
+<li>relevant data structures;</li>
+<li>computational limitations;</li>
+<li>any problems encountered.</li>
+</ul>
+<hr>
+</section>
+<section id="testing-and-validation" class="level2">
+<h2 class="anchored" data-anchor-id="testing-and-validation">6. Testing and Validation</h2>
+<p>Your project should include evidence that your code is producing correct results.</p>
+<p>Depending on the project, this might include:</p>
+<ul>
+<li>unit tests;</li>
+<li>tests against known answers;</li>
+<li>comparison with an independent implementation;</li>
+<li>simulations with known properties;</li>
+<li>numerical convergence checks;</li>
+<li>sanity checks;</li>
+<li>validation on held-out data.</li>
+</ul>
+<p>Explain what you tested and why those tests provide evidence that your implementation is correct.</p>
+<p>This is an important part of the project.</p>
+<p><strong>A program producing output is not evidence by itself that the program is correct.</strong></p>
+<hr>
+</section>
+<section id="revised-hypotheses-questions-success-criteria" class="level2">
+<h2 class="anchored" data-anchor-id="revised-hypotheses-questions-success-criteria">7. Revised Hypotheses / Questions / Success Criteria</h2>
+<p>Based on your preliminary work, state the specific questions you will address in the final project.</p>
+<p>For a data-analysis project, these may be testable hypotheses.</p>
+<p>For a numerical project, they may be computational comparisons or performance criteria.</p>
+<p>For a machine-learning project, they may be predictive-performance criteria.</p>
+<p>Be specific enough that the reader can understand what constitutes a successful answer.</p>
+<hr>
+</section>
+<section id="plan-for-final-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="plan-for-final-analysis">8. Plan for Final Analysis</h2>
+<p>Explain what remains to be done.</p>
+<p>List the major analyses, computational experiments, models, figures, tables, or other outputs you expect to produce.</p>
+<p>It is perfectly acceptable for this plan to differ substantially from your original proposal.</p>
+</section>
+<section id="preliminary-deliverable" class="level2">
+<h2 class="anchored" data-anchor-id="preliminary-deliverable">Preliminary Deliverable</h2>
+<p>Submit:</p>
+<ul>
+<li>revised project description;</li>
+<li>preliminary analysis or computational experiments;</li>
+<li>initial implementation;</li>
+<li>evidence of testing/validation;</li>
+<li>updated project plan;</li>
+<li>updated project repository.</li>
+</ul>
+<p><strong>Format:</strong> XXX</p>
+<hr>
+</section>
+</section>
+<section id="phase-iii-final-project" class="level1">
+<h1>Phase III: Final Project</h1>
+<p>The final project should bring together the work from the previous phases into a coherent computational product.</p>
+<p>The final submission should stand on its own.</p>
+<p>It should not simply consist of copying and pasting the previous assignments together. Revise and reorganize your work so that the final product tells a coherent story.</p>
+<p>The exact structure will depend on the nature of your project, but most projects should contain the following components.</p>
+<hr>
+<section id="title-1" class="level2">
+<h2 class="anchored" data-anchor-id="title-1">1. Title</h2>
+<p>Provide a concise and informative title.</p>
+<hr>
+</section>
+<section id="summary" class="level2">
+<h2 class="anchored" data-anchor-id="summary">2. Summary</h2>
+<p><strong>Approximately 150–200 words.</strong></p>
+<p>Briefly explain:</p>
+<ul>
+<li>the problem;</li>
+<li>why it matters;</li>
+<li>your approach;</li>
+<li>your principal results;</li>
+<li>what you learned.</li>
+</ul>
+<p>Write this section last.</p>
+<hr>
+</section>
+<section id="problem-research-question-1" class="level2">
+<h2 class="anchored" data-anchor-id="problem-research-question-1">3. Problem / Research Question</h2>
+<p>Clearly state the problem you investigated.</p>
+<p>Explain why it is interesting and what you set out to determine.</p>
+<hr>
+</section>
+<section id="background-1" class="level2">
+<h2 class="anchored" data-anchor-id="background-1">4. Background</h2>
+<p>Provide the background necessary to understand the problem.</p>
+<p>Keep this focused.</p>
+<p>The purpose is to establish context, not to demonstrate how much literature you were able to find.</p>
+<hr>
+</section>
+<section id="data-inputs" class="level2">
+<h2 class="anchored" data-anchor-id="data-inputs">5. Data / Inputs</h2>
+<p>Describe the data or computational inputs used in the final analysis.</p>
+<p>Explain:</p>
+<ul>
+<li>where they came from;</li>
+<li>how they were obtained;</li>
+<li>important characteristics;</li>
+<li>relevant limitations.</li>
+</ul>
+<hr>
+</section>
+<section id="methods" class="level2">
+<h2 class="anchored" data-anchor-id="methods">6. Methods</h2>
+<p>Describe the computational methods used.</p>
+<p>Depending on the project, this may include:</p>
+<ul>
+<li>algorithms;</li>
+<li>statistical models;</li>
+<li>numerical methods;</li>
+<li>simulation procedures;</li>
+<li>machine-learning models;</li>
+<li>data transformations;</li>
+<li>computational experiments.</li>
+</ul>
+<p>The reader should understand what you did well enough to evaluate the appropriateness of the approach.</p>
+<hr>
+</section>
+<section id="exploratory-analysis-computational-results" class="level2">
+<h2 class="anchored" data-anchor-id="exploratory-analysis-computational-results">7. Exploratory Analysis / Computational Results</h2>
+<p>Present the initial results that help establish the structure of the problem.</p>
+<p>Use appropriate:</p>
+<ul>
+<li>tables;</li>
+<li>figures;</li>
+<li>visualizations;</li>
+<li>numerical summaries;</li>
+<li>computational experiments.</li>
+</ul>
+<p>Every figure and table should have a purpose.</p>
+<p>Do not include output simply because your program produced it.</p>
+<hr>
+</section>
+<section id="main-results" class="level2">
+<h2 class="anchored" data-anchor-id="main-results">8. Main Results</h2>
+<p>Present the principal results of your analysis or computational experiments.</p>
+<p>Depending on the project, this might include:</p>
+<ul>
+<li>statistical model estimates;</li>
+<li>prediction results;</li>
+<li>simulation results;</li>
+<li>numerical accuracy;</li>
+<li>convergence;</li>
+<li>algorithmic performance;</li>
+<li>computational speed;</li>
+<li>comparisons between methods.</li>
+</ul>
+<hr>
+</section>
+<section id="validation-and-robustness" class="level2">
+<h2 class="anchored" data-anchor-id="validation-and-robustness">9. Validation and Robustness</h2>
+<p>Explain how you determined that your results are credible.</p>
+<p>Depending on the project, this might include:</p>
+<ul>
+<li>statistical tests;</li>
+<li>alternative specifications;</li>
+<li>out-of-sample evaluation;</li>
+<li>sensitivity analysis;</li>
+<li>simulation;</li>
+<li>comparison with known results;</li>
+<li>independent implementation;</li>
+<li>unit tests;</li>
+<li>numerical checks.</li>
+</ul>
+<hr>
+</section>
+<section id="interpretation" class="level2">
+<h2 class="anchored" data-anchor-id="interpretation">10. Interpretation</h2>
+<p>What do the results actually mean?</p>
+<p>Return explicitly to the original research question or computational objective.</p>
+<p>Do not simply describe the output.</p>
+<p>Explain what you learned.</p>
+<p>Also discuss important limitations.</p>
+<hr>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">11. Conclusion</h2>
+<p>Summarize the main findings.</p>
+<p>Discuss:</p>
+<ul>
+<li>the principal conclusion;</li>
+<li>limitations;</li>
+<li>unanswered questions;</li>
+<li>possible extensions.</li>
+</ul>
+<hr>
+</section>
+<section id="computational-documentation" class="level2">
+<h2 class="anchored" data-anchor-id="computational-documentation">12. Computational Documentation</h2>
+<p>Your repository should contain enough information for another student with a similar computer to understand how to reproduce your work.</p>
+<p>At a minimum, provide a <code>README.md</code> explaining:</p>
+<ul>
+<li>what the project does;</li>
+<li>how to install dependencies;</li>
+<li>how to obtain the data;</li>
+<li>how the project is organized;</li>
+<li>how to run the analysis;</li>
+<li>where the principal results are produced.</li>
+</ul>
+<p>Use an appropriate dependency/environment file such as:</p>
+<ul>
+<li><code>requirements.txt</code> for Python;</li>
+<li><code>renv.lock</code> for R, if applicable;</li>
+<li>or another appropriate mechanism approved by the instructor.</li>
+</ul>
+<p>If data cannot legally or practically be included in the repository, provide instructions for obtaining it.</p>
+<hr>
+</section>
+</section>
+<section id="code-quality" class="level1">
+<h1>Code Quality</h1>
+<p>Your project code should demonstrate the programming practices developed in Math 5200.</p>
+<p>Among other things, consider:</p>
+<ul>
+<li>meaningful variable and function names;</li>
+<li>functions that perform clear tasks;</li>
+<li>avoiding unnecessary duplication;</li>
+<li>appropriate comments and documentation;</li>
+<li>sensible project organization;</li>
+<li>appropriate use of data structures;</li>
+<li>error handling where appropriate;</li>
+<li>tests for important functionality;</li>
+<li>reproducible analysis;</li>
+<li>separation of raw data, processed data, code, and results.</li>
+</ul>
+<p>You are not expected to produce professional production software.</p>
+<p>You are expected to demonstrate that you understand the principles of writing reliable and maintainable computational code.</p>
+<hr>
+</section>
+<section id="version-control" class="level1">
+<h1>Version Control</h1>
+<p>Your project repository should show evidence of meaningful use of Git.</p>
+<p>This does <strong>not</strong> mean that you should create dozens of meaningless commits simply to increase the commit count.</p>
+<p>Instead, your repository should show a sensible development history.</p>
+<p>For example:</p>
+<pre class="text"><code>Initial project structure
+        ↓
+Add data acquisition
+        ↓
+Implement data cleaning
+        ↓
+Add exploratory analysis
+        ↓
+Implement model
+        ↓
+Add tests
+        ↓
+Revise analysis
+        ↓
+Final results
+        ↓
+Final documentation</code></pre>
+<p>The purpose is to demonstrate that you understand version control as part of a computational workflow.</p>
+<hr>
+</section>
+<section id="reproducibility" class="level1">
+<h1>Reproducibility</h1>
+<p>Your final project should make a reasonable effort to allow another person to reproduce your results.</p>
+<p>This includes, where applicable:</p>
+<ul>
+<li>recording software dependencies;</li>
+<li>documenting data sources;</li>
+<li>separating raw and processed data;</li>
+<li>avoiding undocumented manual transformations;</li>
+<li>setting random seeds when appropriate;</li>
+<li>documenting important computational choices;</li>
+<li>generating figures and tables programmatically;</li>
+<li>providing instructions for running the analysis.</li>
+</ul>
+<p>Perfect reproducibility is not always possible. For example, a large proprietary dataset or external API may not be available to another person.</p>
+<p>In such cases, clearly document what you did and what would be required to reproduce the results.</p>
+<hr>
+</section>
+<section id="use-of-generative-ai" class="level1">
+<h1>Use of Generative AI</h1>
+<p>You may use generative AI tools only according to the rules specified for the project.</p>
+<p>Because responsible AI-assisted programming is itself a learning objective of this course, the final project may provide opportunities to use AI tools.</p>
+<p>If AI assistance is permitted, you remain responsible for:</p>
+<ul>
+<li>understanding the submitted code;</li>
+<li>testing it;</li>
+<li>validating its results;</li>
+<li>checking references and factual claims;</li>
+<li>ensuring that it actually addresses the project objective.</li>
+</ul>
+<p>You should not treat AI-generated code as automatically correct.</p>
+<p>If you use AI substantially in the project, document that use according to the instructions provided by the instructor.</p>
+<hr>
+</section>
+<section id="final-presentation" class="level1">
+<h1>Final Presentation</h1>
+<p>Each student will give a short presentation of the project.</p>
+<p>The presentation will be approximately <strong>5 minutes</strong>.</p>
+<p>Five minutes is short. The objective is therefore not to describe everything you did.</p>
+<p>Instead, communicate the most important parts of the project:</p>
+<ol type="1">
+<li>What was the problem?</li>
+<li>Why was it interesting?</li>
+<li>What did you do?</li>
+<li>What did you find?</li>
+<li>What should the audience take away?</li>
+</ol>
+<p>A reasonable starting structure is:</p>
+<section id="slide-1-problem" class="level3">
+<h3 class="anchored" data-anchor-id="slide-1-problem">Slide 1 — Problem</h3>
+<ul>
+<li>Project title</li>
+<li>Your name</li>
+<li>Research question / computational objective</li>
+<li>Brief motivation</li>
+</ul>
+</section>
+<section id="slide-2-approach" class="level3">
+<h3 class="anchored" data-anchor-id="slide-2-approach">Slide 2 — Approach</h3>
+<ul>
+<li>Data or computational inputs</li>
+<li>Main method</li>
+<li>Important methodological choice</li>
+</ul>
+</section>
+<section id="slides-34-results" class="level3">
+<h3 class="anchored" data-anchor-id="slides-34-results">Slides 3–4 — Results</h3>
+<ul>
+<li>Most important figures, tables, or computational results</li>
+<li>Interpretation of those results</li>
+</ul>
+</section>
+<section id="slide-5-conclusion" class="level3">
+<h3 class="anchored" data-anchor-id="slide-5-conclusion">Slide 5 — Conclusion</h3>
+<ul>
+<li>Main finding</li>
+<li>Limitations</li>
+<li>One important takeaway</li>
+</ul>
+<p>You may use fewer or more slides if appropriate.</p>
+<p>The presentation should emphasize <strong>results and insight rather than code</strong>. You do not need to show large blocks of code.</p>
+<hr>
+</section>
+</section>
+<section id="suggested-final-repository" class="level1">
+<h1>Suggested Final Repository</h1>
+<p>A well-organized final repository might look something like:</p>
+<pre class="text"><code>project/
+│
+├── README.md
+├── requirements.txt
+│
+├── data/
+│   ├── raw/
+│   └── processed/
+│
+├── src/
+│   ├── download_data.py
+│   ├── clean_data.py
+│   ├── analysis.py
+│   └── ...
+│
+├── tests/
+│   └── test_*.py
+│
+├── notebooks/
+│   └── exploratory_analysis.qmd
+│
+├── output/
+│   ├── figures/
+│   └── tables/
+│
+└── report/
+    └── final_report.qmd</code></pre>
+<p>Again, this is an example rather than a required structure.</p>
+<p>The organization should make sense for your particular project.</p>
+<hr>
+</section>
+<section id="grading" class="level1">
+<h1>Grading</h1>
+<p>The project will be evaluated on both the <strong>substantive quality of the work</strong> and the <strong>quality of the computational process</strong>.</p>
+<p>A suggested rubric is:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Category</th>
+<th style="text-align: right;">Points</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Project question and motivation</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="even">
+<td>Data / computational inputs and preparation</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="odd">
+<td>Computational methods and implementation</td>
+<td style="text-align: right;">10</td>
+</tr>
+<tr class="even">
+<td>Testing and validation</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="odd">
+<td>Analysis and results</td>
+<td style="text-align: right;">10</td>
+</tr>
+<tr class="even">
+<td>Code organization and quality</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="odd">
+<td>Reproducibility and documentation</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="even">
+<td>Final presentation</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="odd">
+<td><strong>Total</strong></td>
+<td style="text-align: right;"><strong>50</strong></td>
+</tr>
+</tbody>
+</table>
+<p>The exact allocation may be adjusted.</p>
+<section id="what-distinguishes-an-excellent-project" class="level2">
+<h2 class="anchored" data-anchor-id="what-distinguishes-an-excellent-project">What distinguishes an excellent project?</h2>
+<p>An excellent project will generally:</p>
+<ul>
+<li>ask an interesting and appropriately scoped question;</li>
+<li>use an appropriate computational approach;</li>
+<li>demonstrate substantial independent programming;</li>
+<li>contain well-organized and understandable code;</li>
+<li>include meaningful testing and validation;</li>
+<li>present clear and informative results;</li>
+<li>acknowledge limitations;</li>
+<li>be reproducible or well documented;</li>
+<li>communicate the results effectively.</li>
+</ul>
+<p>A project does <strong>not</strong> need to use sophisticated mathematics or advanced machine learning to receive a high grade.</p>
+<p>A relatively simple question investigated carefully, with excellent computational practice, can be a much stronger project than an ambitious question investigated superficially.</p>
+<hr>
+</section>
+</section>
+<section id="choosing-a-good-project" class="level1">
+<h1>Choosing a Good Project</h1>
+<p>The most common project problem is <strong>scope</strong>.</p>
+<p>A project that sounds interesting can easily become too large.</p>
+<p>A good project should have:</p>
+<ul>
+<li>a clear question;</li>
+<li>accessible data or computational inputs;</li>
+<li>a manageable number of methods;</li>
+<li>a realistic amount of programming;</li>
+<li>a clear definition of what constitutes a useful result.</li>
+</ul>
+<p>You should generally prefer:</p>
+<blockquote class="blockquote">
+<p><strong>One interesting question investigated carefully</strong></p>
+</blockquote>
+<p>over:</p>
+<blockquote class="blockquote">
+<p><strong>Ten interesting questions investigated superficially.</strong></p>
+</blockquote>
+<p>If you are uncertain whether your project is appropriately scoped, discuss it with me early.</p>
+<hr>
+</section>
+<section id="example-project-ideas" class="level1">
+<h1>Example Project Ideas</h1>
+<p>These are examples to illustrate the range of projects that would be appropriate. You are not expected to choose one of these.</p>
+<section id="data-analysis-1" class="level3">
+<h3 class="anchored" data-anchor-id="data-analysis-1">Data analysis</h3>
+<ul>
+<li>What factors are associated with housing prices in a particular region?</li>
+<li>How have patterns in a particular economic variable changed over time?</li>
+<li>Can publicly available data be used to explain differences in some outcome across geographic regions?</li>
+<li>What factors predict an outcome in a sports dataset?</li>
+</ul>
+</section>
+<section id="simulation" class="level3">
+<h3 class="anchored" data-anchor-id="simulation">Simulation</h3>
+<ul>
+<li>How does the performance of a statistical estimator change with sample size?</li>
+<li>How accurately can Monte Carlo methods estimate a difficult probability?</li>
+<li>How does multiple-testing correction affect statistical power?</li>
+<li>How does a random process behave under different parameterizations?</li>
+</ul>
+</section>
+<section id="numerical-computing" class="level3">
+<h3 class="anchored" data-anchor-id="numerical-computing">Numerical computing</h3>
+<ul>
+<li>How do different numerical integration methods compare in accuracy and speed?</li>
+<li>How does the convergence rate of an iterative algorithm depend on initialization?</li>
+<li>How do different methods for solving a differential equation compare?</li>
+<li>When does floating-point error materially affect a numerical algorithm?</li>
+</ul>
+</section>
+<section id="machine-learning-1" class="level3">
+<h3 class="anchored" data-anchor-id="machine-learning-1">Machine learning</h3>
+<ul>
+<li>How do different models perform on a particular prediction problem?</li>
+<li>How does model performance change with sample size?</li>
+<li>How important are different features for prediction?</li>
+<li>How do regularization methods affect out-of-sample performance?</li>
+</ul>
+</section>
+<section id="other" class="level3">
+<h3 class="anchored" data-anchor-id="other">Other</h3>
+<p>If you have another idea, propose it.</p>
+<p>A project does not need to fit into a predetermined category as long as it involves substantial computational work and allows you to apply the skills of the course.</p>
+<hr>
+</section>
+</section>
+<section id="final-advice" class="level1">
+<h1>Final Advice</h1>
+<p>Start early.</p>
+<p>The project is intentionally divided into phases because <strong>the first idea you have is unlikely to be the final project</strong>.</p>
+<p>You will probably discover that:</p>
+<ul>
+<li>a dataset is less useful than you expected;</li>
+<li>a variable is missing;</li>
+<li>an algorithm is harder to implement than anticipated;</li>
+<li>an initial hypothesis is wrong;</li>
+<li>a model does not perform as expected;</li>
+<li>an interesting new question emerges during exploration.</li>
+</ul>
+<p>These are not failures. They are normal parts of computational work.</p>
+<p>The purpose of the project is to give you experience with the entire process:</p>
+<pre class="text"><code>Ask a question
+      ↓
+Figure out how to represent it
+      ↓
+Write code
+      ↓
+Discover that something doesn't work
+      ↓
+Debug it
+      ↓
+Test it
+      ↓
+Explore the data / computation
+      ↓
+Change your approach
+      ↓
+Validate your results
+      ↓
+Communicate what you learned</code></pre>
+<p>That process is one of the most important things you should take away from Math 5200.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

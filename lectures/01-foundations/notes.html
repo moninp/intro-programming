@@ -1,0 +1,2193 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Lecture 1 — Foundations, Computation &amp; Binary Representations – Computing Using R &amp; Python</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-172ba59bd5e0b52282274ba0c0cc16fc.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Computing Using R &amp; Python</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../syllabus.html"> 
+<span class="menu-text">Syllabus</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">1. Introduction</a></li>
+  <li><a href="#mathematical-work-versus-computational-work" id="toc-mathematical-work-versus-computational-work" class="nav-link" data-scroll-target="#mathematical-work-versus-computational-work">2. Mathematical Work versus Computational Work</a>
+  <ul class="collapse">
+  <li><a href="#algorithms" id="toc-algorithms" class="nav-link" data-scroll-target="#algorithms">2.1 Algorithms</a></li>
+  </ul></li>
+  <li><a href="#python-as-a-computational-language" id="toc-python-as-a-computational-language" class="nav-link" data-scroll-target="#python-as-a-computational-language">3. Python as a Computational Language</a></li>
+  <li><a href="#variables-names-objects-and-state" id="toc-variables-names-objects-and-state" class="nav-link" data-scroll-target="#variables-names-objects-and-state">4. Variables, Names, Objects, and State</a>
+  <ul class="collapse">
+  <li><a href="#mathematical-variables" id="toc-mathematical-variables" class="nav-link" data-scroll-target="#mathematical-variables">4.1 Mathematical variables</a></li>
+  <li><a href="#assignment" id="toc-assignment" class="nav-link" data-scroll-target="#assignment">4.2 Assignment</a></li>
+  <li><a href="#program-state" id="toc-program-state" class="nav-link" data-scroll-target="#program-state">4.3 Program state</a></li>
+  </ul></li>
+  <li><a href="#pythons-basic-types" id="toc-pythons-basic-types" class="nav-link" data-scroll-target="#pythons-basic-types">5. Python’s Basic Types</a>
+  <ul class="collapse">
+  <li><a href="#types-are-part-of-the-computational-model" id="toc-types-are-part-of-the-computational-model" class="nav-link" data-scroll-target="#types-are-part-of-the-computational-model">5.1 Types are part of the computational model</a></li>
+  </ul></li>
+  <li><a href="#expressions-and-operators" id="toc-expressions-and-operators" class="nav-link" data-scroll-target="#expressions-and-operators">6. Expressions and Operators</a></li>
+  <li><a href="#binary-representation" id="toc-binary-representation" class="nav-link" data-scroll-target="#binary-representation">7. Binary Representation</a>
+  <ul class="collapse">
+  <li><a href="#positional-notation" id="toc-positional-notation" class="nav-link" data-scroll-target="#positional-notation">7.1 Positional notation</a></li>
+  <li><a href="#converting-decimal-to-binary" id="toc-converting-decimal-to-binary" class="nav-link" data-scroll-target="#converting-decimal-to-binary">7.2 Converting decimal to binary</a></li>
+  </ul></li>
+  <li><a href="#binary-representation-in-python" id="toc-binary-representation-in-python" class="nav-link" data-scroll-target="#binary-representation-in-python">8. Binary Representation in Python</a></li>
+  <li><a href="#fixed-width-integer-representations" id="toc-fixed-width-integer-representations" class="nav-link" data-scroll-target="#fixed-width-integer-representations">9. Fixed-Width Integer Representations</a>
+  <ul class="collapse">
+  <li><a href="#unsigned-integers" id="toc-unsigned-integers" class="nav-link" data-scroll-target="#unsigned-integers">9.1 Unsigned integers</a></li>
+  <li><a href="#what-happens-outside-the-range" id="toc-what-happens-outside-the-range" class="nav-link" data-scroll-target="#what-happens-outside-the-range">9.2 What happens outside the range?</a></li>
+  </ul></li>
+  <li><a href="#python-integers-and-arbitrary-precision" id="toc-python-integers-and-arbitrary-precision" class="nav-link" data-scroll-target="#python-integers-and-arbitrary-precision">10. Python Integers and Arbitrary Precision</a>
+  <ul class="collapse">
+  <li><a href="#arbitrary-precision-does-not-mean-infinite-precision" id="toc-arbitrary-precision-does-not-mean-infinite-precision" class="nav-link" data-scroll-target="#arbitrary-precision-does-not-mean-infinite-precision">10.1 Arbitrary precision does not mean infinite precision</a></li>
+  </ul></li>
+  <li><a href="#signed-integers" id="toc-signed-integers" class="nav-link" data-scroll-target="#signed-integers">11. Signed Integers</a>
+  <ul class="collapse">
+  <li><a href="#the-largest-and-smallest-values" id="toc-the-largest-and-smallest-values" class="nav-link" data-scroll-target="#the-largest-and-smallest-values">11.1 The largest and smallest values</a></li>
+  <li><a href="#twos-complement-and-arithmetic" id="toc-twos-complement-and-arithmetic" class="nav-link" data-scroll-target="#twos-complement-and-arithmetic">11.2 Two’s complement and arithmetic</a></li>
+  <li><a href="#integer-overflow" id="toc-integer-overflow" class="nav-link" data-scroll-target="#integer-overflow">11.3 Integer overflow</a></li>
+  </ul></li>
+  <li><a href="#why-floating-point-is-necessary" id="toc-why-floating-point-is-necessary" class="nav-link" data-scroll-target="#why-floating-point-is-necessary">12. Why Floating Point Is Necessary</a></li>
+  <li><a href="#floating-point-representation" id="toc-floating-point-representation" class="nav-link" data-scroll-target="#floating-point-representation">13. Floating-Point Representation</a></li>
+  <li><a href="#ieee-754" id="toc-ieee-754" class="nav-link" data-scroll-target="#ieee-754">14. IEEE 754</a>
+  <ul class="collapse">
+  <li><a href="#normalized-values" id="toc-normalized-values" class="nav-link" data-scroll-target="#normalized-values">14.1 Normalized values</a></li>
+  <li><a href="#special-values" id="toc-special-values" class="nav-link" data-scroll-target="#special-values">14.2 Special values</a></li>
+  </ul></li>
+  <li><a href="#why-decimal-fractions-are-often-inexact" id="toc-why-decimal-fractions-are-often-inexact" class="nav-link" data-scroll-target="#why-decimal-fractions-are-often-inexact">15. Why Decimal Fractions Are Often Inexact</a></li>
+  <li><a href="#section" id="toc-section" class="nav-link" data-scroll-target="#section">16. <code>0.1 + 0.2</code></a></li>
+  <li><a href="#representation-error" id="toc-representation-error" class="nav-link" data-scroll-target="#representation-error">17. Representation Error</a></li>
+  <li><a href="#machine-epsilon" id="toc-machine-epsilon" class="nav-link" data-scroll-target="#machine-epsilon">18. Machine Epsilon</a></li>
+  <li><a href="#spacing-between-floating-point-numbers" id="toc-spacing-between-floating-point-numbers" class="nav-link" data-scroll-target="#spacing-between-floating-point-numbers">19. Spacing Between Floating-Point Numbers</a></li>
+  <li><a href="#precision-versus-range" id="toc-precision-versus-range" class="nav-link" data-scroll-target="#precision-versus-range">20. Precision versus Range</a>
+  <ul class="collapse">
+  <li><a href="#precision" id="toc-precision" class="nav-link" data-scroll-target="#precision">Precision</a></li>
+  <li><a href="#range" id="toc-range" class="nav-link" data-scroll-target="#range">Range</a></li>
+  </ul></li>
+  <li><a href="#overflow" id="toc-overflow" class="nav-link" data-scroll-target="#overflow">21. Overflow</a></li>
+  <li><a href="#underflow-and-subnormal-numbers" id="toc-underflow-and-subnormal-numbers" class="nav-link" data-scroll-target="#underflow-and-subnormal-numbers">22. Underflow and Subnormal Numbers</a></li>
+  <li><a href="#nan" id="toc-nan" class="nav-link" data-scroll-target="#nan">23. NaN</a></li>
+  <li><a href="#accumulation-of-floating-point-error" id="toc-accumulation-of-floating-point-error" class="nav-link" data-scroll-target="#accumulation-of-floating-point-error">24. Accumulation of Floating-Point Error</a></li>
+  <li><a href="#absolute-error" id="toc-absolute-error" class="nav-link" data-scroll-target="#absolute-error">25. Absolute Error</a></li>
+  <li><a href="#relative-error" id="toc-relative-error" class="nav-link" data-scroll-target="#relative-error">26. Relative Error</a></li>
+  <li><a href="#why-exact-equality-is-often-inappropriate" id="toc-why-exact-equality-is-often-inappropriate" class="nav-link" data-scroll-target="#why-exact-equality-is-often-inappropriate">27. Why Exact Equality Is Often Inappropriate</a></li>
+  <li><a href="#absolute-tolerance" id="toc-absolute-tolerance" class="nav-link" data-scroll-target="#absolute-tolerance">28. Absolute Tolerance</a></li>
+  <li><a href="#relative-and-absolute-tolerances" id="toc-relative-and-absolute-tolerances" class="nav-link" data-scroll-target="#relative-and-absolute-tolerances">29. Relative and Absolute Tolerances</a></li>
+  <li><a href="#numerical-stability" id="toc-numerical-stability" class="nav-link" data-scroll-target="#numerical-stability">30. Numerical Stability</a></li>
+  <li><a href="#cancellation" id="toc-cancellation" class="nav-link" data-scroll-target="#cancellation">31. Cancellation</a></li>
+  <li><a href="#avoiding-cancellation-by-algebraic-reformulation" id="toc-avoiding-cancellation-by-algebraic-reformulation" class="nav-link" data-scroll-target="#avoiding-cancellation-by-algebraic-reformulation">32. Avoiding Cancellation by Algebraic Reformulation</a></li>
+  <li><a href="#conditioning-versus-stability" id="toc-conditioning-versus-stability" class="nav-link" data-scroll-target="#conditioning-versus-stability">33. Conditioning versus Stability</a>
+  <ul class="collapse">
+  <li><a href="#conditioning" id="toc-conditioning" class="nav-link" data-scroll-target="#conditioning">Conditioning</a></li>
+  <li><a href="#stability" id="toc-stability" class="nav-link" data-scroll-target="#stability">Stability</a></li>
+  </ul></li>
+  <li><a href="#testing-computational-results" id="toc-testing-computational-results" class="nav-link" data-scroll-target="#testing-computational-results">34. Testing Computational Results</a>
+  <ul class="collapse">
+  <li><a href="#testing-known-results" id="toc-testing-known-results" class="nav-link" data-scroll-target="#testing-known-results">34.1 Testing known results</a></li>
+  <li><a href="#testing-independent-implementations" id="toc-testing-independent-implementations" class="nav-link" data-scroll-target="#testing-independent-implementations">34.2 Testing independent implementations</a></li>
+  </ul></li>
+  <li><a href="#reproducibility" id="toc-reproducibility" class="nav-link" data-scroll-target="#reproducibility">35. Reproducibility</a></li>
+  <li><a href="#version-control" id="toc-version-control" class="nav-link" data-scroll-target="#version-control">36. Version Control</a></li>
+  <li><a href="#responsible-use-of-computational-tools" id="toc-responsible-use-of-computational-tools" class="nav-link" data-scroll-target="#responsible-use-of-computational-tools">37. Responsible Use of Computational Tools</a></li>
+  <li><a href="#summary-the-computational-model" id="toc-summary-the-computational-model" class="nav-link" data-scroll-target="#summary-the-computational-model">38. Summary: The Computational Model</a>
+  <ul class="collapse">
+  <li><a href="#mathematical-objects-versus-representations" id="toc-mathematical-objects-versus-representations" class="nav-link" data-scroll-target="#mathematical-objects-versus-representations">38.1 Mathematical objects versus representations</a></li>
+  <li><a href="#programs-versus-mathematical-expressions" id="toc-programs-versus-mathematical-expressions" class="nav-link" data-scroll-target="#programs-versus-mathematical-expressions">38.2 Programs versus mathematical expressions</a></li>
+  <li><a href="#exact-versus-approximate-computation" id="toc-exact-versus-approximate-computation" class="nav-link" data-scroll-target="#exact-versus-approximate-computation">38.3 Exact versus approximate computation</a></li>
+  <li><a href="#algorithms-matter" id="toc-algorithms-matter" class="nav-link" data-scroll-target="#algorithms-matter">38.4 Algorithms matter</a></li>
+  <li><a href="#testing-matters" id="toc-testing-matters" class="nav-link" data-scroll-target="#testing-matters">38.5 Testing matters</a></li>
+  </ul></li>
+  <li><a href="#key-takeaways" id="toc-key-takeaways" class="nav-link" data-scroll-target="#key-takeaways">39. Key Takeaways</a>
+  <ul class="collapse">
+  <li><a href="#assignment-is-not-mathematical-equality" id="toc-assignment-is-not-mathematical-equality" class="nav-link" data-scroll-target="#assignment-is-not-mathematical-equality">1. Assignment is not mathematical equality</a></li>
+  <li><a href="#types-matter" id="toc-types-matter" class="nav-link" data-scroll-target="#types-matter">2. Types matter</a></li>
+  <li><a href="#computers-use-representations" id="toc-computers-use-representations" class="nav-link" data-scroll-target="#computers-use-representations">3. Computers use representations</a></li>
+  <li><a href="#fixed-width-representations-have-limits" id="toc-fixed-width-representations-have-limits" class="nav-link" data-scroll-target="#fixed-width-representations-have-limits">4. Fixed-width representations have limits</a></li>
+  <li><a href="#python-abstracts-some-hardware-limitations" id="toc-python-abstracts-some-hardware-limitations" class="nav-link" data-scroll-target="#python-abstracts-some-hardware-limitations">5. Python abstracts some hardware limitations</a></li>
+  <li><a href="#floating-point-numbers-are-approximations" id="toc-floating-point-numbers-are-approximations" class="nav-link" data-scroll-target="#floating-point-numbers-are-approximations">6. Floating-point numbers are approximations</a></li>
+  <li><a href="#numerical-error-is-normal" id="toc-numerical-error-is-normal" class="nav-link" data-scroll-target="#numerical-error-is-normal">7. Numerical error is normal</a></li>
+  <li><a href="#exact-equality-can-be-inappropriate" id="toc-exact-equality-can-be-inappropriate" class="nav-link" data-scroll-target="#exact-equality-can-be-inappropriate">8. Exact equality can be inappropriate</a></li>
+  <li><a href="#algebraic-equivalence-does-not-imply-numerical-equivalence" id="toc-algebraic-equivalence-does-not-imply-numerical-equivalence" class="nav-link" data-scroll-target="#algebraic-equivalence-does-not-imply-numerical-equivalence">9. Algebraic equivalence does not imply numerical equivalence</a></li>
+  <li><a href="#computation-requires-validation" id="toc-computation-requires-validation" class="nav-link" data-scroll-target="#computation-requires-validation">10. Computation requires validation</a></li>
+  </ul></li>
+  <li><a href="#further-questions-to-think-about" id="toc-further-questions-to-think-about" class="nav-link" data-scroll-target="#further-questions-to-think-about">40. Further Questions to Think About</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Lecture 1 — Foundations, Computation &amp; Binary Representations</h1>
+<p class="subtitle lead">Background Notes</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="introduction" class="level1">
+<h1>1. Introduction</h1>
+<p>Programming is often introduced as the process of learning a programming language. That is only part of the story.</p>
+<p>A programming language provides a way to express computations, but effective computational work requires us to think about several additional questions:</p>
+<ul>
+<li>How should a problem be represented?</li>
+<li>What algorithm should we use?</li>
+<li>How should the algorithm be implemented?</li>
+<li>How can we determine whether the implementation is correct?</li>
+<li>How does the computer represent the quantities involved?</li>
+<li>What numerical errors can arise?</li>
+<li>How can the computation be reproduced and independently checked?</li>
+</ul>
+<p>A useful computational workflow is:</p>
+<pre class="text"><code>Problem
+   ↓
+Representation
+   ↓
+Algorithm
+   ↓
+Implementation
+   ↓
+Testing
+   ↓
+Numerical validation
+   ↓
+Results
+   ↓
+Communication / Reproducibility</code></pre>
+<p>This course will return to this workflow repeatedly.</p>
+<p>A central theme of this first lecture is:</p>
+<blockquote class="blockquote">
+<p><strong>A computer does not manipulate mathematical objects directly. It executes algorithms using finite representations of information.</strong></p>
+</blockquote>
+<p>This distinction is particularly important in numerical work.</p>
+<hr>
+</section>
+<section id="mathematical-work-versus-computational-work" class="level1">
+<h1>2. Mathematical Work versus Computational Work</h1>
+<p>Consider the mathematical problem</p>
+<p><span class="math display">\[
+\sum_{i=1}^{n} i^2.
+\]</span></p>
+<p>A mathematical solution might derive the identity</p>
+<p><span class="math display">\[
+\sum_{i=1}^{n}i^2
+=
+\frac{n(n+1)(2n+1)}{6}.
+\]</span></p>
+<p>Once the identity is established, the mathematical problem is essentially solved.</p>
+<p>A computational solution requires additional decisions.</p>
+<p>For example:</p>
+<ol type="1">
+<li>How will <span class="math inline">\(n\)</span> be represented?</li>
+<li>Will we use the formula above or explicitly add the terms?</li>
+<li>What programming language will we use?</li>
+<li>What numerical representation will be used?</li>
+<li>How will the result be tested?</li>
+<li>How will we know that the implementation is correct?</li>
+<li>How will another person reproduce the calculation?</li>
+</ol>
+<p>These questions are not merely implementation details. They can affect the reliability, speed, and even correctness of the result.</p>
+<section id="algorithms" class="level2">
+<h2 class="anchored" data-anchor-id="algorithms">2.1 Algorithms</h2>
+<p>An <strong>algorithm</strong> is a finite, well-defined procedure for solving a problem.</p>
+<p>For the sum-of-squares problem, one algorithm is:</p>
+<pre class="text"><code>total ← 0
+for i from 1 through n:
+    total ← total + i²
+return total</code></pre>
+<p>Another algorithm uses the closed-form expression:</p>
+<pre class="text"><code>return n(n+1)(2n+1)/6</code></pre>
+<p>The two algorithms solve the same mathematical problem, but they have different computational properties.</p>
+<p>The first requires work proportional to <span class="math inline">\(n\)</span>. The second requires a fixed number of high-level arithmetic operations.</p>
+<p>This is our first example of an important distinction:</p>
+<blockquote class="blockquote">
+<p><strong>Mathematically equivalent methods need not be computationally equivalent.</strong></p>
+</blockquote>
+<hr>
+</section>
+</section>
+<section id="python-as-a-computational-language" class="level1">
+<h1>3. Python as a Computational Language</h1>
+<p>Python allows us to express algorithms in a relatively concise form.</p>
+<p>For example:</p>
+<div id="e135aec9" class="cell" data-execution_count="1">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> sum_of_squares(n):</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    total <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, n <span class="op">+</span> <span class="dv">1</span>):</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>        total <span class="op">+=</span> i<span class="op">**</span><span class="dv">2</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> total</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>We can use the function:</p>
+<div id="7fed53bf" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>sum_of_squares(<span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="2">
+<pre><code>385</code></pre>
+</div>
+</div>
+<p>The mathematical problem has now been translated into an executable algorithm.</p>
+<p>But the translation introduces concepts that do not have exact analogues in elementary mathematics:</p>
+<ul>
+<li>variables and assignment;</li>
+<li>objects and types;</li>
+<li>program state;</li>
+<li>control flow;</li>
+<li>functions;</li>
+<li>memory;</li>
+<li>numerical representation;</li>
+<li>errors and exceptions.</li>
+</ul>
+<p>We begin with variables and state.</p>
+<hr>
+</section>
+<section id="variables-names-objects-and-state" class="level1">
+<h1>4. Variables, Names, Objects, and State</h1>
+<section id="mathematical-variables" class="level2">
+<h2 class="anchored" data-anchor-id="mathematical-variables">4.1 Mathematical variables</h2>
+<p>In mathematics, a variable is typically a symbol representing an element of some mathematical domain.</p>
+<p>For example,</p>
+<p><span class="math display">\[
+x \in \mathbb{R}
+\]</span></p>
+<p>says that <span class="math inline">\(x\)</span> is a real number.</p>
+<p>An equation such as</p>
+<p><span class="math display">\[
+x = 10
+\]</span></p>
+<p>can be interpreted as a mathematical assertion that <span class="math inline">\(x\)</span> has value 10.</p>
+<p>Programming languages use the word <em>variable</em>, but the concept is somewhat different.</p>
+</section>
+<section id="assignment" class="level2">
+<h2 class="anchored" data-anchor-id="assignment">4.2 Assignment</h2>
+<p>In Python:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="dv">10</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>is an <strong>assignment statement</strong>.</p>
+<p>A useful conceptual interpretation is:</p>
+<blockquote class="blockquote">
+<p>Evaluate the expression on the right and bind the name on the left to the resulting object.</p>
+</blockquote>
+<p>After:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="dv">10</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>the name <code>x</code> refers to an integer object representing 10.</p>
+<p>The statement</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> x <span class="op">+</span> <span class="dv">1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>therefore makes sense as a program instruction even though</p>
+<p><span class="math display">\[
+x = x + 1
+\]</span></p>
+<p>would normally be impossible as an equation over ordinary numbers.</p>
+<p>Python interprets:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> x <span class="op">+</span> <span class="dv">1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>as:</p>
+<ol type="1">
+<li>retrieve the current value associated with <code>x</code>;</li>
+<li>add 1;</li>
+<li>bind <code>x</code> to the resulting value.</li>
+</ol>
+<p>Thus:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> x <span class="op">+</span> <span class="dv">1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>leaves <code>x</code> equal to 11.</p>
+</section>
+<section id="program-state" class="level2">
+<h2 class="anchored" data-anchor-id="program-state">4.3 Program state</h2>
+<p>The <strong>state</strong> of a program consists, roughly speaking, of the information that determines the program’s current condition.</p>
+<p>For a simple program, this may include the values associated with its variables.</p>
+<p>Consider:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> x</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="dv">20</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>After these statements:</p>
+<pre class="text"><code>x → 20
+y → 10</code></pre>
+<p>The assignment to <code>x</code> changed the program state. It did not change what <code>y</code> refers to.</p>
+<p>This is one reason it is useful to distinguish programming variables from mathematical variables.</p>
+<hr>
+</section>
+</section>
+<section id="pythons-basic-types" class="level1">
+<h1>5. Python’s Basic Types</h1>
+<p>A programming language needs a way to distinguish different kinds of values.</p>
+<p>Some basic Python types are:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Type</th>
+<th>Meaning</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>int</code></td>
+<td>integer</td>
+<td><code>10</code></td>
+</tr>
+<tr class="even">
+<td><code>float</code></td>
+<td>floating-point number</td>
+<td><code>10.5</code></td>
+</tr>
+<tr class="odd">
+<td><code>str</code></td>
+<td>string of characters</td>
+<td><code>"hello"</code></td>
+</tr>
+<tr class="even">
+<td><code>bool</code></td>
+<td>Boolean value</td>
+<td><code>True</code></td>
+</tr>
+</tbody>
+</table>
+<p>We can inspect the type of an object using <code>type()</code>:</p>
+<div id="f2c26a07" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(<span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<pre><code>int</code></pre>
+</div>
+</div>
+<div id="a994c232" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(<span class="fl">10.0</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<pre><code>float</code></pre>
+</div>
+</div>
+<div id="b439e8c4" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(<span class="st">"10"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="5">
+<pre><code>str</code></pre>
+</div>
+</div>
+<div id="a8ba9e83" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(<span class="va">True</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="6">
+<pre><code>bool</code></pre>
+</div>
+</div>
+<p>The distinction matters because operations depend on types.</p>
+<p>For example:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="dv">10</span> <span class="op">+</span> <span class="dv">20</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>performs numerical addition, whereas:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co">"10"</span> <span class="op">+</span> <span class="st">"20"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>performs string concatenation.</p>
+<p>The latter produces:</p>
+<pre class="text"><code>"1020"</code></pre>
+<p>The expression</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co">"10"</span> <span class="op">+</span> <span class="dv">20</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>is invalid because Python does not define string-plus-integer addition.</p>
+<section id="types-are-part-of-the-computational-model" class="level2">
+<h2 class="anchored" data-anchor-id="types-are-part-of-the-computational-model">5.1 Types are part of the computational model</h2>
+<p>When reading code, ask:</p>
+<blockquote class="blockquote">
+<p>What kind of object is this expression producing?</p>
+</blockquote>
+<p>This question will become increasingly important as we encounter:</p>
+<ul>
+<li>lists;</li>
+<li>arrays;</li>
+<li>data frames;</li>
+<li>functions;</li>
+<li>dictionaries;</li>
+<li>matrices;</li>
+<li>user-defined objects.</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="expressions-and-operators" class="level1">
+<h1>6. Expressions and Operators</h1>
+<p>Python provides familiar arithmetic operators:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Mathematical operation</th>
+<th>Python</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>addition</td>
+<td><code>+</code></td>
+</tr>
+<tr class="even">
+<td>subtraction</td>
+<td><code>-</code></td>
+</tr>
+<tr class="odd">
+<td>multiplication</td>
+<td><code>*</code></td>
+</tr>
+<tr class="even">
+<td>division</td>
+<td><code>/</code></td>
+</tr>
+<tr class="odd">
+<td>integer/floor division</td>
+<td><code>//</code></td>
+</tr>
+<tr class="even">
+<td>exponentiation</td>
+<td><code>**</code></td>
+</tr>
+<tr class="odd">
+<td>remainder</td>
+<td><code>%</code></td>
+</tr>
+</tbody>
+</table>
+<p>For example:</p>
+<div id="533c0352" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span> <span class="op">+</span> <span class="dv">3</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<pre><code>5</code></pre>
+</div>
+</div>
+<div id="55957961" class="cell" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span> <span class="op">*</span> <span class="dv">3</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="8">
+<pre><code>6</code></pre>
+</div>
+</div>
+<div id="e0101358" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span><span class="op">**</span><span class="dv">3</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="9">
+<pre><code>8</code></pre>
+</div>
+</div>
+<div id="ebb57006" class="cell" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="dv">10</span> <span class="op">%</span> <span class="dv">3</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="10">
+<pre><code>1</code></pre>
+</div>
+</div>
+<p>The division operator deserves particular attention:</p>
+<div id="acfbaf2d" class="cell" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="dv">10</span> <span class="op">/</span> <span class="dv">2</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="11">
+<pre><code>5.0</code></pre>
+</div>
+</div>
+<p>produces a floating-point result:</p>
+<pre class="text"><code>5.0</code></pre>
+<p>whereas:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="dv">10</span> <span class="op">//</span> <span class="dv">2</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>produces:</p>
+<pre class="text"><code>5</code></pre>
+<p>The exact behavior of these operators is part of Python’s language specification.</p>
+<hr>
+</section>
+<section id="binary-representation" class="level1">
+<h1>7. Binary Representation</h1>
+<p>Computers ultimately store information using physical systems with a finite number of distinguishable states.</p>
+<p>At the simplest level, we represent these states using <strong>bits</strong>.</p>
+<p>A bit has two possible values:</p>
+<p><span class="math display">\[
+0 \quad\text{or}\quad 1.
+\]</span></p>
+<p>A group of eight bits is called a <strong>byte</strong>.</p>
+<p>The binary number system is base 2, just as the decimal number system is base 10.</p>
+<section id="positional-notation" class="level2">
+<h2 class="anchored" data-anchor-id="positional-notation">7.1 Positional notation</h2>
+<p>The decimal number</p>
+<p><span class="math display">\[
+372
+\]</span></p>
+<p>means</p>
+<p><span class="math display">\[
+3(10^2)+7(10^1)+2(10^0).
+\]</span></p>
+<p>Similarly,</p>
+<p><span class="math display">\[
+1101_2
+\]</span></p>
+<p>means</p>
+<p><span class="math display">\[
+1(2^3)+1(2^2)+0(2^1)+1(2^0).
+\]</span></p>
+<p>Therefore,</p>
+<p><span class="math display">\[
+1101_2
+=8+4+0+1
+=
+13.
+\]</span></p>
+</section>
+<section id="converting-decimal-to-binary" class="level2">
+<h2 class="anchored" data-anchor-id="converting-decimal-to-binary">7.2 Converting decimal to binary</h2>
+<p>To express a positive integer in binary, we can decompose it into powers of 2.</p>
+<p>For example,</p>
+<p><span class="math display">\[
+42=32+8+2
+\]</span></p>
+<p>or</p>
+<p><span class="math display">\[
+42=2^5+2^3+2^1.
+\]</span></p>
+<p>Therefore:</p>
+<p><span class="math display">\[
+42=101010_2.
+\]</span></p>
+<p>The positions corresponding to <span class="math inline">\(2^5,2^3,2^1\)</span> contain 1s; the others contain 0s.</p>
+<hr>
+</section>
+</section>
+<section id="binary-representation-in-python" class="level1">
+<h1>8. Binary Representation in Python</h1>
+<p>Python provides several ways to work with different bases.</p>
+<p>For example:</p>
+<div id="7e01f901" class="cell" data-execution_count="12">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="bu">bin</span>(<span class="dv">13</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="12">
+<pre><code>'0b1101'</code></pre>
+</div>
+</div>
+<p>produces:</p>
+<pre class="text"><code>'0b1101'</code></pre>
+<p>The prefix <code>0b</code> indicates a binary representation.</p>
+<p>We can convert a string containing a number in a specified base into an integer:</p>
+<div id="f523f5d8" class="cell" data-execution_count="13">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="bu">int</span>(<span class="st">"1101"</span>, <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="13">
+<pre><code>13</code></pre>
+</div>
+</div>
+<p>which produces:</p>
+<pre class="text"><code>13</code></pre>
+<p>Other bases can be specified as well:</p>
+<div id="8f4cc6f0" class="cell" data-execution_count="14">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="bu">int</span>(<span class="st">"ff"</span>, <span class="dv">16</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="14">
+<pre><code>255</code></pre>
+</div>
+</div>
+<p>produces:</p>
+<pre class="text"><code>255</code></pre>
+<p>and:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="bu">int</span>(<span class="st">"101"</span>, <span class="dv">8</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>produces:</p>
+<pre class="text"><code>65</code></pre>
+<p>These operations illustrate an important distinction:</p>
+<blockquote class="blockquote">
+<p>A number and its representation are not the same thing.</p>
+</blockquote>
+<p>The integer 13 is an abstract numerical value.</p>
+<pre class="text"><code>1101</code></pre>
+<p>is one representation of that value.</p>
+<pre class="text"><code>13</code></pre>
+<p>is another representation.</p>
+<pre class="text"><code>0xD</code></pre>
+<p>is yet another representation.</p>
+<p>The underlying value is the same.</p>
+<hr>
+</section>
+<section id="fixed-width-integer-representations" class="level1">
+<h1>9. Fixed-Width Integer Representations</h1>
+<p>A mathematical integer can be arbitrarily large.</p>
+<p>A computer, however, has finite resources.</p>
+<p>Suppose an integer is represented using exactly <span class="math inline">\(b\)</span> bits.</p>
+<p>Each bit has two possible values, so there are</p>
+<p><span class="math display">\[
+2^b
+\]</span></p>
+<p>possible bit patterns.</p>
+<p>For example, with 8 bits:</p>
+<p><span class="math display">\[
+2^8=256
+\]</span></p>
+<p>different patterns are available.</p>
+<section id="unsigned-integers" class="level2">
+<h2 class="anchored" data-anchor-id="unsigned-integers">9.1 Unsigned integers</h2>
+<p>If all 256 patterns are used for nonnegative integers, the values are:</p>
+<p><span class="math display">\[
+0,1,\ldots,255.
+\]</span></p>
+<p>The largest value is therefore</p>
+<p><span class="math display">\[
+2^8-1=255.
+\]</span></p>
+<p>In general, an unsigned <span class="math inline">\(b\)</span>-bit integer has range</p>
+<p><span class="math display">\[
+0,\ldots,2^b-1.
+\]</span></p>
+</section>
+<section id="what-happens-outside-the-range" class="level2">
+<h2 class="anchored" data-anchor-id="what-happens-outside-the-range">9.2 What happens outside the range?</h2>
+<p>If a system uses an 8-bit unsigned integer, there is no representation for 256.</p>
+<p>In some low-level programming environments, arithmetic can <strong>overflow</strong> and wrap around.</p>
+<p>For example, an 8-bit unsigned representation may behave as though</p>
+<p><span class="math display">\[
+255+1=0
+\]</span></p>
+<p>because the result (256) corresponds to the bit pattern</p>
+<pre class="text"><code>00000000</code></pre>
+<p>after discarding the ninth bit.</p>
+<p>Python’s ordinary <code>int</code> does not behave this way.</p>
+<hr>
+</section>
+</section>
+<section id="python-integers-and-arbitrary-precision" class="level1">
+<h1>10. Python Integers and Arbitrary Precision</h1>
+<p>Python’s built-in <code>int</code> type uses arbitrary-precision integer arithmetic.</p>
+<p>For example:</p>
+<div id="5c1c1767" class="cell" data-execution_count="15">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="dv">10</span><span class="op">**</span><span class="dv">100</span></span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(x)</span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">type</span>(x))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+&lt;class 'int'&gt;</code></pre>
+</div>
+</div>
+<p>The integer is represented exactly.</p>
+<p>This is different from a typical fixed-width machine integer.</p>
+<section id="arbitrary-precision-does-not-mean-infinite-precision" class="level2">
+<h2 class="anchored" data-anchor-id="arbitrary-precision-does-not-mean-infinite-precision">10.1 Arbitrary precision does not mean infinite precision</h2>
+<p>Python’s integer type can grow as necessary, but there are still physical limits.</p>
+<p>A sufficiently large integer requires:</p>
+<ul>
+<li>more memory;</li>
+<li>more computational time;</li>
+<li>potentially more storage.</li>
+</ul>
+<p>Thus:</p>
+<blockquote class="blockquote">
+<p><strong>The programming language can provide an abstraction that hides hardware-level limits without eliminating the underlying physical limits.</strong></p>
+</blockquote>
+<p>This distinction becomes particularly important when we study numerical computing.</p>
+<hr>
+</section>
+</section>
+<section id="signed-integers" class="level1">
+<h1>11. Signed Integers</h1>
+<p>So far we have considered unsigned integers.</p>
+<p>Most computations also require negative values.</p>
+<p>One common representation is <strong>two’s complement</strong>.</p>
+<p>For an 8-bit signed integer, two’s complement provides the range</p>
+<p><span class="math display">\[
+-128,\ldots,127.
+\]</span></p>
+<p>There are still exactly</p>
+<p><span class="math display">\[
+2^8=256
+\]</span></p>
+<p>possible bit patterns.</p>
+<p>The range contains:</p>
+<ul>
+<li>128 negative values;</li>
+<li>1 zero;</li>
+<li>127 positive values.</li>
+</ul>
+<p>The asymmetry arises because zero occupies one of the available bit patterns.</p>
+<section id="the-largest-and-smallest-values" class="level2">
+<h2 class="anchored" data-anchor-id="the-largest-and-smallest-values">11.1 The largest and smallest values</h2>
+<p>The largest value is:</p>
+<pre class="text"><code>01111111</code></pre>
+<p>which is 127.</p>
+<p>The smallest is:</p>
+<pre class="text"><code>10000000</code></pre>
+<p>which represents -128.</p>
+</section>
+<section id="twos-complement-and-arithmetic" class="level2">
+<h2 class="anchored" data-anchor-id="twos-complement-and-arithmetic">11.2 Two’s complement and arithmetic</h2>
+<p>The two’s-complement representation is designed so that ordinary binary addition can be used for both positive and negative numbers, subject to the limits of the fixed-width representation.</p>
+<p>For example:</p>
+<pre class="text"><code>  00000101   =  5
++ 11111110   = -2
+-----------
+  00000011   =  3</code></pre>
+<p>The representation makes arithmetic efficient in hardware.</p>
+</section>
+<section id="integer-overflow" class="level2">
+<h2 class="anchored" data-anchor-id="integer-overflow">11.3 Integer overflow</h2>
+<p>With fixed-width signed integers, arithmetic can leave the representable range.</p>
+<p>For an 8-bit signed integer:</p>
+<pre class="text"><code>01111111 = 127</code></pre>
+<p>Adding 1 produces:</p>
+<pre class="text"><code>10000000</code></pre>
+<p>which represents -128.</p>
+<p>This is <strong>integer overflow</strong>.</p>
+<p>Python’s <code>int</code> deliberately avoids this particular behavior by allowing the integer representation to grow.</p>
+<hr>
+</section>
+</section>
+<section id="why-floating-point-is-necessary" class="level1">
+<h1>12. Why Floating Point Is Necessary</h1>
+<p>Integers are only one part of numerical computing.</p>
+<p>We also need to represent quantities such as:</p>
+<p><span class="math display">\[
+\frac{1}{3},\quad \pi,\quad \sqrt{2},\quad e.
+\]</span></p>
+<p>There is an immediate problem.</p>
+<p>There are infinitely many real numbers, but a computer has finite storage.</p>
+<p>Even if we devoted a very large number of bits to a number, there would still be infinitely many real numbers that could not be represented exactly.</p>
+<p>Therefore numerical computing generally uses <strong>approximations</strong>.</p>
+<p>One widely used representation is floating point.</p>
+<hr>
+</section>
+<section id="floating-point-representation" class="level1">
+<h1>13. Floating-Point Representation</h1>
+<p>A floating-point number can be thought of conceptually as having the form</p>
+<p><span class="math display">\[
+(-1)^s \times m \times b^e,
+\]</span></p>
+<p>where:</p>
+<ul>
+<li><span class="math inline">\(s\)</span> determines the sign;</li>
+<li><span class="math inline">\(m\)</span> is the significand (also called the mantissa in some contexts);</li>
+<li><span class="math inline">\(b\)</span> is the base;</li>
+<li><span class="math inline">\(e\)</span> is the exponent.</li>
+</ul>
+<p>For IEEE 754 binary floating point, the base is 2.</p>
+<p>The representation therefore resembles scientific notation.</p>
+<p>For example, in decimal scientific notation:</p>
+<p><span class="math display">\[
+6.02\times10^{23}
+\]</span></p>
+<p>has:</p>
+<ul>
+<li>sign: positive;</li>
+<li>significand: 6.02;</li>
+<li>exponent: 23;</li>
+<li>base: 10.</li>
+</ul>
+<p>Binary floating point works analogously, but with base 2.</p>
+<hr>
+</section>
+<section id="ieee-754" class="level1">
+<h1>14. IEEE 754</h1>
+<p>IEEE 754 is a widely used standard for floating-point arithmetic.</p>
+<p>A common format is <strong>binary64</strong>, often called double precision.</p>
+<p>It uses 64 bits divided conceptually into:</p>
+<pre class="text"><code>sign | exponent | fraction</code></pre>
+<p>with:</p>
+<ul>
+<li>1 sign bit;</li>
+<li>11 exponent bits;</li>
+<li>52 explicitly stored fraction bits.</li>
+</ul>
+<p>The significand effectively has 53 bits of precision because of the implicit leading bit for normalized numbers.</p>
+<p>Thus binary64 provides approximately 15–17 significant decimal digits of precision.</p>
+<section id="normalized-values" class="level2">
+<h2 class="anchored" data-anchor-id="normalized-values">14.1 Normalized values</h2>
+<p>For a normalized binary floating-point value, the significand is conventionally represented with a leading 1.</p>
+<p>Conceptually:</p>
+<p><span class="math display">\[
+1.f_2 \times 2^e.
+\]</span></p>
+<p>The leading 1 does not need to be stored explicitly, which provides an additional effective bit of precision.</p>
+</section>
+<section id="special-values" class="level2">
+<h2 class="anchored" data-anchor-id="special-values">14.2 Special values</h2>
+<p>IEEE 754 also defines special representations including:</p>
+<ul>
+<li>positive and negative zero;</li>
+<li>positive and negative infinity;</li>
+<li>NaN (“Not a Number”);</li>
+<li>subnormal numbers.</li>
+</ul>
+<p>These allow floating-point arithmetic to handle exceptional cases in a standardized way.</p>
+<hr>
+</section>
+</section>
+<section id="why-decimal-fractions-are-often-inexact" class="level1">
+<h1>15. Why Decimal Fractions Are Often Inexact</h1>
+<p>Consider the decimal number:</p>
+<p><span class="math display">\[
+0.1.
+\]</span></p>
+<p>In decimal notation, this has a finite representation:</p>
+<p><span class="math display">\[
+0.1 = \frac{1}{10}.
+\]</span></p>
+<p>But binary floating point can represent fractions exactly only when their denominator, after reduction, is a power of 2.</p>
+<p>For example:</p>
+<p><span class="math display">\[
+\frac{1}{2}=0.1_2
+\]</span></p>
+<p>is exact.</p>
+<p>Likewise:</p>
+<p><span class="math display">\[
+\frac{1}{4}=0.01_2.
+\]</span></p>
+<p>But:</p>
+<p><span class="math display">\[
+\frac{1}{10}
+\]</span></p>
+<p>cannot be represented as a finite binary fraction.</p>
+<p>Its binary expansion repeats:</p>
+<p><span class="math display">\[
+0.00011001100110011\ldots_2.
+\]</span></p>
+<p>Therefore a binary floating-point system must store an approximation to 0.1.</p>
+<p>The same issue arises for 0.2 and 0.3.</p>
+<hr>
+</section>
+<section id="section" class="level1">
+<h1>16. <code>0.1 + 0.2</code></h1>
+<p>Consider:</p>
+<div id="60584e7e" class="cell" data-execution_count="16">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb62"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="fl">0.1</span> <span class="op">+</span> <span class="fl">0.2</span></span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> <span class="fl">0.3</span></span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(x)</span>
+<span id="cb62-5"><a href="#cb62-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(y)</span>
+<span id="cb62-6"><a href="#cb62-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(x <span class="op">==</span> y)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>0.30000000000000004
+0.3
+False</code></pre>
+</div>
+</div>
+<p>A typical result is:</p>
+<pre class="text"><code>0.30000000000000004
+0.3
+False</code></pre>
+<p>This does <strong>not</strong> mean Python’s addition operation is defective.</p>
+<p>The stored values for 0.1 and 0.2 are approximations to the mathematical values.</p>
+<p>Arithmetic is then performed on those representable floating-point values.</p>
+<p>The final result is itself rounded to the nearest representable floating-point value.</p>
+<hr>
+</section>
+<section id="representation-error" class="level1">
+<h1>17. Representation Error</h1>
+<p>Suppose <span class="math inline">\(x\)</span> is a mathematical quantity and <span class="math inline">\(\hat{x}\)</span> is its floating-point representation.</p>
+<p>The <strong>representation error</strong> is:</p>
+<p><span class="math display">\[
+\hat{x} - x.
+\]</span> ]</p>
+<p>The absolute magnitude of this error is:</p>
+<p><span class="math display">\[
+|\hat{x}-x|.
+\]</span></p>
+<p>For many ordinary floating-point operations, the relative error associated with rounding is on the order of machine precision.</p>
+<p>But one should be careful:</p>
+<blockquote class="blockquote">
+<p>Floating-point error is not always bounded simply by machine epsilon.</p>
+</blockquote>
+<p>The error depends on:</p>
+<ul>
+<li>the operation;</li>
+<li>the magnitude of the operands;</li>
+<li>rounding;</li>
+<li>overflow/underflow;</li>
+<li>cancellation;</li>
+<li>the numerical algorithm;</li>
+<li>accumulated errors from previous calculations.</li>
+</ul>
+<hr>
+</section>
+<section id="machine-epsilon" class="level1">
+<h1>18. Machine Epsilon</h1>
+<p>Python exposes information about its floating-point system through <code>sys.float_info</code>.</p>
+<div id="d2db92d2" class="cell" data-execution_count="17">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb65"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys</span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a>sys.float_info</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="17">
+<pre><code>sys.float_info(max=1.7976931348623157e+308, max_exp=1024, max_10_exp=308, min=2.2250738585072014e-308, min_exp=-1021, min_10_exp=-307, dig=15, mant_dig=53, epsilon=2.220446049250313e-16, radix=2, rounds=1)</code></pre>
+</div>
+</div>
+<p>Some useful fields are:</p>
+<div id="46af2307" class="cell" data-execution_count="18">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb67"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a>sys.float_info.epsilon</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="18">
+<pre><code>2.220446049250313e-16</code></pre>
+</div>
+</div>
+<div id="2aece89b" class="cell" data-execution_count="19">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb69"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>sys.float_info.<span class="bu">max</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="19">
+<pre><code>1.7976931348623157e+308</code></pre>
+</div>
+</div>
+<div id="78f47abf" class="cell" data-execution_count="20">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb71"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>sys.float_info.<span class="bu">min</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="20">
+<pre><code>2.2250738585072014e-308</code></pre>
+</div>
+</div>
+<div id="1dbd4809" class="cell" data-execution_count="21">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb73"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>sys.float_info.dig</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="21">
+<pre><code>15</code></pre>
+</div>
+</div>
+<p>For a typical IEEE 754 binary64 implementation:</p>
+<p><span class="math display">\[
+\epsilon_{\mathrm{machine}}
+\approx
+2.22\times10^{-16}.
+\]</span></p>
+<p>This is the spacing between 1 and the next larger representable floating-point number.</p>
+<p>We can see this directly:</p>
+<div id="59b4453a" class="cell" data-execution_count="22">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb75"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>eps <span class="op">=</span> sys.float_info.epsilon</span>
+<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a><span class="fl">1.0</span> <span class="op">+</span> eps</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="22">
+<pre><code>1.0000000000000002</code></pre>
+</div>
+</div>
+<p>while:</p>
+<div id="31fe1c88" class="cell" data-execution_count="23">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb77"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="fl">1.0</span> <span class="op">+</span> eps <span class="op">/</span> <span class="dv">2</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="23">
+<pre><code>1.0</code></pre>
+</div>
+</div>
+<p>may round back to 1.0.</p>
+<p>This illustrates that floating-point numbers are <strong>discrete</strong>, not continuous.</p>
+<hr>
+</section>
+<section id="spacing-between-floating-point-numbers" class="level1">
+<h1>19. Spacing Between Floating-Point Numbers</h1>
+<p>An important feature of floating-point representation is that the spacing between adjacent representable numbers depends on their magnitude.</p>
+<p>Near 1, the spacing is extremely small.</p>
+<p>At much larger magnitudes, adjacent representable values are farther apart.</p>
+<p>For example, consider:</p>
+<div id="18b07e29" class="cell" data-execution_count="24">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb79"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="fl">1.0</span></span>
+<span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> <span class="dv">10</span><span class="op">**</span><span class="dv">16</span></span>
+<span id="cb79-3"><a href="#cb79-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-4"><a href="#cb79-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(y <span class="op">+</span> <span class="dv">1</span> <span class="op">==</span> y)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>False</code></pre>
+</div>
+</div>
+<p>The surprising result can be:</p>
+<pre class="text"><code>True</code></pre>
+<p>Why?</p>
+<p>At this scale, the gap between adjacent representable binary64 numbers is larger than 1.</p>
+<p>Therefore adding 1 does not change the stored floating-point value.</p>
+<p>This is a fundamental property of floating-point arithmetic.</p>
+<hr>
+</section>
+<section id="precision-versus-range" class="level1">
+<h1>20. Precision versus Range</h1>
+<p>Floating-point representation has two related but distinct limitations.</p>
+<section id="precision" class="level2">
+<h2 class="anchored" data-anchor-id="precision">Precision</h2>
+<p>Precision concerns how finely numbers can be distinguished relative to their magnitude.</p>
+<p>Binary64 has approximately 15–17 significant decimal digits of precision.</p>
+</section>
+<section id="range" class="level2">
+<h2 class="anchored" data-anchor-id="range">Range</h2>
+<p>Range concerns how large or small a representable number can be.</p>
+<p>For typical binary64:</p>
+<p><span class="math display">\[
+\text{maximum finite value}
+\approx
+1.8\times10^{308}.
+\]</span></p>
+<p>The smallest positive normal number is approximately:</p>
+<p><span class="math display">\[
+2.2\times10^{-308}.
+\]</span></p>
+<p>These are different concepts.</p>
+<p>A system can have a large numerical range while still having limited precision.</p>
+<hr>
+</section>
+</section>
+<section id="overflow" class="level1">
+<h1>21. Overflow</h1>
+<p>Floating-point overflow occurs when a calculation produces a value too large to represent as a finite floating-point number.</p>
+<p>For example:</p>
+<div id="1961af74" class="cell" data-execution_count="25">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb82"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="fl">1e308</span></span>
+<span id="cb82-2"><a href="#cb82-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb82-3"><a href="#cb82-3" aria-hidden="true" tabindex="-1"></a>x <span class="op">*</span> <span class="dv">10</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="25">
+<pre><code>inf</code></pre>
+</div>
+</div>
+<p>typically produces:</p>
+<pre class="text"><code>inf</code></pre>
+<p>Python represents infinity using a special floating-point value.</p>
+<div id="6c56bba1" class="cell" data-execution_count="26">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb85"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="bu">float</span>(<span class="st">"inf"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="26">
+<pre><code>inf</code></pre>
+</div>
+</div>
+<p>Infinity can participate in floating-point calculations according to IEEE 754 rules.</p>
+<p>For example:</p>
+<div id="4a0f3774" class="cell" data-execution_count="27">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb87"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a><span class="bu">float</span>(<span class="st">"inf"</span>) <span class="op">+</span> <span class="dv">1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="27">
+<pre><code>inf</code></pre>
+</div>
+</div>
+<p>remains infinite.</p>
+<hr>
+</section>
+<section id="underflow-and-subnormal-numbers" class="level1">
+<h1>22. Underflow and Subnormal Numbers</h1>
+<p>Underflow occurs when a value becomes too small in magnitude to be represented as a normal floating-point number.</p>
+<p>IEEE 754 includes <strong>subnormal</strong> numbers to provide a gradual transition toward zero.</p>
+<p>This is useful because without subnormals, values near the smallest normal number would have a discontinuous jump to zero.</p>
+<p>The distinction is:</p>
+<ul>
+<li><strong>normal numbers</strong> use the standard normalized representation;</li>
+<li><strong>subnormal numbers</strong> sacrifice some relative precision in exchange for representing smaller magnitudes.</li>
+</ul>
+<p>Eventually, values become too small even for subnormal representation and round to zero.</p>
+<p>For most introductory programming work, the main lesson is simply:</p>
+<blockquote class="blockquote">
+<p>Floating-point numbers have both an upper and a lower range, and extremely small or large calculations can produce special values or loss of precision.</p>
+</blockquote>
+<hr>
+</section>
+<section id="nan" class="level1">
+<h1>23. NaN</h1>
+<p>IEEE 754 defines a special value called <strong>NaN</strong>, meaning “Not a Number.”</p>
+<p>For example:</p>
+<div id="4afbb897" class="cell" data-execution_count="28">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb89"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a><span class="bu">float</span>(<span class="st">"nan"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="28">
+<pre><code>nan</code></pre>
+</div>
+</div>
+<p>produces a NaN value.</p>
+<p>NaNs can arise from invalid floating-point operations.</p>
+<div id="164a3a61" class="cell" data-execution_count="29">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb91"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a><span class="bu">float</span>(<span class="st">"nan"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="29">
+<pre><code>nan</code></pre>
+</div>
+</div>
+<p>is not equal to itself:</p>
+<div id="8a087a09" class="cell" data-execution_count="30">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb93"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="bu">float</span>(<span class="st">"nan"</span>)</span>
+<span id="cb93-2"><a href="#cb93-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb93-3"><a href="#cb93-3" aria-hidden="true" tabindex="-1"></a>x <span class="op">==</span> x</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="30">
+<pre><code>False</code></pre>
+</div>
+</div>
+<p>returns:</p>
+<pre class="text"><code>False</code></pre>
+<p>This behavior is intentional.</p>
+<p>When working with numerical data, NaN often has another practical meaning: <strong>missing or unavailable data</strong>.</p>
+<p>That convention is widespread in Python data analysis and will become important later in the course.</p>
+<hr>
+</section>
+<section id="accumulation-of-floating-point-error" class="level1">
+<h1>24. Accumulation of Floating-Point Error</h1>
+<p>Consider:</p>
+<div id="15813b70" class="cell" data-execution_count="31">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb96"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="fl">0.0</span></span>
+<span id="cb96-2"><a href="#cb96-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb96-3"><a href="#cb96-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">10</span>):</span>
+<span id="cb96-4"><a href="#cb96-4" aria-hidden="true" tabindex="-1"></a>    x <span class="op">+=</span> <span class="fl">0.1</span></span>
+<span id="cb96-5"><a href="#cb96-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb96-6"><a href="#cb96-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(x)</span>
+<span id="cb96-7"><a href="#cb96-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(x <span class="op">==</span> <span class="fl">1.0</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>0.9999999999999999
+False</code></pre>
+</div>
+</div>
+<p>The mathematical result is exactly:</p>
+<p><span class="math display">\[
+10(0.1) = 1.
+\]</span></p>
+<p>But the computed result may be slightly below 1.</p>
+<p>The error from each operation can propagate into subsequent operations.</p>
+<p>This is called <strong>accumulation of numerical error</strong>.</p>
+<p>The effect can become much more important when:</p>
+<ul>
+<li>millions or billions of operations are performed;</li>
+<li>values have very different magnitudes;</li>
+<li>cancellation occurs;</li>
+<li>an algorithm is numerically unstable.</li>
+</ul>
+<p>The presence of floating-point error is therefore not itself evidence that an algorithm is poor.</p>
+<p>The relevant questions are:</p>
+<blockquote class="blockquote">
+<p>How large is the error?</p>
+</blockquote>
+<p>and</p>
+<blockquote class="blockquote">
+<p>How does the algorithm cause error to propagate?</p>
+</blockquote>
+<hr>
+</section>
+<section id="absolute-error" class="level1">
+<h1>25. Absolute Error</h1>
+<p>Suppose <span class="math inline">\(x\)</span> is the exact value and <span class="math inline">\(\hat{x}\)</span> is an approximation.</p>
+<p>The absolute error is:</p>
+<p><span class="math display">\[
+E_{\mathrm{abs}}
+=
+|\hat{x}-x|.
+\]</span></p>
+<p>For example, if:</p>
+<p><span class="math display">\[
+x=1000
+\]</span></p>
+<p>and</p>
+<p><span class="math display">\[
+\hat{x}=999.9,
+\]</span></p>
+<p>then:</p>
+<p><span class="math display">\[
+E_{\mathrm{abs}}
+=
+|999.9-1000|
+=
+0.1.
+\]</span></p>
+<p>Absolute error has the same units as the quantity being measured.</p>
+<hr>
+</section>
+<section id="relative-error" class="level1">
+<h1>26. Relative Error</h1>
+<p>The relative error is commonly defined as:</p>
+<p><span class="math display">\[
+E_{\mathrm{rel}}
+=
+\frac{|\hat{x}-x|}{|x|}
+\]</span></p>
+<p>when <span class="math inline">\(x\neq0\)</span>.</p>
+<p>For the example above:</p>
+<p><span class="math display">\[
+E_{\mathrm{rel}}
+=
+\frac{0.1}{1000}
+=
+10^{-4}.
+\]</span></p>
+<p>Equivalently, the error is:</p>
+<p><span class="math display">\[
+0.01\%.
+\]</span></p>
+<p>Relative error is useful because it accounts for the scale of the quantity.</p>
+<p>Consider instead:</p>
+<p><span class="math display">\[
+x=0.001
+\]</span></p>
+<p>and</p>
+<p><span class="math display">\[
+\hat{x}=0.0011.
+\]</span></p>
+<p>The absolute error is only:</p>
+<p><span class="math display">\[
+0.0001,
+\]</span></p>
+<p>but the relative error is:</p>
+<p><span class="math display">\[
+\frac{0.0001}{0.001}
+=
+0.1.
+\]</span></p>
+<p>Thus the approximation has a 10% relative error.</p>
+<hr>
+</section>
+<section id="why-exact-equality-is-often-inappropriate" class="level1">
+<h1>27. Why Exact Equality Is Often Inappropriate</h1>
+<p>Suppose two floating-point quantities are theoretically equal.</p>
+<p>We might write:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb98"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb98-1"><a href="#cb98-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">==</span> y</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>But if <code>x</code> and <code>y</code> result from different numerical calculations, their floating-point representations may differ slightly.</p>
+<p>For example:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb99"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a><span class="fl">0.1</span> <span class="op">+</span> <span class="fl">0.2</span> <span class="op">==</span> <span class="fl">0.3</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>is typically <code>False</code>.</p>
+<p>This does not mean that equality is never appropriate.</p>
+<p>Exact equality is perfectly appropriate when:</p>
+<ul>
+<li>comparing integers;</li>
+<li>comparing strings;</li>
+<li>testing exact symbolic objects;</li>
+<li>checking values whose construction guarantees exact equality.</li>
+</ul>
+<p>The problem arises when we use exact equality for quantities that are expected to agree only approximately.</p>
+<hr>
+</section>
+<section id="absolute-tolerance" class="level1">
+<h1>28. Absolute Tolerance</h1>
+<p>A simple numerical comparison is:</p>
+<p><span class="math display">\[
+|x-y|\leq\epsilon.
+\]</span></p>
+<p>In Python:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb100"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb100-1"><a href="#cb100-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> approximately_equal(x, y, tolerance<span class="op">=</span><span class="fl">1e-10</span>):</span>
+<span id="cb100-2"><a href="#cb100-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">abs</span>(x <span class="op">-</span> y) <span class="op">&lt;=</span> tolerance</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>This works well when the scale of the quantities is known and reasonably uniform.</p>
+<p>But it can fail when quantities have very different magnitudes.</p>
+<p>For example, suppose:</p>
+<p><span class="math display">\[
+x=10^9,\qquad y=10^9+0.1.
+\]</span></p>
+<p>An absolute difference of 0.1 may be completely negligible.</p>
+<p>But for:</p>
+<p><span class="math display">\[
+x=10^{-12},\qquad y=0.1,
+\]</span></p>
+<p>an absolute difference of 0.1 is enormous relative to (x).</p>
+<hr>
+</section>
+<section id="relative-and-absolute-tolerances" class="level1">
+<h1>29. Relative and Absolute Tolerances</h1>
+<p>A more flexible criterion combines absolute and relative tolerances:</p>
+<p><span class="math display">\[
+|x-y|
+\leq
+\text{atol}
++
+\text{rtol}|y|.
+\]</span></p>
+<p>This can be implemented as:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb101"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb101-1"><a href="#cb101-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> approximately_equal(x, y, atol<span class="op">=</span><span class="fl">1e-10</span>, rtol<span class="op">=</span><span class="fl">1e-10</span>):</span>
+<span id="cb101-2"><a href="#cb101-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">abs</span>(x <span class="op">-</span> y) <span class="op">&lt;=</span> atol <span class="op">+</span> rtol <span class="op">*</span> <span class="bu">abs</span>(y)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>A production numerical library may use a slightly different symmetric formulation, such as scaling by the larger magnitude of the two values.</p>
+<p>The important principle is:</p>
+<blockquote class="blockquote">
+<p><strong>Numerical equality is often a tolerance-based concept rather than an exact one.</strong></p>
+</blockquote>
+<p>The appropriate tolerance depends on the application.</p>
+<p>A tolerance that is appropriate for one scientific problem may be absurdly strict or loose for another.</p>
+<hr>
+</section>
+<section id="numerical-stability" class="level1">
+<h1>30. Numerical Stability</h1>
+<p>Floating-point representation error is only one source of numerical problems.</p>
+<p>The <strong>stability of an algorithm</strong> concerns how errors in inputs and intermediate calculations affect the final result.</p>
+<p>A numerically stable algorithm generally does not amplify small unavoidable errors excessively.</p>
+<p>One particularly important source of instability is <strong>cancellation</strong>.</p>
+<hr>
+</section>
+<section id="cancellation" class="level1">
+<h1>31. Cancellation</h1>
+<p>Consider:</p>
+<p><span class="math display">\[
+f(x)=\sqrt{x^2+1}-x.
+\]</span></p>
+<p>Mathematically, this is a perfectly valid expression.</p>
+<p>For large <span class="math inline">\(x\)</span>, however,</p>
+<p><span class="math display">\[
+\sqrt{x^2+1}
+\]</span></p>
+<p>is extremely close to <span class="math inline">\(x\)</span>.</p>
+<p>Therefore the calculation subtracts two nearly equal numbers.</p>
+<p>Suppose:</p>
+<p><span class="math display">\[
+a\approx b.
+\]</span></p>
+<p>If both <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> have small rounding errors, then the difference</p>
+<p><span class="math display">\[
+a-b
+\]</span></p>
+<p>can have a much larger <em>relative</em> error.</p>
+<p>This phenomenon is called <strong>cancellation</strong>.</p>
+<hr>
+</section>
+<section id="avoiding-cancellation-by-algebraic-reformulation" class="level1">
+<h1>32. Avoiding Cancellation by Algebraic Reformulation</h1>
+<p>Starting with:</p>
+<p><span class="math display">\[
+\sqrt{x^2+1}-x,
+\]</span></p>
+<p>multiply by the conjugate:</p>
+<p><span class="math display">\[
+\frac{\sqrt{x^2+1}-x}{1}
+\cdot
+\frac{\sqrt{x^2+1}+x}
+{\sqrt{x^2+1}+x}.
+\]</span></p>
+<p>The numerator becomes:</p>
+<p><span class="math display">\[
+(x^2+1)-x^2=1.
+\]</span></p>
+<p>Therefore:</p>
+<p><span class="math display">\[
+\sqrt{x^2+1}-x
+=
+\frac{1}{\sqrt{x^2+1}+x}.
+\]</span></p>
+<p>The two expressions are mathematically identical.</p>
+<p>But they have different numerical behavior.</p>
+<p>In Python:</p>
+<div id="18774e1b" class="cell" data-execution_count="32">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb102"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb102-1"><a href="#cb102-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> math</span>
+<span id="cb102-2"><a href="#cb102-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-3"><a href="#cb102-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f1(x):</span>
+<span id="cb102-4"><a href="#cb102-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> math.sqrt(x<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> <span class="dv">1</span>) <span class="op">-</span> x</span>
+<span id="cb102-5"><a href="#cb102-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-6"><a href="#cb102-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f2(x):</span>
+<span id="cb102-7"><a href="#cb102-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">1</span> <span class="op">/</span> (math.sqrt(x<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> <span class="dv">1</span>) <span class="op">+</span> x)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>For a large value:</p>
+<div id="eb9f35b7" class="cell" data-execution_count="33">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb103"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb103-1"><a href="#cb103-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="dv">10</span><span class="op">**</span><span class="dv">8</span></span>
+<span id="cb103-2"><a href="#cb103-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb103-3"><a href="#cb103-3" aria-hidden="true" tabindex="-1"></a>f1(x), f2(x)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="33">
+<pre><code>(0.0, 5e-09)</code></pre>
+</div>
+</div>
+<p>the first expression may lose substantial precision or even return zero, while the second remains informative.</p>
+<p>This leads to an important principle:</p>
+<blockquote class="blockquote">
+<p><strong>Mathematical equivalence does not imply numerical equivalence.</strong></p>
+</blockquote>
+<hr>
+</section>
+<section id="conditioning-versus-stability" class="level1">
+<h1>33. Conditioning versus Stability</h1>
+<p>Two related ideas are useful in numerical analysis.</p>
+<section id="conditioning" class="level2">
+<h2 class="anchored" data-anchor-id="conditioning">Conditioning</h2>
+<p><strong>Conditioning</strong> concerns the sensitivity of the mathematical problem itself to perturbations in the input.</p>
+<p>A problem is ill-conditioned if small changes in the input can produce large changes in the correct answer.</p>
+</section>
+<section id="stability" class="level2">
+<h2 class="anchored" data-anchor-id="stability">Stability</h2>
+<p><strong>Stability</strong> concerns the behavior of the algorithm used to solve the problem.</p>
+<p>A stable algorithm tends not to introduce excessive additional error.</p>
+<p>This distinction is important:</p>
+<blockquote class="blockquote">
+<p>An ill-conditioned problem can be difficult even with a perfect algorithm.</p>
+</blockquote>
+<p>and:</p>
+<blockquote class="blockquote">
+<p>A well-conditioned problem can be ruined by an unstable algorithm.</p>
+</blockquote>
+<p>We will return to these ideas later in the course.</p>
+<hr>
+</section>
+</section>
+<section id="testing-computational-results" class="level1">
+<h1>34. Testing Computational Results</h1>
+<p>A program that runs without producing an exception is not necessarily correct.</p>
+<p>There are at least three different possibilities:</p>
+<ol type="1">
+<li><strong>Syntax error</strong> — the program cannot be parsed.</li>
+<li><strong>Runtime error</strong> — the program begins execution but encounters an invalid operation.</li>
+<li><strong>Logical error</strong> — the program runs successfully but computes the wrong result.</li>
+</ol>
+<p>The third category is particularly dangerous because the computer gives no warning.</p>
+<section id="testing-known-results" class="level2">
+<h2 class="anchored" data-anchor-id="testing-known-results">34.1 Testing known results</h2>
+<p>For example:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb105"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb105-1"><a href="#cb105-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> sum_of_squares(n):</span>
+<span id="cb105-2"><a href="#cb105-2" aria-hidden="true" tabindex="-1"></a>    total <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb105-3"><a href="#cb105-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb105-4"><a href="#cb105-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, n <span class="op">+</span> <span class="dv">1</span>):</span>
+<span id="cb105-5"><a href="#cb105-5" aria-hidden="true" tabindex="-1"></a>        total <span class="op">+=</span> i<span class="op">**</span><span class="dv">2</span></span>
+<span id="cb105-6"><a href="#cb105-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb105-7"><a href="#cb105-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> total</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>We can test:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb106"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> sum_of_squares(<span class="dv">1</span>) <span class="op">==</span> <span class="dv">1</span></span>
+<span id="cb106-2"><a href="#cb106-2" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> sum_of_squares(<span class="dv">2</span>) <span class="op">==</span> <span class="dv">5</span></span>
+<span id="cb106-3"><a href="#cb106-3" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> sum_of_squares(<span class="dv">3</span>) <span class="op">==</span> <span class="dv">14</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="testing-independent-implementations" class="level2">
+<h2 class="anchored" data-anchor-id="testing-independent-implementations">34.2 Testing independent implementations</h2>
+<p>We can compare two implementations:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb107"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb107-1"><a href="#cb107-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> sum_of_squares_loop(n):</span>
+<span id="cb107-2"><a href="#cb107-2" aria-hidden="true" tabindex="-1"></a>    total <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb107-3"><a href="#cb107-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb107-4"><a href="#cb107-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, n <span class="op">+</span> <span class="dv">1</span>):</span>
+<span id="cb107-5"><a href="#cb107-5" aria-hidden="true" tabindex="-1"></a>        total <span class="op">+=</span> i<span class="op">**</span><span class="dv">2</span></span>
+<span id="cb107-6"><a href="#cb107-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb107-7"><a href="#cb107-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> total</span>
+<span id="cb107-8"><a href="#cb107-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb107-9"><a href="#cb107-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb107-10"><a href="#cb107-10" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> sum_of_squares_formula(n):</span>
+<span id="cb107-11"><a href="#cb107-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> n <span class="op">*</span> (n <span class="op">+</span> <span class="dv">1</span>) <span class="op">*</span> (<span class="dv">2</span> <span class="op">*</span> n <span class="op">+</span> <span class="dv">1</span>) <span class="op">//</span> <span class="dv">6</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Then:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb108"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb108-1"><a href="#cb108-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> n <span class="kw">in</span> [<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">100</span>, <span class="dv">1000</span>]:</span>
+<span id="cb108-2"><a href="#cb108-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> sum_of_squares_loop(n) <span class="op">==</span> sum_of_squares_formula(n)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>This is much stronger than checking a single example.</p>
+<hr>
+</section>
+</section>
+<section id="reproducibility" class="level1">
+<h1>35. Reproducibility</h1>
+<p>Computational results should ideally be reproducible.</p>
+<p>A reproducible computational result requires more than saving the final number.</p>
+<p>Ideally we should preserve:</p>
+<ul>
+<li>the source code;</li>
+<li>the input data;</li>
+<li>the algorithm;</li>
+<li>relevant software versions;</li>
+<li>package dependencies;</li>
+<li>computational settings;</li>
+<li>documentation explaining how to reproduce the result.</li>
+</ul>
+<p>This course will use tools such as:</p>
+<ul>
+<li>Git;</li>
+<li>GitHub;</li>
+<li>Quarto;</li>
+<li>Python;</li>
+<li>R;</li>
+</ul>
+<p>to develop these habits.</p>
+<p>The goal is not to introduce tools for their own sake.</p>
+<p>The goal is to make computational work:</p>
+<ul>
+<li>understandable;</li>
+<li>repeatable;</li>
+<li>inspectable;</li>
+<li>maintainable.</li>
+</ul>
+<hr>
+</section>
+<section id="version-control" class="level1">
+<h1>36. Version Control</h1>
+<p>Version control records changes to files over time.</p>
+<p>Git allows us to answer questions such as:</p>
+<ul>
+<li>What changed?</li>
+<li>When did it change?</li>
+<li>Who changed it?</li>
+<li>What did the code look like before?</li>
+<li>Can we return to an earlier version?</li>
+</ul>
+<p>For a computational project, version control is part of the computational workflow rather than merely a software-engineering convenience.</p>
+<p>A simple conceptual workflow is:</p>
+<pre class="text"><code>Edit
+ ↓
+Test
+ ↓
+Commit
+ ↓
+Continue</code></pre>
+<p>Later, we will develop more sophisticated Git workflows.</p>
+<hr>
+</section>
+<section id="responsible-use-of-computational-tools" class="level1">
+<h1>37. Responsible Use of Computational Tools</h1>
+<p>Modern programming work involves tools that can generate code, explain errors, search documentation, and assist with debugging.</p>
+<p>These tools can be valuable, including AI coding assistants.</p>
+<p>But there is an important distinction between:</p>
+<blockquote class="blockquote">
+<p>obtaining a piece of code that appears to work</p>
+</blockquote>
+<p>and</p>
+<blockquote class="blockquote">
+<p>understanding and being able to validate the computation.</p>
+</blockquote>
+<p>A responsible computational workflow therefore treats generated code as something to:</p>
+<ol type="1">
+<li>inspect;</li>
+<li>understand;</li>
+<li>test;</li>
+<li>validate;</li>
+<li>document when appropriate.</li>
+</ol>
+<p>The programmer remains responsible for the result.</p>
+<p>This principle will become increasingly important as we work with data and statistical models.</p>
+<hr>
+</section>
+<section id="summary-the-computational-model" class="level1">
+<h1>38. Summary: The Computational Model</h1>
+<p>Several ideas from this lecture fit together.</p>
+<section id="mathematical-objects-versus-representations" class="level2">
+<h2 class="anchored" data-anchor-id="mathematical-objects-versus-representations">38.1 Mathematical objects versus representations</h2>
+<p>A mathematical integer is an abstract object.</p>
+<p>A computer stores a finite representation of that integer.</p>
+<p>A mathematical real number is an abstract object.</p>
+<p>A computer generally stores an approximation to that real number.</p>
+</section>
+<section id="programs-versus-mathematical-expressions" class="level2">
+<h2 class="anchored" data-anchor-id="programs-versus-mathematical-expressions">38.2 Programs versus mathematical expressions</h2>
+<p>A mathematical expression describes a relationship or value.</p>
+<p>A program is a sequence of instructions that changes computational state.</p>
+</section>
+<section id="exact-versus-approximate-computation" class="level2">
+<h2 class="anchored" data-anchor-id="exact-versus-approximate-computation">38.3 Exact versus approximate computation</h2>
+<p>Integer calculations can often be exact within the range of the representation.</p>
+<p>Floating-point calculations are generally approximate.</p>
+</section>
+<section id="algorithms-matter" class="level2">
+<h2 class="anchored" data-anchor-id="algorithms-matter">38.4 Algorithms matter</h2>
+<p>Different algorithms can solve the same mathematical problem while differing in:</p>
+<ul>
+<li>speed;</li>
+<li>memory requirements;</li>
+<li>numerical stability;</li>
+<li>ease of testing;</li>
+<li>reproducibility.</li>
+</ul>
+</section>
+<section id="testing-matters" class="level2">
+<h2 class="anchored" data-anchor-id="testing-matters">38.5 Testing matters</h2>
+<p>A program producing output is not evidence that the output is correct.</p>
+<p>Testing should be deliberate and systematic.</p>
+<hr>
+</section>
+</section>
+<section id="key-takeaways" class="level1">
+<h1>39. Key Takeaways</h1>
+<p>You should leave this lecture understanding the following ideas.</p>
+<section id="assignment-is-not-mathematical-equality" class="level3">
+<h3 class="anchored" data-anchor-id="assignment-is-not-mathematical-equality">1. Assignment is not mathematical equality</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb110"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> x <span class="op">+</span> <span class="dv">1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>is an instruction that changes program state.</p>
+</section>
+<section id="types-matter" class="level3">
+<h3 class="anchored" data-anchor-id="types-matter">2. Types matter</h3>
+<p>An integer, floating-point number, string, and Boolean value are different computational objects.</p>
+</section>
+<section id="computers-use-representations" class="level3">
+<h3 class="anchored" data-anchor-id="computers-use-representations">3. Computers use representations</h3>
+<p>Numbers are represented using finite collections of bits.</p>
+</section>
+<section id="fixed-width-representations-have-limits" class="level3">
+<h3 class="anchored" data-anchor-id="fixed-width-representations-have-limits">4. Fixed-width representations have limits</h3>
+<p>Finite-width integers can overflow.</p>
+</section>
+<section id="python-abstracts-some-hardware-limitations" class="level3">
+<h3 class="anchored" data-anchor-id="python-abstracts-some-hardware-limitations">5. Python abstracts some hardware limitations</h3>
+<p>Python’s <code>int</code> provides arbitrary-precision integer arithmetic.</p>
+</section>
+<section id="floating-point-numbers-are-approximations" class="level3">
+<h3 class="anchored" data-anchor-id="floating-point-numbers-are-approximations">6. Floating-point numbers are approximations</h3>
+<p>Most real numbers cannot be represented exactly.</p>
+</section>
+<section id="numerical-error-is-normal" class="level3">
+<h3 class="anchored" data-anchor-id="numerical-error-is-normal">7. Numerical error is normal</h3>
+<p>Rounding and representation error are inherent in floating-point computation.</p>
+</section>
+<section id="exact-equality-can-be-inappropriate" class="level3">
+<h3 class="anchored" data-anchor-id="exact-equality-can-be-inappropriate">8. Exact equality can be inappropriate</h3>
+<p>Numerical comparisons often require tolerances.</p>
+</section>
+<section id="algebraic-equivalence-does-not-imply-numerical-equivalence" class="level3">
+<h3 class="anchored" data-anchor-id="algebraic-equivalence-does-not-imply-numerical-equivalence">9. Algebraic equivalence does not imply numerical equivalence</h3>
+<p>Reformulating an expression can substantially improve numerical stability.</p>
+</section>
+<section id="computation-requires-validation" class="level3">
+<h3 class="anchored" data-anchor-id="computation-requires-validation">10. Computation requires validation</h3>
+<p>A reliable workflow is:</p>
+<pre class="text"><code>Problem
+   ↓
+Algorithm
+   ↓
+Implementation
+   ↓
+Testing
+   ↓
+Numerical validation
+   ↓
+Result
+   ↓
+Reproducibility</code></pre>
+<hr>
+</section>
+</section>
+<section id="further-questions-to-think-about" class="level1">
+<h1>40. Further Questions to Think About</h1>
+<p>Before the next lecture, consider:</p>
+<ol type="1">
+<li>Why does Python use arbitrary-precision integers but fixed-precision floating-point numbers?</li>
+<li>Why might an algorithm that is mathematically correct still produce an inaccurate answer?</li>
+<li>When should a programmer prefer exact arithmetic over floating-point arithmetic?</li>
+<li>How should we choose a numerical tolerance?</li>
+<li>What does it mean for an algorithm to be efficient?</li>
+<li>How can we test a program when we do not already know the correct answer?</li>
+<li>What information would another researcher need to reproduce one of your computational results?</li>
+</ol>
+<p>These questions will recur throughout the course.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
