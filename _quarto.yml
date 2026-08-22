@@ -3,6 +3,12 @@ project:
 
 website:
   title: "Computing Using R & Python"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - href: syllabus.qmd
+        text: Syllabus
 
 format:
   html:
