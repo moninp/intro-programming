@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Quarto
+.quarto/
+_site/
+
+# R
+.Rhistory
+.RData
+.Ruserdata
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Virtual environments
+.venv/
+venv/
+
+# IDE
+.vscode/
+/.quarto/
+**/*.quarto_ipynb

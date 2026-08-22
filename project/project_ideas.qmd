@@ -1,0 +1,1384 @@
+# Semester Project Ideas
+
+One of the hardest parts of a project like this is deciding what to work on.
+
+You do **not** need to come up with a groundbreaking research question. You do not need to use a huge dataset. You do not need to build a sophisticated machine-learning model.
+
+A good project is one where you can:
+
+1. ask a reasonably interesting question;
+2. obtain data or define a computational experiment;
+3. write a meaningful amount of code;
+4. investigate the question carefully;
+5. test and validate your code and results; and
+6. communicate what you learned.
+
+In fact, **a relatively simple question investigated carefully is a better project than an ambitious question that you cannot finish.**
+
+The ideas below are intended to give you a sense of the appropriate scale. You are welcome to use one of these ideas, modify one, combine ideas, or develop something completely different.
+
+---
+
+## Data Analysis Projects
+
+### 1. What Makes a Car Expensive?
+
+**Basic idea:** Investigate which characteristics of automobiles are associated with their prices.
+
+You can use the **Automobile** dataset from the UCI Machine Learning Repository, which contains automobile characteristics and prices. The UCI repository currently maintains hundreds of datasets intended for computational and statistical analysis. ([UCI Machine Learning Repository][1])
+
+Possible questions:
+
+* Which characteristics are most strongly associated with automobile price?
+* Is engine size more important than horsepower?
+* Does fuel type matter after accounting for other characteristics?
+* Can you predict the price of a car from its characteristics?
+* Are some relationships nonlinear?
+
+Possible analysis:
+
+* clean the data;
+* examine distributions;
+* visualize relationships between price and characteristics;
+* calculate correlations;
+* fit a few linear regression models;
+* compare models using out-of-sample prediction;
+* examine residuals;
+* investigate whether transformations such as `log(price)` improve the model.
+
+**Why this is a good project:** The question is intuitive, the dataset is manageable, and there is plenty to analyze without requiring sophisticated methods.
+
+**Possible extension:** Compare a simple linear model with a tree-based prediction method.
+
+---
+
+### 2. What Makes a Wine Highly Rated?
+
+Use the UCI **Wine Quality** dataset, which contains physicochemical measurements of Portuguese wine samples and quality ratings. ([UCI Machine Learning Repository][1])
+
+Questions:
+
+* Which chemical characteristics are associated with wine quality?
+* Can wine quality be predicted from chemical measurements?
+* Is red wine easier to predict than white wine?
+* Which variables are most useful for prediction?
+* Does treating quality as a continuous variable produce different conclusions from treating it as a categorical variable?
+
+Possible analysis:
+
+1. Explore the distributions of the chemical variables.
+2. Examine correlations.
+3. Visualize relationships with quality.
+4. Fit a regression model.
+5. Evaluate prediction out of sample.
+6. Try a classification version of the problem.
+7. Compare the results.
+
+**Good project size:** Very manageable.
+
+**Potential pitfall:** Do not turn this into a competition to maximize prediction accuracy. The interesting part is understanding what the models are doing.
+
+---
+
+### 3. Can We Predict Whether Someone Has Heart Disease?
+
+The UCI repository contains a classic **Heart Disease** dataset with patient characteristics and a heart-disease outcome. ([UCI Machine Learning Repository][1])
+
+The basic question is:
+
+> Can a relatively small set of measured characteristics predict whether a patient is classified as having heart disease?
+
+You could:
+
+* inspect the variables;
+* examine differences between the two groups;
+* visualize important predictors;
+* fit logistic regression;
+* evaluate classification accuracy;
+* construct a confusion matrix;
+* investigate sensitivity and specificity;
+* compare logistic regression with another classification method.
+
+**Important:** This should be presented as an exercise in statistical/computational modeling, **not as a medical diagnostic tool**.
+
+**Why it works:** There is a clear outcome, a manageable number of variables, and an obvious opportunity to discuss classification and model evaluation.
+
+---
+
+### 4. What Predicts Student Performance?
+
+The UCI **Student Performance** dataset contains information about students and their academic performance. It includes demographic, social, school-related, and academic variables. ([UCI Machine Learning Repository][2])
+
+Possible questions:
+
+* Which characteristics are associated with final grades?
+* Can final performance be predicted from information available earlier?
+* Do study habits appear to matter?
+* Are there nonlinear relationships?
+* How well can a model predict whether a student achieves a particular grade threshold?
+
+Possible methods:
+
+* descriptive statistics;
+* visualization;
+* linear regression;
+* logistic regression;
+* train/test splits;
+* model comparison.
+
+**A particularly nice version:** Restrict yourself to variables that would plausibly be available *before* the final outcome. Discuss why using information that occurs after the outcome would be problematic.
+
+---
+
+### 5. Can We Predict Whether a Bank Customer Will Subscribe to a Term Deposit?
+
+The UCI **Bank Marketing** dataset contains more than 45,000 observations and 17 features concerning a Portuguese bank's marketing campaigns. The outcome is whether the customer subscribed to a term deposit. ([UCI Machine Learning Repository][2])
+
+Possible questions:
+
+* Which customer characteristics predict subscription?
+* How well can subscription be predicted?
+* Which variables have the greatest predictive value?
+* Does a simple logistic model perform reasonably well?
+* How does a more flexible model compare?
+
+Possible computational tasks:
+
+* clean categorical variables;
+* encode categorical variables;
+* perform exploratory analysis;
+* fit logistic regression;
+* construct a confusion matrix;
+* calculate precision, recall, and accuracy;
+* compare with a tree-based model.
+
+This is a good project for students interested in business, economics, finance, or data science.
+
+---
+
+### 6. Can We Predict Income from Census Characteristics?
+
+The UCI **Adult** dataset contains approximately 49,000 observations and asks whether an individual's annual income exceeds $50,000 based on census characteristics. ([UCI Machine Learning Repository][2])
+
+Possible questions:
+
+* How accurately can income category be predicted?
+* Which variables are most informative?
+* How does model performance change with different sets of predictors?
+* How does a simple model compare with a more flexible model?
+
+This project also provides an opportunity to discuss:
+
+* categorical variables;
+* missing data;
+* model evaluation;
+* class imbalance;
+* fairness and responsible interpretation of predictive models.
+
+**Important:** Students should not make claims about individual people based on such a model. The project is about understanding statistical prediction.
+
+---
+
+### 7. What Determines the Price of an Online Product?
+
+The UCI **Online Retail** dataset contains more than 500,000 transactions from a UK online retailer. ([UCI Machine Learning Repository][2])
+
+A student could investigate:
+
+* Which products generate the most revenue?
+* How does purchasing behavior vary over time?
+* What are the most common purchase quantities?
+* How concentrated are sales among customers?
+* Which customers generate the most revenue?
+* Are there seasonal patterns?
+* How frequently do customers return?
+
+Possible computational tasks:
+
+* clean transaction data;
+* remove or investigate cancellations;
+* construct customer-level variables;
+* aggregate transactions;
+* calculate revenue;
+* visualize time patterns;
+* identify high-value customers;
+* investigate product concentration.
+
+This is particularly good for learning **data manipulation and aggregation** rather than just regression.
+
+---
+
+### 8. How Does Weather Vary Over Time?
+
+Use publicly available weather observations to investigate a question such as:
+
+* Has the distribution of daily temperatures changed?
+* How variable is temperature throughout the year?
+* How unusual was a particular year?
+* Are extreme temperatures becoming more common?
+* How does precipitation vary by month?
+
+A particularly accessible version is to choose **one location** and analyze several years of daily observations.
+
+The project could involve:
+
+* downloading data;
+* parsing dates;
+* dealing with missing observations;
+* aggregating daily observations to monthly or annual statistics;
+* calculating rolling averages;
+* plotting distributions;
+* identifying extreme observations.
+
+The project does not need to make a claim about climate change. A careful descriptive analysis of weather at one location is sufficient.
+
+---
+
+### 9. What Can We Learn from Economic Time Series?
+
+The Federal Reserve Bank of St. Louis provides the FRED database and an API through which programs can retrieve economic data. ([FRED][3])
+
+Pick two or three economic variables that interest you.
+
+Examples:
+
+* unemployment and inflation;
+* interest rates and housing prices;
+* GDP and unemployment;
+* oil prices and inflation;
+* Treasury yields at different maturities;
+* consumer confidence and economic activity.
+
+Possible questions:
+
+* How have the variables moved over time?
+* Are they correlated?
+* Do relationships differ across periods?
+* Does one variable tend to lead another?
+* How do correlations change during recessions?
+
+A simple version can involve nothing more complicated than downloading several time series, cleaning them, plotting them, calculating correlations, and investigating several historical episodes.
+
+**This is a particularly good project for economics/finance students.**
+
+---
+
+### 10. What Happened to Interest Rates During Major Economic Events?
+
+Use FRED data to investigate one or more historical episodes.
+
+For example:
+
+* the 2008 financial crisis;
+* the COVID-19 pandemic;
+* the 2022 inflation episode;
+* a particular Federal Reserve tightening cycle.
+
+Possible questions:
+
+* How did short- and long-term interest rates respond?
+* How did the yield curve change?
+* Did different maturities behave differently?
+* How unusual was the movement relative to historical volatility?
+
+A particularly nice project would calculate:
+
+* changes in yields;
+* yield-curve slopes;
+* rolling volatility;
+* correlations across maturities.
+
+The FRED API is especially useful here because students can practice retrieving data programmatically rather than manually downloading spreadsheets. ([FRED][3])
+
+---
+
+### 11. Is There a Relationship Between Movie Characteristics and Box Office Success?
+
+Find a public movie dataset containing variables such as:
+
+* budget;
+* genre;
+* runtime;
+* release year;
+* ratings;
+* number of votes;
+* box-office revenue.
+
+Possible questions:
+
+* Does budget predict revenue?
+* Are some genres more commercially successful?
+* Does higher audience rating correspond to greater revenue?
+* How has the relationship changed over time?
+* Can revenue be predicted reasonably well?
+
+This can be a straightforward regression/data-visualization project.
+
+---
+
+### 12. What Makes a Song Popular?
+
+Use a public music dataset containing characteristics such as:
+
+* tempo;
+* energy;
+* danceability;
+* acousticness;
+* loudness;
+* duration;
+* genre;
+* popularity.
+
+Possible questions:
+
+* Which characteristics are associated with popularity?
+* Are some genres systematically different?
+* Is there an ideal tempo?
+* Are popularity relationships nonlinear?
+* Can popularity be predicted?
+
+This is a good project because the subject matter is immediately understandable, but the student can still do serious quantitative analysis.
+
+---
+
+### 13. How Have Music Trends Changed Over Time?
+
+Instead of predicting popularity, investigate how characteristics of popular music have changed.
+
+Questions might include:
+
+* Has average song duration changed?
+* Has tempo changed?
+* Has musical energy changed?
+* Have genres become more or less concentrated?
+* How has the distribution of musical characteristics changed?
+
+The main methods can simply be:
+
+* grouping;
+* summary statistics;
+* rolling averages;
+* distributions;
+* visualization.
+
+This is an excellent example of a project that is **simple computationally but can still produce an interesting final product**.
+
+---
+
+### 14. Which Sports Statistics Actually Predict Winning?
+
+Choose a sport with accessible historical data.
+
+Examples:
+
+* baseball;
+* basketball;
+* football;
+* hockey;
+* soccer.
+
+Ask:
+
+> Which team statistics are most strongly associated with winning?
+
+Possible approaches:
+
+* calculate win percentage;
+* compare successful and unsuccessful teams;
+* examine correlations;
+* build a regression or classification model;
+* investigate whether certain statistics predict future rather than contemporaneous performance.
+
+A particularly nice project would distinguish between:
+
+> "What statistics are associated with winning?"
+
+and
+
+> "What statistics can predict future winning?"
+
+The second is a more genuinely predictive question and naturally introduces train/test splits.
+
+---
+
+### 15. Does Home-Field Advantage Still Exist?
+
+Use historical sports data to investigate home advantage.
+
+Possible questions:
+
+* What fraction of games are won by the home team?
+* Does home advantage differ by sport?
+* Has home advantage changed over time?
+* Does it differ between regular-season and playoff games?
+* Are some teams unusually strong or weak at home?
+
+This can be done with relatively simple data and provides opportunities for:
+
+* grouping;
+* proportions;
+* confidence intervals;
+* hypothesis testing;
+* visualization;
+* time trends.
+
+---
+
+### 16. How Much Does Randomness Matter in Sports?
+
+Use historical game results to simulate a season.
+
+For example:
+
+1. Estimate team strengths from historical data.
+2. Build a simple probabilistic model for game outcomes.
+3. Simulate many seasons.
+4. Compare simulated standings with actual standings.
+5. Investigate how much variation in final standings can arise from randomness.
+
+This is a wonderful project because it combines **data analysis and simulation** without requiring advanced mathematics.
+
+---
+
+### 17. Is a Coin Really Fair?
+
+This sounds almost too simple—and that is precisely why it is a good project.
+
+Use simulation to investigate:
+
+* how often a fair coin produces apparently unusual sequences;
+* how many flips are needed before an unfair coin can reliably be detected;
+* how sample size affects statistical power;
+* how multiple testing can produce apparently surprising results.
+
+You could begin with a theoretical probability calculation, then verify it computationally.
+
+For example:
+
+> If I flip a fair coin 100 times, how unusual is it to observe at least 60 heads?
+
+Then generalize the question using simulation.
+
+This is an excellent project for a student interested in statistics who does not want to find a large real-world dataset.
+
+---
+
+### 18. How Many Simulations Are Enough?
+
+Choose a quantity that can be estimated using Monte Carlo simulation.
+
+Examples:
+
+* an integral;
+* a probability;
+* an expected value;
+* the area of a geometric region.
+
+Investigate:
+
+> How does the accuracy of a Monte Carlo estimate improve as the number of simulations increases?
+
+The project could compare:
+
+* 100 simulations;
+* 1,000;
+* 10,000;
+* 100,000;
+* 1,000,000.
+
+Then examine:
+
+* error;
+* runtime;
+* convergence;
+* variability across repeated simulations.
+
+This is a very good project for demonstrating that **computational accuracy and computational cost are often traded off against one another**.
+
+---
+
+# Numerical and Computational Projects
+
+These projects do not require a real-world dataset. The "data" are generated by mathematics or by the computer.
+
+That is completely legitimate for this course.
+
+---
+
+### 19. How Accurate Are Different Methods of Computing π?
+
+Compare several methods for estimating π.
+
+For example:
+
+* Leibniz's series;
+* Monte Carlo simulation;
+* numerical integration;
+* another method you research.
+
+For each method, investigate:
+
+* accuracy;
+* convergence;
+* runtime;
+* numerical error.
+
+A particularly good project would show that methods that are mathematically correct can have **very different computational properties**.
+
+---
+
+### 20. Numerical Integration: How Good Are Different Methods?
+
+Choose a few functions and compare:
+
+* left/right Riemann sums;
+* trapezoidal rule;
+* Simpson's rule;
+* numerical integration from a library.
+
+Investigate how error changes with the number of evaluation points.
+
+Questions:
+
+* Which method converges fastest?
+* Does the answer depend on the function?
+* When does floating-point error become relevant?
+* How much computation is required for a desired accuracy?
+
+This is an excellent project because the mathematics is accessible while the computational questions are substantive.
+
+---
+
+### 21. Finding Roots Numerically
+
+Compare methods for solving equations such as
+
+[
+f(x)=0.
+]
+
+For example:
+
+* bisection;
+* Newton's method;
+* secant method.
+
+Investigate:
+
+* number of iterations;
+* accuracy;
+* convergence;
+* sensitivity to initial conditions;
+* situations in which a method fails.
+
+A nice project does not need to investigate dozens of functions. Three or four carefully chosen examples are enough.
+
+---
+
+### 22. How Does Newton's Method Behave?
+
+Take Newton's method and investigate what happens under different starting values.
+
+For a function such as
+
+[
+f(x)=x^3-x,
+]
+
+different starting values can lead to different roots.
+
+Visualize:
+
+* the function;
+* starting points;
+* convergence paths.
+
+Then investigate numerically how the initial condition affects the result.
+
+This is a particularly nice project because the final product can combine **mathematics, visualization, algorithms, and experimentation**.
+
+---
+
+### 23. Floating-Point Arithmetic Can Break Mathematical Intuition
+
+Build a collection of computational experiments illustrating numerical precision.
+
+For example:
+
+* `0.1 + 0.2`;
+* subtracting nearly equal numbers;
+* adding a very small number to a very large number;
+* summing numbers in different orders;
+* overflow and underflow.
+
+Then investigate:
+
+> How large can the numerical error become, and under what circumstances?
+
+The project could compare naive algorithms with numerically more stable alternatives.
+
+This would be a very natural extension of Lecture 1.
+
+---
+
+### 24. Does the Order of Addition Matter?
+
+Construct arrays of numbers containing a mixture of very large and very small values.
+
+Compare:
+
+* summing from smallest to largest;
+* summing from largest to smallest;
+* ordinary sequential summation;
+* pairwise summation;
+* a library implementation.
+
+Investigate how the answers differ.
+
+This is a small project with a surprisingly deep lesson:
+
+> mathematically equivalent operations need not be computationally equivalent.
+
+---
+
+### 25. Compare Sorting Algorithms
+
+Implement or use several sorting algorithms.
+
+For example:
+
+* insertion sort;
+* selection sort;
+* merge sort;
+* Python's built-in sorting.
+
+Investigate:
+
+* runtime as a function of input size;
+* behavior on already sorted data;
+* behavior on reverse-sorted data;
+* behavior on random data.
+
+Plot runtime against sample size.
+
+This project introduces algorithmic complexity in a concrete way.
+
+**Important:** You do not need to implement every sophisticated sorting algorithm. Three simple algorithms plus the built-in implementation are plenty.
+
+---
+
+### 26. How Fast Do Algorithms Really Get?
+
+Choose a simple computational task and implement multiple versions.
+
+For example:
+
+* searching for an element;
+* computing a moving average;
+* calculating pairwise distances;
+* matrix multiplication.
+
+Compare:
+
+* a straightforward Python implementation;
+* a vectorized implementation;
+* a library implementation.
+
+Measure runtime as the input size increases.
+
+This is a good project for students who are more interested in programming and computer science than data analysis.
+
+---
+
+### 27. Recursion Versus Iteration
+
+Choose a problem that can naturally be solved recursively and iteratively.
+
+For example:
+
+* Fibonacci numbers;
+* factorials;
+* tree traversal;
+* binary search.
+
+Compare:
+
+* implementation complexity;
+* runtime;
+* memory usage;
+* behavior as the problem size increases.
+
+A particularly interesting experiment is to show that a mathematically elegant recursive implementation can be computationally terrible.
+
+---
+
+# Simulation Projects
+
+### 28. How Does the Law of Large Numbers Appear Computationally?
+
+Simulate repeated samples from a known distribution.
+
+For example, repeatedly sample from:
+
+* a Bernoulli distribution;
+* a normal distribution;
+* a uniform distribution.
+
+Track the sample mean as sample size increases.
+
+Investigate:
+
+* how quickly the sample mean stabilizes;
+* how the result changes with variance;
+* how repeated simulations differ.
+
+Then visualize many simulation paths.
+
+This is simple enough for almost anyone to complete but can produce an excellent final report.
+
+---
+
+### 29. How Does the Central Limit Theorem Work in Practice?
+
+Choose a non-normal distribution, such as:
+
+* uniform;
+* exponential;
+* Bernoulli;
+* Poisson.
+
+Repeatedly draw samples and calculate the sample mean.
+
+Then examine the distribution of those sample means.
+
+Investigate how it changes as sample size increases.
+
+This project can demonstrate:
+
+* simulation;
+* histograms;
+* means and variances;
+* standardization;
+* the Central Limit Theorem.
+
+---
+
+### 30. How Much Data Do We Need?
+
+Choose a statistical estimation problem and investigate how performance changes with sample size.
+
+For example:
+
+> How accurately can we estimate the mean of a population?
+
+or
+
+> How accurately can we estimate the slope in a regression?
+
+Simulate datasets with different sample sizes and examine:
+
+* bias;
+* variance;
+* confidence interval width;
+* probability of rejecting a false null hypothesis;
+* prediction error.
+
+This is a very good project because the student can make the experiment as simple or sophisticated as their interests permit.
+
+---
+
+### 31. Multiple Testing and False Discoveries
+
+Simulate a situation in which **none of the hypotheses are actually true**.
+
+For example:
+
+1. Generate many independent datasets.
+2. Conduct 100 hypothesis tests.
+3. Count how many apparently significant results occur.
+4. Repeat the experiment many times.
+
+Then investigate:
+
+* how many false positives you expect;
+* what happens when the number of tests increases;
+* how Bonferroni correction changes the results;
+* how false discovery rate methods behave.
+
+This is an excellent statistics project that requires very little external data.
+
+---
+
+### 32. How Does Bootstrapping Work?
+
+Choose a dataset and estimate some statistic—for example:
+
+* mean;
+* median;
+* correlation;
+* regression coefficient.
+
+Then use the bootstrap to estimate uncertainty.
+
+Compare the bootstrap results with a theoretical standard error or confidence interval where possible.
+
+Questions:
+
+* How well does the bootstrap work?
+* Does it work equally well for the mean and median?
+* How does sample size affect the result?
+
+---
+
+# Machine Learning Projects
+
+The following projects are deliberately designed so that students **do not need to build neural networks from scratch**.
+
+The objective is to learn how to formulate, train, evaluate, and interpret computational models.
+
+---
+
+### 33. Predict Wine Quality
+
+Use the UCI Wine Quality dataset.
+
+Compare perhaps:
+
+1. linear regression;
+2. a decision tree;
+3. a random forest.
+
+Evaluate out-of-sample prediction.
+
+The interesting question is not:
+
+> "Can I get the highest possible accuracy?"
+
+It is:
+
+> "How do different modeling approaches behave on this problem?"
+
+The dataset is small enough that students can iterate quickly. ([UCI Machine Learning Repository][1])
+
+---
+
+### 34. Predict Whether a Bank Customer Will Subscribe
+
+Use the UCI Bank Marketing dataset.
+
+Compare two or three classification methods.
+
+Investigate:
+
+* accuracy;
+* precision;
+* recall;
+* ROC curves;
+* confusion matrices.
+
+Then ask:
+
+> Which model would you actually use if the cost of a false positive differed from the cost of a false negative?
+
+That last question turns a simple machine-learning exercise into a useful decision-making problem.
+
+---
+
+### 35. Predict Student Performance
+
+Use the UCI Student Performance dataset.
+
+Compare:
+
+* a baseline prediction;
+* linear regression;
+* a tree-based method.
+
+Investigate how much predictive performance improves as additional variables are included.
+
+This also provides an opportunity to discuss **data leakage**—whether information used to predict the outcome would actually be available at the time the prediction was supposed to be made.
+
+---
+
+### 36. How Does Training-Test Splitting Affect Results?
+
+Choose a relatively simple prediction problem.
+
+Repeatedly divide the data into training and test sets.
+
+Investigate:
+
+* how much estimated performance varies;
+* what happens with different random seeds;
+* what happens with different training-set sizes;
+* why a single train/test split can be noisy.
+
+This is a great project for teaching the idea that **a model's reported performance is itself an estimate**.
+
+---
+
+### 37. Can We Predict Handwritten Digits?
+
+The UCI repository contains the **Optical Recognition of Handwritten Digits** dataset. ([UCI Machine Learning Repository][4])
+
+The problem is to classify handwritten digits.
+
+A student could:
+
+* visualize example digits;
+* examine the feature representation;
+* fit a simple classifier;
+* evaluate errors;
+* examine which digits are most frequently confused.
+
+They do not need to build a neural network.
+
+A simple classifier can provide plenty of material for a good project.
+
+---
+
+# Projects That Combine Data and Simulation
+
+### 38. How Much Does Selection Bias Matter?
+
+Create a simulated population with a known relationship between two variables.
+
+Then introduce a selection mechanism.
+
+For example:
+
+1. Generate a population in which `X` and `Y` have a known relationship.
+2. Select observations according to a third variable.
+3. Estimate the relationship in the selected sample.
+4. Compare it with the true population relationship.
+
+Investigate how selection changes the result.
+
+This is a particularly nice project for students with a statistics background.
+
+---
+
+### 39. How Much Does Measurement Error Matter?
+
+Simulate a regression model with a known coefficient.
+
+Then add measurement error to the explanatory variable.
+
+Compare:
+
+* the true relationship;
+* the relationship estimated using the true variable;
+* the relationship estimated using the noisy measurement.
+
+Investigate how the amount of measurement error affects the estimate.
+
+This is a relatively simple simulation with a meaningful statistical lesson.
+
+---
+
+### 40. How Does Missing Data Affect Analysis?
+
+Start with a dataset with complete observations.
+
+Then artificially remove observations under different mechanisms:
+
+* completely at random;
+* depending on another variable;
+* depending on the variable being studied.
+
+Compare the resulting estimates.
+
+Investigate:
+
+> When does missing data materially change the conclusions?
+
+This provides an excellent opportunity to combine:
+
+* simulation;
+* data manipulation;
+* visualization;
+* statistical reasoning.
+
+---
+
+# Projects Using APIs and Real-Time Data
+
+These projects are particularly good if you want students to practice **programmatically acquiring data**, rather than downloading a CSV manually.
+
+### 41. Build a Small Economic Data Pipeline
+
+Use the FRED API to retrieve several economic series. The API is explicitly designed to allow programs to retrieve FRED and ALFRED data programmatically. ([FRED][3])
+
+For example:
+
+1. retrieve unemployment;
+2. retrieve inflation;
+3. retrieve a Treasury yield;
+4. combine the series;
+5. clean the dates;
+6. calculate derived quantities;
+7. produce plots;
+8. save a processed dataset.
+
+The analysis itself can remain simple.
+
+The interesting computational component is building a **reproducible data pipeline**.
+
+---
+
+### 42. Track a Time Series Automatically
+
+Choose a publicly available series that changes over time.
+
+Write a program that:
+
+1. downloads the data;
+2. stores it locally;
+3. cleans it;
+4. updates the stored data;
+5. produces a graph.
+
+Then design the program so that it can be run again without manually repeating the analysis.
+
+This project is especially useful for demonstrating:
+
+* APIs;
+* file I/O;
+* functions;
+* error handling;
+* reproducibility;
+* project organization.
+
+---
+
+### 43. Compare Two Economic Time Series
+
+Use FRED to retrieve two or three related series.
+
+For example:
+
+* unemployment and inflation;
+* mortgage rates and housing prices;
+* oil prices and gasoline prices;
+* Treasury yields at different maturities.
+
+Ask a focused question about their relationship.
+
+The project should emphasize **careful data handling and visualization**, rather than sophisticated econometrics.
+
+---
+
+# "Build Something" Projects
+
+These are appropriate for students who are more interested in programming than statistical analysis.
+
+### 44. Build a Monte Carlo Simulation Tool
+
+Create a reusable Python or R program that lets the user specify:
+
+* a probability distribution;
+* a number of simulations;
+* a statistic of interest.
+
+The program should then:
+
+* run the simulation;
+* summarize results;
+* display a visualization;
+* report computation time.
+
+The project can investigate the accuracy of the tool and demonstrate that it works for several different distributions.
+
+---
+
+### 45. Build a Numerical Root-Finding Library
+
+Implement several root-finding methods as reusable functions.
+
+For example:
+
+```python
+bisection(f, a, b)
+newton(f, x0)
+secant(f, x0, x1)
+```
+
+Then create tests for the functions.
+
+Investigate:
+
+* accuracy;
+* convergence;
+* runtime;
+* failure cases.
+
+This is a particularly good project because the **software itself is part of the result**.
+
+---
+
+### 46. Build a Simple Data-Analysis Pipeline
+
+Choose a dataset and build a reusable pipeline that:
+
+1. reads the raw data;
+2. validates it;
+3. cleans it;
+4. produces summary statistics;
+5. creates standard visualizations;
+6. saves the results.
+
+The project could be framed as:
+
+> "I want to turn this messy dataset into a reproducible analysis with one command."
+
+This is an excellent project for students interested in data science or professional programming.
+
+---
+
+### 47. Build a Text Analysis Tool
+
+Choose a collection of public-domain text.
+
+For example:
+
+* novels;
+* speeches;
+* news articles;
+* poems.
+
+Build a program that calculates things such as:
+
+* word frequencies;
+* vocabulary size;
+* average word length;
+* sentence length;
+* most common words;
+* changes in vocabulary across documents.
+
+Then ask a focused question.
+
+For example:
+
+> How does vocabulary differ among several authors?
+
+or:
+
+> How does the vocabulary of an author change over time?
+
+This is a very approachable project that provides plenty of opportunities to practice strings, dictionaries, functions, data structures, visualization, and file handling.
+
+---
+
+### 48. Analyze a Collection of Books
+
+Download a collection of public-domain books from a source such as Project Gutenberg.
+
+Build a small text-processing pipeline.
+
+Investigate something like:
+
+* word-frequency distributions;
+* vocabulary growth;
+* sentence length;
+* character names;
+* dialogue versus narration;
+* changes in writing style.
+
+Students should be encouraged to pick books they actually care about.
+
+The project does not need natural-language processing or machine learning.
+
+---
+
+# A Few Especially Good "Safe Choices"
+
+If you have **no idea what you want to do**, I particularly recommend one of these:
+
+### Easiest data-analysis choices
+
+1. **What makes a car expensive?**
+2. **What makes a wine highly rated?**
+3. **What predicts student performance?**
+4. **What statistics predict sports success?**
+5. **How have weather patterns changed over time?**
+6. **What can we learn from two economic time series?**
+
+### Easiest simulation choices
+
+7. **How does the Central Limit Theorem appear computationally?**
+8. **How does the Law of Large Numbers appear computationally?**
+9. **How many simulations are enough?**
+10. **How does sample size affect statistical estimation?**
+
+### Easiest numerical/computer-science choices
+
+11. **Compare numerical integration methods.**
+12. **Compare root-finding methods.**
+13. **Investigate floating-point error.**
+14. **Compare sorting algorithms.**
+15. **Investigate the effect of order of addition.**
+
+None of these would be considered a "lesser" project. A carefully executed project on one of these topics can be an excellent final project.
+
+---
+
+# How to Tell Whether Your Idea Is Good Enough
+
+You do **not** need to answer an important question about the world.
+
+Instead, ask whether your idea passes these tests.
+
+### 1. Can I state the question in one or two sentences?
+
+If you cannot, the project may be too broad.
+
+### 2. Can I get the data or define the computational experiment?
+
+If you don't have the data yet, **get it before committing to the project**.
+
+### 3. Can I imagine writing at least several hundred lines of meaningful code over the course of the project?
+
+The exact number does not matter, but the project should involve substantial programming.
+
+### 4. Can I produce several useful outputs?
+
+For example:
+
+* figures;
+* tables;
+* model results;
+* simulations;
+* numerical comparisons;
+* performance measurements.
+
+### 5. Can I imagine discovering something?
+
+The answer does not have to be surprising. It just needs to be possible for the result to differ from your initial expectation.
+
+### 6. Can I test whether my code is correct?
+
+This is particularly important for this course.
+
+### 7. Can I finish it?
+
+This is perhaps the most important question.
+
+A project that is "too easy" is much better than a project that is impossible to finish.
+
+---
+
+# The "Minimum Viable Project"
+
+If you are worried that your idea is too simple, think in terms of a **minimum viable project**.
+
+A project can start with something as simple as:
+
+> "I want to know whether X is related to Y."
+
+Then build it in stages:
+
+```text
+Stage 1
+Get the data
+        ↓
+Stage 2
+Clean the data
+        ↓
+Stage 3
+Make some plots
+        ↓
+Stage 4
+Calculate descriptive statistics
+        ↓
+Stage 5
+Fit a simple model / run a computational experiment
+        ↓
+Stage 6
+Test and validate the analysis
+        ↓
+Stage 7
+Ask a more interesting follow-up question
+        ↓
+Stage 8
+Add one robustness check
+```
+
+This is a feature, not a problem.
+
+**Do not start by trying to design the final project. Start by designing the smallest project that could work.**
+
+If the initial analysis turns out to be interesting, expand it.
+
+---
+
+# Where to Find Data
+
+Several sources are particularly useful for projects in this course.
+
+### UCI Machine Learning Repository
+
+[UCI Machine Learning Repository](https://archive.ics.uci.edu/?utm_source=chatgpt.com)
+
+UCI currently provides hundreds of datasets, including relatively small datasets such as Iris, Wine Quality, Student Performance, Automobile, and Bank Marketing, as well as much larger datasets. ([UCI Machine Learning Repository][1])
+
+This is probably the **best starting point for students who want a ready-to-use dataset**.
+
+### FRED
+
+[Federal Reserve Bank of St. Louis FRED](https://fred.stlouisfed.org/?utm_source=chatgpt.com)
+
+FRED contains a very large collection of economic and financial time series and provides an API specifically designed for programmatic data retrieval. ([FRED][3])
+
+### Data.gov
+
+[Data.gov](https://www.data.gov/?utm_source=chatgpt.com)
+
+Data.gov is a useful starting point for U.S. government datasets.
+
+### Other sources
+
+You may also consider:
+
+* Census data;
+* CDC data;
+* NOAA/weather data;
+* sports data;
+* public financial data;
+* scientific datasets;
+* public-domain text;
+* datasets associated with academic research.
+
+When evaluating a dataset, **do not choose it merely because it is large**. A clean dataset with 5,000 observations may be much better for this project than a messy dataset with 50 million observations.
+
+---
+
+# One Final Piece of Advice
+
+Your project does **not** have to be original research.
+
+It is perfectly acceptable to take a well-known dataset or computational problem and investigate it yourself.
+
+For this course, the important question is not:
+
+> "Has anyone ever done this before?"
+
+The important question is:
+
+> **"Can I use this problem to demonstrate that I can do computational work well?"**
+
+That means that a project such as
+
+> "I am going to compare three numerical integration methods"
+
+can be every bit as good as
+
+> "I am going to investigate a novel question using a massive proprietary dataset."
+
+In fact, the first may be the **better Math 5200 project** if it results in careful implementation, testing, experimentation, visualization, and clear conclusions.
+
+The best project is one that is **interesting enough to keep you engaged, small enough to finish, and rich enough to teach you something.**
+
+[1]: https://archive.ics.uci.edu/?utm_source=chatgpt.com "UCI Machine Learning Repository"
+[2]: https://www.archive.ics.uci.edu/datasets?utm_source=chatgpt.com "UCI Machine Learning Repository"
+[3]: https://fred.stlouisfed.org/docs/api/fred/overview.html?utm_source=chatgpt.com "St. Louis Fed Web Services: FRED® API Overview"
+[4]: https://archive.ics.uci.edu/datasets?search=31&utm_source=chatgpt.com "UCI Machine Learning Repository"

@@ -1,0 +1,124 @@
+---
+title: "MATH 5200: Computing Using R & Python"
+subtitle: "Fall 2026"
+format:
+  html:
+    toc: false
+    code-fold: false
+page-layout: full
+---
+
+# MATH 5200: Computing Using R & Python
+
+**Fall 2026**
+
+This is the course website and source repository for MATH 5200: Computing Using R & Python.
+
+The course provides a fast-paced introduction to **Python and R** for graduate study in mathematics and statistics. In addition to programming fundamentals, we will study computational thinking, numerical computing, data management, testing and debugging, version control, reproducibility, and other practices used in professional computational work.
+
+::: {.callout-important}
+## Start Here
+
+If you are new to the course, begin with **[Getting Started](getting-started.qmd)**.
+
+It contains instructions for:
+
+- installing the required software;
+- setting up Python and the course virtual environment;
+- configuring VS Code;
+- obtaining and updating the course repository; and
+- running the course's Quarto examples.
+:::
+
+## Course Materials
+
+### Lectures
+
+Lecture materials are organized by week. Each lecture generally has two components:
+
+- **Class materials** contain exercises and examples that we will work through together in class.
+- **Lecture notes** provide additional background and explanation.
+
+| Lecture | Class | Notes |
+|---|---|---|
+| Lecture 1: Foundations, Computation & Binary Representations | [class](lectures/01-foundations/class.qmd) | [notes](lectures/01-foundations/notes.qmd) |
+| Lecture 2 | XXX | XXX |
+| Lecture 3 | XXX | XXX |
+| Lecture 4 | XXX | XXX |
+
+The lecture schedule will develop as the semester progresses.
+
+### Homework
+
+Homework assignments are designed to give you practice applying the ideas introduced in class.
+
+[View the homework assignments](homework/)
+
+### Quizzes
+
+Short quizzes will be used to reinforce important concepts and provide regular feedback on your progress.
+
+[View the quizzes](quizzes/)
+
+### Semester Project
+
+The semester project is an extended computational project in which you will apply the tools and ideas from the course to a problem of your choosing.
+
+[Project description and instructions](project/)
+
+## Software and Tools
+
+The course uses:
+
+- **Python 3**
+- **R**
+- **Visual Studio Code**
+- **Quarto**
+- **Git**
+- **GitHub**
+
+You do not need to be an expert with any of these tools at the beginning of the course. We will learn the relevant parts as we go.
+
+The course repository itself is part of the course. You will use Git and GitHub to obtain course materials and will learn how version control fits into a reproducible computational workflow.
+
+## Repository
+
+The complete source for the course materials is available on GitHub:
+
+**[Course GitHub Repository](https://github.com/moninp/intro-programming)**
+
+The repository contains both the source files used to create this website and the programming materials used in the course.
+
+You are encouraged to look at the source files as well as the rendered materials. In particular, the `.qmd` files that produce the lecture pages are themselves part of the course materials.
+
+## Getting Help
+
+If you encounter a problem with the software or course materials, please consult **[Getting Started](getting-started.qmd)**.
+
+If you still cannot resolve the problem, please contact the instructor or bring the problem to class or office hours.
+
+When asking for help with programming, it is particularly useful to provide:
+
+1. the code you ran;
+2. the error message or unexpected result;
+3. what you expected to happen; and
+4. what you have already tried.
+
+Learning to describe a computational problem clearly is itself an important programming skill.
+
+## Instructor
+
+**Phillip Monin, PhD, CFA, FRM**
+
+[pm1091@georgetown.edu](mailto:pm1091@georgetown.edu)
+
+Office hours: XXX
+
+## Course Information
+
+- **Course:** MATH 5200
+- **Semester:** Fall 2026
+- **Meeting time:** XXX
+- **Location:** XXX
+
+For complete course policies, grading information, and the course schedule, see the [syllabus](syllabus.qmd).

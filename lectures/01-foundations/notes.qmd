@@ -1,0 +1,1860 @@
+---
+title: "Lecture 1 — Foundations, Computation & Binary Representations"
+subtitle: "Background Notes"
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    code-fold: false
+jupyter: python3
+---
+
+# 1. Introduction
+
+Programming is often introduced as the process of learning a programming language. That is only part of the story.
+
+A programming language provides a way to express computations, but effective computational work requires us to think about several additional questions:
+
+- How should a problem be represented?
+- What algorithm should we use?
+- How should the algorithm be implemented?
+- How can we determine whether the implementation is correct?
+- How does the computer represent the quantities involved?
+- What numerical errors can arise?
+- How can the computation be reproduced and independently checked?
+
+A useful computational workflow is:
+
+```text
+Problem
+   ↓
+Representation
+   ↓
+Algorithm
+   ↓
+Implementation
+   ↓
+Testing
+   ↓
+Numerical validation
+   ↓
+Results
+   ↓
+Communication / Reproducibility
+````
+
+This course will return to this workflow repeatedly.
+
+A central theme of this first lecture is:
+
+> **A computer does not manipulate mathematical objects directly. It executes algorithms using finite representations of information.**
+
+This distinction is particularly important in numerical work.
+
+---
+
+# 2. Mathematical Work versus Computational Work
+
+Consider the mathematical problem
+
+$$
+\sum_{i=1}^{n} i^2.
+$$
+
+A mathematical solution might derive the identity
+
+$$
+\sum_{i=1}^{n}i^2
+=
+\frac{n(n+1)(2n+1)}{6}.
+$$
+
+Once the identity is established, the mathematical problem is essentially solved.
+
+A computational solution requires additional decisions.
+
+For example:
+
+1. How will $n$ be represented?
+2. Will we use the formula above or explicitly add the terms?
+3. What programming language will we use?
+4. What numerical representation will be used?
+5. How will the result be tested?
+6. How will we know that the implementation is correct?
+7. How will another person reproduce the calculation?
+
+These questions are not merely implementation details. They can affect the reliability, speed, and even correctness of the result.
+
+## 2.1 Algorithms
+
+An **algorithm** is a finite, well-defined procedure for solving a problem.
+
+For the sum-of-squares problem, one algorithm is:
+
+```text
+total ← 0
+for i from 1 through n:
+    total ← total + i²
+return total
+```
+
+Another algorithm uses the closed-form expression:
+
+```text
+return n(n+1)(2n+1)/6
+```
+
+The two algorithms solve the same mathematical problem, but they have different computational properties.
+
+The first requires work proportional to $n$. The second requires a fixed number of high-level arithmetic operations.
+
+This is our first example of an important distinction:
+
+> **Mathematically equivalent methods need not be computationally equivalent.**
+
+---
+
+# 3. Python as a Computational Language
+
+Python allows us to express algorithms in a relatively concise form.
+
+For example:
+
+```{python}
+def sum_of_squares(n):
+    total = 0
+
+    for i in range(1, n + 1):
+        total += i**2
+
+    return total
+```
+
+We can use the function:
+
+```{python}
+sum_of_squares(10)
+```
+
+The mathematical problem has now been translated into an executable algorithm.
+
+But the translation introduces concepts that do not have exact analogues in elementary mathematics:
+
+* variables and assignment;
+* objects and types;
+* program state;
+* control flow;
+* functions;
+* memory;
+* numerical representation;
+* errors and exceptions.
+
+We begin with variables and state.
+
+---
+
+# 4. Variables, Names, Objects, and State
+
+## 4.1 Mathematical variables
+
+In mathematics, a variable is typically a symbol representing an element of some mathematical domain.
+
+For example,
+
+$$
+x \in \mathbb{R}
+$$
+
+says that $x$ is a real number.
+
+An equation such as
+
+$$
+x = 10
+$$
+
+can be interpreted as a mathematical assertion that $x$ has value 10.
+
+Programming languages use the word *variable*, but the concept is somewhat different.
+
+## 4.2 Assignment
+
+In Python:
+
+```python
+x = 10
+```
+
+is an **assignment statement**.
+
+A useful conceptual interpretation is:
+
+> Evaluate the expression on the right and bind the name on the left to the resulting object.
+
+After:
+
+```python
+x = 10
+```
+
+the name `x` refers to an integer object representing 10.
+
+The statement
+
+```python
+x = x + 1
+```
+
+therefore makes sense as a program instruction even though
+
+$$
+x = x + 1
+$$
+
+would normally be impossible as an equation over ordinary numbers.
+
+Python interprets:
+
+```python
+x = x + 1
+```
+
+as:
+
+1. retrieve the current value associated with `x`;
+2. add 1;
+3. bind `x` to the resulting value.
+
+Thus:
+
+```python
+x = 10
+x = x + 1
+```
+
+leaves `x` equal to 11.
+
+## 4.3 Program state
+
+The **state** of a program consists, roughly speaking, of the information that determines the program's current condition.
+
+For a simple program, this may include the values associated with its variables.
+
+Consider:
+
+```python
+x = 10
+y = x
+x = 20
+```
+
+After these statements:
+
+```text
+x → 20
+y → 10
+```
+
+The assignment to `x` changed the program state. It did not change what `y` refers to.
+
+This is one reason it is useful to distinguish programming variables from mathematical variables.
+
+---
+
+# 5. Python's Basic Types
+
+A programming language needs a way to distinguish different kinds of values.
+
+Some basic Python types are:
+
+| Type    | Meaning               | Example   |
+| ------- | --------------------- | --------- |
+| `int`   | integer               | `10`      |
+| `float` | floating-point number | `10.5`    |
+| `str`   | string of characters  | `"hello"` |
+| `bool`  | Boolean value         | `True`    |
+
+We can inspect the type of an object using `type()`:
+
+```{python}
+type(10)
+```
+
+```{python}
+type(10.0)
+```
+
+```{python}
+type("10")
+```
+
+```{python}
+type(True)
+```
+
+The distinction matters because operations depend on types.
+
+For example:
+
+```python
+10 + 20
+```
+
+performs numerical addition, whereas:
+
+```python
+"10" + "20"
+```
+
+performs string concatenation.
+
+The latter produces:
+
+```text
+"1020"
+```
+
+The expression
+
+```python
+"10" + 20
+```
+
+is invalid because Python does not define string-plus-integer addition.
+
+## 5.1 Types are part of the computational model
+
+When reading code, ask:
+
+> What kind of object is this expression producing?
+
+This question will become increasingly important as we encounter:
+
+* lists;
+* arrays;
+* data frames;
+* functions;
+* dictionaries;
+* matrices;
+* user-defined objects.
+
+---
+
+# 6. Expressions and Operators
+
+Python provides familiar arithmetic operators:
+
+| Mathematical operation | Python |
+| ---------------------- | ------ |
+| addition               | `+`    |
+| subtraction            | `-`    |
+| multiplication         | `*`    |
+| division               | `/`    |
+| integer/floor division | `//`   |
+| exponentiation         | `**`   |
+| remainder              | `%`    |
+
+For example:
+
+```{python}
+2 + 3
+```
+
+```{python}
+2 * 3
+```
+
+```{python}
+2**3
+```
+
+```{python}
+10 % 3
+```
+
+The division operator deserves particular attention:
+
+```{python}
+10 / 2
+```
+
+produces a floating-point result:
+
+```text
+5.0
+```
+
+whereas:
+
+```python
+10 // 2
+```
+
+produces:
+
+```text
+5
+```
+
+The exact behavior of these operators is part of Python's language specification.
+
+---
+
+# 7. Binary Representation
+
+Computers ultimately store information using physical systems with a finite number of distinguishable states.
+
+At the simplest level, we represent these states using **bits**.
+
+A bit has two possible values:
+
+$$
+0 \quad\text{or}\quad 1.
+$$
+
+A group of eight bits is called a **byte**.
+
+The binary number system is base 2, just as the decimal number system is base 10.
+
+## 7.1 Positional notation
+
+The decimal number
+
+$$
+372
+$$
+
+means
+
+$$
+3(10^2)+7(10^1)+2(10^0).
+$$
+
+Similarly,
+
+$$
+1101_2
+$$
+
+means
+
+$$
+1(2^3)+1(2^2)+0(2^1)+1(2^0).
+$$
+
+Therefore,
+
+$$
+1101_2
+=8+4+0+1
+=
+13.
+$$
+
+## 7.2 Converting decimal to binary
+
+To express a positive integer in binary, we can decompose it into powers of 2.
+
+For example,
+
+$$
+42=32+8+2
+$$
+
+or
+
+$$
+42=2^5+2^3+2^1.
+$$
+
+Therefore:
+
+$$
+42=101010_2.
+$$
+
+The positions corresponding to $2^5,2^3,2^1$ contain 1s; the others contain 0s.
+
+---
+
+# 8. Binary Representation in Python
+
+Python provides several ways to work with different bases.
+
+For example:
+
+```{python}
+bin(13)
+```
+
+produces:
+
+```text
+'0b1101'
+```
+
+The prefix `0b` indicates a binary representation.
+
+We can convert a string containing a number in a specified base into an integer:
+
+```{python}
+int("1101", 2)
+```
+
+which produces:
+
+```text
+13
+```
+
+Other bases can be specified as well:
+
+```{python}
+int("ff", 16)
+```
+
+produces:
+
+```text
+255
+```
+
+and:
+
+```python
+int("101", 8)
+```
+
+produces:
+
+```text
+65
+```
+
+These operations illustrate an important distinction:
+
+> A number and its representation are not the same thing.
+
+The integer 13 is an abstract numerical value.
+
+```text
+1101
+```
+
+is one representation of that value.
+
+```text
+13
+```
+
+is another representation.
+
+```text
+0xD
+```
+
+is yet another representation.
+
+The underlying value is the same.
+
+---
+
+# 9. Fixed-Width Integer Representations
+
+A mathematical integer can be arbitrarily large.
+
+A computer, however, has finite resources.
+
+Suppose an integer is represented using exactly $b$ bits.
+
+Each bit has two possible values, so there are
+
+$$
+2^b
+$$
+
+possible bit patterns.
+
+For example, with 8 bits:
+
+$$
+2^8=256
+$$
+
+different patterns are available.
+
+## 9.1 Unsigned integers
+
+If all 256 patterns are used for nonnegative integers, the values are:
+
+$$
+0,1,\ldots,255.
+$$
+
+The largest value is therefore
+
+$$
+2^8-1=255.
+$$
+
+In general, an unsigned $b$-bit integer has range
+
+$$
+0,\ldots,2^b-1.
+$$
+
+## 9.2 What happens outside the range?
+
+If a system uses an 8-bit unsigned integer, there is no representation for 256.
+
+In some low-level programming environments, arithmetic can **overflow** and wrap around.
+
+For example, an 8-bit unsigned representation may behave as though
+
+$$
+255+1=0
+$$
+
+because the result (256) corresponds to the bit pattern
+
+```text
+00000000
+```
+
+after discarding the ninth bit.
+
+Python's ordinary `int` does not behave this way.
+
+---
+
+# 10. Python Integers and Arbitrary Precision
+
+Python's built-in `int` type uses arbitrary-precision integer arithmetic.
+
+For example:
+
+```{python}
+x = 10**100
+
+print(x)
+print(type(x))
+```
+
+The integer is represented exactly.
+
+This is different from a typical fixed-width machine integer.
+
+## 10.1 Arbitrary precision does not mean infinite precision
+
+Python's integer type can grow as necessary, but there are still physical limits.
+
+A sufficiently large integer requires:
+
+* more memory;
+* more computational time;
+* potentially more storage.
+
+Thus:
+
+> **The programming language can provide an abstraction that hides hardware-level limits without eliminating the underlying physical limits.**
+
+This distinction becomes particularly important when we study numerical computing.
+
+---
+
+# 11. Signed Integers
+
+So far we have considered unsigned integers.
+
+Most computations also require negative values.
+
+One common representation is **two's complement**.
+
+For an 8-bit signed integer, two's complement provides the range
+
+$$
+-128,\ldots,127.
+$$
+
+There are still exactly
+
+$$
+2^8=256
+$$
+
+possible bit patterns.
+
+The range contains:
+
+* 128 negative values;
+* 1 zero;
+* 127 positive values.
+
+The asymmetry arises because zero occupies one of the available bit patterns.
+
+## 11.1 The largest and smallest values
+
+The largest value is:
+
+```text
+01111111
+```
+
+which is 127.
+
+The smallest is:
+
+```text
+10000000
+```
+
+which represents -128.
+
+## 11.2 Two's complement and arithmetic
+
+The two's-complement representation is designed so that ordinary binary addition can be used for both positive and negative numbers, subject to the limits of the fixed-width representation.
+
+For example:
+
+```text
+  00000101   =  5
++ 11111110   = -2
+-----------
+  00000011   =  3
+```
+
+The representation makes arithmetic efficient in hardware.
+
+## 11.3 Integer overflow
+
+With fixed-width signed integers, arithmetic can leave the representable range.
+
+For an 8-bit signed integer:
+
+```text
+01111111 = 127
+```
+
+Adding 1 produces:
+
+```text
+10000000
+```
+
+which represents -128.
+
+This is **integer overflow**.
+
+Python's `int` deliberately avoids this particular behavior by allowing the integer representation to grow.
+
+---
+
+# 12. Why Floating Point Is Necessary
+
+Integers are only one part of numerical computing.
+
+We also need to represent quantities such as:
+
+$$
+\frac{1}{3},\quad \pi,\quad \sqrt{2},\quad e.
+$$
+
+There is an immediate problem.
+
+There are infinitely many real numbers, but a computer has finite storage.
+
+Even if we devoted a very large number of bits to a number, there would still be infinitely many real numbers that could not be represented exactly.
+
+Therefore numerical computing generally uses **approximations**.
+
+One widely used representation is floating point.
+
+---
+
+# 13. Floating-Point Representation
+
+A floating-point number can be thought of conceptually as having the form
+
+$$
+(-1)^s \times m \times b^e,
+$$
+
+where:
+
+* $s$ determines the sign;
+* $m$ is the significand (also called the mantissa in some contexts);
+* $b$ is the base;
+* $e$ is the exponent.
+
+For IEEE 754 binary floating point, the base is 2.
+
+The representation therefore resembles scientific notation.
+
+For example, in decimal scientific notation:
+
+$$
+6.02\times10^{23}
+$$
+
+has:
+
+* sign: positive;
+* significand: 6.02;
+* exponent: 23;
+* base: 10.
+
+Binary floating point works analogously, but with base 2.
+
+---
+
+# 14. IEEE 754
+
+IEEE 754 is a widely used standard for floating-point arithmetic.
+
+A common format is **binary64**, often called double precision.
+
+It uses 64 bits divided conceptually into:
+
+```text
+sign | exponent | fraction
+```
+
+with:
+
+* 1 sign bit;
+* 11 exponent bits;
+* 52 explicitly stored fraction bits.
+
+The significand effectively has 53 bits of precision because of the implicit leading bit for normalized numbers.
+
+Thus binary64 provides approximately 15–17 significant decimal digits of precision.
+
+## 14.1 Normalized values
+
+For a normalized binary floating-point value, the significand is conventionally represented with a leading 1.
+
+Conceptually:
+
+$$
+1.f_2 \times 2^e.
+$$
+
+The leading 1 does not need to be stored explicitly, which provides an additional effective bit of precision.
+
+## 14.2 Special values
+
+IEEE 754 also defines special representations including:
+
+* positive and negative zero;
+* positive and negative infinity;
+* NaN ("Not a Number");
+* subnormal numbers.
+
+These allow floating-point arithmetic to handle exceptional cases in a standardized way.
+
+---
+
+# 15. Why Decimal Fractions Are Often Inexact
+
+Consider the decimal number:
+
+$$
+0.1.
+$$
+
+In decimal notation, this has a finite representation:
+
+$$
+0.1 = \frac{1}{10}.
+$$
+
+But binary floating point can represent fractions exactly only when their denominator, after reduction, is a power of 2.
+
+For example:
+
+$$
+\frac{1}{2}=0.1_2
+$$
+
+is exact.
+
+Likewise:
+
+$$
+\frac{1}{4}=0.01_2.
+$$
+
+But:
+
+$$
+\frac{1}{10}
+$$
+
+cannot be represented as a finite binary fraction.
+
+Its binary expansion repeats:
+
+$$
+0.00011001100110011\ldots_2.
+$$
+
+Therefore a binary floating-point system must store an approximation to 0.1.
+
+The same issue arises for 0.2 and 0.3.
+
+---
+
+# 16. `0.1 + 0.2`
+
+Consider:
+
+```{python}
+x = 0.1 + 0.2
+y = 0.3
+
+print(x)
+print(y)
+print(x == y)
+```
+
+A typical result is:
+
+```text
+0.30000000000000004
+0.3
+False
+```
+
+This does **not** mean Python's addition operation is defective.
+
+The stored values for 0.1 and 0.2 are approximations to the mathematical values.
+
+Arithmetic is then performed on those representable floating-point values.
+
+The final result is itself rounded to the nearest representable floating-point value.
+
+---
+
+# 17. Representation Error
+
+Suppose $x$ is a mathematical quantity and $\hat{x}$ is its floating-point representation.
+
+The **representation error** is:
+
+$$
+\hat{x} - x.
+$$
+]
+
+The absolute magnitude of this error is:
+
+$$
+|\hat{x}-x|.
+$$
+
+For many ordinary floating-point operations, the relative error associated with rounding is on the order of machine precision.
+
+But one should be careful:
+
+> Floating-point error is not always bounded simply by machine epsilon.
+
+The error depends on:
+
+* the operation;
+* the magnitude of the operands;
+* rounding;
+* overflow/underflow;
+* cancellation;
+* the numerical algorithm;
+* accumulated errors from previous calculations.
+
+---
+
+# 18. Machine Epsilon
+
+Python exposes information about its floating-point system through `sys.float_info`.
+
+```{python}
+import sys
+
+sys.float_info
+```
+
+Some useful fields are:
+
+```{python}
+sys.float_info.epsilon
+```
+
+```{python}
+sys.float_info.max
+```
+
+```{python}
+sys.float_info.min
+```
+
+```{python}
+sys.float_info.dig
+```
+
+For a typical IEEE 754 binary64 implementation:
+
+$$
+\epsilon_{\mathrm{machine}}
+\approx
+2.22\times10^{-16}.
+$$
+
+This is the spacing between 1 and the next larger representable floating-point number.
+
+We can see this directly:
+
+```{python}
+eps = sys.float_info.epsilon
+
+1.0 + eps
+```
+
+while:
+
+```{python}
+1.0 + eps / 2
+```
+
+may round back to 1.0.
+
+This illustrates that floating-point numbers are **discrete**, not continuous.
+
+---
+
+# 19. Spacing Between Floating-Point Numbers
+
+An important feature of floating-point representation is that the spacing between adjacent representable numbers depends on their magnitude.
+
+Near 1, the spacing is extremely small.
+
+At much larger magnitudes, adjacent representable values are farther apart.
+
+For example, consider:
+
+```{python}
+x = 1.0
+y = 10**16
+
+print(y + 1 == y)
+```
+
+The surprising result can be:
+
+```text
+True
+```
+
+Why?
+
+At this scale, the gap between adjacent representable binary64 numbers is larger than 1.
+
+Therefore adding 1 does not change the stored floating-point value.
+
+This is a fundamental property of floating-point arithmetic.
+
+---
+
+# 20. Precision versus Range
+
+Floating-point representation has two related but distinct limitations.
+
+## Precision
+
+Precision concerns how finely numbers can be distinguished relative to their magnitude.
+
+Binary64 has approximately 15–17 significant decimal digits of precision.
+
+## Range
+
+Range concerns how large or small a representable number can be.
+
+For typical binary64:
+
+$$
+\text{maximum finite value}
+\approx
+1.8\times10^{308}.
+$$
+
+The smallest positive normal number is approximately:
+
+$$
+2.2\times10^{-308}.
+$$
+
+These are different concepts.
+
+A system can have a large numerical range while still having limited precision.
+
+---
+
+# 21. Overflow
+
+Floating-point overflow occurs when a calculation produces a value too large to represent as a finite floating-point number.
+
+For example:
+
+```{python}
+x = 1e308
+
+x * 10
+```
+
+typically produces:
+
+```text
+inf
+```
+
+Python represents infinity using a special floating-point value.
+
+```{python}
+float("inf")
+```
+
+Infinity can participate in floating-point calculations according to IEEE 754 rules.
+
+For example:
+
+```{python}
+float("inf") + 1
+```
+
+remains infinite.
+
+---
+
+# 22. Underflow and Subnormal Numbers
+
+Underflow occurs when a value becomes too small in magnitude to be represented as a normal floating-point number.
+
+IEEE 754 includes **subnormal** numbers to provide a gradual transition toward zero.
+
+This is useful because without subnormals, values near the smallest normal number would have a discontinuous jump to zero.
+
+The distinction is:
+
+* **normal numbers** use the standard normalized representation;
+* **subnormal numbers** sacrifice some relative precision in exchange for representing smaller magnitudes.
+
+Eventually, values become too small even for subnormal representation and round to zero.
+
+For most introductory programming work, the main lesson is simply:
+
+> Floating-point numbers have both an upper and a lower range, and extremely small or large calculations can produce special values or loss of precision.
+
+---
+
+# 23. NaN
+
+IEEE 754 defines a special value called **NaN**, meaning "Not a Number."
+
+For example:
+
+```{python}
+float("nan")
+```
+
+produces a NaN value.
+
+NaNs can arise from invalid floating-point operations.
+
+```{python}
+float("nan")
+```
+
+is not equal to itself:
+
+```{python}
+x = float("nan")
+
+x == x
+```
+
+returns:
+
+```text
+False
+```
+
+This behavior is intentional.
+
+When working with numerical data, NaN often has another practical meaning: **missing or unavailable data**.
+
+That convention is widespread in Python data analysis and will become important later in the course.
+
+---
+
+# 24. Accumulation of Floating-Point Error
+
+Consider:
+
+```{python}
+x = 0.0
+
+for i in range(10):
+    x += 0.1
+
+print(x)
+print(x == 1.0)
+```
+
+The mathematical result is exactly:
+
+$$
+10(0.1) = 1.
+$$
+
+But the computed result may be slightly below 1.
+
+The error from each operation can propagate into subsequent operations.
+
+This is called **accumulation of numerical error**.
+
+The effect can become much more important when:
+
+* millions or billions of operations are performed;
+* values have very different magnitudes;
+* cancellation occurs;
+* an algorithm is numerically unstable.
+
+The presence of floating-point error is therefore not itself evidence that an algorithm is poor.
+
+The relevant questions are:
+
+> How large is the error?
+
+and
+
+> How does the algorithm cause error to propagate?
+
+---
+
+# 25. Absolute Error
+
+Suppose $x$ is the exact value and $\hat{x}$ is an approximation.
+
+The absolute error is:
+
+$$
+E_{\mathrm{abs}}
+=
+|\hat{x}-x|.
+$$
+
+For example, if:
+
+$$
+x=1000
+$$
+
+and
+
+$$
+\hat{x}=999.9,
+$$
+
+then:
+
+$$
+E_{\mathrm{abs}}
+=
+|999.9-1000|
+=
+0.1.
+$$
+
+Absolute error has the same units as the quantity being measured.
+
+---
+
+# 26. Relative Error
+
+The relative error is commonly defined as:
+
+$$
+E_{\mathrm{rel}}
+=
+\frac{|\hat{x}-x|}{|x|}
+$$
+
+when $x\neq0$.
+
+For the example above:
+
+$$
+E_{\mathrm{rel}}
+=
+\frac{0.1}{1000}
+=
+10^{-4}.
+$$
+
+Equivalently, the error is:
+
+$$
+0.01\%.
+$$
+
+Relative error is useful because it accounts for the scale of the quantity.
+
+Consider instead:
+
+$$
+x=0.001
+$$
+
+and
+
+$$
+\hat{x}=0.0011.
+$$
+
+The absolute error is only:
+
+$$
+0.0001,
+$$
+
+but the relative error is:
+
+$$
+\frac{0.0001}{0.001}
+=
+0.1.
+$$
+
+Thus the approximation has a 10% relative error.
+
+---
+
+# 27. Why Exact Equality Is Often Inappropriate
+
+Suppose two floating-point quantities are theoretically equal.
+
+We might write:
+
+```python
+x == y
+```
+
+But if `x` and `y` result from different numerical calculations, their floating-point representations may differ slightly.
+
+For example:
+
+```python
+0.1 + 0.2 == 0.3
+```
+
+is typically `False`.
+
+This does not mean that equality is never appropriate.
+
+Exact equality is perfectly appropriate when:
+
+* comparing integers;
+* comparing strings;
+* testing exact symbolic objects;
+* checking values whose construction guarantees exact equality.
+
+The problem arises when we use exact equality for quantities that are expected to agree only approximately.
+
+---
+
+# 28. Absolute Tolerance
+
+A simple numerical comparison is:
+
+$$
+|x-y|\leq\epsilon.
+$$
+
+In Python:
+
+```python
+def approximately_equal(x, y, tolerance=1e-10):
+    return abs(x - y) <= tolerance
+```
+
+This works well when the scale of the quantities is known and reasonably uniform.
+
+But it can fail when quantities have very different magnitudes.
+
+For example, suppose:
+
+$$
+x=10^9,\qquad y=10^9+0.1.
+$$
+
+An absolute difference of 0.1 may be completely negligible.
+
+But for:
+
+$$
+x=10^{-12},\qquad y=0.1,
+$$
+
+an absolute difference of 0.1 is enormous relative to (x).
+
+---
+
+# 29. Relative and Absolute Tolerances
+
+A more flexible criterion combines absolute and relative tolerances:
+
+$$
+|x-y|
+\leq
+\text{atol}
++
+\text{rtol}|y|.
+$$
+
+This can be implemented as:
+
+```python
+def approximately_equal(x, y, atol=1e-10, rtol=1e-10):
+    return abs(x - y) <= atol + rtol * abs(y)
+```
+
+A production numerical library may use a slightly different symmetric formulation, such as scaling by the larger magnitude of the two values.
+
+The important principle is:
+
+> **Numerical equality is often a tolerance-based concept rather than an exact one.**
+
+The appropriate tolerance depends on the application.
+
+A tolerance that is appropriate for one scientific problem may be absurdly strict or loose for another.
+
+---
+
+# 30. Numerical Stability
+
+Floating-point representation error is only one source of numerical problems.
+
+The **stability of an algorithm** concerns how errors in inputs and intermediate calculations affect the final result.
+
+A numerically stable algorithm generally does not amplify small unavoidable errors excessively.
+
+One particularly important source of instability is **cancellation**.
+
+---
+
+# 31. Cancellation
+
+Consider:
+
+$$
+f(x)=\sqrt{x^2+1}-x.
+$$
+
+Mathematically, this is a perfectly valid expression.
+
+For large $x$, however,
+
+$$
+\sqrt{x^2+1}
+$$
+
+is extremely close to $x$.
+
+Therefore the calculation subtracts two nearly equal numbers.
+
+Suppose:
+
+$$
+a\approx b.
+$$
+
+If both $a$ and $b$ have small rounding errors, then the difference
+
+$$
+a-b
+$$
+
+can have a much larger *relative* error.
+
+This phenomenon is called **cancellation**.
+
+---
+
+# 32. Avoiding Cancellation by Algebraic Reformulation
+
+Starting with:
+
+$$
+\sqrt{x^2+1}-x,
+$$
+
+multiply by the conjugate:
+
+$$
+\frac{\sqrt{x^2+1}-x}{1}
+\cdot
+\frac{\sqrt{x^2+1}+x}
+{\sqrt{x^2+1}+x}.
+$$
+
+The numerator becomes:
+
+$$
+(x^2+1)-x^2=1.
+$$
+
+Therefore:
+
+$$
+\sqrt{x^2+1}-x
+=
+\frac{1}{\sqrt{x^2+1}+x}.
+$$
+
+The two expressions are mathematically identical.
+
+But they have different numerical behavior.
+
+In Python:
+
+```{python}
+import math
+
+def f1(x):
+    return math.sqrt(x**2 + 1) - x
+
+def f2(x):
+    return 1 / (math.sqrt(x**2 + 1) + x)
+```
+
+For a large value:
+
+```{python}
+x = 10**8
+
+f1(x), f2(x)
+```
+
+the first expression may lose substantial precision or even return zero, while the second remains informative.
+
+This leads to an important principle:
+
+> **Mathematical equivalence does not imply numerical equivalence.**
+
+---
+
+# 33. Conditioning versus Stability
+
+Two related ideas are useful in numerical analysis.
+
+## Conditioning
+
+**Conditioning** concerns the sensitivity of the mathematical problem itself to perturbations in the input.
+
+A problem is ill-conditioned if small changes in the input can produce large changes in the correct answer.
+
+## Stability
+
+**Stability** concerns the behavior of the algorithm used to solve the problem.
+
+A stable algorithm tends not to introduce excessive additional error.
+
+This distinction is important:
+
+> An ill-conditioned problem can be difficult even with a perfect algorithm.
+
+and:
+
+> A well-conditioned problem can be ruined by an unstable algorithm.
+
+We will return to these ideas later in the course.
+
+---
+
+# 34. Testing Computational Results
+
+A program that runs without producing an exception is not necessarily correct.
+
+There are at least three different possibilities:
+
+1. **Syntax error** — the program cannot be parsed.
+2. **Runtime error** — the program begins execution but encounters an invalid operation.
+3. **Logical error** — the program runs successfully but computes the wrong result.
+
+The third category is particularly dangerous because the computer gives no warning.
+
+## 34.1 Testing known results
+
+For example:
+
+```python
+def sum_of_squares(n):
+    total = 0
+
+    for i in range(1, n + 1):
+        total += i**2
+
+    return total
+```
+
+We can test:
+
+```python
+assert sum_of_squares(1) == 1
+assert sum_of_squares(2) == 5
+assert sum_of_squares(3) == 14
+```
+
+## 34.2 Testing independent implementations
+
+We can compare two implementations:
+
+```python
+def sum_of_squares_loop(n):
+    total = 0
+
+    for i in range(1, n + 1):
+        total += i**2
+
+    return total
+
+
+def sum_of_squares_formula(n):
+    return n * (n + 1) * (2 * n + 1) // 6
+```
+
+Then:
+
+```python
+for n in [0, 1, 2, 5, 10, 100, 1000]:
+    assert sum_of_squares_loop(n) == sum_of_squares_formula(n)
+```
+
+This is much stronger than checking a single example.
+
+---
+
+# 35. Reproducibility
+
+Computational results should ideally be reproducible.
+
+A reproducible computational result requires more than saving the final number.
+
+Ideally we should preserve:
+
+* the source code;
+* the input data;
+* the algorithm;
+* relevant software versions;
+* package dependencies;
+* computational settings;
+* documentation explaining how to reproduce the result.
+
+This course will use tools such as:
+
+* Git;
+* GitHub;
+* Quarto;
+* Python;
+* R;
+
+to develop these habits.
+
+The goal is not to introduce tools for their own sake.
+
+The goal is to make computational work:
+
+* understandable;
+* repeatable;
+* inspectable;
+* maintainable.
+
+---
+
+# 36. Version Control
+
+Version control records changes to files over time.
+
+Git allows us to answer questions such as:
+
+* What changed?
+* When did it change?
+* Who changed it?
+* What did the code look like before?
+* Can we return to an earlier version?
+
+For a computational project, version control is part of the computational workflow rather than merely a software-engineering convenience.
+
+A simple conceptual workflow is:
+
+```text
+Edit
+ ↓
+Test
+ ↓
+Commit
+ ↓
+Continue
+```
+
+Later, we will develop more sophisticated Git workflows.
+
+---
+
+# 37. Responsible Use of Computational Tools
+
+Modern programming work involves tools that can generate code, explain errors, search documentation, and assist with debugging.
+
+These tools can be valuable, including AI coding assistants.
+
+But there is an important distinction between:
+
+> obtaining a piece of code that appears to work
+
+and
+
+> understanding and being able to validate the computation.
+
+A responsible computational workflow therefore treats generated code as something to:
+
+1. inspect;
+2. understand;
+3. test;
+4. validate;
+5. document when appropriate.
+
+The programmer remains responsible for the result.
+
+This principle will become increasingly important as we work with data and statistical models.
+
+---
+
+# 38. Summary: The Computational Model
+
+Several ideas from this lecture fit together.
+
+## 38.1 Mathematical objects versus representations
+
+A mathematical integer is an abstract object.
+
+A computer stores a finite representation of that integer.
+
+A mathematical real number is an abstract object.
+
+A computer generally stores an approximation to that real number.
+
+## 38.2 Programs versus mathematical expressions
+
+A mathematical expression describes a relationship or value.
+
+A program is a sequence of instructions that changes computational state.
+
+## 38.3 Exact versus approximate computation
+
+Integer calculations can often be exact within the range of the representation.
+
+Floating-point calculations are generally approximate.
+
+## 38.4 Algorithms matter
+
+Different algorithms can solve the same mathematical problem while differing in:
+
+* speed;
+* memory requirements;
+* numerical stability;
+* ease of testing;
+* reproducibility.
+
+## 38.5 Testing matters
+
+A program producing output is not evidence that the output is correct.
+
+Testing should be deliberate and systematic.
+
+---
+
+# 39. Key Takeaways
+
+You should leave this lecture understanding the following ideas.
+
+### 1. Assignment is not mathematical equality
+
+```python
+x = x + 1
+```
+
+is an instruction that changes program state.
+
+### 2. Types matter
+
+An integer, floating-point number, string, and Boolean value are different computational objects.
+
+### 3. Computers use representations
+
+Numbers are represented using finite collections of bits.
+
+### 4. Fixed-width representations have limits
+
+Finite-width integers can overflow.
+
+### 5. Python abstracts some hardware limitations
+
+Python's `int` provides arbitrary-precision integer arithmetic.
+
+### 6. Floating-point numbers are approximations
+
+Most real numbers cannot be represented exactly.
+
+### 7. Numerical error is normal
+
+Rounding and representation error are inherent in floating-point computation.
+
+### 8. Exact equality can be inappropriate
+
+Numerical comparisons often require tolerances.
+
+### 9. Algebraic equivalence does not imply numerical equivalence
+
+Reformulating an expression can substantially improve numerical stability.
+
+### 10. Computation requires validation
+
+A reliable workflow is:
+
+```text
+Problem
+   ↓
+Algorithm
+   ↓
+Implementation
+   ↓
+Testing
+   ↓
+Numerical validation
+   ↓
+Result
+   ↓
+Reproducibility
+```
+
+---
+
+# 40. Further Questions to Think About
+
+Before the next lecture, consider:
+
+1. Why does Python use arbitrary-precision integers but fixed-precision floating-point numbers?
+2. Why might an algorithm that is mathematically correct still produce an inaccurate answer?
+3. When should a programmer prefer exact arithmetic over floating-point arithmetic?
+4. How should we choose a numerical tolerance?
+5. What does it mean for an algorithm to be efficient?
+6. How can we test a program when we do not already know the correct answer?
+7. What information would another researcher need to reproduce one of your computational results?
+
+These questions will recur throughout the course.

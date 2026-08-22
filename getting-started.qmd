@@ -1,0 +1,547 @@
+# MATH 5200: Computing Using R & Python
+
+This repository contains the course materials, including lecture notes, in-class exercises, homework, and other resources. We will use **GitHub, VS Code, Quarto, Python, and R** throughout the course.
+
+You do **not** need prior experience with these tools.
+
+## Table of Contents
+
+1. [What you need](#what-you-need)
+2. [Install the software](#1-install-the-software)
+3. [Clone the course repository](#2-clone-the-course-repository)
+4. [Set up Python](#3-set-up-python)
+5. [Set up VS Code](#4-set-up-vs-code)
+6. [Test your installation](#5-test-your-installation)
+7. [Your basic workflow](#6-your-basic-workflow)
+8. [Common problems](#common-problems)
+9. [Getting help](#getting-help)
+
+---
+
+## What you need
+
+You will use the following software:
+
+| Software    | What we use it for                                                         |
+| ----------- | -------------------------------------------------------------------------- |
+| **Git**     | Version control and working with the course repository                     |
+| **GitHub**  | Accessing and submitting course materials                                  |
+| **VS Code** | Writing and running code                                                   |
+| **Python**  | Programming and data analysis                                              |
+| **Quarto**  | Creating reproducible documents containing code, results, and explanations |
+| **R**       | Statistical computing and data analysis                                    |
+
+We will introduce these tools gradually. **You do not need to understand all of them before the first class.**
+
+---
+
+# 1. Install the software
+
+## Git
+
+Install Git from the official website:
+
+[https://git-scm.com/downloads](https://git-scm.com/downloads)
+
+### Windows
+
+Download the Windows installer and accept the default options. Make sure Git is available from the command line.
+
+### macOS
+
+Open Terminal and run:
+
+```bash
+git --version
+```
+
+If Git is not installed, macOS should offer to install the Xcode Command Line Tools.
+
+### Linux
+
+Install Git using your distribution's package manager.
+
+Verify the installation:
+
+```bash
+git --version
+```
+
+You should see a version number.
+
+---
+
+## VS Code
+
+Download and install Visual Studio Code:
+
+[https://code.visualstudio.com/](https://code.visualstudio.com/)
+
+During installation on Windows, it is useful to select the options to add VS Code to your PATH and register it as an editor.
+
+---
+
+## Python
+
+Download Python from:
+
+[https://www.python.org/downloads/](https://www.python.org/downloads/)
+
+Use a recent stable version of Python 3.
+
+### Windows — important
+
+During installation, **check the box labeled "Add python.exe to PATH"**.
+
+After installation, open a **new** terminal and run:
+
+```powershell
+python --version
+```
+
+You should see something like:
+
+```text
+Python 3.1x.x
+```
+
+### If `python` is not recognized
+
+On some Windows computers, try:
+
+```powershell
+py --version
+```
+
+If `py` works but `python` does not, you can use `py` in place of `python` in the commands below.
+
+---
+
+## Quarto
+
+Download and install Quarto:
+
+[https://quarto.org/docs/get-started/](https://quarto.org/docs/get-started/)
+
+You do **not** need to install Quarto inside your Python virtual environment. Quarto is installed as a separate application on your computer.
+
+Verify the installation in a new terminal:
+
+```bash
+quarto --version
+```
+
+---
+
+## VS Code extensions
+
+Open VS Code and install these extensions:
+
+1. **Python** — Microsoft
+2. **Jupyter** — Microsoft
+3. **Quarto** — Posit
+
+You can install extensions by clicking the Extensions icon on the left side of VS Code or by pressing:
+
+```text
+Ctrl+Shift+X
+```
+
+on Windows/Linux, or:
+
+```text
+Cmd+Shift+X
+```
+
+on macOS.
+
+---
+
+# 2. Clone the course repository
+
+The course repository is hosted on GitHub.
+
+You can clone it from the terminal:
+
+```bash
+git clone https://github.com/moninp/intro-programming.git
+```
+
+Then move into the project directory:
+
+```bash
+cd intro-programming
+```
+
+Alternatively, in VS Code:
+
+1. Open the Command Palette with `Ctrl+Shift+P` / `Cmd+Shift+P`.
+2. Select **Git: Clone**.
+3. Enter the course repository URL.
+4. Choose where to save the repository.
+5. Open the repository in VS Code.
+
+You should now see the course files in the VS Code Explorer.
+
+---
+
+# 3. Set up Python
+
+We will use a **virtual environment** for the course.
+
+A virtual environment gives this project its own collection of Python packages, separate from other projects on your computer.
+
+You should create the environment **inside the course repository**.
+
+Open a terminal in VS Code:
+
+**Terminal → New Terminal**
+
+Make sure the terminal is in the `intro-programming` directory.
+
+### Windows
+
+```powershell
+python -m venv .venv
+```
+
+If you need to use the Python launcher instead:
+
+```powershell
+py -m venv .venv
+```
+
+### macOS / Linux
+
+```bash
+python3 -m venv .venv
+```
+
+You should now see a `.venv` folder in the VS Code Explorer.
+
+---
+
+## Activate the environment
+
+### Windows PowerShell
+
+```powershell
+.\.venv\Scripts\Activate.ps1
+```
+
+### macOS / Linux
+
+```bash
+source .venv/bin/activate
+```
+
+Once activated, your terminal should begin with:
+
+```text
+(.venv)
+```
+
+For example:
+
+```text
+(.venv) PS C:\Users\you\Documents\intro-programming>
+```
+
+### Windows PowerShell execution-policy error
+
+If Windows says that scripts are disabled, run:
+
+```powershell
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process
+```
+
+Then try the activation command again:
+
+```powershell
+.\.venv\Scripts\Activate.ps1
+```
+
+This changes the policy only for the current terminal session.
+
+---
+
+## Install the course packages
+
+With the virtual environment activated, run:
+
+```bash
+python -m pip install --upgrade pip
+pip install -r requirements.txt
+```
+
+The `requirements.txt` file lists the Python packages needed by the course.
+
+**Do not commit your `.venv` folder to Git.** The environment is local to your computer; `requirements.txt` is the reproducible description of what needs to be installed.
+
+---
+
+# 4. Set up VS Code
+
+VS Code should detect your new `.venv` automatically.
+
+If it asks whether you want to use the new environment, select **Yes**.
+
+If it does not:
+
+1. Open the Command Palette:
+   `Ctrl+Shift+P` / `Cmd+Shift+P`
+2. Select **Python: Select Interpreter**.
+3. Select the Python interpreter inside `.venv`.
+
+On Windows it will look approximately like:
+
+```text
+.venv\Scripts\python.exe
+```
+
+On macOS/Linux:
+
+```text
+.venv/bin/python
+```
+
+You can check which Python VS Code is using by opening a Python file and looking at the Python interpreter shown in the VS Code status bar.
+
+---
+
+# 5. Test your installation
+
+Before the first class, make sure everything works.
+
+## Test Python
+
+With your `.venv` activated:
+
+```bash
+python
+```
+
+Then:
+
+```python
+print("Hello, Python!")
+```
+
+You should see:
+
+```text
+Hello, Python!
+```
+
+Exit Python with:
+
+```python
+exit()
+```
+
+---
+
+## Test Quarto
+
+Open the test `.qmd` file provided in the repository.
+
+It should contain a small Python code block.
+
+Click **Render** in the upper-right corner of the VS Code editor.
+
+Quarto should create an HTML document containing the text and the output from the Python code.
+
+If this works, **your basic course environment is ready.**
+
+---
+
+# 6. Your basic workflow
+
+Once everything is installed, your normal workflow will usually look like this:
+
+### Start working
+
+Open the `intro-programming` folder in VS Code.
+
+Activate your environment if necessary:
+
+```powershell
+.\.venv\Scripts\Activate.ps1
+```
+
+Then open the relevant `.qmd`, `.py`, or `.R` file.
+
+### For lecture materials
+
+Open the appropriate lecture directory, for example:
+
+```text
+lectures/
+└── 01-foundations/
+    ├── notes.qmd
+    └── class.qmd
+```
+
+`notes.qmd` contains background/reference material.
+
+`class.qmd` contains the exercises and material we will work through together in class.
+
+### For homework
+
+Open the relevant homework directory, for example:
+
+```text
+homework/
+└── 01/
+    ├── README.md
+    └── hw01.py
+```
+
+Read the `README.md` first, then complete the `.py` file.
+
+---
+
+# Common problems
+
+## "Python is not recognized"
+
+Try:
+
+```powershell
+py --version
+```
+
+on Windows.
+
+If neither `python` nor `py` works, Python may not have been installed correctly or may not have been added to your PATH.
+
+**Restart your terminal after installing Python.**
+
+---
+
+## `.venv` does not appear in VS Code
+
+First make sure you created it in the course repository:
+
+```text
+intro-programming/
+└── .venv/
+```
+
+Then reload VS Code:
+
+**Ctrl+Shift+P → Developer: Reload Window**
+
+Afterward:
+
+**Ctrl+Shift+P → Python: Select Interpreter**
+
+and select the interpreter inside `.venv`.
+
+---
+
+## PowerShell says scripts are disabled
+
+Run:
+
+```powershell
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process
+```
+
+Then:
+
+```powershell
+.\.venv\Scripts\Activate.ps1
+```
+
+Alternatively, you can use a Command Prompt terminal and run:
+
+```cmd
+.venv\Scripts\activate.bat
+```
+
+---
+
+## `pip install -r requirements.txt` fails
+
+First make sure your virtual environment is activated:
+
+```text
+(.venv)
+```
+
+should appear at the beginning of your terminal prompt.
+
+Then try:
+
+```bash
+python -m pip install --upgrade pip
+pip install -r requirements.txt
+```
+
+If the installation still fails, **save the complete error message** and ask for help rather than repeatedly trying random fixes.
+
+---
+
+## Quarto says it cannot find Python
+
+First verify:
+
+```bash
+python --version
+```
+
+and:
+
+```bash
+quarto --version
+```
+
+Then make sure VS Code is using the `.venv` interpreter:
+
+**Ctrl+Shift+P → Python: Select Interpreter**
+
+If the problem persists, restart VS Code and try rendering again.
+
+---
+
+## Quarto renders, but Python code fails
+
+Make sure the required Python packages are installed:
+
+```bash
+pip install -r requirements.txt
+```
+
+Then confirm that VS Code is using the project's `.venv`.
+
+If you see an error you don't understand, **don't modify the QMD file just to make the error disappear**. Save the error message and ask for help.
+
+---
+
+# Getting help
+
+When asking for help with a programming or installation problem, please provide:
+
+1. **What you were trying to do**
+2. **The command or code you ran**
+3. **The complete error message**
+4. Your operating system
+5. If relevant, the output of:
+
+```bash
+python --version
+quarto --version
+```
+
+A screenshot can be useful, but **copying and pasting the complete error message is usually better**.
+
+A good programming habit is to distinguish between:
+
+> **"It doesn't work."**
+
+and:
+
+> **"I ran `quarto render class.qmd`, expected the document to render, but received this error: ..."`
+
+The second description gives us something we can actually debug.

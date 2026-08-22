@@ -1,0 +1,217 @@
+# MATH 5200: Computing Using R & Python
+
+**Fall 2026**  
+**Day/Time:** XXX  
+**Location:** XXX  
+
+## Course Description
+
+This course provides a fast-paced introduction to programming and computational methods for graduate study in mathematics and statistics. We will use **Python and R** to develop practical programming skills while also introducing fundamental ideas from computer science, numerical computing, data management, and reproducible research.
+
+The course emphasizes **problem solving and computational thinking rather than memorization of language syntax**. Topics include programming fundamentals, data structures, algorithms, numerical representation and error, data manipulation and visualization, simulation, statistical computing, software organization, version control, testing and debugging, and reproducible computational workflows.
+
+An important goal is to prepare students not only to write programs for this course, but also to approach computational problems effectively in subsequent coursework, research, and professional settings. We will therefore discuss practices used in real computational work, including organizing projects, managing dependencies and data, writing maintainable code, testing programs, documenting work, and using Git and GitHub.
+
+The course uses Python and R throughout. Students will generally learn concepts first through Python and then see how similar computational ideas are expressed in R.
+
+## Prerequisites
+
+Basic mathematics and statistics and familiarity with computers. No prior programming experience is required.
+
+Students should be comfortable with algebra and basic mathematical notation and should be prepared to learn programming at a relatively rapid pace.
+
+## Instructor
+
+**Phillip Monin, PhD, CFA, FRM**  
+[pm1091@georgetown.edu](mailto:pm1091@georgetown.edu)
+
+Office: XXX  
+Office hours: XXX
+
+Additional meetings are available by appointment.
+
+## Assistant
+
+**XXX**  
+[XXX@georgetown.edu](mailto:XXX)
+
+Office hours: XXX
+
+## Course Materials and Software
+
+There is no required textbook. The course will be driven primarily by lecture notes, examples, and programming exercises provided through the course GitHub repository.
+
+Students will use:
+
+- Python 3
+- R
+- Visual Studio Code
+- Quarto
+- Git and GitHub
+
+Detailed installation and setup instructions will be provided at the beginning of the course.
+
+The course repository will contain lecture materials, exercises, assignments, examples, and other resources. Students will use Git and GitHub as part of the course itself, providing an opportunity to practice the same tools used to organize and share computational work professionally.
+
+Additional readings and references will occasionally be assigned or recommended.
+
+## Course Organization
+
+The course is organized around several broad themes:
+
+1. **Programming fundamentals:** variables, types, expressions, control flow, functions, data structures, and program state.
+2. **Computational foundations:** algorithms, binary and numerical representation, floating-point arithmetic, numerical error, and computational complexity.
+3. **Data and scientific computing:** working with arrays and data frames, data cleaning and transformation, visualization, simulation, and numerical computation.
+4. **Statistical computing:** applying computational methods to statistical problems and working with real datasets.
+5. **Software and data practices:** testing, debugging, documentation, project organization, version control, dependency management, and reproducibility.
+6. **Python and R:** learning the common computational ideas that underlie both languages while becoming comfortable using each language in practice.
+
+The course will move quickly. Class meetings will combine short lectures with live coding, demonstrations, and exercises that students complete individually or collaboratively.
+
+## Course Philosophy
+
+The goal of this course is not to memorize Python or R syntax. The goal is to become someone who can **solve problems computationally**.
+
+A typical computational workflow looks something like:
+
+> **Problem → algorithm → implementation → testing → analysis → results**
+
+We will pay attention to every part of this process. In particular, students will learn to recognize that producing an answer is not necessarily the same thing as producing a correct, reliable, or reproducible computational result.
+
+Students are encouraged to ask questions, experiment, make mistakes, and use computational tools to investigate ideas. At the same time, submitted work should demonstrate that students understand the code they write and the methods they use.
+
+## Assessment
+
+The course will include:
+
+- **Weekly homework assignments:** programming exercises and short computational problems.
+- **Short quizzes:** brief assessments of concepts and programming fundamentals.
+- **Semester project:** an extended computational project developed in several stages.
+- **Participation and engagement:** active participation in class exercises and discussions.
+
+The precise weighting will be:
+
+| Component | Weight |
+|---|---:|
+| Homework | XX% |
+| Quizzes | XX% |
+| Semester project | XX% |
+| Participation/engagement | XX% |
+| **Total** | **100%** |
+
+The semester project will give students an opportunity to apply the skills developed throughout the course to a problem of their choosing. Projects may involve data analysis, simulation, numerical computing, or another computational problem approved by the instructor.
+
+More information about the project, including its phases and evaluation criteria, is provided in a separate project document.
+
+## Assignments and Collaboration
+
+Homework will generally be assigned weekly and will be submitted through the course GitHub repository or another electronic submission system as specified in the assignment.
+
+Students are encouraged to discuss course concepts and homework problems with one another. However, submitted work must represent the student's own work. Students should not copy another student's code or submit code that they do not understand.
+
+When substantial assistance is received from another student, the instructor, an online resource, or an AI tool, students should acknowledge that assistance as appropriate. Such acknowledgments are not penalized.
+
+Specific assignments may have additional collaboration rules, which will be stated on the assignment.
+
+## Generative AI and Other Computational Tools
+
+Generative AI tools can be useful programming assistants, but learning to program requires students to understand the code they write rather than simply obtain working code from an external system.
+
+Unless an assignment specifies otherwise, students may use AI tools for purposes such as:
+
+- explaining programming concepts;
+- helping diagnose an error;
+- suggesting approaches to a problem;
+- generating examples for experimentation;
+- helping improve documentation.
+
+Students remain responsible for verifying, understanding, testing, and appropriately citing or acknowledging AI-generated material used in submitted work.
+
+Some assignments may deliberately restrict or prohibit AI assistance when the purpose is to assess unaided programming knowledge. The applicable rules will always be stated on the assignment.
+
+## Attendance and Participation
+
+Class attendance is expected. Much of the course will be conducted through live coding and collaborative exercises, and students are responsible for material covered in class as well as in the lecture notes.
+
+If you anticipate missing a class, please notify the instructor in advance when possible.
+
+Course materials, including lecture notes and exercise files, will be posted to the course GitHub repository. Additional announcements and course logistics will be communicated through XXX.
+
+## Communication
+
+Please use XXX for course-related announcements and XXX for submitting questions or assignments.
+
+Students are welcome to contact the instructor by email. I am happy to discuss course material, assignments, projects, or other questions about the course.
+
+## Tentative Course Calendar
+
+The following is a broad outline. The schedule may change as the course progresses.
+
+| Week | Topic |
+|---|---|
+| 1 | Computing foundations, Python, program state, binary and numerical representation |
+| 2 | Control flow, data structures, functions, and testing |
+| 3 | Algorithms, files, exceptions, and debugging |
+| 4 | NumPy and numerical computing |
+| 5 | Pandas and data manipulation |
+| 6 | Data visualization and exploratory data analysis |
+| 7 | Simulation and statistical computing |
+| 8 | R fundamentals and the R computational model |
+| 9 | Data management and visualization in R |
+| 10 | Statistical modeling and computational statistics |
+| 11 | Reproducible research, Git/GitHub, and project development |
+| 12 | Advanced topics and project work |
+| 13 | Project presentations / final project work |
+
+Specific dates and project deadlines will be provided on the course schedule.
+
+## Course Project
+
+The semester project is a substantial computational investigation of a topic chosen by the student in consultation with the instructor.
+
+Projects may involve:
+
+- data analysis;
+- simulation;
+- numerical computation;
+- algorithmic experiments;
+- statistical modeling; or
+- another computational project approved by the instructor.
+
+The project will develop through several stages:
+
+1. **Proposal**
+2. **Preliminary analysis / computational development**
+3. **Final analysis and final product**
+4. **Presentation**
+
+The purpose of the project is to give students an opportunity to work on a problem of genuine interest while practicing the complete computational workflow developed in the course.
+
+A separate project description provides detailed requirements, examples, and guidance for selecting a topic.
+
+## Academic Integrity
+
+Everything submitted for a grade must represent the student's own work, except for clearly acknowledged and appropriately cited material from other sources or assistance explicitly permitted by the instructor.
+
+Students may discuss homework and projects with classmates unless an assignment specifies otherwise, but they should not copy another student's work.
+
+Examinations and other assessments designated as individual work may have substantially more restrictive collaboration and resource rules. Those rules will be stated explicitly when the assessment is assigned.
+
+Students are responsible for understanding and following Georgetown University's academic integrity policies.
+
+## University Policies
+
+Students should consult the University syllabus policies and resources for information concerning accommodations, Title IX and sexual misconduct, academic integrity, accessibility, and other University policies.
+
+[Georgetown University syllabus policies and resources: XXX]
+
+## Course Resources
+
+The primary course resources will be:
+
+- **Course GitHub repository:** XXX
+- **Course website:** XXX
+- **Canvas:** XXX
+- **Instructor email:** XXX
+
+Students should begin with the **Start Here** guide in the course repository, which contains instructions for installing the required software, configuring the development environment, and obtaining the course materials.

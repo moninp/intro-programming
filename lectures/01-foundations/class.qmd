@@ -1,0 +1,1054 @@
+---
+title: "Lecture 1 — Foundations, Computation & Binary Representations"
+subtitle: "In-Class Exercises"
+format:
+  html:
+    toc: true
+    code-fold: true
+jupyter: python3
+---
+
+# What Is Computation?
+
+## Learning objectives
+
+By the end of today's class, you should be able to:
+
+- distinguish a mathematical variable from a programming variable;
+- explain the idea of **program state**;
+- work with basic Python types;
+- explain how integers and floating-point numbers are represented computationally;
+- recognize that computer arithmetic is performed using finite representations;
+- explain why floating-point calculations are approximate;
+- quantify numerical error using absolute and relative error;
+- compare floating-point numbers using appropriate tolerances;
+- describe a basic computational workflow:
+
+  **problem → algorithm → implementation → testing → results**
+
+Throughout the class, we will use a recurring pattern:
+
+> **Predict → Run → Inspect → Explain → Modify**
+
+---
+
+# 1. What Is Computational Work?
+
+Before writing any code, consider the following distinction.
+
+Suppose a mathematician wants to calculate
+
+$$
+\sum_{i=1}^{n} i^2.
+$$
+
+A mathematical treatment might focus on deriving the identity
+
+$$
+\sum_{i=1}^{n} i^2
+=
+\frac{n(n+1)(2n+1)}{6}.
+$$
+
+A computational treatment has additional questions:
+
+- How should the problem be represented?
+- What algorithm should we use?
+- How will we implement it?
+- What types of numbers will we use?
+- How will we know the implementation is correct?
+- What happens when $n$ is extremely large?
+- How do we reproduce the calculation later?
+- How do we communicate the result?
+
+## Exercise 1 — Mathematics versus computation
+
+Consider the problem:
+
+> Given $n$, calculate $\sum_{i=1}^{n} i^2$.
+
+Write down:
+
+1. A mathematical solution.
+2. An algorithm for computing the answer.
+3. What a Python implementation would have to specify that the mathematical solution does not.
+4. At least one way the implementation could be tested.
+
+### Discussion
+
+A useful computational workflow is:
+
+```text
+Problem
+   ↓
+Algorithm
+   ↓
+Implementation
+   ↓
+Testing
+   ↓
+Results
+   ↓
+Communication / Reproducibility
+```
+
+Keep this workflow in mind throughout the course.
+
+---
+
+# 2. Mathematical Variables versus Programming Variables
+
+In mathematics, when we write
+
+$$
+x = 10,
+$$
+
+we mean that the mathematical variable $x$ has value 10.
+
+In Python:
+
+```python
+x = 10
+```
+
+is better thought of as:
+
+> Bind the name `x` to an object representing the integer 10.
+
+The distinction becomes important when program state changes.
+
+---
+
+## Exercise 2 — Predict the program state
+
+Consider:
+
+```{python}
+x = 10
+y = x
+
+x = 20
+```
+
+### Before running the code
+
+What are the values of `x` and `y`?
+
+Write down your prediction before executing anything.
+
+### Now run:
+
+```{python}
+print(x)
+print(y)
+```
+
+### Discussion
+
+Why is `y` still 10?
+
+What does this tell us about the difference between:
+
+- a mathematical variable;
+- a programming variable;
+- the state of a running program?
+
+---
+
+## Exercise 2B — Trace the state
+
+Consider:
+
+```python
+x = 5
+y = 2
+x = x + y
+y = x + y
+x = y - x
+```
+
+Without running the code, construct a table:
+
+| Statement | `x` | `y` |
+|---|---:|---:|
+| after `x = 5` | | |
+| after `y = 2` | | |
+| after `x = x + y` | | |
+| after `y = x + y` | | |
+| after `x = y - x` | | |
+
+Then execute the code and check your answer.
+
+---
+
+# 3. Types: What Kind of Thing Is This?
+
+A programming language needs to know what kind of object it is dealing with.
+
+Some basic Python types are:
+
+```python
+int
+float
+str
+bool
+```
+
+---
+
+## Exercise 3 — Predict the type
+
+For each expression below, predict both its value and its type.
+
+| Expression | Value | Type |
+|---|---|---|
+| `10` | | |
+| `10.0` | | |
+| `"10"` | | |
+| `True` | | |
+| `10 / 2` | | |
+| `10 // 2` | | |
+| `10 / 3` | | |
+| `10 ** 2` | | |
+| `2 == 2` | | |
+| `2 != 3` | | |
+
+Now use Python to check your answers.
+
+```{python}
+# Try some of the expressions above.
+
+```
+
+You can inspect an object's type using:
+
+```python
+type(...)
+```
+
+---
+
+## Exercise 3B — When types matter
+
+What do you expect this to do?
+
+```python
+"10" + "20"
+```
+
+Now compare:
+
+```python
+10 + 20
+```
+
+What about:
+
+```python
+"10" + 20
+```
+
+### Discussion
+
+Why is the last expression different?
+
+What does this suggest about the relationship between:
+
+- values;
+- types;
+- operations?
+
+---
+
+# 4. From Mathematical Expressions to Programs
+
+Python can express many mathematical operations directly.
+
+For example:
+
+$$
+f(x) = x^2 + 2x + 1
+$$
+
+can be written:
+
+```python
+x**2 + 2*x + 1
+```
+
+---
+
+## Exercise 4 — Translate mathematics into Python
+
+Translate each expression into Python.
+
+### A.
+
+$$
+x^2 + 3x + 2
+$$
+
+### B.
+
+$$
+\frac{x+y}{x-y}
+$$
+
+### C.
+
+$$
+\sqrt{x^2+y^2}
+$$
+
+For C, you will need to find a way to calculate a square root.
+
+You may use Python's documentation or experiment with the tools available to you.
+
+### D.
+
+$$
+e^{-x^2}
+$$
+
+Again, determine what Python facility you need.
+
+---
+
+## Exercise 4B — Write your first function
+
+Turn one of the expressions above into a Python function.
+
+For example:
+
+```python
+def f(x):
+    ...
+```
+
+Your function should:
+
+1. accept an input;
+2. calculate the expression;
+3. return the result.
+
+Test it on several inputs.
+
+### Testing question
+
+What inputs would you choose to test whether your function is correct?
+
+---
+
+# 5. Binary Representation
+
+Mathematics allows us to think about numbers abstractly.
+
+Computers must represent numbers using finite collections of bits.
+
+A **bit** can take one of two values:
+
+```text
+0
+1
+```
+
+A byte contains 8 bits.
+
+Binary uses positional notation just as decimal does.
+
+For example,
+
+$$
+1101_2
+=
+1(2^3)+1(2^2)+0(2^1)+1(2^0)
+=
+13.
+$$
+
+
+---
+
+## Exercise 5 — Convert decimal to binary
+
+Convert the following numbers from decimal to binary **by hand**:
+
+1. $1$
+2. $2$
+3. $5$
+4. $10$
+5. $13$
+6. $25$
+7. $42$
+
+Do not use Python yet.
+
+Then check your answers.
+
+---
+
+## Exercise 5B — Explore Python's representation
+
+Python provides:
+
+```python
+bin(...)
+```
+
+Try:
+
+```{python}
+bin(13)
+```
+
+and:
+
+```{python}
+bin(42)
+```
+
+What does the prefix `0b` mean?
+
+Now try converting binary strings back to integers:
+
+```python
+int("1101", 2)
+```
+
+Try several examples of your own.
+
+---
+
+# 6. How Many Integers Can a Computer Represent?
+
+Suppose we have an unsigned integer represented using 8 bits.
+
+Each bit can be either 0 or 1.
+
+How many distinct values can we represent?
+
+---
+
+## Exercise 6 — Fixed-width integers
+
+### A.
+
+How many distinct values can be represented using:
+
+- 1 bit?
+- 2 bits?
+- 4 bits?
+- 8 bits?
+- 16 bits?
+- 32 bits?
+
+Find the general formula.
+
+### B.
+
+What is the largest unsigned integer that can be represented using 8 bits?
+
+### C.
+
+What is the smallest unsigned integer?
+
+### D.
+
+What happens if we try to represent 256 using an 8-bit unsigned integer?
+
+---
+
+## Discussion — Python's `int`
+
+There is an important subtlety here.
+
+Real computer hardware uses fixed-width representations for ordinary machine integers.
+
+Python's built-in `int`, however, is **arbitrary precision**: Python can represent integers much larger than would fit into a typical fixed-width machine integer.
+
+Try:
+
+```{python}
+x = 10**100
+
+print(x)
+print(type(x))
+```
+
+### Question
+
+Does Python's ability to represent arbitrarily large integers mean that computers have no finite limits?
+
+Think carefully about the distinction between:
+
+- mathematical integers;
+- Python integers;
+- hardware representations;
+- memory and computational resources.
+
+---
+
+# 7. Signed Integers and Two's Complement
+
+So far we have considered unsigned integers.
+
+Computers also need to represent negative integers.
+
+A common representation is **two's complement**.
+
+For an 8-bit signed integer, the representable range is:
+
+$$
+-128,\ldots,127.
+$$
+
+---
+
+## Exercise 7 — Two's complement
+
+For an 8-bit signed integer:
+
+### A.
+
+How many distinct values can be represented?
+
+### B.
+
+Why is the range asymmetric?
+
+### C.
+
+What happens if we add 1 to the largest representable value?
+
+Think about this conceptually rather than worrying about Python's `int`.
+
+### Discussion
+
+This illustrates an important point:
+
+> The arithmetic rules we learn mathematically may not correspond exactly to arithmetic on a finite machine representation.
+
+Python often hides these hardware details from us. That is convenient, but it is important to understand what is underneath the abstraction.
+
+---
+
+# 8. Floating-Point Numbers
+
+Integers are relatively straightforward because every integer within the relevant range can be represented exactly.
+
+Real numbers are different.
+
+There are infinitely many real numbers, but a computer has finite memory.
+
+Therefore, most real numbers cannot be represented exactly.
+
+A floating-point number is represented approximately using components that can be thought of conceptually as:
+
+```text
+sign × significand × base^exponent
+```
+
+IEEE 754 specifies widely used representations and arithmetic rules for floating-point numbers.
+
+---
+
+## Exercise 8 — What does Python know about floating point?
+
+Python provides information about the floating-point system through `sys.float_info`.
+
+Run:
+
+```{python}
+import sys
+
+sys.float_info
+```
+
+Look at:
+
+```python
+sys.float_info.max
+sys.float_info.min
+sys.float_info.epsilon
+sys.float_info.dig
+```
+
+### Questions
+
+1. What is the largest finite floating-point number?
+2. What is the smallest positive *normalized* floating-point number?
+3. What is machine epsilon?
+4. Approximately how many decimal digits of precision does a Python `float` provide?
+
+---
+
+# 9. Why Is `0.1 + 0.2` Not Exactly `0.3`?
+
+Consider:
+
+```{python}
+x = 0.1 + 0.2
+y = 0.3
+
+print(x)
+print(y)
+print(x == y)
+```
+
+You may find the result surprising.
+
+---
+
+## Exercise 9 — Investigate the discrepancy
+
+Calculate:
+
+```{python}
+x = 0.1 + 0.2
+y = 0.3
+
+x - y
+```
+
+Now calculate:
+
+```python
+abs(x - y)
+```
+
+### Questions
+
+1. Is the error large or small?
+2. Is it exactly zero?
+3. Why might we still care about such a small error?
+
+---
+
+## Exercise 9B — Construct your own examples
+
+Find examples of floating-point calculations for which:
+
+```python
+calculation == mathematically_expected_value
+```
+
+is `False`.
+
+Try to find at least three different examples.
+
+What do they have in common?
+
+---
+
+# 10. Floating-Point Error Can Accumulate
+
+A tiny error in one operation does not necessarily remain tiny after many operations.
+
+Consider:
+
+```{python}
+x = 0.0
+
+for i in range(10):
+    x += 0.1
+
+print(x)
+print(x == 1.0)
+```
+
+### Exercise 10
+
+Before running the code:
+
+> What do you expect `x` to be?
+
+Now run it.
+
+### Questions
+
+1. What happened?
+2. Why can repeated operations make numerical error more important?
+3. Does this mean floating-point arithmetic is "bad"?
+
+---
+
+# 11. Absolute and Relative Error
+
+Suppose the exact value of a quantity is $x$, and our computed approximation is $\hat{x}$.
+
+The **absolute error** is
+
+$$
+|\hat{x}-x|.
+$$
+
+A common measure of relative error is
+
+$$
+\frac{|\hat{x}-x|}{|x|}.
+$$
+
+Relative error is often more informative when comparing errors across quantities of different magnitudes.
+
+---
+
+## Exercise 11 — Absolute versus relative error
+
+Suppose the true value is:
+
+$$
+x = 1000.
+$$
+
+Compare two approximations:
+
+$$
+\hat{x}_1 = 999.9
+$$
+
+and
+
+$$
+\hat{x}_2 = 1000.1.
+$$
+
+Calculate the absolute and relative errors.
+
+Now compare:
+
+$$
+x = 0.001
+$$
+
+with
+
+$$
+\hat{x}=0.0011.
+$$
+
+### Discussion
+
+Why can the same absolute error have very different significance depending on the scale of the quantity?
+
+---
+
+# 12. Comparing Floating-Point Numbers
+
+Because floating-point calculations are approximate, this can be dangerous:
+
+```python
+x == y
+```
+
+when `x` and `y` are supposed to represent the results of numerical calculations.
+
+A common approach is to ask whether the values are sufficiently close.
+
+---
+
+## Exercise 12 — Design a numerical comparison
+
+Suppose we want a function:
+
+```python
+approximately_equal(x, y, tolerance)
+```
+
+that returns `True` when two numbers are sufficiently close.
+
+Start with the simple idea:
+
+$$
+|x-y| < \epsilon.
+$$
+
+Implement:
+
+```python
+def approximately_equal(x, y, tolerance=1e-10):
+    ...
+```
+
+Test it with:
+
+```python
+approximately_equal(0.1 + 0.2, 0.3)
+```
+
+Then test:
+
+```python
+approximately_equal(1000000, 1000000.00001)
+```
+
+and:
+
+```python
+approximately_equal(0.000001, 0.0000011)
+```
+
+### Question
+
+Is an absolute tolerance alone always appropriate?
+
+---
+
+## Exercise 12B — Improve the comparison
+
+Modify your function so that it uses both:
+
+- an absolute tolerance;
+- a relative tolerance.
+
+A useful criterion is:
+
+$$
+|x-y|
+\le
+\text{atol}
++
+\text{rtol}\,|y|.
+$$
+
+Try to implement:
+
+```python
+def approximately_equal(x, y, atol=1e-10, rtol=1e-10):
+    ...
+```
+
+Then test it on values of very different magnitudes.
+
+---
+
+# 13. Cancellation and Loss of Precision
+
+Floating-point problems aren't limited to simple rounding.
+
+Consider:
+
+$$
+f(x)=\sqrt{x^2+1}-x.
+$$
+
+Mathematically, this is perfectly well behaved.
+
+But for large positive $x$, the two terms
+
+$$
+\sqrt{x^2+1}
+$$
+
+and
+
+$$
+x
+$$
+
+are extremely close.
+
+Subtracting two nearly equal floating-point numbers can cause loss of significant digits. This is called **cancellation**.
+
+---
+
+## Exercise 13 — Find a better formulation
+
+Start with:
+
+$$
+\sqrt{x^2+1}-x.
+$$
+
+Multiply the numerator and denominator by the conjugate:
+
+$$
+\sqrt{x^2+1}-x
+=
+\frac{1}{\sqrt{x^2+1}+x}.
+$$
+
+Implement both versions:
+
+```python
+import math
+
+def f1(x):
+    return math.sqrt(x**2 + 1) - x
+
+def f2(x):
+    return 1 / (math.sqrt(x**2 + 1) + x)
+```
+
+Compare:
+
+```python
+x = 10**8
+
+print(f1(x))
+print(f2(x))
+```
+
+### Questions
+
+1. Why are the two mathematical expressions equivalent?
+2. Why might their numerical behavior differ?
+3. Which implementation would you prefer for large `x`?
+4. What does this tell us about the relationship between mathematics and computation?
+
+---
+
+# 14. Challenge — Computation Is an Algorithm, Not a Calculator
+
+We began with:
+
+$$
+\sum_{i=1}^{n} i^2.
+$$
+
+There are at least two obvious implementations.
+
+### Approach 1 — Loop
+
+```python
+def sum_of_squares(n):
+    total = 0
+
+    for i in range(1, n + 1):
+        total += i**2
+
+    return total
+```
+
+### Approach 2 — Closed form
+
+$$
+\frac{n(n+1)(2n+1)}{6}.
+$$
+
+---
+
+## Exercise 14 — Compare the algorithms
+
+Implement both approaches.
+
+Then check that they agree for several values of `n`.
+
+### Questions
+
+1. How would you test the implementations?
+2. Which implementation is faster for very large `n`?
+3. Which implementation is easier to verify mathematically?
+4. What happens if we change the problem so that there is no convenient closed-form solution?
+5. What does this illustrate about the relationship between mathematics, algorithms, and implementation?
+
+---
+
+# 15. Putting It All Together
+
+Today's central idea is:
+
+> **A computer does not manipulate mathematical objects directly. It executes algorithms using finite representations of information.**
+
+This creates several layers between a mathematical problem and a computational result:
+
+```text
+Mathematical problem
+        ↓
+Representation
+        ↓
+Algorithm
+        ↓
+Implementation
+        ↓
+Finite arithmetic
+        ↓
+Computed result
+        ↓
+Validation
+```
+
+The fact that a computer produces an answer does **not** establish that the answer is correct.
+
+A responsible computational workflow therefore includes:
+
+```text
+Problem
+   ↓
+Algorithm
+   ↓
+Implementation
+   ↓
+Testing
+   ↓
+Numerical validation
+   ↓
+Results
+   ↓
+Reproducibility
+```
+
+---
+
+# Exit Questions
+
+Before leaving, answer these without running Python.
+
+### 1.
+
+What is the difference between:
+
+```python
+x = 10
+```
+
+and the mathematical statement $x=10$?
+
+### 2.
+
+Why can a Python `int` represent values much larger than a typical fixed-width machine integer?
+
+### 3.
+
+Why can't most real numbers be represented exactly by a computer?
+
+### 4.
+
+Why can:
+
+```python
+0.1 + 0.2
+```
+
+differ from:
+
+```python
+0.3
+```
+
+?
+
+### 5.
+
+Why isn't "the program ran without an error" sufficient evidence that a computational result is correct?
+
+### 6.
+
+Give one example of a situation in which a mathematically equivalent reformulation can produce a numerically better algorithm.
+
+---
+
+# Looking Ahead
+
+Next time we will move from individual values to **collections of data and control flow**.
+
+We will introduce:
+
+- strings, lists, tuples, dictionaries, and sets;
+- indexing and slicing;
+- iteration;
+- conditional statements;
+- writing functions that operate on data;
+- the idea of choosing an appropriate data structure.
+
+These concepts will give us the tools to write substantially more interesting programs.

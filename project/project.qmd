@@ -1,0 +1,1044 @@
+# Math 5200 Semester Project
+
+## A Computational Project
+
+The semester project is an opportunity to work at length on a computational problem that genuinely interests you while putting together the skills you develop throughout Math 5200.
+
+The project is deliberately open-ended. You may work on a data-analysis problem, a statistical investigation, a simulation, a numerical-computing problem, a machine-learning application, or another computational problem that you propose.
+
+The goal is not simply to produce an interesting result. The goal is to demonstrate that you can carry out a **professional computational workflow**:
+
+```text
+Problem
+   ↓
+Representation
+   ↓
+Algorithm / Method
+   ↓
+Implementation
+   ↓
+Testing
+   ↓
+Analysis
+   ↓
+Validation
+   ↓
+Communication
+````
+
+A successful project should therefore demonstrate both **substantive thinking** about the problem and **good computational practice**.
+
+Ideally, the final project will be something you can show to a prospective employer, use as a portfolio piece, or build on in a future course or research project.
+
+Most importantly, choose something that you find interesting. You will learn more if you are genuinely curious about the problem.
+
+---
+
+# Project Options
+
+Your project may take many forms. For example:
+
+### Data analysis
+
+Investigate an interesting question using one or more real-world datasets.
+
+Examples might include:
+
+* an economic or financial question;
+* a sports question;
+* a public-health question;
+* an environmental question;
+* a question about social or demographic data;
+* analysis of a dataset related to your intended profession.
+
+### Statistical investigation
+
+Use simulation or statistical methods to investigate a question.
+
+For example:
+
+* investigate the properties of a statistical estimator;
+* compare competing statistical methods;
+* study the behavior of a hypothesis test;
+* investigate bootstrap or Monte Carlo methods;
+* examine statistical properties that are difficult to see analytically.
+
+### Scientific or numerical computing
+
+Implement and investigate a computational method.
+
+For example:
+
+* compare numerical methods for solving an equation;
+* investigate numerical integration or differentiation;
+* study an iterative algorithm;
+* solve a differential equation numerically;
+* investigate convergence or numerical stability;
+* compare alternative algorithms for a computational problem.
+
+### Machine learning
+
+Use a dataset to investigate a prediction or classification problem.
+
+For example:
+
+* compare several predictive models;
+* investigate model performance under different conditions;
+* examine feature selection;
+* study model validation and out-of-sample performance.
+
+### Other computational projects
+
+You are welcome to propose another type of project if it involves substantial computational work.
+
+If you have an idea that does not fit neatly into these categories, discuss it with me.
+
+The important requirement is that the project should provide a meaningful opportunity to apply the skills developed in Math 5200.
+
+---
+
+# An Important Restriction
+
+The project may **not** simply be a project that you are simultaneously completing for another course or a project that you have already completed.
+
+You may, however, choose a topic related to your academic or professional interests.
+
+For example, if you are working on a research topic in another course, you could investigate a related but distinct computational question. The work submitted for Math 5200 must represent substantial new work.
+
+If you are uncertain whether a proposed project satisfies this requirement, ask me.
+
+---
+
+# Project Timeline
+
+The project will develop in three major phases:
+
+1. **Proposal**
+2. **Preliminary Analysis / Prototype**
+3. **Final Project**
+
+There will also be a short final presentation.
+
+The purpose of the staged process is to make the project manageable and to give you feedback before you have invested too much time in an approach that may not work.
+
+| Phase                            | Purpose                                                                | Approximate timing |
+| -------------------------------- | ---------------------------------------------------------------------- | ------------------ |
+| Proposal                         | Define the problem and proposed approach                               | XXX                |
+| Preliminary analysis / prototype | Obtain data or implement an initial method and demonstrate feasibility | XXX                |
+| Final project                    | Complete the analysis, implementation, validation, and communication   | XXX                |
+| Presentation                     | Communicate the main results                                           | XXX                |
+
+Specific deadlines are listed on the course syllabus.
+
+---
+
+# Project Repository
+
+Your project should be maintained in a Git repository.
+
+The repository should contain the code, documentation, data-management instructions, and other computational materials necessary to understand and reproduce your work.
+
+A typical project might have a structure such as:
+
+```text
+my-project/
+│
+├── README.md
+├── requirements.txt        # if needed
+├── renv.lock               # if using R/renv
+│
+├── data/
+│   ├── raw/
+│   └── processed/
+│
+├── src/
+│   ├── analysis.py
+│   └── ...
+│
+├── tests/
+│   └── ...
+│
+├── notebooks/
+│   └── ...
+│
+├── output/
+│   ├── figures/
+│   └── tables/
+│
+└── report/
+    └── final_report.qmd
+```
+
+Your project does **not** have to use exactly this structure. The appropriate organization will depend on the project.
+
+However, your repository should make it reasonably easy for another person to answer:
+
+* What is this project?
+* How do I run it?
+* What software do I need?
+* Where does the data come from?
+* How are the data processed?
+* Where is the main analysis?
+* How are the results generated?
+* How can I reproduce the results?
+
+You will be assessed partly on how well your repository communicates this information.
+
+---
+
+# Phase I: Proposal
+
+## Purpose
+
+The purpose of the proposal is to identify an interesting computational problem and develop a plausible initial plan for addressing it.
+
+You do **not** need to know exactly what your final analysis or implementation will look like. In fact, some evolution of the project is expected.
+
+You should, however, demonstrate that:
+
+1. you have identified a meaningful problem;
+2. you understand why it is interesting;
+3. you have identified the resources needed to work on it;
+4. you have a plausible computational approach;
+5. the project is feasible within the time available.
+
+## Proposal
+
+Your proposal should contain the following sections.
+
+### 1. Title
+
+Give your project a tentative title.
+
+The title can change later.
+
+### 2. Project Summary
+
+**Approximately 100 words.**
+
+Briefly describe:
+
+* the problem;
+* why it is interesting;
+* the approach you expect to take;
+* what you hope to learn or demonstrate.
+
+Write this section last.
+
+### 3. Problem / Research Question
+
+What computational problem are you trying to solve?
+
+For a data-analysis project, this may be a research question.
+
+For a numerical-computing project, it might be a computational objective.
+
+For a machine-learning project, it might be a prediction or classification problem.
+
+Try to state the central question or objective as clearly as possible.
+
+Also explain why you are interested in it.
+
+### 4. Background
+
+Provide enough background for an educated reader to understand the problem.
+
+You do not need to write a comprehensive literature review.
+
+Instead, explain:
+
+* what the broader problem is;
+* what is already known;
+* why your question or computational problem is interesting;
+* who might care about the answer.
+
+Include relevant references where appropriate.
+
+### 5. Data, Inputs, or Computational Resources
+
+Describe the data or other inputs you expect to use.
+
+For a data-based project, discuss:
+
+* the data source;
+* how you will obtain the data;
+* the observations and variables that are relevant;
+* expected data-cleaning requirements;
+* any limitations of the data.
+
+For a simulation or numerical project, describe:
+
+* the mathematical inputs;
+* algorithms or methods you expect to implement;
+* relevant computational resources;
+* any software or packages you expect to use.
+
+**Important:** Make sure that the resources you propose to use are actually available.
+
+For a data project, you should obtain at least a sample of the data before submitting the proposal.
+
+### 6. Proposed Computational Approach
+
+Describe what you expect to do.
+
+This section should be concrete.
+
+For example:
+
+* What algorithms will you implement?
+* What quantities will you calculate?
+* What transformations will you perform?
+* What models will you estimate?
+* What simulations will you conduct?
+* What comparisons will you make?
+* What visualizations will you produce?
+* What computational experiments will you perform?
+
+Your proposed approach does not need to be final.
+
+Exploratory work may cause you to change your approach.
+
+### 7. Expected Results
+
+What do you expect to learn?
+
+Whenever possible, formulate specific hypotheses, predictions, comparisons, or success criteria.
+
+For example:
+
+* "Method A should converge faster than Method B for..."
+* "I expect X to be positively associated with Y."
+* "I will compare predictive performance using out-of-sample RMSE."
+* "I will investigate how the estimator's bias changes as the sample size increases."
+
+You should approach the project with expectations, even though the data or computational experiments may ultimately surprise you.
+
+### 8. Initial Project Plan
+
+Provide a short list of the major steps you expect to take.
+
+For example:
+
+```text
+1. Obtain and inspect the data.
+2. Clean and transform the data.
+3. Construct initial descriptive statistics.
+4. Implement the baseline algorithm.
+5. Validate the implementation.
+6. Conduct exploratory analysis.
+7. Estimate the proposed models.
+8. Perform robustness checks.
+9. Produce final figures and tables.
+10. Write and document the final project.
+```
+
+This plan is expected to evolve.
+
+## Proposal Deliverable
+
+Submit:
+
+* the written proposal;
+* the URL to your project repository;
+* any initial code, data, or computational prototype that demonstrates feasibility.
+
+**Format:** XXX
+
+---
+
+# Phase II: Preliminary Analysis / Prototype
+
+## Purpose
+
+The purpose of this phase is to determine whether your proposed project actually works.
+
+This is where you move from an idea to a functioning computational project.
+
+By the end of this phase, you should have:
+
+* obtained and inspected your data or computational inputs;
+* established a workable project structure;
+* implemented at least an initial version of your computational approach;
+* performed meaningful exploratory analysis or computational experiments;
+* identified important problems or limitations;
+* refined your research question or computational objective;
+* developed a more specific plan for the final project.
+
+The preliminary phase is **not expected to be polished**. It is an opportunity to discover what does and does not work.
+
+---
+
+## 1. Revised Problem Statement
+
+Begin by briefly restating your original problem or research question.
+
+Explain any important changes from the proposal and why you made them.
+
+---
+
+## 2. Data and Computational Inputs
+
+Describe the data or inputs that you actually obtained.
+
+For data projects, include:
+
+* data sources;
+* number of observations;
+* relevant variables;
+* missing observations;
+* unusual or problematic observations;
+* important transformations.
+
+For numerical or simulation projects, describe:
+
+* the computational inputs;
+* parameter choices;
+* algorithms implemented;
+* numerical methods;
+* relevant assumptions.
+
+---
+
+## 3. Data Management / Preparation
+
+Document the steps required to turn the original inputs into usable analysis data.
+
+For example:
+
+* importing files;
+* parsing data types;
+* cleaning variables;
+* handling missing observations;
+* identifying duplicates;
+* joining datasets;
+* transforming variables;
+* filtering observations;
+* creating derived variables.
+
+Your goal is not simply to produce a clean dataset. You should be able to explain **how you produced it**.
+
+The code used to perform these steps should be part of your project repository.
+
+---
+
+## 4. Exploratory Analysis or Computational Experiments
+
+Investigate your data or computational problem.
+
+Depending on the project, this might include:
+
+* descriptive statistics;
+* distributions;
+* correlations;
+* scatter plots;
+* time-series plots;
+* comparisons across groups;
+* simulations;
+* numerical experiments;
+* convergence analysis;
+* computational benchmarks;
+* preliminary model estimates.
+
+Do not simply produce a collection of plots.
+
+Explain what you learned from them.
+
+Identify patterns that matter for your original question and identify anything unexpected.
+
+---
+
+## 5. Initial Implementation
+
+Provide an initial working implementation of the main computational method.
+
+The implementation does not need to be final, but it should be sufficiently developed to demonstrate that the proposed approach is feasible.
+
+Discuss:
+
+* the algorithm or method;
+* important implementation decisions;
+* relevant data structures;
+* computational limitations;
+* any problems encountered.
+
+---
+
+## 6. Testing and Validation
+
+Your project should include evidence that your code is producing correct results.
+
+Depending on the project, this might include:
+
+* unit tests;
+* tests against known answers;
+* comparison with an independent implementation;
+* simulations with known properties;
+* numerical convergence checks;
+* sanity checks;
+* validation on held-out data.
+
+Explain what you tested and why those tests provide evidence that your implementation is correct.
+
+This is an important part of the project.
+
+**A program producing output is not evidence by itself that the program is correct.**
+
+---
+
+## 7. Revised Hypotheses / Questions / Success Criteria
+
+Based on your preliminary work, state the specific questions you will address in the final project.
+
+For a data-analysis project, these may be testable hypotheses.
+
+For a numerical project, they may be computational comparisons or performance criteria.
+
+For a machine-learning project, they may be predictive-performance criteria.
+
+Be specific enough that the reader can understand what constitutes a successful answer.
+
+---
+
+## 8. Plan for Final Analysis
+
+Explain what remains to be done.
+
+List the major analyses, computational experiments, models, figures, tables, or other outputs you expect to produce.
+
+It is perfectly acceptable for this plan to differ substantially from your original proposal.
+
+## Preliminary Deliverable
+
+Submit:
+
+* revised project description;
+* preliminary analysis or computational experiments;
+* initial implementation;
+* evidence of testing/validation;
+* updated project plan;
+* updated project repository.
+
+**Format:** XXX
+
+---
+
+# Phase III: Final Project
+
+The final project should bring together the work from the previous phases into a coherent computational product.
+
+The final submission should stand on its own.
+
+It should not simply consist of copying and pasting the previous assignments together. Revise and reorganize your work so that the final product tells a coherent story.
+
+The exact structure will depend on the nature of your project, but most projects should contain the following components.
+
+---
+
+## 1. Title
+
+Provide a concise and informative title.
+
+---
+
+## 2. Summary
+
+**Approximately 150–200 words.**
+
+Briefly explain:
+
+* the problem;
+* why it matters;
+* your approach;
+* your principal results;
+* what you learned.
+
+Write this section last.
+
+---
+
+## 3. Problem / Research Question
+
+Clearly state the problem you investigated.
+
+Explain why it is interesting and what you set out to determine.
+
+---
+
+## 4. Background
+
+Provide the background necessary to understand the problem.
+
+Keep this focused.
+
+The purpose is to establish context, not to demonstrate how much literature you were able to find.
+
+---
+
+## 5. Data / Inputs
+
+Describe the data or computational inputs used in the final analysis.
+
+Explain:
+
+* where they came from;
+* how they were obtained;
+* important characteristics;
+* relevant limitations.
+
+---
+
+## 6. Methods
+
+Describe the computational methods used.
+
+Depending on the project, this may include:
+
+* algorithms;
+* statistical models;
+* numerical methods;
+* simulation procedures;
+* machine-learning models;
+* data transformations;
+* computational experiments.
+
+The reader should understand what you did well enough to evaluate the appropriateness of the approach.
+
+---
+
+## 7. Exploratory Analysis / Computational Results
+
+Present the initial results that help establish the structure of the problem.
+
+Use appropriate:
+
+* tables;
+* figures;
+* visualizations;
+* numerical summaries;
+* computational experiments.
+
+Every figure and table should have a purpose.
+
+Do not include output simply because your program produced it.
+
+---
+
+## 8. Main Results
+
+Present the principal results of your analysis or computational experiments.
+
+Depending on the project, this might include:
+
+* statistical model estimates;
+* prediction results;
+* simulation results;
+* numerical accuracy;
+* convergence;
+* algorithmic performance;
+* computational speed;
+* comparisons between methods.
+
+---
+
+## 9. Validation and Robustness
+
+Explain how you determined that your results are credible.
+
+Depending on the project, this might include:
+
+* statistical tests;
+* alternative specifications;
+* out-of-sample evaluation;
+* sensitivity analysis;
+* simulation;
+* comparison with known results;
+* independent implementation;
+* unit tests;
+* numerical checks.
+
+---
+
+## 10. Interpretation
+
+What do the results actually mean?
+
+Return explicitly to the original research question or computational objective.
+
+Do not simply describe the output.
+
+Explain what you learned.
+
+Also discuss important limitations.
+
+---
+
+## 11. Conclusion
+
+Summarize the main findings.
+
+Discuss:
+
+* the principal conclusion;
+* limitations;
+* unanswered questions;
+* possible extensions.
+
+---
+
+## 12. Computational Documentation
+
+Your repository should contain enough information for another student with a similar computer to understand how to reproduce your work.
+
+At a minimum, provide a `README.md` explaining:
+
+* what the project does;
+* how to install dependencies;
+* how to obtain the data;
+* how the project is organized;
+* how to run the analysis;
+* where the principal results are produced.
+
+Use an appropriate dependency/environment file such as:
+
+* `requirements.txt` for Python;
+* `renv.lock` for R, if applicable;
+* or another appropriate mechanism approved by the instructor.
+
+If data cannot legally or practically be included in the repository, provide instructions for obtaining it.
+
+---
+
+# Code Quality
+
+Your project code should demonstrate the programming practices developed in Math 5200.
+
+Among other things, consider:
+
+* meaningful variable and function names;
+* functions that perform clear tasks;
+* avoiding unnecessary duplication;
+* appropriate comments and documentation;
+* sensible project organization;
+* appropriate use of data structures;
+* error handling where appropriate;
+* tests for important functionality;
+* reproducible analysis;
+* separation of raw data, processed data, code, and results.
+
+You are not expected to produce professional production software.
+
+You are expected to demonstrate that you understand the principles of writing reliable and maintainable computational code.
+
+---
+
+# Version Control
+
+Your project repository should show evidence of meaningful use of Git.
+
+This does **not** mean that you should create dozens of meaningless commits simply to increase the commit count.
+
+Instead, your repository should show a sensible development history.
+
+For example:
+
+```text
+Initial project structure
+        ↓
+Add data acquisition
+        ↓
+Implement data cleaning
+        ↓
+Add exploratory analysis
+        ↓
+Implement model
+        ↓
+Add tests
+        ↓
+Revise analysis
+        ↓
+Final results
+        ↓
+Final documentation
+```
+
+The purpose is to demonstrate that you understand version control as part of a computational workflow.
+
+---
+
+# Reproducibility
+
+Your final project should make a reasonable effort to allow another person to reproduce your results.
+
+This includes, where applicable:
+
+* recording software dependencies;
+* documenting data sources;
+* separating raw and processed data;
+* avoiding undocumented manual transformations;
+* setting random seeds when appropriate;
+* documenting important computational choices;
+* generating figures and tables programmatically;
+* providing instructions for running the analysis.
+
+Perfect reproducibility is not always possible. For example, a large proprietary dataset or external API may not be available to another person.
+
+In such cases, clearly document what you did and what would be required to reproduce the results.
+
+---
+
+# Use of Generative AI
+
+You may use generative AI tools only according to the rules specified for the project.
+
+Because responsible AI-assisted programming is itself a learning objective of this course, the final project may provide opportunities to use AI tools.
+
+If AI assistance is permitted, you remain responsible for:
+
+* understanding the submitted code;
+* testing it;
+* validating its results;
+* checking references and factual claims;
+* ensuring that it actually addresses the project objective.
+
+You should not treat AI-generated code as automatically correct.
+
+If you use AI substantially in the project, document that use according to the instructions provided by the instructor.
+
+---
+
+# Final Presentation
+
+Each student will give a short presentation of the project.
+
+The presentation will be approximately **5 minutes**.
+
+Five minutes is short. The objective is therefore not to describe everything you did.
+
+Instead, communicate the most important parts of the project:
+
+1. What was the problem?
+2. Why was it interesting?
+3. What did you do?
+4. What did you find?
+5. What should the audience take away?
+
+A reasonable starting structure is:
+
+### Slide 1 — Problem
+
+* Project title
+* Your name
+* Research question / computational objective
+* Brief motivation
+
+### Slide 2 — Approach
+
+* Data or computational inputs
+* Main method
+* Important methodological choice
+
+### Slides 3–4 — Results
+
+* Most important figures, tables, or computational results
+* Interpretation of those results
+
+### Slide 5 — Conclusion
+
+* Main finding
+* Limitations
+* One important takeaway
+
+You may use fewer or more slides if appropriate.
+
+The presentation should emphasize **results and insight rather than code**. You do not need to show large blocks of code.
+
+---
+
+# Suggested Final Repository
+
+A well-organized final repository might look something like:
+
+```text
+project/
+│
+├── README.md
+├── requirements.txt
+│
+├── data/
+│   ├── raw/
+│   └── processed/
+│
+├── src/
+│   ├── download_data.py
+│   ├── clean_data.py
+│   ├── analysis.py
+│   └── ...
+│
+├── tests/
+│   └── test_*.py
+│
+├── notebooks/
+│   └── exploratory_analysis.qmd
+│
+├── output/
+│   ├── figures/
+│   └── tables/
+│
+└── report/
+    └── final_report.qmd
+```
+
+Again, this is an example rather than a required structure.
+
+The organization should make sense for your particular project.
+
+---
+
+# Grading
+
+The project will be evaluated on both the **substantive quality of the work** and the **quality of the computational process**.
+
+A suggested rubric is:
+
+| Category                                    | Points |
+| ------------------------------------------- | -----: |
+| Project question and motivation             |      5 |
+| Data / computational inputs and preparation |      5 |
+| Computational methods and implementation    |     10 |
+| Testing and validation                      |      5 |
+| Analysis and results                        |     10 |
+| Code organization and quality               |      5 |
+| Reproducibility and documentation           |      5 |
+| Final presentation                          |      5 |
+| **Total**                                   | **50** |
+
+The exact allocation may be adjusted.
+
+## What distinguishes an excellent project?
+
+An excellent project will generally:
+
+* ask an interesting and appropriately scoped question;
+* use an appropriate computational approach;
+* demonstrate substantial independent programming;
+* contain well-organized and understandable code;
+* include meaningful testing and validation;
+* present clear and informative results;
+* acknowledge limitations;
+* be reproducible or well documented;
+* communicate the results effectively.
+
+A project does **not** need to use sophisticated mathematics or advanced machine learning to receive a high grade.
+
+A relatively simple question investigated carefully, with excellent computational practice, can be a much stronger project than an ambitious question investigated superficially.
+
+---
+
+# Choosing a Good Project
+
+The most common project problem is **scope**.
+
+A project that sounds interesting can easily become too large.
+
+A good project should have:
+
+* a clear question;
+* accessible data or computational inputs;
+* a manageable number of methods;
+* a realistic amount of programming;
+* a clear definition of what constitutes a useful result.
+
+You should generally prefer:
+
+> **One interesting question investigated carefully**
+
+over:
+
+> **Ten interesting questions investigated superficially.**
+
+If you are uncertain whether your project is appropriately scoped, discuss it with me early.
+
+---
+
+# Example Project Ideas
+
+These are examples to illustrate the range of projects that would be appropriate. You are not expected to choose one of these.
+
+### Data analysis
+
+* What factors are associated with housing prices in a particular region?
+* How have patterns in a particular economic variable changed over time?
+* Can publicly available data be used to explain differences in some outcome across geographic regions?
+* What factors predict an outcome in a sports dataset?
+
+### Simulation
+
+* How does the performance of a statistical estimator change with sample size?
+* How accurately can Monte Carlo methods estimate a difficult probability?
+* How does multiple-testing correction affect statistical power?
+* How does a random process behave under different parameterizations?
+
+### Numerical computing
+
+* How do different numerical integration methods compare in accuracy and speed?
+* How does the convergence rate of an iterative algorithm depend on initialization?
+* How do different methods for solving a differential equation compare?
+* When does floating-point error materially affect a numerical algorithm?
+
+### Machine learning
+
+* How do different models perform on a particular prediction problem?
+* How does model performance change with sample size?
+* How important are different features for prediction?
+* How do regularization methods affect out-of-sample performance?
+
+### Other
+
+If you have another idea, propose it.
+
+A project does not need to fit into a predetermined category as long as it involves substantial computational work and allows you to apply the skills of the course.
+
+---
+
+# Final Advice
+
+Start early.
+
+The project is intentionally divided into phases because **the first idea you have is unlikely to be the final project**.
+
+You will probably discover that:
+
+* a dataset is less useful than you expected;
+* a variable is missing;
+* an algorithm is harder to implement than anticipated;
+* an initial hypothesis is wrong;
+* a model does not perform as expected;
+* an interesting new question emerges during exploration.
+
+These are not failures. They are normal parts of computational work.
+
+The purpose of the project is to give you experience with the entire process:
+
+```text
+Ask a question
+      ↓
+Figure out how to represent it
+      ↓
+Write code
+      ↓
+Discover that something doesn't work
+      ↓
+Debug it
+      ↓
+Test it
+      ↓
+Explore the data / computation
+      ↓
+Change your approach
+      ↓
+Validate your results
+      ↓
+Communicate what you learned
+```
+
+That process is one of the most important things you should take away from Math 5200.
