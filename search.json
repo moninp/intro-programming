@@ -4,126 +4,441 @@
     "href": "syllabus.html",
     "title": "MATH 5200: Computing Using R & Python",
     "section": "",
-    "text": "Fall 2026\nDay/Time: XXX\nLocation: XXX\n\n\nThis course provides a fast-paced introduction to programming and computational methods for graduate study in mathematics and statistics. We will use Python and R to develop practical programming skills while also introducing fundamental ideas from computer science, numerical computing, data management, and reproducible research.\nThe course emphasizes problem solving and computational thinking rather than memorization of language syntax. Topics include programming fundamentals, data structures, algorithms, numerical representation and error, data manipulation and visualization, simulation, statistical computing, software organization, version control, testing and debugging, and reproducible computational workflows.\nAn important goal is to prepare students not only to write programs for this course, but also to approach computational problems effectively in subsequent coursework, research, and professional settings. We will therefore discuss practices used in real computational work, including organizing projects, managing dependencies and data, writing maintainable code, testing programs, documenting work, and using Git and GitHub.\nThe course uses Python and R throughout. Students will generally learn concepts first through Python and then see how similar computational ideas are expressed in R.\n\n\n\nBasic mathematics and statistics and familiarity with computers. No prior programming experience is required.\nStudents should be comfortable with algebra and basic mathematical notation and should be prepared to learn programming at a relatively rapid pace.\n\n\n\nPhillip Monin, PhD, CFA, FRM\npm1091@georgetown.edu\nOffice: XXX\nOffice hours: XXX\nAdditional meetings are available by appointment.\n\n\n\nXXX\nXXX@georgetown.edu\nOffice hours: XXX\n\n\n\nThere is no required textbook. The course will be driven primarily by lecture notes, examples, and programming exercises provided through the course GitHub repository.\nStudents will use:\n\nPython 3\nR\nVisual Studio Code\nQuarto\nGit and GitHub\n\nDetailed installation and setup instructions will be provided at the beginning of the course.\nThe course repository will contain lecture materials, exercises, assignments, examples, and other resources. Students will use Git and GitHub as part of the course itself, providing an opportunity to practice the same tools used to organize and share computational work professionally.\nAdditional readings and references will occasionally be assigned or recommended.\n\n\n\nThe course is organized around several broad themes:\n\nProgramming fundamentals: variables, types, expressions, control flow, functions, data structures, and program state.\nComputational foundations: algorithms, binary and numerical representation, floating-point arithmetic, numerical error, and computational complexity.\nData and scientific computing: working with arrays and data frames, data cleaning and transformation, visualization, simulation, and numerical computation.\nStatistical computing: applying computational methods to statistical problems and working with real datasets.\nSoftware and data practices: testing, debugging, documentation, project organization, version control, dependency management, and reproducibility.\nPython and R: learning the common computational ideas that underlie both languages while becoming comfortable using each language in practice.\n\nThe course will move quickly. Class meetings will combine short lectures with live coding, demonstrations, and exercises that students complete individually or collaboratively.\n\n\n\nThe goal of this course is not to memorize Python or R syntax. The goal is to become someone who can solve problems computationally.\nA typical computational workflow looks something like:\n\nProblem → algorithm → implementation → testing → analysis → results\n\nWe will pay attention to every part of this process. In particular, students will learn to recognize that producing an answer is not necessarily the same thing as producing a correct, reliable, or reproducible computational result.\nStudents are encouraged to ask questions, experiment, make mistakes, and use computational tools to investigate ideas. At the same time, submitted work should demonstrate that students understand the code they write and the methods they use.\n\n\n\nThe course will include:\n\nWeekly homework assignments: programming exercises and short computational problems.\nShort quizzes: brief assessments of concepts and programming fundamentals.\nSemester project: an extended computational project developed in several stages.\nParticipation and engagement: active participation in class exercises and discussions.\n\nThe precise weighting will be:\n\n\n\nComponent\nWeight\n\n\n\n\nHomework\nXX%\n\n\nQuizzes\nXX%\n\n\nSemester project\nXX%\n\n\nParticipation/engagement\nXX%\n\n\nTotal\n100%\n\n\n\nThe semester project will give students an opportunity to apply the skills developed throughout the course to a problem of their choosing. Projects may involve data analysis, simulation, numerical computing, or another computational problem approved by the instructor.\nMore information about the project, including its phases and evaluation criteria, is provided in a separate project document.\n\n\n\nHomework will generally be assigned weekly and will be submitted through the course GitHub repository or another electronic submission system as specified in the assignment.\nStudents are encouraged to discuss course concepts and homework problems with one another. However, submitted work must represent the student’s own work. Students should not copy another student’s code or submit code that they do not understand.\nWhen substantial assistance is received from another student, the instructor, an online resource, or an AI tool, students should acknowledge that assistance as appropriate. Such acknowledgments are not penalized.\nSpecific assignments may have additional collaboration rules, which will be stated on the assignment.\n\n\n\nGenerative AI tools can be useful programming assistants, but learning to program requires students to understand the code they write rather than simply obtain working code from an external system.\nUnless an assignment specifies otherwise, students may use AI tools for purposes such as:\n\nexplaining programming concepts;\nhelping diagnose an error;\nsuggesting approaches to a problem;\ngenerating examples for experimentation;\nhelping improve documentation.\n\nStudents remain responsible for verifying, understanding, testing, and appropriately citing or acknowledging AI-generated material used in submitted work.\nSome assignments may deliberately restrict or prohibit AI assistance when the purpose is to assess unaided programming knowledge. The applicable rules will always be stated on the assignment.\n\n\n\nClass attendance is expected. Much of the course will be conducted through live coding and collaborative exercises, and students are responsible for material covered in class as well as in the lecture notes.\nIf you anticipate missing a class, please notify the instructor in advance when possible.\nCourse materials, including lecture notes and exercise files, will be posted to the course GitHub repository. Additional announcements and course logistics will be communicated through XXX.\n\n\n\nPlease use XXX for course-related announcements and XXX for submitting questions or assignments.\nStudents are welcome to contact the instructor by email. I am happy to discuss course material, assignments, projects, or other questions about the course.\n\n\n\nThe following is a broad outline. The schedule may change as the course progresses.\n\n\n\n\n\n\n\nWeek\nTopic\n\n\n\n\n1\nComputing foundations, Python, program state, binary and numerical representation\n\n\n2\nControl flow, data structures, functions, and testing\n\n\n3\nAlgorithms, files, exceptions, and debugging\n\n\n4\nNumPy and numerical computing\n\n\n5\nPandas and data manipulation\n\n\n6\nData visualization and exploratory data analysis\n\n\n7\nSimulation and statistical computing\n\n\n8\nR fundamentals and the R computational model\n\n\n9\nData management and visualization in R\n\n\n10\nStatistical modeling and computational statistics\n\n\n11\nReproducible research, Git/GitHub, and project development\n\n\n12\nAdvanced topics and project work\n\n\n13\nProject presentations / final project work\n\n\n\nSpecific dates and project deadlines will be provided on the course schedule.\n\n\n\nThe semester project is a substantial computational investigation of a topic chosen by the student in consultation with the instructor.\nProjects may involve:\n\ndata analysis;\nsimulation;\nnumerical computation;\nalgorithmic experiments;\nstatistical modeling; or\nanother computational project approved by the instructor.\n\nThe project will develop through several stages:\n\nProposal\nPreliminary analysis / computational development\nFinal analysis and final product\nPresentation\n\nThe purpose of the project is to give students an opportunity to work on a problem of genuine interest while practicing the complete computational workflow developed in the course.\nA separate project description provides detailed requirements, examples, and guidance for selecting a topic.\n\n\n\nEverything submitted for a grade must represent the student’s own work, except for clearly acknowledged and appropriately cited material from other sources or assistance explicitly permitted by the instructor.\nStudents may discuss homework and projects with classmates unless an assignment specifies otherwise, but they should not copy another student’s work.\nExaminations and other assessments designated as individual work may have substantially more restrictive collaboration and resource rules. Those rules will be stated explicitly when the assessment is assigned.\nStudents are responsible for understanding and following Georgetown University’s academic integrity policies.\n\n\n\nStudents should consult the University syllabus policies and resources for information concerning accommodations, Title IX and sexual misconduct, academic integrity, accessibility, and other University policies.\n[Georgetown University syllabus policies and resources: XXX]\n\n\n\nThe primary course resources will be:\n\nCourse GitHub repository: XXX\nCourse website: XXX\nCanvas: XXX\nInstructor email: XXX\n\nStudents should begin with the Start Here guide in the course repository, which contains instructions for installing the required software, configuring the development environment, and obtaining the course materials."
+    "text": "Day/Time: Wednesdays, 6:30-9:00 PM\nLocation: Reiss 152"
   },
   {
     "objectID": "syllabus.html#course-description",
     "href": "syllabus.html#course-description",
     "title": "MATH 5200: Computing Using R & Python",
-    "section": "",
-    "text": "This course provides a fast-paced introduction to programming and computational methods for graduate study in mathematics and statistics. We will use Python and R to develop practical programming skills while also introducing fundamental ideas from computer science, numerical computing, data management, and reproducible research.\nThe course emphasizes problem solving and computational thinking rather than memorization of language syntax. Topics include programming fundamentals, data structures, algorithms, numerical representation and error, data manipulation and visualization, simulation, statistical computing, software organization, version control, testing and debugging, and reproducible computational workflows.\nAn important goal is to prepare students not only to write programs for this course, but also to approach computational problems effectively in subsequent coursework, research, and professional settings. We will therefore discuss practices used in real computational work, including organizing projects, managing dependencies and data, writing maintainable code, testing programs, documenting work, and using Git and GitHub.\nThe course uses Python and R throughout. Students will generally learn concepts first through Python and then see how similar computational ideas are expressed in R."
+    "section": "Course Description",
+    "text": "Course Description\nThis course provides a fast-paced introduction to programming and computational methods for graduate study in mathematics and statistics. We will use Python and R to develop practical programming skills while also introducing fundamental ideas from computer science, numerical computing, data management, and reproducible research.\nThe course emphasizes problem solving and computational thinking rather than memorization of language syntax. Topics include programming fundamentals, data structures, algorithms, numerical representation and error, data manipulation and visualization, simulation, statistical computing, software organization, version control, testing and debugging, and reproducible computational workflows.\nAn important goal is to prepare students not only to write programs for this course, but also to approach computational problems effectively in subsequent coursework, research, and professional settings. We will therefore discuss practices used in real computational work, including organizing projects, managing dependencies and data, writing maintainable code, testing programs, documenting work, and using Git and GitHub.\nThe course uses Python and R throughout. Students will generally learn concepts first through Python and then see how similar computational ideas are expressed in R."
   },
   {
     "objectID": "syllabus.html#prerequisites",
     "href": "syllabus.html#prerequisites",
     "title": "MATH 5200: Computing Using R & Python",
-    "section": "",
-    "text": "Basic mathematics and statistics and familiarity with computers. No prior programming experience is required.\nStudents should be comfortable with algebra and basic mathematical notation and should be prepared to learn programming at a relatively rapid pace."
+    "section": "Prerequisites",
+    "text": "Prerequisites\nBasic mathematics and statistics and familiarity with computers. No prior programming experience is required.\nStudents should be comfortable with algebra and basic mathematical notation and should be prepared to learn programming at a relatively rapid pace."
   },
   {
     "objectID": "syllabus.html#instructor",
     "href": "syllabus.html#instructor",
     "title": "MATH 5200: Computing Using R & Python",
-    "section": "",
-    "text": "Phillip Monin, PhD, CFA, FRM\npm1091@georgetown.edu\nOffice: XXX\nOffice hours: XXX\nAdditional meetings are available by appointment."
+    "section": "Instructor",
+    "text": "Instructor\nPhillip Monin, PhD, CFA, FRM\npm1091@georgetown.edu\nOffice hours: Mondays 4:30-5:30 PM, or by appointment. Scheduled office hours are held by request over Zoom. Please email me by noon if you would like to attend the scheduled office hours. If no student requests to meet, then the scheduled office hours will not be held.\nI happily hold additional office hours on an ad hoc basis by appointment over Zoom. I am committed to being available as much as I can to meet your needs."
   },
   {
     "objectID": "syllabus.html#assistant",
     "href": "syllabus.html#assistant",
     "title": "MATH 5200: Computing Using R & Python",
-    "section": "",
-    "text": "XXX\nXXX@georgetown.edu\nOffice hours: XXX"
+    "section": "Assistant",
+    "text": "Assistant\nAlan Sheu\nads347@georgetown.edu\nOffice hours: XXX"
   },
   {
     "objectID": "syllabus.html#course-materials-and-software",
     "href": "syllabus.html#course-materials-and-software",
     "title": "MATH 5200: Computing Using R & Python",
-    "section": "",
-    "text": "There is no required textbook. The course will be driven primarily by lecture notes, examples, and programming exercises provided through the course GitHub repository.\nStudents will use:\n\nPython 3\nR\nVisual Studio Code\nQuarto\nGit and GitHub\n\nDetailed installation and setup instructions will be provided at the beginning of the course.\nThe course repository will contain lecture materials, exercises, assignments, examples, and other resources. Students will use Git and GitHub as part of the course itself, providing an opportunity to practice the same tools used to organize and share computational work professionally.\nAdditional readings and references will occasionally be assigned or recommended."
+    "section": "Course Materials and Software",
+    "text": "Course Materials and Software\nThere is no required textbook. The course will be driven primarily by lecture notes, examples, and programming exercises provided through the course GitHub repository.\nStudents will use:\n\nPython 3\nR\nVisual Studio Code\nQuarto\nGit and GitHub\n\nDetailed installation and setup instructions will be provided at the beginning of the course.\nThe course repository will contain lecture materials, exercises, assignments, examples, and other resources. Students will use Git and GitHub as part of the course itself, providing an opportunity to practice the same tools used to organize and share computational work professionally.\nAdditional readings and references will occasionally be assigned or recommended."
   },
   {
     "objectID": "syllabus.html#course-organization",
     "href": "syllabus.html#course-organization",
     "title": "MATH 5200: Computing Using R & Python",
-    "section": "",
-    "text": "The course is organized around several broad themes:\n\nProgramming fundamentals: variables, types, expressions, control flow, functions, data structures, and program state.\nComputational foundations: algorithms, binary and numerical representation, floating-point arithmetic, numerical error, and computational complexity.\nData and scientific computing: working with arrays and data frames, data cleaning and transformation, visualization, simulation, and numerical computation.\nStatistical computing: applying computational methods to statistical problems and working with real datasets.\nSoftware and data practices: testing, debugging, documentation, project organization, version control, dependency management, and reproducibility.\nPython and R: learning the common computational ideas that underlie both languages while becoming comfortable using each language in practice.\n\nThe course will move quickly. Class meetings will combine short lectures with live coding, demonstrations, and exercises that students complete individually or collaboratively."
+    "section": "Course Organization",
+    "text": "Course Organization\nThe course is organized around several broad themes:\n\nProgramming fundamentals: variables, types, expressions, control flow, functions, data structures, and program state.\nComputational foundations: algorithms, binary and numerical representation, floating-point arithmetic, numerical error, and computational complexity.\nData and scientific computing: working with arrays and data frames, data cleaning and transformation, visualization, simulation, and numerical computation.\nStatistical computing: applying computational methods to statistical problems and working with real datasets.\nSoftware and data practices: testing, debugging, documentation, project organization, version control, dependency management, and reproducibility.\nPython and R: learning the common computational ideas that underlie both languages while becoming comfortable using each language in practice.\n\nThe course will move quickly. Class meetings will combine short lectures with live coding, demonstrations, and exercises that students complete individually or collaboratively."
   },
   {
     "objectID": "syllabus.html#course-philosophy",
     "href": "syllabus.html#course-philosophy",
     "title": "MATH 5200: Computing Using R & Python",
-    "section": "",
-    "text": "The goal of this course is not to memorize Python or R syntax. The goal is to become someone who can solve problems computationally.\nA typical computational workflow looks something like:\n\nProblem → algorithm → implementation → testing → analysis → results\n\nWe will pay attention to every part of this process. In particular, students will learn to recognize that producing an answer is not necessarily the same thing as producing a correct, reliable, or reproducible computational result.\nStudents are encouraged to ask questions, experiment, make mistakes, and use computational tools to investigate ideas. At the same time, submitted work should demonstrate that students understand the code they write and the methods they use."
+    "section": "Course Philosophy",
+    "text": "Course Philosophy\nThe goal of this course is not to memorize Python or R syntax. The goal is to become someone who can solve problems computationally.\nA typical computational workflow looks something like:\n\nProblem → algorithm → implementation → testing → analysis → results\n\nWe will pay attention to every part of this process. In particular, students will learn to recognize that producing an answer is not necessarily the same thing as producing a correct, reliable, or reproducible computational result.\nStudents are encouraged to ask questions, experiment, make mistakes, and use computational tools to investigate ideas. At the same time, submitted work should demonstrate that students understand the code they write and the methods they use."
   },
   {
     "objectID": "syllabus.html#assessment",
     "href": "syllabus.html#assessment",
     "title": "MATH 5200: Computing Using R & Python",
-    "section": "",
-    "text": "The course will include:\n\nWeekly homework assignments: programming exercises and short computational problems.\nShort quizzes: brief assessments of concepts and programming fundamentals.\nSemester project: an extended computational project developed in several stages.\nParticipation and engagement: active participation in class exercises and discussions.\n\nThe precise weighting will be:\n\n\n\nComponent\nWeight\n\n\n\n\nHomework\nXX%\n\n\nQuizzes\nXX%\n\n\nSemester project\nXX%\n\n\nParticipation/engagement\nXX%\n\n\nTotal\n100%\n\n\n\nThe semester project will give students an opportunity to apply the skills developed throughout the course to a problem of their choosing. Projects may involve data analysis, simulation, numerical computing, or another computational problem approved by the instructor.\nMore information about the project, including its phases and evaluation criteria, is provided in a separate project document."
+    "section": "Assessment",
+    "text": "Assessment\nThe course will include:\n\nWeekly homework assignments: programming exercises and short computational problems.\nShort quizzes: brief assessments of concepts and programming fundamentals.\nSemester project: an extended computational project developed in several stages.\nParticipation and engagement: active participation in class exercises and discussions.\n\nThe precise weighting will be:\n\n\n\nComponent\nWeight\n\n\n\n\nMidterms\n40%\n\n\nHomework\n25%\n\n\nSemester project\n20%\n\n\nQuizzes\n10%\n\n\nParticipation/engagement\n5%\n\n\nTotal\n100%\n\n\n\nThe semester project will give students an opportunity to apply the skills developed throughout the course to a problem of their choosing. Projects may involve data analysis, simulation, numerical computing, or another computational problem approved by the instructor.\nMore information about the project, including its phases and evaluation criteria, is provided in a separate project document."
   },
   {
     "objectID": "syllabus.html#assignments-and-collaboration",
     "href": "syllabus.html#assignments-and-collaboration",
     "title": "MATH 5200: Computing Using R & Python",
-    "section": "",
-    "text": "Homework will generally be assigned weekly and will be submitted through the course GitHub repository or another electronic submission system as specified in the assignment.\nStudents are encouraged to discuss course concepts and homework problems with one another. However, submitted work must represent the student’s own work. Students should not copy another student’s code or submit code that they do not understand.\nWhen substantial assistance is received from another student, the instructor, an online resource, or an AI tool, students should acknowledge that assistance as appropriate. Such acknowledgments are not penalized.\nSpecific assignments may have additional collaboration rules, which will be stated on the assignment."
+    "section": "Assignments and Collaboration",
+    "text": "Assignments and Collaboration\nHomework will generally be assigned weekly and will be submitted through the course GitHub repository or another electronic submission system as specified in the assignment.\nStudents are encouraged to discuss course concepts and homework problems with one another. However, submitted work must represent the student’s own work. Students should not copy another student’s code or submit code that they do not understand.\nWhen substantial assistance is received from another student, the instructor, an online resource, or an AI tool, students should acknowledge that assistance as appropriate. Such acknowledgments are not penalized.\nSpecific assignments may have additional collaboration rules, which will be stated on the assignment."
   },
   {
     "objectID": "syllabus.html#generative-ai-and-other-computational-tools",
     "href": "syllabus.html#generative-ai-and-other-computational-tools",
     "title": "MATH 5200: Computing Using R & Python",
-    "section": "",
-    "text": "Generative AI tools can be useful programming assistants, but learning to program requires students to understand the code they write rather than simply obtain working code from an external system.\nUnless an assignment specifies otherwise, students may use AI tools for purposes such as:\n\nexplaining programming concepts;\nhelping diagnose an error;\nsuggesting approaches to a problem;\ngenerating examples for experimentation;\nhelping improve documentation.\n\nStudents remain responsible for verifying, understanding, testing, and appropriately citing or acknowledging AI-generated material used in submitted work.\nSome assignments may deliberately restrict or prohibit AI assistance when the purpose is to assess unaided programming knowledge. The applicable rules will always be stated on the assignment."
+    "section": "Generative AI and Other Computational Tools",
+    "text": "Generative AI and Other Computational Tools\nGenerative AI tools can be useful programming assistants, but learning to program requires students to understand the code they write rather than simply obtain working code from an external system.\nUnless an assignment specifies otherwise, students may use AI tools for purposes such as:\n\nexplaining programming concepts;\nhelping diagnose an error;\nsuggesting approaches to a problem;\ngenerating examples for experimentation;\nhelping improve documentation.\n\nStudents remain responsible for verifying, understanding, testing, and appropriately citing or acknowledging AI-generated material used in submitted work.\nSome assignments may deliberately restrict or prohibit AI assistance when the purpose is to assess unaided programming knowledge. The applicable rules will always be stated on the assignment."
   },
   {
     "objectID": "syllabus.html#attendance-and-participation",
     "href": "syllabus.html#attendance-and-participation",
     "title": "MATH 5200: Computing Using R & Python",
-    "section": "",
-    "text": "Class attendance is expected. Much of the course will be conducted through live coding and collaborative exercises, and students are responsible for material covered in class as well as in the lecture notes.\nIf you anticipate missing a class, please notify the instructor in advance when possible.\nCourse materials, including lecture notes and exercise files, will be posted to the course GitHub repository. Additional announcements and course logistics will be communicated through XXX."
+    "section": "Attendance and Participation",
+    "text": "Attendance and Participation\nClass attendance is expected. Much of the course will be conducted through live coding and collaborative exercises, and students are responsible for material covered in class as well as in the lecture notes.\nIf you anticipate missing a class, please notify the instructor in advance when possible.\nCourse materials, including lecture notes and exercise files, will be posted to the course GitHub repository. Additional announcements and course logistics will be communicated through XXX."
   },
   {
     "objectID": "syllabus.html#communication",
     "href": "syllabus.html#communication",
     "title": "MATH 5200: Computing Using R & Python",
-    "section": "",
-    "text": "Please use XXX for course-related announcements and XXX for submitting questions or assignments.\nStudents are welcome to contact the instructor by email. I am happy to discuss course material, assignments, projects, or other questions about the course."
+    "section": "Communication",
+    "text": "Communication\nStudents are welcome to contact the instructor by email. I am happy to discuss course material, assignments, projects, or other questions about the course."
   },
   {
     "objectID": "syllabus.html#tentative-course-calendar",
     "href": "syllabus.html#tentative-course-calendar",
     "title": "MATH 5200: Computing Using R & Python",
-    "section": "",
-    "text": "The following is a broad outline. The schedule may change as the course progresses.\n\n\n\n\n\n\n\nWeek\nTopic\n\n\n\n\n1\nComputing foundations, Python, program state, binary and numerical representation\n\n\n2\nControl flow, data structures, functions, and testing\n\n\n3\nAlgorithms, files, exceptions, and debugging\n\n\n4\nNumPy and numerical computing\n\n\n5\nPandas and data manipulation\n\n\n6\nData visualization and exploratory data analysis\n\n\n7\nSimulation and statistical computing\n\n\n8\nR fundamentals and the R computational model\n\n\n9\nData management and visualization in R\n\n\n10\nStatistical modeling and computational statistics\n\n\n11\nReproducible research, Git/GitHub, and project development\n\n\n12\nAdvanced topics and project work\n\n\n13\nProject presentations / final project work\n\n\n\nSpecific dates and project deadlines will be provided on the course schedule."
+    "section": "Tentative Course Calendar",
+    "text": "Tentative Course Calendar\nThe following is a broad outline. The schedule may change as the course progresses.\n\n\n\nWeek\nTopic\n\n\n\n\n1\nFoundations, Computation & Numerical Representation\n\n\n2\nData Structures, Algorithms, and Control Flow\n\n\n3\nFunctions, Modularity, Documentation, and Version Control\n\n\n4\nArrays, Vectorization, Linear Algebra, and Numerical Computing\n\n\n5\nData, Files, Formats, Reproducibility, and pandas\n\n\n6\nTesting, Debugging, and AI-Assisted Programming\n\n\n7\nPython Synthesis, Professional Workflow + PYTHON MIDTERM\n\n\n8\nR Fundamentals, Data Structures, and Functional Programming\n\n\n9\nData Wrangling, Validation, and Tidy Data\n\n\n10\nStatistical Computing, Simulation, and Modeling\n\n\n11\nVisualization and Reproducible Scientific Communication\n\n\n12\nMachine Learning Foundations\n\n\n13\nNeural Networks, Transformers, and Large Language Models\n\n\n14\nR Programming, Professional Workflow + R MIDTERM\n\n\nF\nFinal Project Presentations\n\n\n\nSpecific dates and project deadlines will be provided on the course schedule."
   },
   {
     "objectID": "syllabus.html#course-project",
     "href": "syllabus.html#course-project",
     "title": "MATH 5200: Computing Using R & Python",
-    "section": "",
-    "text": "The semester project is a substantial computational investigation of a topic chosen by the student in consultation with the instructor.\nProjects may involve:\n\ndata analysis;\nsimulation;\nnumerical computation;\nalgorithmic experiments;\nstatistical modeling; or\nanother computational project approved by the instructor.\n\nThe project will develop through several stages:\n\nProposal\nPreliminary analysis / computational development\nFinal analysis and final product\nPresentation\n\nThe purpose of the project is to give students an opportunity to work on a problem of genuine interest while practicing the complete computational workflow developed in the course.\nA separate project description provides detailed requirements, examples, and guidance for selecting a topic."
+    "section": "Course Project",
+    "text": "Course Project\nThe semester project is a substantial computational investigation of a topic chosen by the student in consultation with the instructor.\nProjects may involve:\n\ndata analysis;\nsimulation;\nnumerical computation;\nalgorithmic experiments;\nstatistical modeling; or\nanother computational project approved by the instructor.\n\nThe project will develop through several stages:\n\nProposal\nPreliminary analysis / computational development\nFinal analysis and final product\nPresentation\n\nThe purpose of the project is to give students an opportunity to work on a problem of genuine interest while practicing the complete computational workflow developed in the course.\nA separate project description provides detailed requirements, examples, and guidance for selecting a topic."
   },
   {
     "objectID": "syllabus.html#academic-integrity",
     "href": "syllabus.html#academic-integrity",
     "title": "MATH 5200: Computing Using R & Python",
-    "section": "",
-    "text": "Everything submitted for a grade must represent the student’s own work, except for clearly acknowledged and appropriately cited material from other sources or assistance explicitly permitted by the instructor.\nStudents may discuss homework and projects with classmates unless an assignment specifies otherwise, but they should not copy another student’s work.\nExaminations and other assessments designated as individual work may have substantially more restrictive collaboration and resource rules. Those rules will be stated explicitly when the assessment is assigned.\nStudents are responsible for understanding and following Georgetown University’s academic integrity policies."
+    "section": "Academic Integrity",
+    "text": "Academic Integrity\nEverything submitted for a grade must represent the student’s own work, except for clearly acknowledged and appropriately cited material from other sources or assistance explicitly permitted by the instructor.\nStudents may discuss homework and projects with classmates unless an assignment specifies otherwise, but they should not copy another student’s work.\nExaminations and other assessments designated as individual work may have substantially more restrictive collaboration and resource rules. Those rules will be stated explicitly when the assessment is assigned.\nStudents are responsible for understanding and following Georgetown University’s academic integrity policies."
   },
   {
     "objectID": "syllabus.html#university-policies",
     "href": "syllabus.html#university-policies",
     "title": "MATH 5200: Computing Using R & Python",
-    "section": "",
-    "text": "Students should consult the University syllabus policies and resources for information concerning accommodations, Title IX and sexual misconduct, academic integrity, accessibility, and other University policies.\n[Georgetown University syllabus policies and resources: XXX]"
+    "section": "University Policies",
+    "text": "University Policies\nStudents should consult the University syllabus policies and resources for information concerning accommodations, Title IX and sexual misconduct, academic integrity, accessibility, and other University policies."
   },
   {
     "objectID": "syllabus.html#course-resources",
     "href": "syllabus.html#course-resources",
     "title": "MATH 5200: Computing Using R & Python",
+    "section": "Course Resources",
+    "text": "Course Resources\nThe primary course resources will be:\n\nCourse GitHub repository: https://github.com/moninp/intro-programming\nCourse website: https://moninp.github.io/intro-programming/\nCanvas: https://canvas.georgetown.edu/\nInstructor email: pm1091@georgetown.edu\n\nStudents should begin with the installation and setup instructions guide in the course repository, which contains instructions for installing the required software, configuring the development environment, and obtaining the course materials."
+  },
+  {
+    "objectID": "lectures/01-foundations/notes.html",
+    "href": "lectures/01-foundations/notes.html",
+    "title": "Lecture 1 — Foundations, Computation & Binary Representations",
     "section": "",
-    "text": "The primary course resources will be:\n\nCourse GitHub repository: XXX\nCourse website: XXX\nCanvas: XXX\nInstructor email: XXX\n\nStudents should begin with the Start Here guide in the course repository, which contains instructions for installing the required software, configuring the development environment, and obtaining the course materials."
+    "text": "Programming is often introduced as the process of learning a programming language. That is only part of the story.\nA programming language provides a way to express computations, but effective computational work requires us to think about several additional questions:\n\nHow should a problem be represented?\nWhat algorithm should we use?\nHow should the algorithm be implemented?\nHow can we determine whether the implementation is correct?\nHow does the computer represent the quantities involved?\nWhat numerical errors can arise?\nHow can the computation be reproduced and independently checked?\n\nA useful computational workflow is:\nProblem\n   ↓\nRepresentation\n   ↓\nAlgorithm\n   ↓\nImplementation\n   ↓\nTesting\n   ↓\nNumerical validation\n   ↓\nResults\n   ↓\nCommunication / Reproducibility\nThis course will return to this workflow repeatedly.\nA central theme of this first lecture is:\n\nA computer does not manipulate mathematical objects directly. It executes algorithms using finite representations of information.\n\nThis distinction is particularly important in numerical work."
+  },
+  {
+    "objectID": "lectures/01-foundations/notes.html#algorithms",
+    "href": "lectures/01-foundations/notes.html#algorithms",
+    "title": "Lecture 1 — Foundations, Computation & Binary Representations",
+    "section": "2.1 Algorithms",
+    "text": "2.1 Algorithms\nAn algorithm is a finite, well-defined procedure for solving a problem.\nFor the sum-of-squares problem, one algorithm is:\ntotal ← 0\nfor i from 1 through n:\n    total ← total + i²\nreturn total\nAnother algorithm uses the closed-form expression:\nreturn n(n+1)(2n+1)/6\nThe two algorithms solve the same mathematical problem, but they have different computational properties.\nThe first requires work proportional to \\(n\\). The second requires a fixed number of high-level arithmetic operations.\nThis is our first example of an important distinction:\n\nMathematically equivalent methods need not be computationally equivalent."
+  },
+  {
+    "objectID": "lectures/01-foundations/notes.html#mathematical-variables",
+    "href": "lectures/01-foundations/notes.html#mathematical-variables",
+    "title": "Lecture 1 — Foundations, Computation & Binary Representations",
+    "section": "4.1 Mathematical variables",
+    "text": "4.1 Mathematical variables\nIn mathematics, a variable is typically a symbol representing an element of some mathematical domain.\nFor example,\n\\[\nx \\in \\mathbb{R}\n\\]\nsays that \\(x\\) is a real number.\nAn equation such as\n\\[\nx = 10\n\\]\ncan be interpreted as a mathematical assertion that \\(x\\) has value 10.\nProgramming languages use the word variable, but the concept is somewhat different."
+  },
+  {
+    "objectID": "lectures/01-foundations/notes.html#assignment",
+    "href": "lectures/01-foundations/notes.html#assignment",
+    "title": "Lecture 1 — Foundations, Computation & Binary Representations",
+    "section": "4.2 Assignment",
+    "text": "4.2 Assignment\nIn Python:\nx = 10\nis an assignment statement.\nA useful conceptual interpretation is:\n\nEvaluate the expression on the right and bind the name on the left to the resulting object.\n\nAfter:\nx = 10\nthe name x refers to an integer object representing 10.\nThe statement\nx = x + 1\ntherefore makes sense as a program instruction even though\n\\[\nx = x + 1\n\\]\nwould normally be impossible as an equation over ordinary numbers.\nPython interprets:\nx = x + 1\nas:\n\nretrieve the current value associated with x;\nadd 1;\nbind x to the resulting value.\n\nThus:\nx = 10\nx = x + 1\nleaves x equal to 11."
+  },
+  {
+    "objectID": "lectures/01-foundations/notes.html#program-state",
+    "href": "lectures/01-foundations/notes.html#program-state",
+    "title": "Lecture 1 — Foundations, Computation & Binary Representations",
+    "section": "4.3 Program state",
+    "text": "4.3 Program state\nThe state of a program consists, roughly speaking, of the information that determines the program’s current condition.\nFor a simple program, this may include the values associated with its variables.\nConsider:\nx = 10\ny = x\nx = 20\nAfter these statements:\nx → 20\ny → 10\nThe assignment to x changed the program state. It did not change what y refers to.\nThis is one reason it is useful to distinguish programming variables from mathematical variables."
+  },
+  {
+    "objectID": "lectures/01-foundations/notes.html#types-are-part-of-the-computational-model",
+    "href": "lectures/01-foundations/notes.html#types-are-part-of-the-computational-model",
+    "title": "Lecture 1 — Foundations, Computation & Binary Representations",
+    "section": "5.1 Types are part of the computational model",
+    "text": "5.1 Types are part of the computational model\nWhen reading code, ask:\n\nWhat kind of object is this expression producing?\n\nThis question will become increasingly important as we encounter:\n\nlists;\narrays;\ndata frames;\nfunctions;\ndictionaries;\nmatrices;\nuser-defined objects."
+  },
+  {
+    "objectID": "lectures/01-foundations/notes.html#positional-notation",
+    "href": "lectures/01-foundations/notes.html#positional-notation",
+    "title": "Lecture 1 — Foundations, Computation & Binary Representations",
+    "section": "7.1 Positional notation",
+    "text": "7.1 Positional notation\nThe decimal number\n\\[\n372\n\\]\nmeans\n\\[\n3(10^2)+7(10^1)+2(10^0).\n\\]\nSimilarly,\n\\[\n1101_2\n\\]\nmeans\n\\[\n1(2^3)+1(2^2)+0(2^1)+1(2^0).\n\\]\nTherefore,\n\\[\n1101_2\n=8+4+0+1\n=\n13.\n\\]"
+  },
+  {
+    "objectID": "lectures/01-foundations/notes.html#converting-decimal-to-binary",
+    "href": "lectures/01-foundations/notes.html#converting-decimal-to-binary",
+    "title": "Lecture 1 — Foundations, Computation & Binary Representations",
+    "section": "7.2 Converting decimal to binary",
+    "text": "7.2 Converting decimal to binary\nTo express a positive integer in binary, we can decompose it into powers of 2.\nFor example,\n\\[\n42=32+8+2\n\\]\nor\n\\[\n42=2^5+2^3+2^1.\n\\]\nTherefore:\n\\[\n42=101010_2.\n\\]\nThe positions corresponding to \\(2^5,2^3,2^1\\) contain 1s; the others contain 0s."
+  },
+  {
+    "objectID": "lectures/01-foundations/notes.html#unsigned-integers",
+    "href": "lectures/01-foundations/notes.html#unsigned-integers",
+    "title": "Lecture 1 — Foundations, Computation & Binary Representations",
+    "section": "9.1 Unsigned integers",
+    "text": "9.1 Unsigned integers\nIf all 256 patterns are used for nonnegative integers, the values are:\n\\[\n0,1,\\ldots,255.\n\\]\nThe largest value is therefore\n\\[\n2^8-1=255.\n\\]\nIn general, an unsigned \\(b\\)-bit integer has range\n\\[\n0,\\ldots,2^b-1.\n\\]"
+  },
+  {
+    "objectID": "lectures/01-foundations/notes.html#what-happens-outside-the-range",
+    "href": "lectures/01-foundations/notes.html#what-happens-outside-the-range",
+    "title": "Lecture 1 — Foundations, Computation & Binary Representations",
+    "section": "9.2 What happens outside the range?",
+    "text": "9.2 What happens outside the range?\nIf a system uses an 8-bit unsigned integer, there is no representation for 256.\nIn some low-level programming environments, arithmetic can overflow and wrap around.\nFor example, an 8-bit unsigned representation may behave as though\n\\[\n255+1=0\n\\]\nbecause the result (256) corresponds to the bit pattern\n00000000\nafter discarding the ninth bit.\nPython’s ordinary int does not behave this way."
+  },
+  {
+    "objectID": "lectures/01-foundations/notes.html#arbitrary-precision-does-not-mean-infinite-precision",
+    "href": "lectures/01-foundations/notes.html#arbitrary-precision-does-not-mean-infinite-precision",
+    "title": "Lecture 1 — Foundations, Computation & Binary Representations",
+    "section": "10.1 Arbitrary precision does not mean infinite precision",
+    "text": "10.1 Arbitrary precision does not mean infinite precision\nPython’s integer type can grow as necessary, but there are still physical limits.\nA sufficiently large integer requires:\n\nmore memory;\nmore computational time;\npotentially more storage.\n\nThus:\n\nThe programming language can provide an abstraction that hides hardware-level limits without eliminating the underlying physical limits.\n\nThis distinction becomes particularly important when we study numerical computing."
+  },
+  {
+    "objectID": "lectures/01-foundations/notes.html#the-largest-and-smallest-values",
+    "href": "lectures/01-foundations/notes.html#the-largest-and-smallest-values",
+    "title": "Lecture 1 — Foundations, Computation & Binary Representations",
+    "section": "11.1 The largest and smallest values",
+    "text": "11.1 The largest and smallest values\nThe largest value is:\n01111111\nwhich is 127.\nThe smallest is:\n10000000\nwhich represents -128."
+  },
+  {
+    "objectID": "lectures/01-foundations/notes.html#twos-complement-and-arithmetic",
+    "href": "lectures/01-foundations/notes.html#twos-complement-and-arithmetic",
+    "title": "Lecture 1 — Foundations, Computation & Binary Representations",
+    "section": "11.2 Two’s complement and arithmetic",
+    "text": "11.2 Two’s complement and arithmetic\nThe two’s-complement representation is designed so that ordinary binary addition can be used for both positive and negative numbers, subject to the limits of the fixed-width representation.\nFor example:\n  00000101   =  5\n+ 11111110   = -2\n-----------\n  00000011   =  3\nThe representation makes arithmetic efficient in hardware."
+  },
+  {
+    "objectID": "lectures/01-foundations/notes.html#integer-overflow",
+    "href": "lectures/01-foundations/notes.html#integer-overflow",
+    "title": "Lecture 1 — Foundations, Computation & Binary Representations",
+    "section": "11.3 Integer overflow",
+    "text": "11.3 Integer overflow\nWith fixed-width signed integers, arithmetic can leave the representable range.\nFor an 8-bit signed integer:\n01111111 = 127\nAdding 1 produces:\n10000000\nwhich represents -128.\nThis is integer overflow.\nPython’s int deliberately avoids this particular behavior by allowing the integer representation to grow."
+  },
+  {
+    "objectID": "lectures/01-foundations/notes.html#normalized-values",
+    "href": "lectures/01-foundations/notes.html#normalized-values",
+    "title": "Lecture 1 — Foundations, Computation & Binary Representations",
+    "section": "14.1 Normalized values",
+    "text": "14.1 Normalized values\nFor a normalized binary floating-point value, the significand is conventionally represented with a leading 1.\nConceptually:\n\\[\n1.f_2 \\times 2^e.\n\\]\nThe leading 1 does not need to be stored explicitly, which provides an additional effective bit of precision."
+  },
+  {
+    "objectID": "lectures/01-foundations/notes.html#special-values",
+    "href": "lectures/01-foundations/notes.html#special-values",
+    "title": "Lecture 1 — Foundations, Computation & Binary Representations",
+    "section": "14.2 Special values",
+    "text": "14.2 Special values\nIEEE 754 also defines special representations including:\n\npositive and negative zero;\npositive and negative infinity;\nNaN (“Not a Number”);\nsubnormal numbers.\n\nThese allow floating-point arithmetic to handle exceptional cases in a standardized way."
+  },
+  {
+    "objectID": "lectures/01-foundations/notes.html#precision",
+    "href": "lectures/01-foundations/notes.html#precision",
+    "title": "Lecture 1 — Foundations, Computation & Binary Representations",
+    "section": "Precision",
+    "text": "Precision\nPrecision concerns how finely numbers can be distinguished relative to their magnitude.\nBinary64 has approximately 15–17 significant decimal digits of precision."
+  },
+  {
+    "objectID": "lectures/01-foundations/notes.html#range",
+    "href": "lectures/01-foundations/notes.html#range",
+    "title": "Lecture 1 — Foundations, Computation & Binary Representations",
+    "section": "Range",
+    "text": "Range\nRange concerns how large or small a representable number can be.\nFor typical binary64:\n\\[\n\\text{maximum finite value}\n\\approx\n1.8\\times10^{308}.\n\\]\nThe smallest positive normal number is approximately:\n\\[\n2.2\\times10^{-308}.\n\\]\nThese are different concepts.\nA system can have a large numerical range while still having limited precision."
+  },
+  {
+    "objectID": "lectures/01-foundations/notes.html#conditioning",
+    "href": "lectures/01-foundations/notes.html#conditioning",
+    "title": "Lecture 1 — Foundations, Computation & Binary Representations",
+    "section": "Conditioning",
+    "text": "Conditioning\nConditioning concerns the sensitivity of the mathematical problem itself to perturbations in the input.\nA problem is ill-conditioned if small changes in the input can produce large changes in the correct answer."
+  },
+  {
+    "objectID": "lectures/01-foundations/notes.html#stability",
+    "href": "lectures/01-foundations/notes.html#stability",
+    "title": "Lecture 1 — Foundations, Computation & Binary Representations",
+    "section": "Stability",
+    "text": "Stability\nStability concerns the behavior of the algorithm used to solve the problem.\nA stable algorithm tends not to introduce excessive additional error.\nThis distinction is important:\n\nAn ill-conditioned problem can be difficult even with a perfect algorithm.\n\nand:\n\nA well-conditioned problem can be ruined by an unstable algorithm.\n\nWe will return to these ideas later in the course."
+  },
+  {
+    "objectID": "lectures/01-foundations/notes.html#testing-known-results",
+    "href": "lectures/01-foundations/notes.html#testing-known-results",
+    "title": "Lecture 1 — Foundations, Computation & Binary Representations",
+    "section": "34.1 Testing known results",
+    "text": "34.1 Testing known results\nFor example:\ndef sum_of_squares(n):\n    total = 0\n\n    for i in range(1, n + 1):\n        total += i**2\n\n    return total\nWe can test:\nassert sum_of_squares(1) == 1\nassert sum_of_squares(2) == 5\nassert sum_of_squares(3) == 14"
+  },
+  {
+    "objectID": "lectures/01-foundations/notes.html#testing-independent-implementations",
+    "href": "lectures/01-foundations/notes.html#testing-independent-implementations",
+    "title": "Lecture 1 — Foundations, Computation & Binary Representations",
+    "section": "34.2 Testing independent implementations",
+    "text": "34.2 Testing independent implementations\nWe can compare two implementations:\ndef sum_of_squares_loop(n):\n    total = 0\n\n    for i in range(1, n + 1):\n        total += i**2\n\n    return total\n\n\ndef sum_of_squares_formula(n):\n    return n * (n + 1) * (2 * n + 1) // 6\nThen:\nfor n in [0, 1, 2, 5, 10, 100, 1000]:\n    assert sum_of_squares_loop(n) == sum_of_squares_formula(n)\nThis is much stronger than checking a single example."
+  },
+  {
+    "objectID": "lectures/01-foundations/notes.html#mathematical-objects-versus-representations",
+    "href": "lectures/01-foundations/notes.html#mathematical-objects-versus-representations",
+    "title": "Lecture 1 — Foundations, Computation & Binary Representations",
+    "section": "38.1 Mathematical objects versus representations",
+    "text": "38.1 Mathematical objects versus representations\nA mathematical integer is an abstract object.\nA computer stores a finite representation of that integer.\nA mathematical real number is an abstract object.\nA computer generally stores an approximation to that real number."
+  },
+  {
+    "objectID": "lectures/01-foundations/notes.html#programs-versus-mathematical-expressions",
+    "href": "lectures/01-foundations/notes.html#programs-versus-mathematical-expressions",
+    "title": "Lecture 1 — Foundations, Computation & Binary Representations",
+    "section": "38.2 Programs versus mathematical expressions",
+    "text": "38.2 Programs versus mathematical expressions\nA mathematical expression describes a relationship or value.\nA program is a sequence of instructions that changes computational state."
+  },
+  {
+    "objectID": "lectures/01-foundations/notes.html#exact-versus-approximate-computation",
+    "href": "lectures/01-foundations/notes.html#exact-versus-approximate-computation",
+    "title": "Lecture 1 — Foundations, Computation & Binary Representations",
+    "section": "38.3 Exact versus approximate computation",
+    "text": "38.3 Exact versus approximate computation\nInteger calculations can often be exact within the range of the representation.\nFloating-point calculations are generally approximate."
+  },
+  {
+    "objectID": "lectures/01-foundations/notes.html#algorithms-matter",
+    "href": "lectures/01-foundations/notes.html#algorithms-matter",
+    "title": "Lecture 1 — Foundations, Computation & Binary Representations",
+    "section": "38.4 Algorithms matter",
+    "text": "38.4 Algorithms matter\nDifferent algorithms can solve the same mathematical problem while differing in:\n\nspeed;\nmemory requirements;\nnumerical stability;\nease of testing;\nreproducibility."
+  },
+  {
+    "objectID": "lectures/01-foundations/notes.html#testing-matters",
+    "href": "lectures/01-foundations/notes.html#testing-matters",
+    "title": "Lecture 1 — Foundations, Computation & Binary Representations",
+    "section": "38.5 Testing matters",
+    "text": "38.5 Testing matters\nA program producing output is not evidence that the output is correct.\nTesting should be deliberate and systematic."
+  },
+  {
+    "objectID": "getting-started.html",
+    "href": "getting-started.html",
+    "title": "MATH 5200: Computing Using R & Python",
+    "section": "",
+    "text": "This repository contains the course materials, including lecture notes, in-class exercises, homework, and other resources. We will use GitHub, VS Code, Quarto, Python, and R throughout the course.\nYou do not need prior experience with these tools.\n\n\n\nWhat you need\nInstall the software\nClone the course repository\nSet up Python\nSet up VS Code\nTest your installation\nYour basic workflow\nCommon problems\nGetting help\n\n\n\n\n\nYou will use the following software:\n\n\n\n\n\n\n\nSoftware\nWhat we use it for\n\n\n\n\nGit\nVersion control and working with the course repository\n\n\nGitHub\nAccessing and submitting course materials\n\n\nVS Code\nWriting and running code\n\n\nPython\nProgramming and data analysis\n\n\nQuarto\nCreating reproducible documents containing code, results, and explanations\n\n\nR\nStatistical computing and data analysis\n\n\n\nWe will introduce these tools gradually. You do not need to understand all of them before the first class."
+  },
+  {
+    "objectID": "getting-started.html#table-of-contents",
+    "href": "getting-started.html#table-of-contents",
+    "title": "MATH 5200: Computing Using R & Python",
+    "section": "",
+    "text": "What you need\nInstall the software\nClone the course repository\nSet up Python\nSet up VS Code\nTest your installation\nYour basic workflow\nCommon problems\nGetting help"
+  },
+  {
+    "objectID": "getting-started.html#what-you-need",
+    "href": "getting-started.html#what-you-need",
+    "title": "MATH 5200: Computing Using R & Python",
+    "section": "",
+    "text": "You will use the following software:\n\n\n\n\n\n\n\nSoftware\nWhat we use it for\n\n\n\n\nGit\nVersion control and working with the course repository\n\n\nGitHub\nAccessing and submitting course materials\n\n\nVS Code\nWriting and running code\n\n\nPython\nProgramming and data analysis\n\n\nQuarto\nCreating reproducible documents containing code, results, and explanations\n\n\nR\nStatistical computing and data analysis\n\n\n\nWe will introduce these tools gradually. You do not need to understand all of them before the first class."
+  },
+  {
+    "objectID": "getting-started.html#git",
+    "href": "getting-started.html#git",
+    "title": "MATH 5200: Computing Using R & Python",
+    "section": "Git",
+    "text": "Git\nInstall Git from the official website:\nhttps://git-scm.com/downloads\n\nWindows\nDownload the Windows installer and accept the default options. Make sure Git is available from the command line.\n\n\nmacOS\nOpen Terminal and run:\ngit --version\nIf Git is not installed, macOS should offer to install the Xcode Command Line Tools.\n\n\nLinux\nInstall Git using your distribution’s package manager.\nVerify the installation:\ngit --version\nYou should see a version number."
+  },
+  {
+    "objectID": "getting-started.html#vs-code",
+    "href": "getting-started.html#vs-code",
+    "title": "MATH 5200: Computing Using R & Python",
+    "section": "VS Code",
+    "text": "VS Code\nDownload and install Visual Studio Code:\nhttps://code.visualstudio.com/\nDuring installation on Windows, it is useful to select the options to add VS Code to your PATH and register it as an editor."
+  },
+  {
+    "objectID": "getting-started.html#python",
+    "href": "getting-started.html#python",
+    "title": "MATH 5200: Computing Using R & Python",
+    "section": "Python",
+    "text": "Python\nDownload Python from:\nhttps://www.python.org/downloads/\nUse a recent stable version of Python 3.\n\nWindows — important\nDuring installation, check the box labeled “Add python.exe to PATH”.\nAfter installation, open a new terminal and run:\npython --version\nYou should see something like:\nPython 3.1x.x\n\n\nIf python is not recognized\nOn some Windows computers, try:\npy --version\nIf py works but python does not, you can use py in place of python in the commands below."
+  },
+  {
+    "objectID": "getting-started.html#quarto",
+    "href": "getting-started.html#quarto",
+    "title": "MATH 5200: Computing Using R & Python",
+    "section": "Quarto",
+    "text": "Quarto\nDownload and install Quarto:\nhttps://quarto.org/docs/get-started/\nYou do not need to install Quarto inside your Python virtual environment. Quarto is installed as a separate application on your computer.\nVerify the installation in a new terminal:\nquarto --version"
+  },
+  {
+    "objectID": "getting-started.html#vs-code-extensions",
+    "href": "getting-started.html#vs-code-extensions",
+    "title": "MATH 5200: Computing Using R & Python",
+    "section": "VS Code extensions",
+    "text": "VS Code extensions\nOpen VS Code and install these extensions:\n\nPython — Microsoft\nJupyter — Microsoft\nQuarto — Posit\n\nYou can install extensions by clicking the Extensions icon on the left side of VS Code or by pressing:\nCtrl+Shift+X\non Windows/Linux, or:\nCmd+Shift+X\non macOS."
+  },
+  {
+    "objectID": "getting-started.html#activate-the-environment",
+    "href": "getting-started.html#activate-the-environment",
+    "title": "MATH 5200: Computing Using R & Python",
+    "section": "Activate the environment",
+    "text": "Activate the environment\n\nWindows PowerShell\n.\\.venv\\Scripts\\Activate.ps1\n\n\nmacOS / Linux\nsource .venv/bin/activate\nOnce activated, your terminal should begin with:\n(.venv)\nFor example:\n(.venv) PS C:\\Users\\you\\Documents\\intro-programming&gt;\n\n\nWindows PowerShell execution-policy error\nIf Windows says that scripts are disabled, run:\nSet-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process\nThen try the activation command again:\n.\\.venv\\Scripts\\Activate.ps1\nThis changes the policy only for the current terminal session."
+  },
+  {
+    "objectID": "getting-started.html#install-the-course-packages",
+    "href": "getting-started.html#install-the-course-packages",
+    "title": "MATH 5200: Computing Using R & Python",
+    "section": "Install the course packages",
+    "text": "Install the course packages\nWith the virtual environment activated, run:\npython -m pip install --upgrade pip\npip install -r requirements.txt\nThe requirements.txt file lists the Python packages needed by the course.\nDo not commit your .venv folder to Git. The environment is local to your computer; requirements.txt is the reproducible description of what needs to be installed."
+  },
+  {
+    "objectID": "getting-started.html#test-python",
+    "href": "getting-started.html#test-python",
+    "title": "MATH 5200: Computing Using R & Python",
+    "section": "Test Python",
+    "text": "Test Python\nWith your .venv activated:\npython\nThen:\nprint(\"Hello, Python!\")\nYou should see:\nHello, Python!\nExit Python with:\nexit()"
+  },
+  {
+    "objectID": "getting-started.html#test-quarto",
+    "href": "getting-started.html#test-quarto",
+    "title": "MATH 5200: Computing Using R & Python",
+    "section": "Test Quarto",
+    "text": "Test Quarto\nOpen the test .qmd file provided in the repository.\nIt should contain a small Python code block.\nClick Render in the upper-right corner of the VS Code editor.\nQuarto should create an HTML document containing the text and the output from the Python code.\nIf this works, your basic course environment is ready."
+  },
+  {
+    "objectID": "getting-started.html#python-is-not-recognized",
+    "href": "getting-started.html#python-is-not-recognized",
+    "title": "MATH 5200: Computing Using R & Python",
+    "section": "“Python is not recognized”",
+    "text": "“Python is not recognized”\nTry:\npy --version\non Windows.\nIf neither python nor py works, Python may not have been installed correctly or may not have been added to your PATH.\nRestart your terminal after installing Python."
+  },
+  {
+    "objectID": "getting-started.html#venv-does-not-appear-in-vs-code",
+    "href": "getting-started.html#venv-does-not-appear-in-vs-code",
+    "title": "MATH 5200: Computing Using R & Python",
+    "section": ".venv does not appear in VS Code",
+    "text": ".venv does not appear in VS Code\nFirst make sure you created it in the course repository:\nintro-programming/\n└── .venv/\nThen reload VS Code:\nCtrl+Shift+P → Developer: Reload Window\nAfterward:\nCtrl+Shift+P → Python: Select Interpreter\nand select the interpreter inside .venv."
+  },
+  {
+    "objectID": "getting-started.html#powershell-says-scripts-are-disabled",
+    "href": "getting-started.html#powershell-says-scripts-are-disabled",
+    "title": "MATH 5200: Computing Using R & Python",
+    "section": "PowerShell says scripts are disabled",
+    "text": "PowerShell says scripts are disabled\nRun:\nSet-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process\nThen:\n.\\.venv\\Scripts\\Activate.ps1\nAlternatively, you can use a Command Prompt terminal and run:\n.venv\\Scripts\\activate.bat"
+  },
+  {
+    "objectID": "getting-started.html#pip-install--r-requirements.txt-fails",
+    "href": "getting-started.html#pip-install--r-requirements.txt-fails",
+    "title": "MATH 5200: Computing Using R & Python",
+    "section": "pip install -r requirements.txt fails",
+    "text": "pip install -r requirements.txt fails\nFirst make sure your virtual environment is activated:\n(.venv)\nshould appear at the beginning of your terminal prompt.\nThen try:\npython -m pip install --upgrade pip\npip install -r requirements.txt\nIf the installation still fails, save the complete error message and ask for help rather than repeatedly trying random fixes."
+  },
+  {
+    "objectID": "getting-started.html#quarto-says-it-cannot-find-python",
+    "href": "getting-started.html#quarto-says-it-cannot-find-python",
+    "title": "MATH 5200: Computing Using R & Python",
+    "section": "Quarto says it cannot find Python",
+    "text": "Quarto says it cannot find Python\nFirst verify:\npython --version\nand:\nquarto --version\nThen make sure VS Code is using the .venv interpreter:\nCtrl+Shift+P → Python: Select Interpreter\nIf the problem persists, restart VS Code and try rendering again."
+  },
+  {
+    "objectID": "getting-started.html#quarto-renders-but-python-code-fails",
+    "href": "getting-started.html#quarto-renders-but-python-code-fails",
+    "title": "MATH 5200: Computing Using R & Python",
+    "section": "Quarto renders, but Python code fails",
+    "text": "Quarto renders, but Python code fails\nMake sure the required Python packages are installed:\npip install -r requirements.txt\nThen confirm that VS Code is using the project’s .venv.\nIf you see an error you don’t understand, don’t modify the QMD file just to make the error disappear. Save the error message and ask for help."
   },
   {
     "objectID": "project/project.html",
@@ -322,6 +637,69 @@
     "text": "What distinguishes an excellent project?\nAn excellent project will generally:\n\nask an interesting and appropriately scoped question;\nuse an appropriate computational approach;\ndemonstrate substantial independent programming;\ncontain well-organized and understandable code;\ninclude meaningful testing and validation;\npresent clear and informative results;\nacknowledge limitations;\nbe reproducible or well documented;\ncommunicate the results effectively.\n\nA project does not need to use sophisticated mathematics or advanced machine learning to receive a high grade.\nA relatively simple question investigated carefully, with excellent computational practice, can be a much stronger project than an ambitious question investigated superficially."
   },
   {
+    "objectID": "project/project_ideas.html",
+    "href": "project/project_ideas.html",
+    "title": "Semester Project Ideas",
+    "section": "",
+    "text": "One of the hardest parts of a project like this is deciding what to work on.\nYou do not need to come up with a groundbreaking research question. You do not need to use a huge dataset. You do not need to build a sophisticated machine-learning model.\nA good project is one where you can:\n\nask a reasonably interesting question;\nobtain data or define a computational experiment;\nwrite a meaningful amount of code;\ninvestigate the question carefully;\ntest and validate your code and results; and\ncommunicate what you learned.\n\nIn fact, a relatively simple question investigated carefully is a better project than an ambitious question that you cannot finish.\nThe ideas below are intended to give you a sense of the appropriate scale. You are welcome to use one of these ideas, modify one, combine ideas, or develop something completely different.\n\n\n\n\n\nBasic idea: Investigate which characteristics of automobiles are associated with their prices.\nYou can use the Automobile dataset from the UCI Machine Learning Repository, which contains automobile characteristics and prices. The UCI repository currently maintains hundreds of datasets intended for computational and statistical analysis. (UCI Machine Learning Repository)\nPossible questions:\n\nWhich characteristics are most strongly associated with automobile price?\nIs engine size more important than horsepower?\nDoes fuel type matter after accounting for other characteristics?\nCan you predict the price of a car from its characteristics?\nAre some relationships nonlinear?\n\nPossible analysis:\n\nclean the data;\nexamine distributions;\nvisualize relationships between price and characteristics;\ncalculate correlations;\nfit a few linear regression models;\ncompare models using out-of-sample prediction;\nexamine residuals;\ninvestigate whether transformations such as log(price) improve the model.\n\nWhy this is a good project: The question is intuitive, the dataset is manageable, and there is plenty to analyze without requiring sophisticated methods.\nPossible extension: Compare a simple linear model with a tree-based prediction method.\n\n\n\n\nUse the UCI Wine Quality dataset, which contains physicochemical measurements of Portuguese wine samples and quality ratings. (UCI Machine Learning Repository)\nQuestions:\n\nWhich chemical characteristics are associated with wine quality?\nCan wine quality be predicted from chemical measurements?\nIs red wine easier to predict than white wine?\nWhich variables are most useful for prediction?\nDoes treating quality as a continuous variable produce different conclusions from treating it as a categorical variable?\n\nPossible analysis:\n\nExplore the distributions of the chemical variables.\nExamine correlations.\nVisualize relationships with quality.\nFit a regression model.\nEvaluate prediction out of sample.\nTry a classification version of the problem.\nCompare the results.\n\nGood project size: Very manageable.\nPotential pitfall: Do not turn this into a competition to maximize prediction accuracy. The interesting part is understanding what the models are doing.\n\n\n\n\nThe UCI repository contains a classic Heart Disease dataset with patient characteristics and a heart-disease outcome. (UCI Machine Learning Repository)\nThe basic question is:\n\nCan a relatively small set of measured characteristics predict whether a patient is classified as having heart disease?\n\nYou could:\n\ninspect the variables;\nexamine differences between the two groups;\nvisualize important predictors;\nfit logistic regression;\nevaluate classification accuracy;\nconstruct a confusion matrix;\ninvestigate sensitivity and specificity;\ncompare logistic regression with another classification method.\n\nImportant: This should be presented as an exercise in statistical/computational modeling, not as a medical diagnostic tool.\nWhy it works: There is a clear outcome, a manageable number of variables, and an obvious opportunity to discuss classification and model evaluation.\n\n\n\n\nThe UCI Student Performance dataset contains information about students and their academic performance. It includes demographic, social, school-related, and academic variables. (UCI Machine Learning Repository)\nPossible questions:\n\nWhich characteristics are associated with final grades?\nCan final performance be predicted from information available earlier?\nDo study habits appear to matter?\nAre there nonlinear relationships?\nHow well can a model predict whether a student achieves a particular grade threshold?\n\nPossible methods:\n\ndescriptive statistics;\nvisualization;\nlinear regression;\nlogistic regression;\ntrain/test splits;\nmodel comparison.\n\nA particularly nice version: Restrict yourself to variables that would plausibly be available before the final outcome. Discuss why using information that occurs after the outcome would be problematic.\n\n\n\n\nThe UCI Bank Marketing dataset contains more than 45,000 observations and 17 features concerning a Portuguese bank’s marketing campaigns. The outcome is whether the customer subscribed to a term deposit. (UCI Machine Learning Repository)\nPossible questions:\n\nWhich customer characteristics predict subscription?\nHow well can subscription be predicted?\nWhich variables have the greatest predictive value?\nDoes a simple logistic model perform reasonably well?\nHow does a more flexible model compare?\n\nPossible computational tasks:\n\nclean categorical variables;\nencode categorical variables;\nperform exploratory analysis;\nfit logistic regression;\nconstruct a confusion matrix;\ncalculate precision, recall, and accuracy;\ncompare with a tree-based model.\n\nThis is a good project for students interested in business, economics, finance, or data science.\n\n\n\n\nThe UCI Adult dataset contains approximately 49,000 observations and asks whether an individual’s annual income exceeds $50,000 based on census characteristics. (UCI Machine Learning Repository)\nPossible questions:\n\nHow accurately can income category be predicted?\nWhich variables are most informative?\nHow does model performance change with different sets of predictors?\nHow does a simple model compare with a more flexible model?\n\nThis project also provides an opportunity to discuss:\n\ncategorical variables;\nmissing data;\nmodel evaluation;\nclass imbalance;\nfairness and responsible interpretation of predictive models.\n\nImportant: Students should not make claims about individual people based on such a model. The project is about understanding statistical prediction.\n\n\n\n\nThe UCI Online Retail dataset contains more than 500,000 transactions from a UK online retailer. (UCI Machine Learning Repository)\nA student could investigate:\n\nWhich products generate the most revenue?\nHow does purchasing behavior vary over time?\nWhat are the most common purchase quantities?\nHow concentrated are sales among customers?\nWhich customers generate the most revenue?\nAre there seasonal patterns?\nHow frequently do customers return?\n\nPossible computational tasks:\n\nclean transaction data;\nremove or investigate cancellations;\nconstruct customer-level variables;\naggregate transactions;\ncalculate revenue;\nvisualize time patterns;\nidentify high-value customers;\ninvestigate product concentration.\n\nThis is particularly good for learning data manipulation and aggregation rather than just regression.\n\n\n\n\nUse publicly available weather observations to investigate a question such as:\n\nHas the distribution of daily temperatures changed?\nHow variable is temperature throughout the year?\nHow unusual was a particular year?\nAre extreme temperatures becoming more common?\nHow does precipitation vary by month?\n\nA particularly accessible version is to choose one location and analyze several years of daily observations.\nThe project could involve:\n\ndownloading data;\nparsing dates;\ndealing with missing observations;\naggregating daily observations to monthly or annual statistics;\ncalculating rolling averages;\nplotting distributions;\nidentifying extreme observations.\n\nThe project does not need to make a claim about climate change. A careful descriptive analysis of weather at one location is sufficient.\n\n\n\n\nThe Federal Reserve Bank of St. Louis provides the FRED database and an API through which programs can retrieve economic data. (FRED)\nPick two or three economic variables that interest you.\nExamples:\n\nunemployment and inflation;\ninterest rates and housing prices;\nGDP and unemployment;\noil prices and inflation;\nTreasury yields at different maturities;\nconsumer confidence and economic activity.\n\nPossible questions:\n\nHow have the variables moved over time?\nAre they correlated?\nDo relationships differ across periods?\nDoes one variable tend to lead another?\nHow do correlations change during recessions?\n\nA simple version can involve nothing more complicated than downloading several time series, cleaning them, plotting them, calculating correlations, and investigating several historical episodes.\nThis is a particularly good project for economics/finance students.\n\n\n\n\nUse FRED data to investigate one or more historical episodes.\nFor example:\n\nthe 2008 financial crisis;\nthe COVID-19 pandemic;\nthe 2022 inflation episode;\na particular Federal Reserve tightening cycle.\n\nPossible questions:\n\nHow did short- and long-term interest rates respond?\nHow did the yield curve change?\nDid different maturities behave differently?\nHow unusual was the movement relative to historical volatility?\n\nA particularly nice project would calculate:\n\nchanges in yields;\nyield-curve slopes;\nrolling volatility;\ncorrelations across maturities.\n\nThe FRED API is especially useful here because students can practice retrieving data programmatically rather than manually downloading spreadsheets. (FRED)\n\n\n\n\nFind a public movie dataset containing variables such as:\n\nbudget;\ngenre;\nruntime;\nrelease year;\nratings;\nnumber of votes;\nbox-office revenue.\n\nPossible questions:\n\nDoes budget predict revenue?\nAre some genres more commercially successful?\nDoes higher audience rating correspond to greater revenue?\nHow has the relationship changed over time?\nCan revenue be predicted reasonably well?\n\nThis can be a straightforward regression/data-visualization project.\n\n\n\n\nUse a public music dataset containing characteristics such as:\n\ntempo;\nenergy;\ndanceability;\nacousticness;\nloudness;\nduration;\ngenre;\npopularity.\n\nPossible questions:\n\nWhich characteristics are associated with popularity?\nAre some genres systematically different?\nIs there an ideal tempo?\nAre popularity relationships nonlinear?\nCan popularity be predicted?\n\nThis is a good project because the subject matter is immediately understandable, but the student can still do serious quantitative analysis.\n\n\n\n\nInstead of predicting popularity, investigate how characteristics of popular music have changed.\nQuestions might include:\n\nHas average song duration changed?\nHas tempo changed?\nHas musical energy changed?\nHave genres become more or less concentrated?\nHow has the distribution of musical characteristics changed?\n\nThe main methods can simply be:\n\ngrouping;\nsummary statistics;\nrolling averages;\ndistributions;\nvisualization.\n\nThis is an excellent example of a project that is simple computationally but can still produce an interesting final product.\n\n\n\n\nChoose a sport with accessible historical data.\nExamples:\n\nbaseball;\nbasketball;\nfootball;\nhockey;\nsoccer.\n\nAsk:\n\nWhich team statistics are most strongly associated with winning?\n\nPossible approaches:\n\ncalculate win percentage;\ncompare successful and unsuccessful teams;\nexamine correlations;\nbuild a regression or classification model;\ninvestigate whether certain statistics predict future rather than contemporaneous performance.\n\nA particularly nice project would distinguish between:\n\n“What statistics are associated with winning?”\n\nand\n\n“What statistics can predict future winning?”\n\nThe second is a more genuinely predictive question and naturally introduces train/test splits.\n\n\n\n\nUse historical sports data to investigate home advantage.\nPossible questions:\n\nWhat fraction of games are won by the home team?\nDoes home advantage differ by sport?\nHas home advantage changed over time?\nDoes it differ between regular-season and playoff games?\nAre some teams unusually strong or weak at home?\n\nThis can be done with relatively simple data and provides opportunities for:\n\ngrouping;\nproportions;\nconfidence intervals;\nhypothesis testing;\nvisualization;\ntime trends.\n\n\n\n\n\nUse historical game results to simulate a season.\nFor example:\n\nEstimate team strengths from historical data.\nBuild a simple probabilistic model for game outcomes.\nSimulate many seasons.\nCompare simulated standings with actual standings.\nInvestigate how much variation in final standings can arise from randomness.\n\nThis is a wonderful project because it combines data analysis and simulation without requiring advanced mathematics.\n\n\n\n\nThis sounds almost too simple—and that is precisely why it is a good project.\nUse simulation to investigate:\n\nhow often a fair coin produces apparently unusual sequences;\nhow many flips are needed before an unfair coin can reliably be detected;\nhow sample size affects statistical power;\nhow multiple testing can produce apparently surprising results.\n\nYou could begin with a theoretical probability calculation, then verify it computationally.\nFor example:\n\nIf I flip a fair coin 100 times, how unusual is it to observe at least 60 heads?\n\nThen generalize the question using simulation.\nThis is an excellent project for a student interested in statistics who does not want to find a large real-world dataset.\n\n\n\n\nChoose a quantity that can be estimated using Monte Carlo simulation.\nExamples:\n\nan integral;\na probability;\nan expected value;\nthe area of a geometric region.\n\nInvestigate:\n\nHow does the accuracy of a Monte Carlo estimate improve as the number of simulations increases?\n\nThe project could compare:\n\n100 simulations;\n1,000;\n10,000;\n100,000;\n1,000,000.\n\nThen examine:\n\nerror;\nruntime;\nconvergence;\nvariability across repeated simulations.\n\nThis is a very good project for demonstrating that computational accuracy and computational cost are often traded off against one another."
+  },
+  {
+    "objectID": "project/project_ideas.html#data-analysis-projects",
+    "href": "project/project_ideas.html#data-analysis-projects",
+    "title": "Semester Project Ideas",
+    "section": "",
+    "text": "Basic idea: Investigate which characteristics of automobiles are associated with their prices.\nYou can use the Automobile dataset from the UCI Machine Learning Repository, which contains automobile characteristics and prices. The UCI repository currently maintains hundreds of datasets intended for computational and statistical analysis. (UCI Machine Learning Repository)\nPossible questions:\n\nWhich characteristics are most strongly associated with automobile price?\nIs engine size more important than horsepower?\nDoes fuel type matter after accounting for other characteristics?\nCan you predict the price of a car from its characteristics?\nAre some relationships nonlinear?\n\nPossible analysis:\n\nclean the data;\nexamine distributions;\nvisualize relationships between price and characteristics;\ncalculate correlations;\nfit a few linear regression models;\ncompare models using out-of-sample prediction;\nexamine residuals;\ninvestigate whether transformations such as log(price) improve the model.\n\nWhy this is a good project: The question is intuitive, the dataset is manageable, and there is plenty to analyze without requiring sophisticated methods.\nPossible extension: Compare a simple linear model with a tree-based prediction method.\n\n\n\n\nUse the UCI Wine Quality dataset, which contains physicochemical measurements of Portuguese wine samples and quality ratings. (UCI Machine Learning Repository)\nQuestions:\n\nWhich chemical characteristics are associated with wine quality?\nCan wine quality be predicted from chemical measurements?\nIs red wine easier to predict than white wine?\nWhich variables are most useful for prediction?\nDoes treating quality as a continuous variable produce different conclusions from treating it as a categorical variable?\n\nPossible analysis:\n\nExplore the distributions of the chemical variables.\nExamine correlations.\nVisualize relationships with quality.\nFit a regression model.\nEvaluate prediction out of sample.\nTry a classification version of the problem.\nCompare the results.\n\nGood project size: Very manageable.\nPotential pitfall: Do not turn this into a competition to maximize prediction accuracy. The interesting part is understanding what the models are doing.\n\n\n\n\nThe UCI repository contains a classic Heart Disease dataset with patient characteristics and a heart-disease outcome. (UCI Machine Learning Repository)\nThe basic question is:\n\nCan a relatively small set of measured characteristics predict whether a patient is classified as having heart disease?\n\nYou could:\n\ninspect the variables;\nexamine differences between the two groups;\nvisualize important predictors;\nfit logistic regression;\nevaluate classification accuracy;\nconstruct a confusion matrix;\ninvestigate sensitivity and specificity;\ncompare logistic regression with another classification method.\n\nImportant: This should be presented as an exercise in statistical/computational modeling, not as a medical diagnostic tool.\nWhy it works: There is a clear outcome, a manageable number of variables, and an obvious opportunity to discuss classification and model evaluation.\n\n\n\n\nThe UCI Student Performance dataset contains information about students and their academic performance. It includes demographic, social, school-related, and academic variables. (UCI Machine Learning Repository)\nPossible questions:\n\nWhich characteristics are associated with final grades?\nCan final performance be predicted from information available earlier?\nDo study habits appear to matter?\nAre there nonlinear relationships?\nHow well can a model predict whether a student achieves a particular grade threshold?\n\nPossible methods:\n\ndescriptive statistics;\nvisualization;\nlinear regression;\nlogistic regression;\ntrain/test splits;\nmodel comparison.\n\nA particularly nice version: Restrict yourself to variables that would plausibly be available before the final outcome. Discuss why using information that occurs after the outcome would be problematic.\n\n\n\n\nThe UCI Bank Marketing dataset contains more than 45,000 observations and 17 features concerning a Portuguese bank’s marketing campaigns. The outcome is whether the customer subscribed to a term deposit. (UCI Machine Learning Repository)\nPossible questions:\n\nWhich customer characteristics predict subscription?\nHow well can subscription be predicted?\nWhich variables have the greatest predictive value?\nDoes a simple logistic model perform reasonably well?\nHow does a more flexible model compare?\n\nPossible computational tasks:\n\nclean categorical variables;\nencode categorical variables;\nperform exploratory analysis;\nfit logistic regression;\nconstruct a confusion matrix;\ncalculate precision, recall, and accuracy;\ncompare with a tree-based model.\n\nThis is a good project for students interested in business, economics, finance, or data science.\n\n\n\n\nThe UCI Adult dataset contains approximately 49,000 observations and asks whether an individual’s annual income exceeds $50,000 based on census characteristics. (UCI Machine Learning Repository)\nPossible questions:\n\nHow accurately can income category be predicted?\nWhich variables are most informative?\nHow does model performance change with different sets of predictors?\nHow does a simple model compare with a more flexible model?\n\nThis project also provides an opportunity to discuss:\n\ncategorical variables;\nmissing data;\nmodel evaluation;\nclass imbalance;\nfairness and responsible interpretation of predictive models.\n\nImportant: Students should not make claims about individual people based on such a model. The project is about understanding statistical prediction.\n\n\n\n\nThe UCI Online Retail dataset contains more than 500,000 transactions from a UK online retailer. (UCI Machine Learning Repository)\nA student could investigate:\n\nWhich products generate the most revenue?\nHow does purchasing behavior vary over time?\nWhat are the most common purchase quantities?\nHow concentrated are sales among customers?\nWhich customers generate the most revenue?\nAre there seasonal patterns?\nHow frequently do customers return?\n\nPossible computational tasks:\n\nclean transaction data;\nremove or investigate cancellations;\nconstruct customer-level variables;\naggregate transactions;\ncalculate revenue;\nvisualize time patterns;\nidentify high-value customers;\ninvestigate product concentration.\n\nThis is particularly good for learning data manipulation and aggregation rather than just regression.\n\n\n\n\nUse publicly available weather observations to investigate a question such as:\n\nHas the distribution of daily temperatures changed?\nHow variable is temperature throughout the year?\nHow unusual was a particular year?\nAre extreme temperatures becoming more common?\nHow does precipitation vary by month?\n\nA particularly accessible version is to choose one location and analyze several years of daily observations.\nThe project could involve:\n\ndownloading data;\nparsing dates;\ndealing with missing observations;\naggregating daily observations to monthly or annual statistics;\ncalculating rolling averages;\nplotting distributions;\nidentifying extreme observations.\n\nThe project does not need to make a claim about climate change. A careful descriptive analysis of weather at one location is sufficient.\n\n\n\n\nThe Federal Reserve Bank of St. Louis provides the FRED database and an API through which programs can retrieve economic data. (FRED)\nPick two or three economic variables that interest you.\nExamples:\n\nunemployment and inflation;\ninterest rates and housing prices;\nGDP and unemployment;\noil prices and inflation;\nTreasury yields at different maturities;\nconsumer confidence and economic activity.\n\nPossible questions:\n\nHow have the variables moved over time?\nAre they correlated?\nDo relationships differ across periods?\nDoes one variable tend to lead another?\nHow do correlations change during recessions?\n\nA simple version can involve nothing more complicated than downloading several time series, cleaning them, plotting them, calculating correlations, and investigating several historical episodes.\nThis is a particularly good project for economics/finance students.\n\n\n\n\nUse FRED data to investigate one or more historical episodes.\nFor example:\n\nthe 2008 financial crisis;\nthe COVID-19 pandemic;\nthe 2022 inflation episode;\na particular Federal Reserve tightening cycle.\n\nPossible questions:\n\nHow did short- and long-term interest rates respond?\nHow did the yield curve change?\nDid different maturities behave differently?\nHow unusual was the movement relative to historical volatility?\n\nA particularly nice project would calculate:\n\nchanges in yields;\nyield-curve slopes;\nrolling volatility;\ncorrelations across maturities.\n\nThe FRED API is especially useful here because students can practice retrieving data programmatically rather than manually downloading spreadsheets. (FRED)\n\n\n\n\nFind a public movie dataset containing variables such as:\n\nbudget;\ngenre;\nruntime;\nrelease year;\nratings;\nnumber of votes;\nbox-office revenue.\n\nPossible questions:\n\nDoes budget predict revenue?\nAre some genres more commercially successful?\nDoes higher audience rating correspond to greater revenue?\nHow has the relationship changed over time?\nCan revenue be predicted reasonably well?\n\nThis can be a straightforward regression/data-visualization project.\n\n\n\n\nUse a public music dataset containing characteristics such as:\n\ntempo;\nenergy;\ndanceability;\nacousticness;\nloudness;\nduration;\ngenre;\npopularity.\n\nPossible questions:\n\nWhich characteristics are associated with popularity?\nAre some genres systematically different?\nIs there an ideal tempo?\nAre popularity relationships nonlinear?\nCan popularity be predicted?\n\nThis is a good project because the subject matter is immediately understandable, but the student can still do serious quantitative analysis.\n\n\n\n\nInstead of predicting popularity, investigate how characteristics of popular music have changed.\nQuestions might include:\n\nHas average song duration changed?\nHas tempo changed?\nHas musical energy changed?\nHave genres become more or less concentrated?\nHow has the distribution of musical characteristics changed?\n\nThe main methods can simply be:\n\ngrouping;\nsummary statistics;\nrolling averages;\ndistributions;\nvisualization.\n\nThis is an excellent example of a project that is simple computationally but can still produce an interesting final product.\n\n\n\n\nChoose a sport with accessible historical data.\nExamples:\n\nbaseball;\nbasketball;\nfootball;\nhockey;\nsoccer.\n\nAsk:\n\nWhich team statistics are most strongly associated with winning?\n\nPossible approaches:\n\ncalculate win percentage;\ncompare successful and unsuccessful teams;\nexamine correlations;\nbuild a regression or classification model;\ninvestigate whether certain statistics predict future rather than contemporaneous performance.\n\nA particularly nice project would distinguish between:\n\n“What statistics are associated with winning?”\n\nand\n\n“What statistics can predict future winning?”\n\nThe second is a more genuinely predictive question and naturally introduces train/test splits.\n\n\n\n\nUse historical sports data to investigate home advantage.\nPossible questions:\n\nWhat fraction of games are won by the home team?\nDoes home advantage differ by sport?\nHas home advantage changed over time?\nDoes it differ between regular-season and playoff games?\nAre some teams unusually strong or weak at home?\n\nThis can be done with relatively simple data and provides opportunities for:\n\ngrouping;\nproportions;\nconfidence intervals;\nhypothesis testing;\nvisualization;\ntime trends.\n\n\n\n\n\nUse historical game results to simulate a season.\nFor example:\n\nEstimate team strengths from historical data.\nBuild a simple probabilistic model for game outcomes.\nSimulate many seasons.\nCompare simulated standings with actual standings.\nInvestigate how much variation in final standings can arise from randomness.\n\nThis is a wonderful project because it combines data analysis and simulation without requiring advanced mathematics.\n\n\n\n\nThis sounds almost too simple—and that is precisely why it is a good project.\nUse simulation to investigate:\n\nhow often a fair coin produces apparently unusual sequences;\nhow many flips are needed before an unfair coin can reliably be detected;\nhow sample size affects statistical power;\nhow multiple testing can produce apparently surprising results.\n\nYou could begin with a theoretical probability calculation, then verify it computationally.\nFor example:\n\nIf I flip a fair coin 100 times, how unusual is it to observe at least 60 heads?\n\nThen generalize the question using simulation.\nThis is an excellent project for a student interested in statistics who does not want to find a large real-world dataset.\n\n\n\n\nChoose a quantity that can be estimated using Monte Carlo simulation.\nExamples:\n\nan integral;\na probability;\nan expected value;\nthe area of a geometric region.\n\nInvestigate:\n\nHow does the accuracy of a Monte Carlo estimate improve as the number of simulations increases?\n\nThe project could compare:\n\n100 simulations;\n1,000;\n10,000;\n100,000;\n1,000,000.\n\nThen examine:\n\nerror;\nruntime;\nconvergence;\nvariability across repeated simulations.\n\nThis is a very good project for demonstrating that computational accuracy and computational cost are often traded off against one another."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "MATH 5200: Computing Using R & Python",
+    "section": "",
+    "text": "This is the course website and source repository for MATH 5200: Computing Using R & Python.\nThe course provides a fast-paced introduction to Python and R for graduate study in mathematics and statistics. In addition to programming fundamentals, we will study computational thinking, numerical computing, data management, testing and debugging, version control, reproducibility, and other practices used in professional computational work."
+  },
+  {
+    "objectID": "index.html#course-materials",
+    "href": "index.html#course-materials",
+    "title": "MATH 5200: Computing Using R & Python",
+    "section": "Course Materials",
+    "text": "Course Materials\n\nLectures\nLecture materials are organized by week. Each lecture generally has two components:\n\nClass materials contain exercises and examples that we will work through together in class.\nLecture notes provide additional background and explanation.\n\n\n\n\nLecture\nClass\nNotes\n\n\n\n\nLecture 1: Foundations, Computation & Binary Representations\nclass\nnotes\n\n\nLecture 2\nXXX\nXXX\n\n\nLecture 3\nXXX\nXXX\n\n\nLecture 4\nXXX\nXXX\n\n\n\nThe lecture schedule will develop as the semester progresses.\n\n\nHomework\nHomework assignments are designed to give you practice applying the ideas introduced in class.\nView the homework assignments\n\n\nQuizzes\nShort quizzes will be used to reinforce important concepts and provide regular feedback on your progress.\nView the quizzes\n\n\nSemester Project\nThe semester project is an extended computational project in which you will apply the tools and ideas from the course to a problem of your choosing.\nProject description and instructions"
+  },
+  {
+    "objectID": "index.html#software-and-tools",
+    "href": "index.html#software-and-tools",
+    "title": "MATH 5200: Computing Using R & Python",
+    "section": "Software and Tools",
+    "text": "Software and Tools\nThe course uses:\n\nPython 3\nR\nVisual Studio Code\nQuarto\nGit\nGitHub\n\nYou do not need to be an expert with any of these tools at the beginning of the course. We will learn the relevant parts as we go.\nThe course repository itself is part of the course. You will use Git and GitHub to obtain course materials and will learn how version control fits into a reproducible computational workflow."
+  },
+  {
+    "objectID": "index.html#repository",
+    "href": "index.html#repository",
+    "title": "MATH 5200: Computing Using R & Python",
+    "section": "Repository",
+    "text": "Repository\nThe complete source for the course materials is available on GitHub:\nCourse GitHub Repository\nThe repository contains both the source files used to create this website and the programming materials used in the course.\nYou are encouraged to look at the source files as well as the rendered materials. In particular, the .qmd files that produce the lecture pages are themselves part of the course materials."
+  },
+  {
+    "objectID": "index.html#getting-help",
+    "href": "index.html#getting-help",
+    "title": "MATH 5200: Computing Using R & Python",
+    "section": "Getting Help",
+    "text": "Getting Help\nIf you encounter a problem with the software or course materials, please consult Getting Started.\nIf you still cannot resolve the problem, please contact the instructor or bring the problem to class or office hours.\nWhen asking for help with programming, it is particularly useful to provide:\n\nthe code you ran;\nthe error message or unexpected result;\nwhat you expected to happen; and\nwhat you have already tried.\n\nLearning to describe a computational problem clearly is itself an important programming skill."
+  },
+  {
+    "objectID": "index.html#instructor",
+    "href": "index.html#instructor",
+    "title": "MATH 5200: Computing Using R & Python",
+    "section": "Instructor",
+    "text": "Instructor\nPhillip Monin, PhD, CFA, FRM\npm1091@georgetown.edu\nOffice hours: Mondays, 4:30-5:30 PM, or by appointment. Scheduled office hours are held by request over Zoom. Please email me by noon if you would like to attend the scheduled office hours. If no student requests to meet, then the scheduled office hours will not be held."
+  },
+  {
+    "objectID": "index.html#course-information",
+    "href": "index.html#course-information",
+    "title": "MATH 5200: Computing Using R & Python",
+    "section": "Course Information",
+    "text": "Course Information\n\nCourse: MATH 5200\nSemester: Fall 2026\nMeeting time: Wednesdays, 6:30-9:00 PM\nLocation: Reiss 152\n\nFor complete course policies, grading information, and the course schedule, see the syllabus."
+  },
+  {
     "objectID": "lectures/01-foundations/class.html",
     "href": "lectures/01-foundations/class.html",
     "title": "Lecture 1 — Foundations, Computation & Binary Representations",
@@ -474,383 +852,5 @@
     "title": "Lecture 1 — Foundations, Computation & Binary Representations",
     "section": "Exercise 14 — Compare the algorithms",
     "text": "Exercise 14 — Compare the algorithms\nImplement both approaches.\nThen check that they agree for several values of n.\n\nQuestions\n\nHow would you test the implementations?\nWhich implementation is faster for very large n?\nWhich implementation is easier to verify mathematically?\nWhat happens if we change the problem so that there is no convenient closed-form solution?\nWhat does this illustrate about the relationship between mathematics, algorithms, and implementation?"
-  },
-  {
-    "objectID": "getting-started.html",
-    "href": "getting-started.html",
-    "title": "MATH 5200: Computing Using R & Python",
-    "section": "",
-    "text": "This repository contains the course materials, including lecture notes, in-class exercises, homework, and other resources. We will use GitHub, VS Code, Quarto, Python, and R throughout the course.\nYou do not need prior experience with these tools.\n\n\n\nWhat you need\nInstall the software\nClone the course repository\nSet up Python\nSet up VS Code\nTest your installation\nYour basic workflow\nCommon problems\nGetting help\n\n\n\n\n\nYou will use the following software:\n\n\n\n\n\n\n\nSoftware\nWhat we use it for\n\n\n\n\nGit\nVersion control and working with the course repository\n\n\nGitHub\nAccessing and submitting course materials\n\n\nVS Code\nWriting and running code\n\n\nPython\nProgramming and data analysis\n\n\nQuarto\nCreating reproducible documents containing code, results, and explanations\n\n\nR\nStatistical computing and data analysis\n\n\n\nWe will introduce these tools gradually. You do not need to understand all of them before the first class."
-  },
-  {
-    "objectID": "getting-started.html#table-of-contents",
-    "href": "getting-started.html#table-of-contents",
-    "title": "MATH 5200: Computing Using R & Python",
-    "section": "",
-    "text": "What you need\nInstall the software\nClone the course repository\nSet up Python\nSet up VS Code\nTest your installation\nYour basic workflow\nCommon problems\nGetting help"
-  },
-  {
-    "objectID": "getting-started.html#what-you-need",
-    "href": "getting-started.html#what-you-need",
-    "title": "MATH 5200: Computing Using R & Python",
-    "section": "",
-    "text": "You will use the following software:\n\n\n\n\n\n\n\nSoftware\nWhat we use it for\n\n\n\n\nGit\nVersion control and working with the course repository\n\n\nGitHub\nAccessing and submitting course materials\n\n\nVS Code\nWriting and running code\n\n\nPython\nProgramming and data analysis\n\n\nQuarto\nCreating reproducible documents containing code, results, and explanations\n\n\nR\nStatistical computing and data analysis\n\n\n\nWe will introduce these tools gradually. You do not need to understand all of them before the first class."
-  },
-  {
-    "objectID": "getting-started.html#git",
-    "href": "getting-started.html#git",
-    "title": "MATH 5200: Computing Using R & Python",
-    "section": "Git",
-    "text": "Git\nInstall Git from the official website:\nhttps://git-scm.com/downloads\n\nWindows\nDownload the Windows installer and accept the default options. Make sure Git is available from the command line.\n\n\nmacOS\nOpen Terminal and run:\ngit --version\nIf Git is not installed, macOS should offer to install the Xcode Command Line Tools.\n\n\nLinux\nInstall Git using your distribution’s package manager.\nVerify the installation:\ngit --version\nYou should see a version number."
-  },
-  {
-    "objectID": "getting-started.html#vs-code",
-    "href": "getting-started.html#vs-code",
-    "title": "MATH 5200: Computing Using R & Python",
-    "section": "VS Code",
-    "text": "VS Code\nDownload and install Visual Studio Code:\nhttps://code.visualstudio.com/\nDuring installation on Windows, it is useful to select the options to add VS Code to your PATH and register it as an editor."
-  },
-  {
-    "objectID": "getting-started.html#python",
-    "href": "getting-started.html#python",
-    "title": "MATH 5200: Computing Using R & Python",
-    "section": "Python",
-    "text": "Python\nDownload Python from:\nhttps://www.python.org/downloads/\nUse a recent stable version of Python 3.\n\nWindows — important\nDuring installation, check the box labeled “Add python.exe to PATH”.\nAfter installation, open a new terminal and run:\npython --version\nYou should see something like:\nPython 3.1x.x\n\n\nIf python is not recognized\nOn some Windows computers, try:\npy --version\nIf py works but python does not, you can use py in place of python in the commands below."
-  },
-  {
-    "objectID": "getting-started.html#quarto",
-    "href": "getting-started.html#quarto",
-    "title": "MATH 5200: Computing Using R & Python",
-    "section": "Quarto",
-    "text": "Quarto\nDownload and install Quarto:\nhttps://quarto.org/docs/get-started/\nYou do not need to install Quarto inside your Python virtual environment. Quarto is installed as a separate application on your computer.\nVerify the installation in a new terminal:\nquarto --version"
-  },
-  {
-    "objectID": "getting-started.html#vs-code-extensions",
-    "href": "getting-started.html#vs-code-extensions",
-    "title": "MATH 5200: Computing Using R & Python",
-    "section": "VS Code extensions",
-    "text": "VS Code extensions\nOpen VS Code and install these extensions:\n\nPython — Microsoft\nJupyter — Microsoft\nQuarto — Posit\n\nYou can install extensions by clicking the Extensions icon on the left side of VS Code or by pressing:\nCtrl+Shift+X\non Windows/Linux, or:\nCmd+Shift+X\non macOS."
-  },
-  {
-    "objectID": "getting-started.html#activate-the-environment",
-    "href": "getting-started.html#activate-the-environment",
-    "title": "MATH 5200: Computing Using R & Python",
-    "section": "Activate the environment",
-    "text": "Activate the environment\n\nWindows PowerShell\n.\\.venv\\Scripts\\Activate.ps1\n\n\nmacOS / Linux\nsource .venv/bin/activate\nOnce activated, your terminal should begin with:\n(.venv)\nFor example:\n(.venv) PS C:\\Users\\you\\Documents\\intro-programming&gt;\n\n\nWindows PowerShell execution-policy error\nIf Windows says that scripts are disabled, run:\nSet-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process\nThen try the activation command again:\n.\\.venv\\Scripts\\Activate.ps1\nThis changes the policy only for the current terminal session."
-  },
-  {
-    "objectID": "getting-started.html#install-the-course-packages",
-    "href": "getting-started.html#install-the-course-packages",
-    "title": "MATH 5200: Computing Using R & Python",
-    "section": "Install the course packages",
-    "text": "Install the course packages\nWith the virtual environment activated, run:\npython -m pip install --upgrade pip\npip install -r requirements.txt\nThe requirements.txt file lists the Python packages needed by the course.\nDo not commit your .venv folder to Git. The environment is local to your computer; requirements.txt is the reproducible description of what needs to be installed."
-  },
-  {
-    "objectID": "getting-started.html#test-python",
-    "href": "getting-started.html#test-python",
-    "title": "MATH 5200: Computing Using R & Python",
-    "section": "Test Python",
-    "text": "Test Python\nWith your .venv activated:\npython\nThen:\nprint(\"Hello, Python!\")\nYou should see:\nHello, Python!\nExit Python with:\nexit()"
-  },
-  {
-    "objectID": "getting-started.html#test-quarto",
-    "href": "getting-started.html#test-quarto",
-    "title": "MATH 5200: Computing Using R & Python",
-    "section": "Test Quarto",
-    "text": "Test Quarto\nOpen the test .qmd file provided in the repository.\nIt should contain a small Python code block.\nClick Render in the upper-right corner of the VS Code editor.\nQuarto should create an HTML document containing the text and the output from the Python code.\nIf this works, your basic course environment is ready."
-  },
-  {
-    "objectID": "getting-started.html#python-is-not-recognized",
-    "href": "getting-started.html#python-is-not-recognized",
-    "title": "MATH 5200: Computing Using R & Python",
-    "section": "“Python is not recognized”",
-    "text": "“Python is not recognized”\nTry:\npy --version\non Windows.\nIf neither python nor py works, Python may not have been installed correctly or may not have been added to your PATH.\nRestart your terminal after installing Python."
-  },
-  {
-    "objectID": "getting-started.html#venv-does-not-appear-in-vs-code",
-    "href": "getting-started.html#venv-does-not-appear-in-vs-code",
-    "title": "MATH 5200: Computing Using R & Python",
-    "section": ".venv does not appear in VS Code",
-    "text": ".venv does not appear in VS Code\nFirst make sure you created it in the course repository:\nintro-programming/\n└── .venv/\nThen reload VS Code:\nCtrl+Shift+P → Developer: Reload Window\nAfterward:\nCtrl+Shift+P → Python: Select Interpreter\nand select the interpreter inside .venv."
-  },
-  {
-    "objectID": "getting-started.html#powershell-says-scripts-are-disabled",
-    "href": "getting-started.html#powershell-says-scripts-are-disabled",
-    "title": "MATH 5200: Computing Using R & Python",
-    "section": "PowerShell says scripts are disabled",
-    "text": "PowerShell says scripts are disabled\nRun:\nSet-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process\nThen:\n.\\.venv\\Scripts\\Activate.ps1\nAlternatively, you can use a Command Prompt terminal and run:\n.venv\\Scripts\\activate.bat"
-  },
-  {
-    "objectID": "getting-started.html#pip-install--r-requirements.txt-fails",
-    "href": "getting-started.html#pip-install--r-requirements.txt-fails",
-    "title": "MATH 5200: Computing Using R & Python",
-    "section": "pip install -r requirements.txt fails",
-    "text": "pip install -r requirements.txt fails\nFirst make sure your virtual environment is activated:\n(.venv)\nshould appear at the beginning of your terminal prompt.\nThen try:\npython -m pip install --upgrade pip\npip install -r requirements.txt\nIf the installation still fails, save the complete error message and ask for help rather than repeatedly trying random fixes."
-  },
-  {
-    "objectID": "getting-started.html#quarto-says-it-cannot-find-python",
-    "href": "getting-started.html#quarto-says-it-cannot-find-python",
-    "title": "MATH 5200: Computing Using R & Python",
-    "section": "Quarto says it cannot find Python",
-    "text": "Quarto says it cannot find Python\nFirst verify:\npython --version\nand:\nquarto --version\nThen make sure VS Code is using the .venv interpreter:\nCtrl+Shift+P → Python: Select Interpreter\nIf the problem persists, restart VS Code and try rendering again."
-  },
-  {
-    "objectID": "getting-started.html#quarto-renders-but-python-code-fails",
-    "href": "getting-started.html#quarto-renders-but-python-code-fails",
-    "title": "MATH 5200: Computing Using R & Python",
-    "section": "Quarto renders, but Python code fails",
-    "text": "Quarto renders, but Python code fails\nMake sure the required Python packages are installed:\npip install -r requirements.txt\nThen confirm that VS Code is using the project’s .venv.\nIf you see an error you don’t understand, don’t modify the QMD file just to make the error disappear. Save the error message and ask for help."
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "MATH 5200: Computing Using R & Python",
-    "section": "",
-    "text": "Fall 2026\nThis is the course website and source repository for MATH 5200: Computing Using R & Python.\nThe course provides a fast-paced introduction to Python and R for graduate study in mathematics and statistics. In addition to programming fundamentals, we will study computational thinking, numerical computing, data management, testing and debugging, version control, reproducibility, and other practices used in professional computational work.\n\n\n\n\n\n\nImportantStart Here\n\n\n\nIf you are new to the course, begin with Getting Started.\nIt contains instructions for:\n\ninstalling the required software;\nsetting up Python and the course virtual environment;\nconfiguring VS Code;\nobtaining and updating the course repository; and\nrunning the course’s Quarto examples.\n\n\n\n\n\n\n\nLecture materials are organized by week. Each lecture generally has two components:\n\nClass materials contain exercises and examples that we will work through together in class.\nLecture notes provide additional background and explanation.\n\n\n\n\nLecture\nClass\nNotes\n\n\n\n\nLecture 1: Foundations, Computation & Binary Representations\nclass\nnotes\n\n\nLecture 2\nXXX\nXXX\n\n\nLecture 3\nXXX\nXXX\n\n\nLecture 4\nXXX\nXXX\n\n\n\nThe lecture schedule will develop as the semester progresses.\n\n\n\nHomework assignments are designed to give you practice applying the ideas introduced in class.\nView the homework assignments\n\n\n\nShort quizzes will be used to reinforce important concepts and provide regular feedback on your progress.\nView the quizzes\n\n\n\nThe semester project is an extended computational project in which you will apply the tools and ideas from the course to a problem of your choosing.\nProject description and instructions\n\n\n\n\nThe course uses:\n\nPython 3\nR\nVisual Studio Code\nQuarto\nGit\nGitHub\n\nYou do not need to be an expert with any of these tools at the beginning of the course. We will learn the relevant parts as we go.\nThe course repository itself is part of the course. You will use Git and GitHub to obtain course materials and will learn how version control fits into a reproducible computational workflow.\n\n\n\nThe complete source for the course materials is available on GitHub:\nCourse GitHub Repository\nThe repository contains both the source files used to create this website and the programming materials used in the course.\nYou are encouraged to look at the source files as well as the rendered materials. In particular, the .qmd files that produce the lecture pages are themselves part of the course materials.\n\n\n\nIf you encounter a problem with the software or course materials, please consult Getting Started.\nIf you still cannot resolve the problem, please contact the instructor or bring the problem to class or office hours.\nWhen asking for help with programming, it is particularly useful to provide:\n\nthe code you ran;\nthe error message or unexpected result;\nwhat you expected to happen; and\nwhat you have already tried.\n\nLearning to describe a computational problem clearly is itself an important programming skill.\n\n\n\nPhillip Monin, PhD, CFA, FRM\npm1091@georgetown.edu\nOffice hours: XXX\n\n\n\n\nCourse: MATH 5200\nSemester: Fall 2026\nMeeting time: XXX\nLocation: XXX\n\nFor complete course policies, grading information, and the course schedule, see the syllabus."
-  },
-  {
-    "objectID": "index.html#course-materials",
-    "href": "index.html#course-materials",
-    "title": "MATH 5200: Computing Using R & Python",
-    "section": "",
-    "text": "Lecture materials are organized by week. Each lecture generally has two components:\n\nClass materials contain exercises and examples that we will work through together in class.\nLecture notes provide additional background and explanation.\n\n\n\n\nLecture\nClass\nNotes\n\n\n\n\nLecture 1: Foundations, Computation & Binary Representations\nclass\nnotes\n\n\nLecture 2\nXXX\nXXX\n\n\nLecture 3\nXXX\nXXX\n\n\nLecture 4\nXXX\nXXX\n\n\n\nThe lecture schedule will develop as the semester progresses.\n\n\n\nHomework assignments are designed to give you practice applying the ideas introduced in class.\nView the homework assignments\n\n\n\nShort quizzes will be used to reinforce important concepts and provide regular feedback on your progress.\nView the quizzes\n\n\n\nThe semester project is an extended computational project in which you will apply the tools and ideas from the course to a problem of your choosing.\nProject description and instructions"
-  },
-  {
-    "objectID": "index.html#software-and-tools",
-    "href": "index.html#software-and-tools",
-    "title": "MATH 5200: Computing Using R & Python",
-    "section": "",
-    "text": "The course uses:\n\nPython 3\nR\nVisual Studio Code\nQuarto\nGit\nGitHub\n\nYou do not need to be an expert with any of these tools at the beginning of the course. We will learn the relevant parts as we go.\nThe course repository itself is part of the course. You will use Git and GitHub to obtain course materials and will learn how version control fits into a reproducible computational workflow."
-  },
-  {
-    "objectID": "index.html#repository",
-    "href": "index.html#repository",
-    "title": "MATH 5200: Computing Using R & Python",
-    "section": "",
-    "text": "The complete source for the course materials is available on GitHub:\nCourse GitHub Repository\nThe repository contains both the source files used to create this website and the programming materials used in the course.\nYou are encouraged to look at the source files as well as the rendered materials. In particular, the .qmd files that produce the lecture pages are themselves part of the course materials."
-  },
-  {
-    "objectID": "index.html#getting-help",
-    "href": "index.html#getting-help",
-    "title": "MATH 5200: Computing Using R & Python",
-    "section": "",
-    "text": "If you encounter a problem with the software or course materials, please consult Getting Started.\nIf you still cannot resolve the problem, please contact the instructor or bring the problem to class or office hours.\nWhen asking for help with programming, it is particularly useful to provide:\n\nthe code you ran;\nthe error message or unexpected result;\nwhat you expected to happen; and\nwhat you have already tried.\n\nLearning to describe a computational problem clearly is itself an important programming skill."
-  },
-  {
-    "objectID": "index.html#instructor",
-    "href": "index.html#instructor",
-    "title": "MATH 5200: Computing Using R & Python",
-    "section": "",
-    "text": "Phillip Monin, PhD, CFA, FRM\npm1091@georgetown.edu\nOffice hours: XXX"
-  },
-  {
-    "objectID": "index.html#course-information",
-    "href": "index.html#course-information",
-    "title": "MATH 5200: Computing Using R & Python",
-    "section": "",
-    "text": "Course: MATH 5200\nSemester: Fall 2026\nMeeting time: XXX\nLocation: XXX\n\nFor complete course policies, grading information, and the course schedule, see the syllabus."
-  },
-  {
-    "objectID": "lectures/01-foundations/notes.html",
-    "href": "lectures/01-foundations/notes.html",
-    "title": "Lecture 1 — Foundations, Computation & Binary Representations",
-    "section": "",
-    "text": "Programming is often introduced as the process of learning a programming language. That is only part of the story.\nA programming language provides a way to express computations, but effective computational work requires us to think about several additional questions:\n\nHow should a problem be represented?\nWhat algorithm should we use?\nHow should the algorithm be implemented?\nHow can we determine whether the implementation is correct?\nHow does the computer represent the quantities involved?\nWhat numerical errors can arise?\nHow can the computation be reproduced and independently checked?\n\nA useful computational workflow is:\nProblem\n   ↓\nRepresentation\n   ↓\nAlgorithm\n   ↓\nImplementation\n   ↓\nTesting\n   ↓\nNumerical validation\n   ↓\nResults\n   ↓\nCommunication / Reproducibility\nThis course will return to this workflow repeatedly.\nA central theme of this first lecture is:\n\nA computer does not manipulate mathematical objects directly. It executes algorithms using finite representations of information.\n\nThis distinction is particularly important in numerical work."
-  },
-  {
-    "objectID": "lectures/01-foundations/notes.html#algorithms",
-    "href": "lectures/01-foundations/notes.html#algorithms",
-    "title": "Lecture 1 — Foundations, Computation & Binary Representations",
-    "section": "2.1 Algorithms",
-    "text": "2.1 Algorithms\nAn algorithm is a finite, well-defined procedure for solving a problem.\nFor the sum-of-squares problem, one algorithm is:\ntotal ← 0\nfor i from 1 through n:\n    total ← total + i²\nreturn total\nAnother algorithm uses the closed-form expression:\nreturn n(n+1)(2n+1)/6\nThe two algorithms solve the same mathematical problem, but they have different computational properties.\nThe first requires work proportional to \\(n\\). The second requires a fixed number of high-level arithmetic operations.\nThis is our first example of an important distinction:\n\nMathematically equivalent methods need not be computationally equivalent."
-  },
-  {
-    "objectID": "lectures/01-foundations/notes.html#mathematical-variables",
-    "href": "lectures/01-foundations/notes.html#mathematical-variables",
-    "title": "Lecture 1 — Foundations, Computation & Binary Representations",
-    "section": "4.1 Mathematical variables",
-    "text": "4.1 Mathematical variables\nIn mathematics, a variable is typically a symbol representing an element of some mathematical domain.\nFor example,\n\\[\nx \\in \\mathbb{R}\n\\]\nsays that \\(x\\) is a real number.\nAn equation such as\n\\[\nx = 10\n\\]\ncan be interpreted as a mathematical assertion that \\(x\\) has value 10.\nProgramming languages use the word variable, but the concept is somewhat different."
-  },
-  {
-    "objectID": "lectures/01-foundations/notes.html#assignment",
-    "href": "lectures/01-foundations/notes.html#assignment",
-    "title": "Lecture 1 — Foundations, Computation & Binary Representations",
-    "section": "4.2 Assignment",
-    "text": "4.2 Assignment\nIn Python:\nx = 10\nis an assignment statement.\nA useful conceptual interpretation is:\n\nEvaluate the expression on the right and bind the name on the left to the resulting object.\n\nAfter:\nx = 10\nthe name x refers to an integer object representing 10.\nThe statement\nx = x + 1\ntherefore makes sense as a program instruction even though\n\\[\nx = x + 1\n\\]\nwould normally be impossible as an equation over ordinary numbers.\nPython interprets:\nx = x + 1\nas:\n\nretrieve the current value associated with x;\nadd 1;\nbind x to the resulting value.\n\nThus:\nx = 10\nx = x + 1\nleaves x equal to 11."
-  },
-  {
-    "objectID": "lectures/01-foundations/notes.html#program-state",
-    "href": "lectures/01-foundations/notes.html#program-state",
-    "title": "Lecture 1 — Foundations, Computation & Binary Representations",
-    "section": "4.3 Program state",
-    "text": "4.3 Program state\nThe state of a program consists, roughly speaking, of the information that determines the program’s current condition.\nFor a simple program, this may include the values associated with its variables.\nConsider:\nx = 10\ny = x\nx = 20\nAfter these statements:\nx → 20\ny → 10\nThe assignment to x changed the program state. It did not change what y refers to.\nThis is one reason it is useful to distinguish programming variables from mathematical variables."
-  },
-  {
-    "objectID": "lectures/01-foundations/notes.html#types-are-part-of-the-computational-model",
-    "href": "lectures/01-foundations/notes.html#types-are-part-of-the-computational-model",
-    "title": "Lecture 1 — Foundations, Computation & Binary Representations",
-    "section": "5.1 Types are part of the computational model",
-    "text": "5.1 Types are part of the computational model\nWhen reading code, ask:\n\nWhat kind of object is this expression producing?\n\nThis question will become increasingly important as we encounter:\n\nlists;\narrays;\ndata frames;\nfunctions;\ndictionaries;\nmatrices;\nuser-defined objects."
-  },
-  {
-    "objectID": "lectures/01-foundations/notes.html#positional-notation",
-    "href": "lectures/01-foundations/notes.html#positional-notation",
-    "title": "Lecture 1 — Foundations, Computation & Binary Representations",
-    "section": "7.1 Positional notation",
-    "text": "7.1 Positional notation\nThe decimal number\n\\[\n372\n\\]\nmeans\n\\[\n3(10^2)+7(10^1)+2(10^0).\n\\]\nSimilarly,\n\\[\n1101_2\n\\]\nmeans\n\\[\n1(2^3)+1(2^2)+0(2^1)+1(2^0).\n\\]\nTherefore,\n\\[\n1101_2\n=8+4+0+1\n=\n13.\n\\]"
-  },
-  {
-    "objectID": "lectures/01-foundations/notes.html#converting-decimal-to-binary",
-    "href": "lectures/01-foundations/notes.html#converting-decimal-to-binary",
-    "title": "Lecture 1 — Foundations, Computation & Binary Representations",
-    "section": "7.2 Converting decimal to binary",
-    "text": "7.2 Converting decimal to binary\nTo express a positive integer in binary, we can decompose it into powers of 2.\nFor example,\n\\[\n42=32+8+2\n\\]\nor\n\\[\n42=2^5+2^3+2^1.\n\\]\nTherefore:\n\\[\n42=101010_2.\n\\]\nThe positions corresponding to \\(2^5,2^3,2^1\\) contain 1s; the others contain 0s."
-  },
-  {
-    "objectID": "lectures/01-foundations/notes.html#unsigned-integers",
-    "href": "lectures/01-foundations/notes.html#unsigned-integers",
-    "title": "Lecture 1 — Foundations, Computation & Binary Representations",
-    "section": "9.1 Unsigned integers",
-    "text": "9.1 Unsigned integers\nIf all 256 patterns are used for nonnegative integers, the values are:\n\\[\n0,1,\\ldots,255.\n\\]\nThe largest value is therefore\n\\[\n2^8-1=255.\n\\]\nIn general, an unsigned \\(b\\)-bit integer has range\n\\[\n0,\\ldots,2^b-1.\n\\]"
-  },
-  {
-    "objectID": "lectures/01-foundations/notes.html#what-happens-outside-the-range",
-    "href": "lectures/01-foundations/notes.html#what-happens-outside-the-range",
-    "title": "Lecture 1 — Foundations, Computation & Binary Representations",
-    "section": "9.2 What happens outside the range?",
-    "text": "9.2 What happens outside the range?\nIf a system uses an 8-bit unsigned integer, there is no representation for 256.\nIn some low-level programming environments, arithmetic can overflow and wrap around.\nFor example, an 8-bit unsigned representation may behave as though\n\\[\n255+1=0\n\\]\nbecause the result (256) corresponds to the bit pattern\n00000000\nafter discarding the ninth bit.\nPython’s ordinary int does not behave this way."
-  },
-  {
-    "objectID": "lectures/01-foundations/notes.html#arbitrary-precision-does-not-mean-infinite-precision",
-    "href": "lectures/01-foundations/notes.html#arbitrary-precision-does-not-mean-infinite-precision",
-    "title": "Lecture 1 — Foundations, Computation & Binary Representations",
-    "section": "10.1 Arbitrary precision does not mean infinite precision",
-    "text": "10.1 Arbitrary precision does not mean infinite precision\nPython’s integer type can grow as necessary, but there are still physical limits.\nA sufficiently large integer requires:\n\nmore memory;\nmore computational time;\npotentially more storage.\n\nThus:\n\nThe programming language can provide an abstraction that hides hardware-level limits without eliminating the underlying physical limits.\n\nThis distinction becomes particularly important when we study numerical computing."
-  },
-  {
-    "objectID": "lectures/01-foundations/notes.html#the-largest-and-smallest-values",
-    "href": "lectures/01-foundations/notes.html#the-largest-and-smallest-values",
-    "title": "Lecture 1 — Foundations, Computation & Binary Representations",
-    "section": "11.1 The largest and smallest values",
-    "text": "11.1 The largest and smallest values\nThe largest value is:\n01111111\nwhich is 127.\nThe smallest is:\n10000000\nwhich represents -128."
-  },
-  {
-    "objectID": "lectures/01-foundations/notes.html#twos-complement-and-arithmetic",
-    "href": "lectures/01-foundations/notes.html#twos-complement-and-arithmetic",
-    "title": "Lecture 1 — Foundations, Computation & Binary Representations",
-    "section": "11.2 Two’s complement and arithmetic",
-    "text": "11.2 Two’s complement and arithmetic\nThe two’s-complement representation is designed so that ordinary binary addition can be used for both positive and negative numbers, subject to the limits of the fixed-width representation.\nFor example:\n  00000101   =  5\n+ 11111110   = -2\n-----------\n  00000011   =  3\nThe representation makes arithmetic efficient in hardware."
-  },
-  {
-    "objectID": "lectures/01-foundations/notes.html#integer-overflow",
-    "href": "lectures/01-foundations/notes.html#integer-overflow",
-    "title": "Lecture 1 — Foundations, Computation & Binary Representations",
-    "section": "11.3 Integer overflow",
-    "text": "11.3 Integer overflow\nWith fixed-width signed integers, arithmetic can leave the representable range.\nFor an 8-bit signed integer:\n01111111 = 127\nAdding 1 produces:\n10000000\nwhich represents -128.\nThis is integer overflow.\nPython’s int deliberately avoids this particular behavior by allowing the integer representation to grow."
-  },
-  {
-    "objectID": "lectures/01-foundations/notes.html#normalized-values",
-    "href": "lectures/01-foundations/notes.html#normalized-values",
-    "title": "Lecture 1 — Foundations, Computation & Binary Representations",
-    "section": "14.1 Normalized values",
-    "text": "14.1 Normalized values\nFor a normalized binary floating-point value, the significand is conventionally represented with a leading 1.\nConceptually:\n\\[\n1.f_2 \\times 2^e.\n\\]\nThe leading 1 does not need to be stored explicitly, which provides an additional effective bit of precision."
-  },
-  {
-    "objectID": "lectures/01-foundations/notes.html#special-values",
-    "href": "lectures/01-foundations/notes.html#special-values",
-    "title": "Lecture 1 — Foundations, Computation & Binary Representations",
-    "section": "14.2 Special values",
-    "text": "14.2 Special values\nIEEE 754 also defines special representations including:\n\npositive and negative zero;\npositive and negative infinity;\nNaN (“Not a Number”);\nsubnormal numbers.\n\nThese allow floating-point arithmetic to handle exceptional cases in a standardized way."
-  },
-  {
-    "objectID": "lectures/01-foundations/notes.html#precision",
-    "href": "lectures/01-foundations/notes.html#precision",
-    "title": "Lecture 1 — Foundations, Computation & Binary Representations",
-    "section": "Precision",
-    "text": "Precision\nPrecision concerns how finely numbers can be distinguished relative to their magnitude.\nBinary64 has approximately 15–17 significant decimal digits of precision."
-  },
-  {
-    "objectID": "lectures/01-foundations/notes.html#range",
-    "href": "lectures/01-foundations/notes.html#range",
-    "title": "Lecture 1 — Foundations, Computation & Binary Representations",
-    "section": "Range",
-    "text": "Range\nRange concerns how large or small a representable number can be.\nFor typical binary64:\n\\[\n\\text{maximum finite value}\n\\approx\n1.8\\times10^{308}.\n\\]\nThe smallest positive normal number is approximately:\n\\[\n2.2\\times10^{-308}.\n\\]\nThese are different concepts.\nA system can have a large numerical range while still having limited precision."
-  },
-  {
-    "objectID": "lectures/01-foundations/notes.html#conditioning",
-    "href": "lectures/01-foundations/notes.html#conditioning",
-    "title": "Lecture 1 — Foundations, Computation & Binary Representations",
-    "section": "Conditioning",
-    "text": "Conditioning\nConditioning concerns the sensitivity of the mathematical problem itself to perturbations in the input.\nA problem is ill-conditioned if small changes in the input can produce large changes in the correct answer."
-  },
-  {
-    "objectID": "lectures/01-foundations/notes.html#stability",
-    "href": "lectures/01-foundations/notes.html#stability",
-    "title": "Lecture 1 — Foundations, Computation & Binary Representations",
-    "section": "Stability",
-    "text": "Stability\nStability concerns the behavior of the algorithm used to solve the problem.\nA stable algorithm tends not to introduce excessive additional error.\nThis distinction is important:\n\nAn ill-conditioned problem can be difficult even with a perfect algorithm.\n\nand:\n\nA well-conditioned problem can be ruined by an unstable algorithm.\n\nWe will return to these ideas later in the course."
-  },
-  {
-    "objectID": "lectures/01-foundations/notes.html#testing-known-results",
-    "href": "lectures/01-foundations/notes.html#testing-known-results",
-    "title": "Lecture 1 — Foundations, Computation & Binary Representations",
-    "section": "34.1 Testing known results",
-    "text": "34.1 Testing known results\nFor example:\ndef sum_of_squares(n):\n    total = 0\n\n    for i in range(1, n + 1):\n        total += i**2\n\n    return total\nWe can test:\nassert sum_of_squares(1) == 1\nassert sum_of_squares(2) == 5\nassert sum_of_squares(3) == 14"
-  },
-  {
-    "objectID": "lectures/01-foundations/notes.html#testing-independent-implementations",
-    "href": "lectures/01-foundations/notes.html#testing-independent-implementations",
-    "title": "Lecture 1 — Foundations, Computation & Binary Representations",
-    "section": "34.2 Testing independent implementations",
-    "text": "34.2 Testing independent implementations\nWe can compare two implementations:\ndef sum_of_squares_loop(n):\n    total = 0\n\n    for i in range(1, n + 1):\n        total += i**2\n\n    return total\n\n\ndef sum_of_squares_formula(n):\n    return n * (n + 1) * (2 * n + 1) // 6\nThen:\nfor n in [0, 1, 2, 5, 10, 100, 1000]:\n    assert sum_of_squares_loop(n) == sum_of_squares_formula(n)\nThis is much stronger than checking a single example."
-  },
-  {
-    "objectID": "lectures/01-foundations/notes.html#mathematical-objects-versus-representations",
-    "href": "lectures/01-foundations/notes.html#mathematical-objects-versus-representations",
-    "title": "Lecture 1 — Foundations, Computation & Binary Representations",
-    "section": "38.1 Mathematical objects versus representations",
-    "text": "38.1 Mathematical objects versus representations\nA mathematical integer is an abstract object.\nA computer stores a finite representation of that integer.\nA mathematical real number is an abstract object.\nA computer generally stores an approximation to that real number."
-  },
-  {
-    "objectID": "lectures/01-foundations/notes.html#programs-versus-mathematical-expressions",
-    "href": "lectures/01-foundations/notes.html#programs-versus-mathematical-expressions",
-    "title": "Lecture 1 — Foundations, Computation & Binary Representations",
-    "section": "38.2 Programs versus mathematical expressions",
-    "text": "38.2 Programs versus mathematical expressions\nA mathematical expression describes a relationship or value.\nA program is a sequence of instructions that changes computational state."
-  },
-  {
-    "objectID": "lectures/01-foundations/notes.html#exact-versus-approximate-computation",
-    "href": "lectures/01-foundations/notes.html#exact-versus-approximate-computation",
-    "title": "Lecture 1 — Foundations, Computation & Binary Representations",
-    "section": "38.3 Exact versus approximate computation",
-    "text": "38.3 Exact versus approximate computation\nInteger calculations can often be exact within the range of the representation.\nFloating-point calculations are generally approximate."
-  },
-  {
-    "objectID": "lectures/01-foundations/notes.html#algorithms-matter",
-    "href": "lectures/01-foundations/notes.html#algorithms-matter",
-    "title": "Lecture 1 — Foundations, Computation & Binary Representations",
-    "section": "38.4 Algorithms matter",
-    "text": "38.4 Algorithms matter\nDifferent algorithms can solve the same mathematical problem while differing in:\n\nspeed;\nmemory requirements;\nnumerical stability;\nease of testing;\nreproducibility."
-  },
-  {
-    "objectID": "lectures/01-foundations/notes.html#testing-matters",
-    "href": "lectures/01-foundations/notes.html#testing-matters",
-    "title": "Lecture 1 — Foundations, Computation & Binary Representations",
-    "section": "38.5 Testing matters",
-    "text": "38.5 Testing matters\nA program producing output is not evidence that the output is correct.\nTesting should be deliberate and systematic."
-  },
-  {
-    "objectID": "project/project_ideas.html",
-    "href": "project/project_ideas.html",
-    "title": "Semester Project Ideas",
-    "section": "",
-    "text": "One of the hardest parts of a project like this is deciding what to work on.\nYou do not need to come up with a groundbreaking research question. You do not need to use a huge dataset. You do not need to build a sophisticated machine-learning model.\nA good project is one where you can:\n\nask a reasonably interesting question;\nobtain data or define a computational experiment;\nwrite a meaningful amount of code;\ninvestigate the question carefully;\ntest and validate your code and results; and\ncommunicate what you learned.\n\nIn fact, a relatively simple question investigated carefully is a better project than an ambitious question that you cannot finish.\nThe ideas below are intended to give you a sense of the appropriate scale. You are welcome to use one of these ideas, modify one, combine ideas, or develop something completely different.\n\n\n\n\n\nBasic idea: Investigate which characteristics of automobiles are associated with their prices.\nYou can use the Automobile dataset from the UCI Machine Learning Repository, which contains automobile characteristics and prices. The UCI repository currently maintains hundreds of datasets intended for computational and statistical analysis. (UCI Machine Learning Repository)\nPossible questions:\n\nWhich characteristics are most strongly associated with automobile price?\nIs engine size more important than horsepower?\nDoes fuel type matter after accounting for other characteristics?\nCan you predict the price of a car from its characteristics?\nAre some relationships nonlinear?\n\nPossible analysis:\n\nclean the data;\nexamine distributions;\nvisualize relationships between price and characteristics;\ncalculate correlations;\nfit a few linear regression models;\ncompare models using out-of-sample prediction;\nexamine residuals;\ninvestigate whether transformations such as log(price) improve the model.\n\nWhy this is a good project: The question is intuitive, the dataset is manageable, and there is plenty to analyze without requiring sophisticated methods.\nPossible extension: Compare a simple linear model with a tree-based prediction method.\n\n\n\n\nUse the UCI Wine Quality dataset, which contains physicochemical measurements of Portuguese wine samples and quality ratings. (UCI Machine Learning Repository)\nQuestions:\n\nWhich chemical characteristics are associated with wine quality?\nCan wine quality be predicted from chemical measurements?\nIs red wine easier to predict than white wine?\nWhich variables are most useful for prediction?\nDoes treating quality as a continuous variable produce different conclusions from treating it as a categorical variable?\n\nPossible analysis:\n\nExplore the distributions of the chemical variables.\nExamine correlations.\nVisualize relationships with quality.\nFit a regression model.\nEvaluate prediction out of sample.\nTry a classification version of the problem.\nCompare the results.\n\nGood project size: Very manageable.\nPotential pitfall: Do not turn this into a competition to maximize prediction accuracy. The interesting part is understanding what the models are doing.\n\n\n\n\nThe UCI repository contains a classic Heart Disease dataset with patient characteristics and a heart-disease outcome. (UCI Machine Learning Repository)\nThe basic question is:\n\nCan a relatively small set of measured characteristics predict whether a patient is classified as having heart disease?\n\nYou could:\n\ninspect the variables;\nexamine differences between the two groups;\nvisualize important predictors;\nfit logistic regression;\nevaluate classification accuracy;\nconstruct a confusion matrix;\ninvestigate sensitivity and specificity;\ncompare logistic regression with another classification method.\n\nImportant: This should be presented as an exercise in statistical/computational modeling, not as a medical diagnostic tool.\nWhy it works: There is a clear outcome, a manageable number of variables, and an obvious opportunity to discuss classification and model evaluation.\n\n\n\n\nThe UCI Student Performance dataset contains information about students and their academic performance. It includes demographic, social, school-related, and academic variables. (UCI Machine Learning Repository)\nPossible questions:\n\nWhich characteristics are associated with final grades?\nCan final performance be predicted from information available earlier?\nDo study habits appear to matter?\nAre there nonlinear relationships?\nHow well can a model predict whether a student achieves a particular grade threshold?\n\nPossible methods:\n\ndescriptive statistics;\nvisualization;\nlinear regression;\nlogistic regression;\ntrain/test splits;\nmodel comparison.\n\nA particularly nice version: Restrict yourself to variables that would plausibly be available before the final outcome. Discuss why using information that occurs after the outcome would be problematic.\n\n\n\n\nThe UCI Bank Marketing dataset contains more than 45,000 observations and 17 features concerning a Portuguese bank’s marketing campaigns. The outcome is whether the customer subscribed to a term deposit. (UCI Machine Learning Repository)\nPossible questions:\n\nWhich customer characteristics predict subscription?\nHow well can subscription be predicted?\nWhich variables have the greatest predictive value?\nDoes a simple logistic model perform reasonably well?\nHow does a more flexible model compare?\n\nPossible computational tasks:\n\nclean categorical variables;\nencode categorical variables;\nperform exploratory analysis;\nfit logistic regression;\nconstruct a confusion matrix;\ncalculate precision, recall, and accuracy;\ncompare with a tree-based model.\n\nThis is a good project for students interested in business, economics, finance, or data science.\n\n\n\n\nThe UCI Adult dataset contains approximately 49,000 observations and asks whether an individual’s annual income exceeds $50,000 based on census characteristics. (UCI Machine Learning Repository)\nPossible questions:\n\nHow accurately can income category be predicted?\nWhich variables are most informative?\nHow does model performance change with different sets of predictors?\nHow does a simple model compare with a more flexible model?\n\nThis project also provides an opportunity to discuss:\n\ncategorical variables;\nmissing data;\nmodel evaluation;\nclass imbalance;\nfairness and responsible interpretation of predictive models.\n\nImportant: Students should not make claims about individual people based on such a model. The project is about understanding statistical prediction.\n\n\n\n\nThe UCI Online Retail dataset contains more than 500,000 transactions from a UK online retailer. (UCI Machine Learning Repository)\nA student could investigate:\n\nWhich products generate the most revenue?\nHow does purchasing behavior vary over time?\nWhat are the most common purchase quantities?\nHow concentrated are sales among customers?\nWhich customers generate the most revenue?\nAre there seasonal patterns?\nHow frequently do customers return?\n\nPossible computational tasks:\n\nclean transaction data;\nremove or investigate cancellations;\nconstruct customer-level variables;\naggregate transactions;\ncalculate revenue;\nvisualize time patterns;\nidentify high-value customers;\ninvestigate product concentration.\n\nThis is particularly good for learning data manipulation and aggregation rather than just regression.\n\n\n\n\nUse publicly available weather observations to investigate a question such as:\n\nHas the distribution of daily temperatures changed?\nHow variable is temperature throughout the year?\nHow unusual was a particular year?\nAre extreme temperatures becoming more common?\nHow does precipitation vary by month?\n\nA particularly accessible version is to choose one location and analyze several years of daily observations.\nThe project could involve:\n\ndownloading data;\nparsing dates;\ndealing with missing observations;\naggregating daily observations to monthly or annual statistics;\ncalculating rolling averages;\nplotting distributions;\nidentifying extreme observations.\n\nThe project does not need to make a claim about climate change. A careful descriptive analysis of weather at one location is sufficient.\n\n\n\n\nThe Federal Reserve Bank of St. Louis provides the FRED database and an API through which programs can retrieve economic data. (FRED)\nPick two or three economic variables that interest you.\nExamples:\n\nunemployment and inflation;\ninterest rates and housing prices;\nGDP and unemployment;\noil prices and inflation;\nTreasury yields at different maturities;\nconsumer confidence and economic activity.\n\nPossible questions:\n\nHow have the variables moved over time?\nAre they correlated?\nDo relationships differ across periods?\nDoes one variable tend to lead another?\nHow do correlations change during recessions?\n\nA simple version can involve nothing more complicated than downloading several time series, cleaning them, plotting them, calculating correlations, and investigating several historical episodes.\nThis is a particularly good project for economics/finance students.\n\n\n\n\nUse FRED data to investigate one or more historical episodes.\nFor example:\n\nthe 2008 financial crisis;\nthe COVID-19 pandemic;\nthe 2022 inflation episode;\na particular Federal Reserve tightening cycle.\n\nPossible questions:\n\nHow did short- and long-term interest rates respond?\nHow did the yield curve change?\nDid different maturities behave differently?\nHow unusual was the movement relative to historical volatility?\n\nA particularly nice project would calculate:\n\nchanges in yields;\nyield-curve slopes;\nrolling volatility;\ncorrelations across maturities.\n\nThe FRED API is especially useful here because students can practice retrieving data programmatically rather than manually downloading spreadsheets. (FRED)\n\n\n\n\nFind a public movie dataset containing variables such as:\n\nbudget;\ngenre;\nruntime;\nrelease year;\nratings;\nnumber of votes;\nbox-office revenue.\n\nPossible questions:\n\nDoes budget predict revenue?\nAre some genres more commercially successful?\nDoes higher audience rating correspond to greater revenue?\nHow has the relationship changed over time?\nCan revenue be predicted reasonably well?\n\nThis can be a straightforward regression/data-visualization project.\n\n\n\n\nUse a public music dataset containing characteristics such as:\n\ntempo;\nenergy;\ndanceability;\nacousticness;\nloudness;\nduration;\ngenre;\npopularity.\n\nPossible questions:\n\nWhich characteristics are associated with popularity?\nAre some genres systematically different?\nIs there an ideal tempo?\nAre popularity relationships nonlinear?\nCan popularity be predicted?\n\nThis is a good project because the subject matter is immediately understandable, but the student can still do serious quantitative analysis.\n\n\n\n\nInstead of predicting popularity, investigate how characteristics of popular music have changed.\nQuestions might include:\n\nHas average song duration changed?\nHas tempo changed?\nHas musical energy changed?\nHave genres become more or less concentrated?\nHow has the distribution of musical characteristics changed?\n\nThe main methods can simply be:\n\ngrouping;\nsummary statistics;\nrolling averages;\ndistributions;\nvisualization.\n\nThis is an excellent example of a project that is simple computationally but can still produce an interesting final product.\n\n\n\n\nChoose a sport with accessible historical data.\nExamples:\n\nbaseball;\nbasketball;\nfootball;\nhockey;\nsoccer.\n\nAsk:\n\nWhich team statistics are most strongly associated with winning?\n\nPossible approaches:\n\ncalculate win percentage;\ncompare successful and unsuccessful teams;\nexamine correlations;\nbuild a regression or classification model;\ninvestigate whether certain statistics predict future rather than contemporaneous performance.\n\nA particularly nice project would distinguish between:\n\n“What statistics are associated with winning?”\n\nand\n\n“What statistics can predict future winning?”\n\nThe second is a more genuinely predictive question and naturally introduces train/test splits.\n\n\n\n\nUse historical sports data to investigate home advantage.\nPossible questions:\n\nWhat fraction of games are won by the home team?\nDoes home advantage differ by sport?\nHas home advantage changed over time?\nDoes it differ between regular-season and playoff games?\nAre some teams unusually strong or weak at home?\n\nThis can be done with relatively simple data and provides opportunities for:\n\ngrouping;\nproportions;\nconfidence intervals;\nhypothesis testing;\nvisualization;\ntime trends.\n\n\n\n\n\nUse historical game results to simulate a season.\nFor example:\n\nEstimate team strengths from historical data.\nBuild a simple probabilistic model for game outcomes.\nSimulate many seasons.\nCompare simulated standings with actual standings.\nInvestigate how much variation in final standings can arise from randomness.\n\nThis is a wonderful project because it combines data analysis and simulation without requiring advanced mathematics.\n\n\n\n\nThis sounds almost too simple—and that is precisely why it is a good project.\nUse simulation to investigate:\n\nhow often a fair coin produces apparently unusual sequences;\nhow many flips are needed before an unfair coin can reliably be detected;\nhow sample size affects statistical power;\nhow multiple testing can produce apparently surprising results.\n\nYou could begin with a theoretical probability calculation, then verify it computationally.\nFor example:\n\nIf I flip a fair coin 100 times, how unusual is it to observe at least 60 heads?\n\nThen generalize the question using simulation.\nThis is an excellent project for a student interested in statistics who does not want to find a large real-world dataset.\n\n\n\n\nChoose a quantity that can be estimated using Monte Carlo simulation.\nExamples:\n\nan integral;\na probability;\nan expected value;\nthe area of a geometric region.\n\nInvestigate:\n\nHow does the accuracy of a Monte Carlo estimate improve as the number of simulations increases?\n\nThe project could compare:\n\n100 simulations;\n1,000;\n10,000;\n100,000;\n1,000,000.\n\nThen examine:\n\nerror;\nruntime;\nconvergence;\nvariability across repeated simulations.\n\nThis is a very good project for demonstrating that computational accuracy and computational cost are often traded off against one another."
-  },
-  {
-    "objectID": "project/project_ideas.html#data-analysis-projects",
-    "href": "project/project_ideas.html#data-analysis-projects",
-    "title": "Semester Project Ideas",
-    "section": "",
-    "text": "Basic idea: Investigate which characteristics of automobiles are associated with their prices.\nYou can use the Automobile dataset from the UCI Machine Learning Repository, which contains automobile characteristics and prices. The UCI repository currently maintains hundreds of datasets intended for computational and statistical analysis. (UCI Machine Learning Repository)\nPossible questions:\n\nWhich characteristics are most strongly associated with automobile price?\nIs engine size more important than horsepower?\nDoes fuel type matter after accounting for other characteristics?\nCan you predict the price of a car from its characteristics?\nAre some relationships nonlinear?\n\nPossible analysis:\n\nclean the data;\nexamine distributions;\nvisualize relationships between price and characteristics;\ncalculate correlations;\nfit a few linear regression models;\ncompare models using out-of-sample prediction;\nexamine residuals;\ninvestigate whether transformations such as log(price) improve the model.\n\nWhy this is a good project: The question is intuitive, the dataset is manageable, and there is plenty to analyze without requiring sophisticated methods.\nPossible extension: Compare a simple linear model with a tree-based prediction method.\n\n\n\n\nUse the UCI Wine Quality dataset, which contains physicochemical measurements of Portuguese wine samples and quality ratings. (UCI Machine Learning Repository)\nQuestions:\n\nWhich chemical characteristics are associated with wine quality?\nCan wine quality be predicted from chemical measurements?\nIs red wine easier to predict than white wine?\nWhich variables are most useful for prediction?\nDoes treating quality as a continuous variable produce different conclusions from treating it as a categorical variable?\n\nPossible analysis:\n\nExplore the distributions of the chemical variables.\nExamine correlations.\nVisualize relationships with quality.\nFit a regression model.\nEvaluate prediction out of sample.\nTry a classification version of the problem.\nCompare the results.\n\nGood project size: Very manageable.\nPotential pitfall: Do not turn this into a competition to maximize prediction accuracy. The interesting part is understanding what the models are doing.\n\n\n\n\nThe UCI repository contains a classic Heart Disease dataset with patient characteristics and a heart-disease outcome. (UCI Machine Learning Repository)\nThe basic question is:\n\nCan a relatively small set of measured characteristics predict whether a patient is classified as having heart disease?\n\nYou could:\n\ninspect the variables;\nexamine differences between the two groups;\nvisualize important predictors;\nfit logistic regression;\nevaluate classification accuracy;\nconstruct a confusion matrix;\ninvestigate sensitivity and specificity;\ncompare logistic regression with another classification method.\n\nImportant: This should be presented as an exercise in statistical/computational modeling, not as a medical diagnostic tool.\nWhy it works: There is a clear outcome, a manageable number of variables, and an obvious opportunity to discuss classification and model evaluation.\n\n\n\n\nThe UCI Student Performance dataset contains information about students and their academic performance. It includes demographic, social, school-related, and academic variables. (UCI Machine Learning Repository)\nPossible questions:\n\nWhich characteristics are associated with final grades?\nCan final performance be predicted from information available earlier?\nDo study habits appear to matter?\nAre there nonlinear relationships?\nHow well can a model predict whether a student achieves a particular grade threshold?\n\nPossible methods:\n\ndescriptive statistics;\nvisualization;\nlinear regression;\nlogistic regression;\ntrain/test splits;\nmodel comparison.\n\nA particularly nice version: Restrict yourself to variables that would plausibly be available before the final outcome. Discuss why using information that occurs after the outcome would be problematic.\n\n\n\n\nThe UCI Bank Marketing dataset contains more than 45,000 observations and 17 features concerning a Portuguese bank’s marketing campaigns. The outcome is whether the customer subscribed to a term deposit. (UCI Machine Learning Repository)\nPossible questions:\n\nWhich customer characteristics predict subscription?\nHow well can subscription be predicted?\nWhich variables have the greatest predictive value?\nDoes a simple logistic model perform reasonably well?\nHow does a more flexible model compare?\n\nPossible computational tasks:\n\nclean categorical variables;\nencode categorical variables;\nperform exploratory analysis;\nfit logistic regression;\nconstruct a confusion matrix;\ncalculate precision, recall, and accuracy;\ncompare with a tree-based model.\n\nThis is a good project for students interested in business, economics, finance, or data science.\n\n\n\n\nThe UCI Adult dataset contains approximately 49,000 observations and asks whether an individual’s annual income exceeds $50,000 based on census characteristics. (UCI Machine Learning Repository)\nPossible questions:\n\nHow accurately can income category be predicted?\nWhich variables are most informative?\nHow does model performance change with different sets of predictors?\nHow does a simple model compare with a more flexible model?\n\nThis project also provides an opportunity to discuss:\n\ncategorical variables;\nmissing data;\nmodel evaluation;\nclass imbalance;\nfairness and responsible interpretation of predictive models.\n\nImportant: Students should not make claims about individual people based on such a model. The project is about understanding statistical prediction.\n\n\n\n\nThe UCI Online Retail dataset contains more than 500,000 transactions from a UK online retailer. (UCI Machine Learning Repository)\nA student could investigate:\n\nWhich products generate the most revenue?\nHow does purchasing behavior vary over time?\nWhat are the most common purchase quantities?\nHow concentrated are sales among customers?\nWhich customers generate the most revenue?\nAre there seasonal patterns?\nHow frequently do customers return?\n\nPossible computational tasks:\n\nclean transaction data;\nremove or investigate cancellations;\nconstruct customer-level variables;\naggregate transactions;\ncalculate revenue;\nvisualize time patterns;\nidentify high-value customers;\ninvestigate product concentration.\n\nThis is particularly good for learning data manipulation and aggregation rather than just regression.\n\n\n\n\nUse publicly available weather observations to investigate a question such as:\n\nHas the distribution of daily temperatures changed?\nHow variable is temperature throughout the year?\nHow unusual was a particular year?\nAre extreme temperatures becoming more common?\nHow does precipitation vary by month?\n\nA particularly accessible version is to choose one location and analyze several years of daily observations.\nThe project could involve:\n\ndownloading data;\nparsing dates;\ndealing with missing observations;\naggregating daily observations to monthly or annual statistics;\ncalculating rolling averages;\nplotting distributions;\nidentifying extreme observations.\n\nThe project does not need to make a claim about climate change. A careful descriptive analysis of weather at one location is sufficient.\n\n\n\n\nThe Federal Reserve Bank of St. Louis provides the FRED database and an API through which programs can retrieve economic data. (FRED)\nPick two or three economic variables that interest you.\nExamples:\n\nunemployment and inflation;\ninterest rates and housing prices;\nGDP and unemployment;\noil prices and inflation;\nTreasury yields at different maturities;\nconsumer confidence and economic activity.\n\nPossible questions:\n\nHow have the variables moved over time?\nAre they correlated?\nDo relationships differ across periods?\nDoes one variable tend to lead another?\nHow do correlations change during recessions?\n\nA simple version can involve nothing more complicated than downloading several time series, cleaning them, plotting them, calculating correlations, and investigating several historical episodes.\nThis is a particularly good project for economics/finance students.\n\n\n\n\nUse FRED data to investigate one or more historical episodes.\nFor example:\n\nthe 2008 financial crisis;\nthe COVID-19 pandemic;\nthe 2022 inflation episode;\na particular Federal Reserve tightening cycle.\n\nPossible questions:\n\nHow did short- and long-term interest rates respond?\nHow did the yield curve change?\nDid different maturities behave differently?\nHow unusual was the movement relative to historical volatility?\n\nA particularly nice project would calculate:\n\nchanges in yields;\nyield-curve slopes;\nrolling volatility;\ncorrelations across maturities.\n\nThe FRED API is especially useful here because students can practice retrieving data programmatically rather than manually downloading spreadsheets. (FRED)\n\n\n\n\nFind a public movie dataset containing variables such as:\n\nbudget;\ngenre;\nruntime;\nrelease year;\nratings;\nnumber of votes;\nbox-office revenue.\n\nPossible questions:\n\nDoes budget predict revenue?\nAre some genres more commercially successful?\nDoes higher audience rating correspond to greater revenue?\nHow has the relationship changed over time?\nCan revenue be predicted reasonably well?\n\nThis can be a straightforward regression/data-visualization project.\n\n\n\n\nUse a public music dataset containing characteristics such as:\n\ntempo;\nenergy;\ndanceability;\nacousticness;\nloudness;\nduration;\ngenre;\npopularity.\n\nPossible questions:\n\nWhich characteristics are associated with popularity?\nAre some genres systematically different?\nIs there an ideal tempo?\nAre popularity relationships nonlinear?\nCan popularity be predicted?\n\nThis is a good project because the subject matter is immediately understandable, but the student can still do serious quantitative analysis.\n\n\n\n\nInstead of predicting popularity, investigate how characteristics of popular music have changed.\nQuestions might include:\n\nHas average song duration changed?\nHas tempo changed?\nHas musical energy changed?\nHave genres become more or less concentrated?\nHow has the distribution of musical characteristics changed?\n\nThe main methods can simply be:\n\ngrouping;\nsummary statistics;\nrolling averages;\ndistributions;\nvisualization.\n\nThis is an excellent example of a project that is simple computationally but can still produce an interesting final product.\n\n\n\n\nChoose a sport with accessible historical data.\nExamples:\n\nbaseball;\nbasketball;\nfootball;\nhockey;\nsoccer.\n\nAsk:\n\nWhich team statistics are most strongly associated with winning?\n\nPossible approaches:\n\ncalculate win percentage;\ncompare successful and unsuccessful teams;\nexamine correlations;\nbuild a regression or classification model;\ninvestigate whether certain statistics predict future rather than contemporaneous performance.\n\nA particularly nice project would distinguish between:\n\n“What statistics are associated with winning?”\n\nand\n\n“What statistics can predict future winning?”\n\nThe second is a more genuinely predictive question and naturally introduces train/test splits.\n\n\n\n\nUse historical sports data to investigate home advantage.\nPossible questions:\n\nWhat fraction of games are won by the home team?\nDoes home advantage differ by sport?\nHas home advantage changed over time?\nDoes it differ between regular-season and playoff games?\nAre some teams unusually strong or weak at home?\n\nThis can be done with relatively simple data and provides opportunities for:\n\ngrouping;\nproportions;\nconfidence intervals;\nhypothesis testing;\nvisualization;\ntime trends.\n\n\n\n\n\nUse historical game results to simulate a season.\nFor example:\n\nEstimate team strengths from historical data.\nBuild a simple probabilistic model for game outcomes.\nSimulate many seasons.\nCompare simulated standings with actual standings.\nInvestigate how much variation in final standings can arise from randomness.\n\nThis is a wonderful project because it combines data analysis and simulation without requiring advanced mathematics.\n\n\n\n\nThis sounds almost too simple—and that is precisely why it is a good project.\nUse simulation to investigate:\n\nhow often a fair coin produces apparently unusual sequences;\nhow many flips are needed before an unfair coin can reliably be detected;\nhow sample size affects statistical power;\nhow multiple testing can produce apparently surprising results.\n\nYou could begin with a theoretical probability calculation, then verify it computationally.\nFor example:\n\nIf I flip a fair coin 100 times, how unusual is it to observe at least 60 heads?\n\nThen generalize the question using simulation.\nThis is an excellent project for a student interested in statistics who does not want to find a large real-world dataset.\n\n\n\n\nChoose a quantity that can be estimated using Monte Carlo simulation.\nExamples:\n\nan integral;\na probability;\nan expected value;\nthe area of a geometric region.\n\nInvestigate:\n\nHow does the accuracy of a Monte Carlo estimate improve as the number of simulations increases?\n\nThe project could compare:\n\n100 simulations;\n1,000;\n10,000;\n100,000;\n1,000,000.\n\nThen examine:\n\nerror;\nruntime;\nconvergence;\nvariability across repeated simulations.\n\nThis is a very good project for demonstrating that computational accuracy and computational cost are often traded off against one another."
   }
 ]
