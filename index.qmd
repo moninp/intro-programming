@@ -3,14 +3,10 @@ title: "MATH 5200: Computing Using R & Python"
 subtitle: "Fall 2026"
 format:
   html:
-    toc: false
+    toc: true
     code-fold: false
 page-layout: full
 ---
-
-# MATH 5200: Computing Using R & Python
-
-**Fall 2026**
 
 This is the course website and source repository for MATH 5200: Computing Using R & Python.
 
@@ -112,13 +108,13 @@ Learning to describe a computational problem clearly is itself an important prog
 
 [pm1091@georgetown.edu](mailto:pm1091@georgetown.edu)
 
-Office hours: XXX
+Office hours: Mondays, 4:30-5:30 PM, or by appointment. Scheduled office hours are held by request over Zoom. Please email me by noon if you would like to attend the scheduled office hours. If no student requests to meet, then the scheduled office hours will not be held.
 
 ## Course Information
 
 - **Course:** MATH 5200
 - **Semester:** Fall 2026
-- **Meeting time:** XXX
-- **Location:** XXX
+- **Meeting time:** Wednesdays, 6:30-9:00 PM
+- **Location:** Reiss 152
 
 For complete course policies, grading information, and the course schedule, see the [syllabus](syllabus.qmd).

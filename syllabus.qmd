@@ -1,8 +1,15 @@
-# MATH 5200: Computing Using R & Python
+---
+title: "MATH 5200: Computing Using R & Python"
+subtitle: "Fall 2026"
+format:
+  html:
+    toc: true
+    code-fold: false
+page-layout: full
+---
 
-**Fall 2026**  
-**Day/Time:** XXX  
-**Location:** XXX  
+**Day/Time:** Wednesdays, 6:30-9:00 PM  
+**Location:** Reiss 152  
 
 ## Course Description
 
@@ -25,15 +32,15 @@ Students should be comfortable with algebra and basic mathematical notation and 
 **Phillip Monin, PhD, CFA, FRM**  
 [pm1091@georgetown.edu](mailto:pm1091@georgetown.edu)
 
-Office: XXX  
-Office hours: XXX
+Office hours: Mondays 4:30-5:30 PM, or by appointment. Scheduled office hours are held by request over Zoom. Please email me by noon if you would like to attend the scheduled office hours. If no student requests to meet, then the scheduled office hours will not be held. 
 
-Additional meetings are available by appointment.
+I happily hold additional office hours on an ad hoc basis by appointment over Zoom. I am committed to being available as much as I can to meet your needs. 
+
 
 ## Assistant
 
-**XXX**  
-[XXX@georgetown.edu](mailto:XXX)
+**Alan Sheu**  
+[ads347@georgetown.edu](mailto:ads347@georgetown.edu)
 
 Office hours: XXX
 
@@ -93,10 +100,11 @@ The precise weighting will be:
 
 | Component | Weight |
 |---|---:|
-| Homework | XX% |
-| Quizzes | XX% |
-| Semester project | XX% |
-| Participation/engagement | XX% |
+| Midterms | 40% |
+| Homework | 25% |
+| Semester project | 20% |
+| Quizzes | 10% |
+| Participation/engagement | 5% |
 | **Total** | **100%** |
 
 The semester project will give students an opportunity to apply the skills developed throughout the course to a problem of their choosing. Projects may involve data analysis, simulation, numerical computing, or another computational problem approved by the instructor.
@@ -139,8 +147,6 @@ Course materials, including lecture notes and exercise files, will be posted to 
 
 ## Communication
 
-Please use XXX for course-related announcements and XXX for submitting questions or assignments.
-
 Students are welcome to contact the instructor by email. I am happy to discuss course material, assignments, projects, or other questions about the course.
 
 ## Tentative Course Calendar
@@ -149,19 +155,21 @@ The following is a broad outline. The schedule may change as the course progress
 
 | Week | Topic |
 |---|---|
-| 1 | Computing foundations, Python, program state, binary and numerical representation |
-| 2 | Control flow, data structures, functions, and testing |
-| 3 | Algorithms, files, exceptions, and debugging |
-| 4 | NumPy and numerical computing |
-| 5 | Pandas and data manipulation |
-| 6 | Data visualization and exploratory data analysis |
-| 7 | Simulation and statistical computing |
-| 8 | R fundamentals and the R computational model |
-| 9 | Data management and visualization in R |
-| 10 | Statistical modeling and computational statistics |
-| 11 | Reproducible research, Git/GitHub, and project development |
-| 12 | Advanced topics and project work |
-| 13 | Project presentations / final project work |
+| 1 | Foundations, Computation & Numerical Representation |
+| 2 | Data Structures, Algorithms, and Control Flow |
+| 3 | Functions, Modularity, Documentation, and Version Control |
+| 4 | Arrays, Vectorization, Linear Algebra, and Numerical Computing |
+| 5 | Data, Files, Formats, Reproducibility, and pandas |
+| 6 | Testing, Debugging, and AI-Assisted Programming |
+| 7 | Python Synthesis, Professional Workflow + PYTHON MIDTERM |
+| 8 | R Fundamentals, Data Structures, and Functional Programming |
+| 9 | Data Wrangling, Validation, and Tidy Data |
+| 10 | Statistical Computing, Simulation, and Modeling |
+| 11 | Visualization and Reproducible Scientific Communication |
+| 12 | Machine Learning Foundations |
+| 13 | Neural Networks, Transformers, and Large Language Models |
+| 14 | R Programming, Professional Workflow + R MIDTERM |
+| F  | Final Project Presentations |
 
 Specific dates and project deadlines will be provided on the course schedule.
 
@@ -203,15 +211,13 @@ Students are responsible for understanding and following Georgetown University's
 
 Students should consult the University syllabus policies and resources for information concerning accommodations, Title IX and sexual misconduct, academic integrity, accessibility, and other University policies.
 
-[Georgetown University syllabus policies and resources: XXX]
-
 ## Course Resources
 
 The primary course resources will be:
 
-- **Course GitHub repository:** XXX
-- **Course website:** XXX
-- **Canvas:** XXX
-- **Instructor email:** XXX
+- **Course GitHub repository:** [https://github.com/moninp/intro-programming](https://github.com/moninp/intro-programming)
+- **Course website:** [https://moninp.github.io/intro-programming/](https://moninp.github.io/intro-programming/)
+- **Canvas:** [https://canvas.georgetown.edu/](https://canvas.georgetown.edu/)
+- **Instructor email:** [pm1091@georgetown.edu](mailto:pm1091@georgetown.edu)
 
-Students should begin with the **Start Here** guide in the course repository, which contains instructions for installing the required software, configuring the development environment, and obtaining the course materials.
+Students should begin with the [installation and setup instructions](getting-started.qmd) guide in the course repository, which contains instructions for installing the required software, configuring the development environment, and obtaining the course materials.
