@@ -725,7 +725,7 @@
     "href": "lectures/01-foundations/class.html#exercise-2-predict-the-program-state",
     "title": "Lecture 1 — Foundations, Computation & Binary Representations",
     "section": "Exercise 2 — Predict the program state",
-    "text": "Exercise 2 — Predict the program state\nConsider:\n\n\nCode\nx = 10\ny = x\n\nx = 20\n\n\n\nBefore running the code\nWhat are the values of x and y?\nWrite down your prediction before executing anything.\n\n\nNow run:\n\n\nCode\nprint(x)\nprint(y)\n\n\n20\n10\n\n\n\n\nDiscussion\nWhy is y still 10?\nWhat does this tell us about the difference between:\n\na mathematical variable;\na programming variable;\nthe state of a running program?"
+    "text": "Exercise 2 — Predict the program state\nConsider:\n\nx = 10\ny = x\n\nx = 20\n\n\nBefore running the code\nWhat are the values of x and y?\nWrite down your prediction before executing anything.\n\n\nNow run:\n\nprint(x)\nprint(y)\n\n20\n10\n\n\n\n\nDiscussion\nWhy is y still 10?\nWhat does this tell us about the difference between:\n\na mathematical variable;\na programming variable;\nthe state of a running program?"
   },
   {
     "objectID": "lectures/01-foundations/class.html#exercise-2b-trace-the-state",
@@ -739,7 +739,7 @@
     "href": "lectures/01-foundations/class.html#exercise-3-predict-the-type",
     "title": "Lecture 1 — Foundations, Computation & Binary Representations",
     "section": "Exercise 3 — Predict the type",
-    "text": "Exercise 3 — Predict the type\nFor each expression below, predict both its value and its type.\n\n\n\nExpression\nValue\nType\n\n\n\n\n10\n\n\n\n\n10.0\n\n\n\n\n\"10\"\n\n\n\n\nTrue\n\n\n\n\n10 / 2\n\n\n\n\n10 // 2\n\n\n\n\n10 / 3\n\n\n\n\n10 ** 2\n\n\n\n\n2 == 2\n\n\n\n\n2 != 3\n\n\n\n\n\nNow use Python to check your answers.\n\n\nCode\n# Try some of the expressions above.\n\n\nYou can inspect an object’s type using:\ntype(...)"
+    "text": "Exercise 3 — Predict the type\nFor each expression below, predict both its value and its type.\n\n\n\nExpression\nValue\nType\n\n\n\n\n10\n\n\n\n\n10.0\n\n\n\n\n\"10\"\n\n\n\n\nTrue\n\n\n\n\n10 / 2\n\n\n\n\n10 // 2\n\n\n\n\n10 / 3\n\n\n\n\n10 ** 2\n\n\n\n\n2 == 2\n\n\n\n\n2 != 3\n\n\n\n\n\nNow use Python to check your answers.\n\n# Try some of the expressions above.\n\nYou can inspect an object’s type using:\ntype(...)"
   },
   {
     "objectID": "lectures/01-foundations/class.html#exercise-3b-when-types-matter",
@@ -774,7 +774,7 @@
     "href": "lectures/01-foundations/class.html#exercise-5b-explore-pythons-representation",
     "title": "Lecture 1 — Foundations, Computation & Binary Representations",
     "section": "Exercise 5B — Explore Python’s representation",
-    "text": "Exercise 5B — Explore Python’s representation\nPython provides:\nbin(...)\nTry:\n\n\nCode\nbin(13)\n\n\n'0b1101'\n\n\nand:\n\n\nCode\nbin(42)\n\n\n'0b101010'\n\n\nWhat does the prefix 0b mean?\nNow try converting binary strings back to integers:\nint(\"1101\", 2)\nTry several examples of your own."
+    "text": "Exercise 5B — Explore Python’s representation\nPython provides:\nbin(...)\nTry:\n\nbin(13)\n\n'0b1101'\n\n\nand:\n\nbin(42)\n\n'0b101010'\n\n\nWhat does the prefix 0b mean?\nNow try converting binary strings back to integers:\nint(\"1101\", 2)\nTry several examples of your own."
   },
   {
     "objectID": "lectures/01-foundations/class.html#exercise-6-fixed-width-integers",
@@ -788,7 +788,7 @@
     "href": "lectures/01-foundations/class.html#discussion-pythons-int",
     "title": "Lecture 1 — Foundations, Computation & Binary Representations",
     "section": "Discussion — Python’s int",
-    "text": "Discussion — Python’s int\nThere is an important subtlety here.\nReal computer hardware uses fixed-width representations for ordinary machine integers.\nPython’s built-in int, however, is arbitrary precision: Python can represent integers much larger than would fit into a typical fixed-width machine integer.\nTry:\n\n\nCode\nx = 10**100\n\nprint(x)\nprint(type(x))\n\n\n10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000\n&lt;class 'int'&gt;\n\n\n\nQuestion\nDoes Python’s ability to represent arbitrarily large integers mean that computers have no finite limits?\nThink carefully about the distinction between:\n\nmathematical integers;\nPython integers;\nhardware representations;\nmemory and computational resources."
+    "text": "Discussion — Python’s int\nThere is an important subtlety here.\nReal computer hardware uses fixed-width representations for ordinary machine integers.\nPython’s built-in int, however, is arbitrary precision: Python can represent integers much larger than would fit into a typical fixed-width machine integer.\nTry:\n\nx = 10**100\n\nprint(x)\nprint(type(x))\n\n10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000\n&lt;class 'int'&gt;\n\n\n\nQuestion\nDoes Python’s ability to represent arbitrarily large integers mean that computers have no finite limits?\nThink carefully about the distinction between:\n\nmathematical integers;\nPython integers;\nhardware representations;\nmemory and computational resources."
   },
   {
     "objectID": "lectures/01-foundations/class.html#exercise-7-twos-complement",
@@ -802,14 +802,14 @@
     "href": "lectures/01-foundations/class.html#exercise-8-what-does-python-know-about-floating-point",
     "title": "Lecture 1 — Foundations, Computation & Binary Representations",
     "section": "Exercise 8 — What does Python know about floating point?",
-    "text": "Exercise 8 — What does Python know about floating point?\nPython provides information about the floating-point system through sys.float_info.\nRun:\n\n\nCode\nimport sys\n\nsys.float_info\n\n\nsys.float_info(max=1.7976931348623157e+308, max_exp=1024, max_10_exp=308, min=2.2250738585072014e-308, min_exp=-1021, min_10_exp=-307, dig=15, mant_dig=53, epsilon=2.220446049250313e-16, radix=2, rounds=1)\n\n\nLook at:\nsys.float_info.max\nsys.float_info.min\nsys.float_info.epsilon\nsys.float_info.dig\n\nQuestions\n\nWhat is the largest finite floating-point number?\nWhat is the smallest positive normalized floating-point number?\nWhat is machine epsilon?\nApproximately how many decimal digits of precision does a Python float provide?"
+    "text": "Exercise 8 — What does Python know about floating point?\nPython provides information about the floating-point system through sys.float_info.\nRun:\n\nimport sys\n\nsys.float_info\n\nsys.float_info(max=1.7976931348623157e+308, max_exp=1024, max_10_exp=308, min=2.2250738585072014e-308, min_exp=-1021, min_10_exp=-307, dig=15, mant_dig=53, epsilon=2.220446049250313e-16, radix=2, rounds=1)\n\n\nLook at:\nsys.float_info.max\nsys.float_info.min\nsys.float_info.epsilon\nsys.float_info.dig\n\nQuestions\n\nWhat is the largest finite floating-point number?\nWhat is the smallest positive normalized floating-point number?\nWhat is machine epsilon?\nApproximately how many decimal digits of precision does a Python float provide?"
   },
   {
     "objectID": "lectures/01-foundations/class.html#exercise-9-investigate-the-discrepancy",
     "href": "lectures/01-foundations/class.html#exercise-9-investigate-the-discrepancy",
     "title": "Lecture 1 — Foundations, Computation & Binary Representations",
     "section": "Exercise 9 — Investigate the discrepancy",
-    "text": "Exercise 9 — Investigate the discrepancy\nCalculate:\n\n\nCode\nx = 0.1 + 0.2\ny = 0.3\n\nx - y\n\n\n5.551115123125783e-17\n\n\nNow calculate:\nabs(x - y)\n\nQuestions\n\nIs the error large or small?\nIs it exactly zero?\nWhy might we still care about such a small error?"
+    "text": "Exercise 9 — Investigate the discrepancy\nCalculate:\n\nx = 0.1 + 0.2\ny = 0.3\n\nx - y\n\n5.551115123125783e-17\n\n\nNow calculate:\nabs(x - y)\n\nQuestions\n\nIs the error large or small?\nIs it exactly zero?\nWhy might we still care about such a small error?"
   },
   {
     "objectID": "lectures/01-foundations/class.html#exercise-9b-construct-your-own-examples",
