@@ -1317,7 +1317,7 @@ Several sources are particularly useful for projects in this course.
 
 ### UCI Machine Learning Repository
 
-[UCI Machine Learning Repository](https://archive.ics.uci.edu/?utm_source=chatgpt.com)
+[UCI Machine Learning Repository](https://archive.ics.uci.edu/)
 
 UCI currently provides hundreds of datasets, including relatively small datasets such as Iris, Wine Quality, Student Performance, Automobile, and Bank Marketing, as well as much larger datasets. ([UCI Machine Learning Repository][1])
 
@@ -1325,13 +1325,13 @@ This is probably the **best starting point for students who want a ready-to-use 
 
 ### FRED
 
-[Federal Reserve Bank of St. Louis FRED](https://fred.stlouisfed.org/?utm_source=chatgpt.com)
+[Federal Reserve Bank of St. Louis FRED](https://fred.stlouisfed.org/)
 
 FRED contains a very large collection of economic and financial time series and provides an API specifically designed for programmatic data retrieval. ([FRED][3])
 
 ### Data.gov
 
-[Data.gov](https://www.data.gov/?utm_source=chatgpt.com)
+[Data.gov](https://www.data.gov/)
 
 Data.gov is a useful starting point for U.S. government datasets.
 
@@ -1378,7 +1378,7 @@ In fact, the first may be the **better Math 5200 project** if it results in care
 
 The best project is one that is **interesting enough to keep you engaged, small enough to finish, and rich enough to teach you something.**
 
-[1]: https://archive.ics.uci.edu/?utm_source=chatgpt.com "UCI Machine Learning Repository"
-[2]: https://www.archive.ics.uci.edu/datasets?utm_source=chatgpt.com "UCI Machine Learning Repository"
-[3]: https://fred.stlouisfed.org/docs/api/fred/overview.html?utm_source=chatgpt.com "St. Louis Fed Web Services: FRED® API Overview"
-[4]: https://archive.ics.uci.edu/datasets?search=31&utm_source=chatgpt.com "UCI Machine Learning Repository"
+[1]: https://archive.ics.uci.edu/ "UCI Machine Learning Repository"
+[2]: https://www.archive.ics.uci.edu/datasets "UCI Machine Learning Repository"
+[3]: https://fred.stlouisfed.org/docs/api/fred/overview.html "St. Louis Fed Web Services: FRED® API Overview"
+[4]: https://archive.ics.uci.edu/datasets?search=31 "UCI Machine Learning Repository"

@@ -1,0 +1,16 @@
+---
+title: "Project"
+format:
+  html:
+    toc: true
+    code-fold: false
+page-layout: full
+---
+
+The semester project is an opportunity to work at length on a computational problem that genuinely interests you while putting together the skills you develop throughout Math 5200.
+
+The project is deliberately open-ended. You may work on a data-analysis problem, a statistical investigation, a simulation, a numerical-computing problem, a machine-learning application, or another computational problem that you propose.
+
+[Project Description and Instructions](project/project.qmd)
+
+[Example Ideas](project/project_ideas.qmd)
