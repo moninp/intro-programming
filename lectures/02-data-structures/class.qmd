@@ -1,0 +1,1456 @@
+---
+title: "Lecture 2: Data Structures, Algorithms, and Control Flow"
+subtitle: "Processing Information"
+format:
+  html:
+    code-fold: false
+    toc: true
+jupyter: python3
+---
+
+# Learning Objectives
+
+By the end of this lecture, you should be able to:
+
+- Explain the basic ideas behind ASCII, Unicode, and UTF-8.
+- Distinguish between characters, Unicode code points, and bytes.
+- Use Python strings and common string operations to process text.
+- Use lists, tuples, dictionaries, and sets to represent collections of information.
+- Choose an appropriate data structure based on the operations a problem requires.
+- Use conditional statements and Boolean logic to control program execution.
+- Use `for` and `while` loops to repeat computations.
+- Use `range()` and list comprehensions to construct and process collections.
+- Break a computational problem into a sequence of precise steps.
+- Explain what an algorithm is and why algorithmic efficiency matters.
+
+# 1. Quiz
+
+Before beginning today's lecture, complete the short quiz covering material from Lecture 1.
+
+The quiz is intended to check your understanding of:
+
+- binary representation;
+- floating-point representation;
+- variables and program state;
+- numerical representation and error.
+
+::: {.callout-note}
+**Think before you run.**
+
+Throughout this course, you will frequently be asked to predict what Python will do before executing the code. This is an important programming skill. Try to reason through each example first, and then use Python to check your reasoning.
+:::
+
+# 2. Text Encoding
+
+Computers ultimately store information as bits. In Lecture 1, we saw how integers and floating-point numbers can be represented using binary.
+
+But what about text?
+
+Consider the string:
+
+```{python}
+message = "Hello"
+```
+
+A computer cannot directly store the abstract idea of the letter `H`. It needs a numerical representation.
+
+This leads to three related concepts:
+
+1. **characters** - symbols such as `A`, `é`, or `中`;
+2. **code points** - numerical identifiers assigned to characters by a character encoding standard;
+3. **bytes** - groups of eight bits used to represent stored data.
+
+## ASCII
+
+The earliest widely used character encoding schemes included ASCII, the **American Standard Code for Information Interchange**.
+
+ASCII assigns numbers to a relatively small collection of characters:
+
+```{python}
+ord("A")
+```
+
+```{python}
+ord("a")
+```
+
+```{python}
+ord("0")
+```
+
+The inverse operation is `chr()`:
+
+```{python}
+chr(65)
+```
+
+```{python}
+chr(97)
+```
+
+ASCII is useful, but it has an important limitation: it contains only a small number of characters.
+
+It can represent English letters, digits, punctuation, and various control characters, but it cannot represent the world's writing systems.
+
+## Unicode
+
+**Unicode** is a much larger system designed to assign code points to characters from languages and writing systems around the world.
+
+For example:
+
+```{python}
+ord("A")
+```
+
+```{python}
+ord("é")
+```
+
+```{python}
+ord("中")
+```
+
+Notice that a Unicode code point is just an integer.
+
+We can convert it back to a character:
+
+```{python}
+chr(233)
+```
+
+```{python}
+chr(20013)
+```
+
+::: {.callout-important}
+A character's Unicode **code point** is not necessarily the same thing as the sequence of **bytes** used to store that character.
+
+This distinction becomes important when we work with files and data from different sources.
+:::
+
+## UTF-8
+
+Unicode tells us which numerical code point corresponds to a character. We still need a way to represent that information as bytes.
+
+**UTF-8** is a widely used encoding for doing this.
+
+Python allows us to encode a string into bytes:
+
+```{python}
+text = "Hello"
+encoded = text.encode("utf-8")
+
+encoded
+```
+
+We can inspect the individual bytes:
+
+```{python}
+list(encoded)
+```
+
+Now consider a string containing a non-ASCII character:
+
+```{python}
+text = "café"
+encoded = text.encode("utf-8")
+
+encoded
+```
+
+```{python}
+list(encoded)
+```
+
+The character `é` is one character, but its UTF-8 representation requires multiple bytes.
+
+We can convert the bytes back into a string using `.decode()`:
+
+```{python}
+encoded.decode("utf-8")
+```
+
+The general process is:
+
+```text
+character
+    ↓
+Unicode code point
+    ↓
+UTF-8 encoding
+    ↓
+bytes
+```
+
+and, in the other direction:
+
+```text
+bytes
+    ↓
+UTF-8 decoding
+    ↓
+Unicode code point
+    ↓
+character
+```
+
+## Exercise: Explore Character Encoding
+
+For each of the following characters:
+
+```{python}
+characters = ["A", "a", "0", "é", "中", "🙂"]
+```
+
+1. Find its Unicode code point using `ord()`.
+2. Encode it using UTF-8.
+3. Determine how many bytes are required to represent it.
+4. Decode the bytes back into a string.
+
+Write a small loop to perform these operations for every character.
+
+```{python}
+# Your code here
+```
+
+## Exercise: Character Frequency
+
+Suppose we want to count how frequently each character occurs in a piece of text.
+
+Start with:
+
+```{python}
+text = """
+Python is a programming language. Python is widely used
+for data analysis, scientific computing, and statistics.
+"""
+```
+
+How could we determine how many times each character appears?
+
+First, try to describe an algorithm in plain English.
+
+Then implement it in Python.
+
+```{python}
+# Your code here
+```
+
+::: {.callout-tip}
+This exercise is deliberately leading us toward an important idea: **choosing an appropriate data structure can make a problem much easier to solve.**
+
+We will return to this example when we discuss dictionaries.
+:::
+
+# 3. Strings
+
+A Python string is a sequence of characters.
+
+```{python}
+name = "Python"
+```
+
+We can determine its length:
+
+```{python}
+len(name)
+```
+
+We can access individual characters using indexing:
+
+```{python}
+name[0]
+```
+
+```{python}
+name[1]
+```
+
+Python uses **zero-based indexing**.
+
+That means:
+
+```text
+P  y  t  h  o  n
+0  1  2  3  4  5
+```
+
+We can also index from the end:
+
+```{python}
+name[-1]
+```
+
+```{python}
+name[-2]
+```
+
+## Slicing
+
+We can obtain a portion of a string using a slice:
+
+```{python}
+name[0:3]
+```
+
+The general form is:
+
+```text
+sequence[start:stop]
+```
+
+The `start` position is included, while the `stop` position is excluded.
+
+For example:
+
+```{python}
+name[1:4]
+```
+
+We can also omit either endpoint:
+
+```{python}
+name[:3]
+```
+
+```{python}
+name[3:]
+```
+
+And we can use a step:
+
+```{python}
+name[::2]
+```
+
+```{python}
+name[::-1]
+```
+
+## Strings Are Immutable
+
+An important property of Python strings is that they are **immutable**.
+
+For example, this does not work:
+
+```python
+name[0] = "p"
+```
+
+Instead, operations that appear to modify a string actually create a new string.
+
+```{python}
+name = "Python"
+
+lower_name = name.lower()
+
+name, lower_name
+```
+
+The original string has not changed:
+
+```{python}
+name
+```
+
+## String Methods
+
+Python provides many useful string methods.
+
+```{python}
+text = "  Hello, World!  "
+```
+
+```{python}
+text.strip()
+```
+
+```{python}
+text.lower()
+```
+
+```{python}
+text.upper()
+```
+
+```{python}
+text.replace("World", "Python")
+```
+
+```{python}
+text.split(",")
+```
+
+We can also test properties of strings:
+
+```{python}
+"12345".isdigit()
+```
+
+```{python}
+"Hello".isalpha()
+```
+
+```{python}
+"hello".startswith("he")
+```
+
+```{python}
+"hello".endswith("lo")
+```
+
+## Exercise: String Manipulation
+
+Consider:
+
+```{python}
+sentence = "The quick brown fox jumps over the lazy dog."
+```
+
+Write code to:
+
+1. determine the number of characters;
+2. convert the sentence to lowercase;
+3. determine whether it contains the word `"fox"`;
+4. replace `"dog"` with `"cat"`;
+5. extract the first word;
+6. reverse the entire string.
+
+```{python}
+# Your code here
+```
+
+## Exercise: Palindromes
+
+A **palindrome** is a string that reads the same forward and backward.
+
+For example:
+
+```text
+racecar
+level
+radar
+```
+
+Using string slicing, write an expression that reverses a string.
+
+Then write code that determines whether a string is a palindrome.
+
+```{python}
+word = "racecar"
+
+# Your code here
+```
+
+What happens if capitalization and spaces should not matter?
+
+For example:
+
+```text
+"Never Odd Or Even"
+```
+
+Think about what preprocessing would be necessary before testing whether a phrase is a palindrome.
+
+# 4. Data Structures
+
+So far we have worked mostly with individual values and strings.
+
+Real computational problems usually require us to work with **collections of values**.
+
+Python provides several fundamental data structures for this purpose:
+
+* lists;
+* tuples;
+* dictionaries;
+* sets.
+
+The choice of data structure is not merely a matter of style. It should reflect the operations we need to perform.
+
+## Lists
+
+A **list** is an ordered, mutable collection.
+
+```{python}
+numbers = [10, 20, 30, 40, 50]
+```
+
+We can index a list:
+
+```{python}
+numbers[0]
+```
+
+and slice it:
+
+```{python}
+numbers[1:4]
+```
+
+We can change an element:
+
+```{python}
+numbers[0] = 99
+
+numbers
+```
+
+We can append an element:
+
+```{python}
+numbers.append(60)
+
+numbers
+```
+
+We can remove an element:
+
+```{python}
+numbers.remove(30)
+
+numbers
+```
+
+Lists can contain different types of objects:
+
+```{python}
+example = [1, "hello", 3.14, True]
+```
+
+But in practice, a list will often contain objects of the same general type.
+
+## Tuples
+
+A **tuple** is an ordered, immutable sequence.
+
+```{python}
+point = (3, 4)
+```
+
+We can access its elements:
+
+```{python}
+point[0]
+```
+
+But we cannot change them:
+
+```python
+point[0] = 5
+```
+
+The distinction between lists and tuples is therefore partly about whether the collection should be mutable.
+
+::: {.callout-note}
+Do not memorize a rule such as "always use a list" or "always use a tuple."
+
+Instead, ask what your data represent and what operations your program needs to perform.
+:::
+
+## Dictionaries
+
+A **dictionary** stores key-value pairs.
+
+```{python}
+student = {
+    "name": "Alice",
+    "age": 24,
+    "program": "Mathematics"
+}
+```
+
+We can retrieve a value using its key:
+
+```{python}
+student["name"]
+```
+
+```{python}
+student["age"]
+```
+
+We can add or change entries:
+
+```{python}
+student["year"] = 1
+
+student
+```
+
+Dictionaries are particularly useful when we want to associate one piece of information with another.
+
+For example:
+
+```text
+student ID → student name
+country → population
+word → frequency
+stock ticker → price
+```
+
+This is why a dictionary is a natural choice for our character-frequency problem.
+
+## Character Frequency with a Dictionary
+
+Consider:
+
+```{python}
+text = "banana"
+```
+
+We want to construct:
+
+```text
+b → 1
+a → 3
+n → 2
+```
+
+One way to describe the algorithm is:
+
+1. Start with an empty dictionary.
+2. Examine each character.
+3. If the character has not appeared before, initialize its count to zero.
+4. Increase its count by one.
+5. Continue until all characters have been processed.
+
+Let's implement this directly.
+
+```{python}
+text = "banana"
+
+counts = {}
+
+for character in text:
+    if character not in counts:
+        counts[character] = 0
+
+    counts[character] += 1
+
+counts
+```
+
+Notice what we have done.
+
+We have taken an informal problem—
+
+> "Count how frequently each character occurs."
+
+—and translated it into a precise sequence of computational steps.
+
+That is **algorithmic thinking**.
+
+## Sets
+
+A **set** is an unordered collection of unique elements.
+
+```{python}
+numbers = {1, 2, 3, 2, 1}
+
+numbers
+```
+
+Duplicates are automatically removed.
+
+Sets are particularly useful when we care about **membership** or **uniqueness**, rather than ordering.
+
+```{python}
+"A" in {"A", "B", "C"}
+```
+
+Sets also support mathematical set operations:
+
+```{python}
+a = {1, 2, 3, 4}
+b = {3, 4, 5, 6}
+```
+
+```{python}
+a | b
+```
+
+```{python}
+a & b
+```
+
+```{python}
+a - b
+```
+
+These correspond to union, intersection, and difference.
+
+## Choosing a Data Structure
+
+Consider the following problems.
+
+### Problem 1
+
+We need to store the names of students in the order in which they submitted an assignment.
+
+**Possible choice:** list.
+
+### Problem 2
+
+We need to associate each student ID with the student's name.
+
+**Possible choice:** dictionary.
+
+### Problem 3
+
+We need to determine which students submitted an assignment, without caring about submission order.
+
+**Possible choice:** set.
+
+### Problem 4
+
+We need to store the coordinates of a point `(x, y)` and do not want those coordinates to change.
+
+**Possible choice:** tuple.
+
+::: {.callout-important}
+The important programming skill is not memorizing the four data structures.
+
+It is learning to ask:
+
+> **What operations does my problem require, and which data structure naturally supports those operations?**
+:::
+
+## Exercise: Choose a Data Structure
+
+For each problem, choose a list, tuple, dictionary, or set.
+
+1. Store the daily closing price of a stock for the past year in chronological order.
+2. Map each country's name to its population.
+3. Store the unique words appearing in a document.
+4. Represent the `(x, y)` coordinates of a point.
+5. Store a sequence of observations that will be repeatedly modified.
+6. Count how many times each word appears in a document.
+
+Explain your reasoning for each answer.
+
+# 5. Control Flow
+
+So far, Python has executed our statements sequentially.
+
+But useful programs need to make decisions and repeat operations.
+
+**Control flow** determines which statements a program executes and how many times it executes them.
+
+The fundamental tools are:
+
+* conditional statements;
+* `for` loops;
+* `while` loops.
+
+## Conditional Statements
+
+The basic structure is:
+
+```python
+if condition:
+    statement
+```
+
+For example:
+
+```{python}
+x = 10
+
+if x > 0:
+    print("positive")
+```
+
+We can add an alternative:
+
+```{python}
+x = -3
+
+if x > 0:
+    print("positive")
+else:
+    print("not positive")
+```
+
+And multiple possibilities:
+
+```{python}
+x = 0
+
+if x > 0:
+    print("positive")
+elif x < 0:
+    print("negative")
+else:
+    print("zero")
+```
+
+## Boolean Logic
+
+Conditions evaluate to `True` or `False`.
+
+```{python}
+x = 10
+
+x > 0
+```
+
+```{python}
+x == 10
+```
+
+```{python}
+x != 5
+```
+
+We can combine conditions using `and`, `or`, and `not`.
+
+```{python}
+x > 0 and x < 20
+```
+
+```{python}
+x < 0 or x > 100
+```
+
+```{python}
+not (x == 10)
+```
+
+## Exercise: Classifying Values
+
+Write a program that takes a number and prints:
+
+* `"positive even"` if it is positive and even;
+* `"positive odd"` if it is positive and odd;
+* `"negative even"` if it is negative and even;
+* `"negative odd"` if it is negative and odd;
+* `"zero"` if it is zero.
+
+```{python}
+x = -7
+
+# Your code here
+```
+
+::: {.callout-tip}
+Try to write the logic yourself before looking for a clever solution.
+
+For now, clarity is more important than brevity.
+:::
+
+## `for` Loops
+
+A `for` loop repeats an operation over the elements of a collection.
+
+```{python}
+numbers = [10, 20, 30, 40]
+
+for number in numbers:
+    print(number)
+```
+
+The loop variable takes on each value in sequence.
+
+We can perform computations inside the loop:
+
+```{python}
+numbers = [10, 20, 30, 40]
+
+for number in numbers:
+    print(number ** 2)
+```
+
+We can combine loops with conditionals:
+
+```{python}
+numbers = [1, 2, 3, 4, 5, 6]
+
+for number in numbers:
+    if number % 2 == 0:
+        print(number)
+```
+
+## `range()`
+
+The `range()` function is useful when we want to iterate over a sequence of integers.
+
+```{python}
+for i in range(5):
+    print(i)
+```
+
+Remember that the endpoint is excluded.
+
+We can specify a starting point:
+
+```{python}
+for i in range(2, 7):
+    print(i)
+```
+
+And a step:
+
+```{python}
+for i in range(0, 10, 2):
+    print(i)
+```
+
+## Exercise: Filtering Data
+
+Consider:
+
+```{python}
+values = [12, 4, 18, 3, 25, 7, 10, 31, 6]
+```
+
+Write a loop that prints only values greater than 10.
+
+Then modify it to print only values between 5 and 20, inclusive.
+
+```{python}
+# Your code here
+```
+
+## Exercise: Finding Outliers
+
+Suppose we have:
+
+```{python}
+measurements = [10.2, 10.4, 10.1, 9.9, 10.3, 25.7, 10.0]
+```
+
+For purposes of this exercise, define an outlier as an observation greater than 20.
+
+Write code that identifies the outlier.
+
+Then modify the code so that it counts the number of outliers.
+
+```{python}
+# Your code here
+```
+
+This is obviously a simplistic definition of an outlier. The point of the exercise is not statistical outlier detection; it is using computational logic to process data.
+
+## `while` Loops
+
+A `while` loop repeats as long as a condition remains true.
+
+```{python}
+x = 1
+
+while x <= 5:
+    print(x)
+    x += 1
+```
+
+A `while` loop is useful when we do not know in advance exactly how many iterations will be required.
+
+For example:
+
+```{python}
+x = 1
+
+while x < 100:
+    x *= 2
+
+x
+```
+
+Be careful: if the condition never becomes false, the loop will never terminate.
+
+::: {.callout-warning}
+Infinite loops are a common programming error.
+
+Whenever you write a `while` loop, ask:
+
+> What changes during each iteration that will eventually make the condition false?
+:::
+
+## Exercise: Input Validation
+
+Suppose a program requires a number between 1 and 10.
+
+Write a `while` loop that repeatedly asks the user for a value until a valid value is entered.
+
+```{python}
+# Your code here
+```
+
+# 6. List Comprehensions
+
+Python provides a compact way to construct lists called a **list comprehension**.
+
+Suppose we want the squares of the integers from 0 through 9.
+
+A conventional loop is:
+
+```{python}
+squares = []
+
+for i in range(10):
+    squares.append(i ** 2)
+
+squares
+```
+
+A list comprehension expresses the same idea more compactly:
+
+```{python}
+squares = [i ** 2 for i in range(10)]
+
+squares
+```
+
+We can also include a condition.
+
+For example, the squares of the even integers:
+
+```{python}
+even_squares = [i ** 2 for i in range(10) if i % 2 == 0]
+
+even_squares
+```
+
+List comprehensions are useful, but they should not be used merely to make code shorter.
+
+::: {.callout-note}
+**Readability matters.**
+
+A three-line loop that is immediately understandable is often preferable to a complicated one-line comprehension.
+
+We will return repeatedly to the idea that good code should be easy for another person to understand.
+:::
+
+# 7. Algorithmic Thinking
+
+We have now encountered several examples where we started with a problem and translated it into computational steps.
+
+That process is central to programming.
+
+An **algorithm** is a precise procedure for solving a problem.
+
+A useful conceptual workflow is:
+
+```text
+Problem
+   ↓
+Specification
+   ↓
+Algorithm
+   ↓
+Implementation
+   ↓
+Testing
+   ↓
+Result
+```
+
+This is closely related to the computational workflow introduced in Lecture 1.
+
+## From Problem to Algorithm
+
+Consider the problem:
+
+> Given a list of numbers, determine the largest value.
+
+A natural algorithm is:
+
+1. Start with the first value as the current maximum.
+2. Examine the next value.
+3. If it is larger than the current maximum, make it the new maximum.
+4. Continue until every value has been examined.
+5. Return the maximum.
+
+We can implement this directly:
+
+```{python}
+numbers = [7, 3, 12, 5, 9]
+
+current_max = numbers[0]
+
+for number in numbers[1:]:
+    if number > current_max:
+        current_max = number
+
+current_max
+```
+
+Python of course already provides:
+
+```{python}
+max(numbers)
+```
+
+But implementing the algorithm ourselves is useful because it forces us to understand the underlying procedure.
+
+## Exercise: Find the Minimum
+
+Write an algorithm that finds the smallest value in a list without using Python's `min()` function.
+
+First write the algorithm in plain English.
+
+Then implement it.
+
+```{python}
+numbers = [7, 3, 12, 5, 9]
+
+# Your code here
+```
+
+## Breaking Problems into Smaller Steps
+
+A useful strategy for complicated computational problems is to break them into smaller problems.
+
+For example, suppose we want to determine the average of all positive values in a list.
+
+Rather than thinking:
+
+> "Write a program that calculates the average of positive values."
+
+Break it down:
+
+1. Identify the positive values.
+2. Add them together.
+3. Count them.
+4. Divide the sum by the count.
+
+Each step is easier to implement and test independently.
+
+```{python}
+values = [-2, 4, 7, -1, 5, 0, 3]
+
+# Your code here
+```
+
+This idea—**decomposition**—will become increasingly important as our programs become more complicated.
+
+# 8. A First Look at Computational Complexity
+
+Two algorithms can produce the same answer while requiring very different amounts of computational work.
+
+Suppose we have a list containing `n` observations.
+
+A simple loop through the entire list requires work proportional to `n`.
+
+We describe this informally as:
+
+$$
+O(n)
+$$
+
+For example:
+
+```{python}
+numbers = list(range(100))
+
+total = 0
+
+for number in numbers:
+    total += number
+
+total
+```
+
+The loop processes each observation once.
+
+Now consider a nested loop:
+
+```{python}
+numbers = list(range(100))
+
+count = 0
+
+for x in numbers:
+    for y in numbers:
+        count += 1
+
+count
+```
+
+The inner loop runs once for every combination of `x` and `y`.
+
+With `n` observations, this requires roughly:
+
+$$
+n^2
+$$
+
+operations, or:
+
+$$
+O(n^2).
+$$
+
+For `n = 100`, this may not matter.
+
+For `n = 1,000,000`, it matters enormously.
+
+::: {.callout-important}
+You do **not** need to become a theoretical computer scientist to write good statistical or mathematical programs.
+
+But you should develop the habit of asking:
+
+> How does the amount of work required by this algorithm grow as my data become larger?
+:::
+
+## Exercise: Compare Two Algorithms
+
+Suppose we want to determine whether a particular value occurs in a list.
+
+A straightforward approach is to examine the elements one at a time:
+
+```{python}
+numbers = list(range(100))
+
+target = 73
+
+found = False
+
+for number in numbers:
+    if number == target:
+        found = True
+        break
+
+found
+```
+
+Python also provides:
+
+```{python}
+target in numbers
+```
+
+Now consider what happens if we need to perform this membership test thousands or millions of times.
+
+Would a list always be the best data structure?
+
+Think back to sets.
+
+```{python}
+numbers_set = set(numbers)
+
+target in numbers_set
+```
+
+This is an example of a broader principle:
+
+> **The choice of algorithm and data structure can determine whether a computational problem is easy or difficult at scale.**
+
+We will return to this idea throughout the course.
+
+# 9. Putting It Together
+
+Consider the following problem:
+
+> Given a piece of text, identify the words that occur more than once.
+
+This problem requires several ideas from today's lecture.
+
+We need to:
+
+1. represent the text as a string;
+2. process the string;
+3. split it into words;
+4. choose an appropriate data structure;
+5. count the words;
+6. identify words whose counts exceed one.
+
+Start with:
+
+```{python}
+text = """
+Python is useful. Python is powerful.
+Python is widely used for statistics and data analysis.
+"""
+```
+
+### Step 1: Split the text into words
+
+```{python}
+words = text.split()
+
+words
+```
+
+### Step 2: Count the words
+
+Use a dictionary.
+
+```{python}
+counts = {}
+
+for word in words:
+    if word not in counts:
+        counts[word] = 0
+
+    counts[word] += 1
+
+counts
+```
+
+### Step 3: Find repeated words
+
+```{python}
+repeated = []
+
+for word, count in counts.items():
+    if count > 1:
+        repeated.append(word)
+
+repeated
+```
+
+Notice how many concepts came together:
+
+* strings;
+* lists;
+* dictionaries;
+* `for` loops;
+* conditional statements;
+* Boolean logic;
+* algorithmic decomposition.
+
+This is what programming looks like in practice. Individual language features are useful, but the more important skill is learning to combine them to solve problems.
+
+# 10. Summary
+
+Today we introduced several fundamental ideas that will form the foundation of the rest of the Python portion of the course.
+
+## Text and Encoding
+
+* Computers ultimately store information as bits and bytes.
+* Unicode assigns code points to characters.
+* UTF-8 provides a way to encode Unicode characters as bytes.
+* A character, a code point, and its byte representation are related but distinct concepts.
+
+## Data Structures
+
+Python provides several fundamental ways to organize collections of information:
+
+| Data structure | Key property       | Typical use                          |
+| -------------- | ------------------ | ------------------------------------ |
+| `list`         | Ordered, mutable   | Sequence of observations             |
+| `tuple`        | Ordered, immutable | Fixed collection such as coordinates |
+| `dict`         | Key-value mapping  | Associations and counts              |
+| `set`          | Unique elements    | Membership and uniqueness            |
+
+The appropriate data structure depends on the operations your problem requires.
+
+## Control Flow
+
+We used:
+
+* `if` / `elif` / `else`;
+* Boolean expressions;
+* `for` loops;
+* `while` loops;
+* `range()`;
+* list comprehensions.
+
+These allow programs to make decisions and repeat computations.
+
+## Algorithms
+
+An algorithm is a precise procedure for solving a problem.
+
+A useful workflow is:
+
+```text
+Problem
+→ specification
+→ algorithm
+→ implementation
+→ testing
+→ result
+```
+
+We also saw that different algorithms can require very different amounts of computational work.
+
+# 11. Practice Problems
+
+The following problems are intended for additional practice and can be completed after class.
+
+## Problem 1: Character Counts
+
+Write a function that takes a string and returns a dictionary containing the number of times each character occurs.
+
+For example:
+
+```text
+"banana"
+```
+
+should produce counts corresponding to:
+
+```text
+b → 1
+a → 3
+n → 2
+```
+
+Do not use a library function that directly performs the counting.
+
+## Problem 2: Remove Duplicates
+
+Given:
+
+```{python}
+values = [3, 7, 3, 2, 7, 9, 2, 1, 9]
+```
+
+Produce a collection containing each value exactly once.
+
+Then produce the values in their original order, without duplicates.
+
+Explain why you might choose different data structures for these two tasks.
+
+## Problem 3: Simple Statistics
+
+Write code that calculates the mean of a list of numbers without using Python's built-in `sum()` function.
+
+Then modify your code to calculate the median.
+
+Test your functions on several examples, including:
+
+* an odd number of observations;
+* an even number of observations;
+* repeated values;
+* negative values.
+
+## Problem 4: Filtering
+
+Given:
+
+```{python}
+values = [4, -2, 8, 15, -7, 3, 0, 11, -4]
+```
+
+create a new list containing only the positive values.
+
+Then create a list containing only the positive even values.
+
+## Problem 5: Algorithm Design
+
+Consider the problem:
+
+> Determine whether a list contains two equal values.
+
+Describe an algorithm in plain English.
+
+Then implement it in Python.
+
+Finally, think about how the amount of work required by your algorithm grows as the length of the list increases.
+
+# 12. Looking Ahead
+
+In Lecture 3, we will take the ideas from today's lecture and begin building **reusable computational tools**.
+
+We will learn:
+
+* how to define our own functions;
+* how function arguments and return values work;
+* scope and namespaces;
+* function contracts and documentation;
+* modular program design;
+* Git and version control;
+* reproducible project structure.

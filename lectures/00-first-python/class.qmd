@@ -1,0 +1,1481 @@
+---
+title: "First Steps with Python"
+format:
+  html:
+    toc: true
+    code-fold: false
+jupyter: python3
+---
+
+## Introduction
+
+In this tutorial, we'll guide you through setting up a complete Python development environment. By the end of this session, you'll understand:
+
+- **What Python is** and how to install it on your system
+- **Running Python interactively** from the terminal
+- **Running Python scripts** from files
+- **What an IDE (Integrated Development Environment) is** and why it's useful
+- **Installing and using Spyder** as your Python IDE
+- **Taking a tour of Spyder** and understanding its key features
+- **Creating virtual environments** to manage project dependencies
+- **Connecting virtual environments to Spyder** and switching between them
+- **Understanding package isolation** across different environments
+- **Basic troubleshooting** for common issues
+
+Think of this as building your Python toolkit from the ground up. We'll start simple (running Python from the command line) and progressively build toward a professional development setup with virtual environments and an IDE.
+
+::: {.callout-note}
+## Why Virtual Environments?
+As you work on different projects, you'll need different packages and potentially different versions of the same package. Virtual environments allow you to create isolated Python installations for each project, preventing conflicts and making your work reproducible.
+:::
+
+---
+
+## Step 1: Install Python and Run from Terminal
+
+### 1.1 Download and Install Python
+
+First, we need to install Python on your system. We'll install the latest stable version.
+
+::: {.panel-tabset}
+
+### Windows
+
+1. Visit [python.org](https://www.python.org/downloads/)
+2. Download the latest Python 3.x installer for Windows
+3. **IMPORTANT**: Run the installer and check the box that says **"Add Python to PATH"** at the bottom of the first screen
+4. Click "Install Now"
+5. Wait for installation to complete
+
+::: {.callout-warning}
+## Critical Step!
+If you forget to check "Add Python to PATH", you'll need to either:
+- Uninstall and reinstall Python (checking the box this time), OR
+- Manually add Python to your PATH environment variable
+:::
+
+<!-- Screenshot placeholder: Windows installer with "Add Python to PATH" checkbox highlighted -->
+
+### Mac
+
+1. Visit [python.org](https://www.python.org/downloads/)
+2. Download the latest Python 3.x installer for macOS
+3. Open the downloaded .pkg file
+4. Follow the installation wizard (accept defaults)
+5. Python will be automatically added to your PATH
+
+::: {.callout-note}
+## macOS Note
+macOS comes with Python 2.7 pre-installed (older versions) or Python 3 (newer versions). We're installing the latest version to ensure you have all modern features.
+:::
+
+<!-- Screenshot placeholder: macOS Python installer -->
+
+### Linux
+
+Most Linux distributions come with Python 3 pre-installed. To install the latest version:
+
+**Ubuntu/Debian:**
+```bash
+sudo apt update
+sudo apt install python3 python3-pip python3-venv
+```
+
+**Fedora:**
+```bash
+sudo dnf install python3 python3-pip
+```
+
+**Arch Linux:**
+```bash
+sudo pacman -S python python-pip
+```
+
+:::
+
+### 1.2 Test Your Installation
+
+Let's verify that Python is installed correctly and accessible from your terminal.
+
+::: {.panel-tabset}
+
+### Windows
+
+1. Open **PowerShell** (search for "PowerShell" in the Start menu)
+2. Type the following command and press Enter:
+
+```powershell
+python --version
+```
+
+You should see something like `Python 3.12.0` (version number may vary).
+
+### Mac
+
+1. Open **Terminal** (Applications → Utilities → Terminal, or search "Terminal")
+2. Type the following command and press Enter:
+
+```bash
+python3 --version
+```
+
+You should see something like `Python 3.12.0` (version number may vary).
+
+### Linux
+
+1. Open your terminal application
+2. Type the following command and press Enter:
+
+```bash
+python3 --version
+```
+
+You should see something like `Python 3.12.0` (version number may vary).
+
+:::
+
+<!-- Screenshot placeholder: Terminal showing successful python --version output -->
+
+### 1.3 Running Python Interactively
+
+One of the most powerful ways to learn Python is through the **interactive interpreter** (also called the REPL - Read-Eval-Print Loop). This lets you type Python commands one at a time and see immediate results.
+
+::: {.panel-tabset}
+
+### Windows
+
+In PowerShell, type:
+
+```powershell
+python
+```
+
+### Mac/Linux
+
+In Terminal, type:
+
+```bash
+python3
+```
+
+:::
+
+You should see something like this:
+
+```
+Python 3.12.0 (main, Oct 10 2023, 12:00:00)
+[GCC 9.4.0] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>>
+```
+
+The `>>>` is the Python prompt, waiting for your input.
+
+### 1.4 Exploring Basic Python Concepts
+
+Now let's explore some fundamental Python concepts. Type each command after the `>>>` prompt.
+
+#### Variables and Dynamic Typing
+
+Python uses **dynamic typing**, meaning variables can hold different types of data at different times:
+
+```{python}
+#| eval: false
+# Integer
+x = 10
+type(x)  # Returns: <class 'int'>
+```
+
+```{python}
+#| eval: false
+# String
+x = 'phil'
+type(x)  # Returns: <class 'str'>
+```
+
+```{python}
+#| eval: false
+# Float
+x = 10.0
+type(x)  # Returns: <class 'float'>
+```
+
+```{python}
+#| eval: false
+# Boolean (note: must be capitalized!)
+x = True
+type(x)  # Returns: <class 'bool'>
+```
+
+::: {.callout-important}
+## Python is Case-Sensitive!
+Try typing `x = TrUe` (wrong capitalization):
+```{python}
+#| eval: false
+x = TrUe  # This will raise a NameError!
+```
+This produces an error because Python expects `True` with capital T and lowercase r, u, e.
+:::
+
+#### Working with Multiple Variables
+
+```{python}
+#| eval: false
+x = 10
+y = 20
+```
+
+#### Checking Your Workspace
+
+The `dir()` function shows all variables and functions currently in your workspace:
+
+```{python}
+#| eval: false
+dir()
+```
+
+You'll see a list that includes `x` and `y` along with some built-in names.
+
+#### Importing Modules
+
+Python's power comes from its extensive library of modules. Let's use the `math` module:
+
+```{python}
+#| eval: false
+import math
+math.sin(0)  # Returns: 0.0
+```
+
+The sine of 0 radians is 0 (as expected from trigonometry).
+
+#### Exiting Python
+
+To exit the interactive interpreter:
+
+```{python}
+#| eval: false
+quit()
+```
+
+Or press `Ctrl+D` (Mac/Linux) or `Ctrl+Z` then Enter (Windows).
+
+::: {.callout-tip}
+## What We Just Learned
+- Python uses dynamic typing (variables can change types)
+- `type()` tells us what kind of data we have
+- `dir()` shows what's in our workspace
+- Python has many built-in modules like `math`
+- Python is case-sensitive!
+:::
+
+<!-- Screenshot placeholder: Python interactive session showing the above commands -->
+
+---
+
+## Step 2: Create Folder Structure and Run a Python Script
+
+While the interactive interpreter is great for experimentation, real programming happens in **script files** that we can save, edit, and run repeatedly.
+
+### 2.1 Create Your Course Folder Structure
+
+Let's create a well-organized folder structure for this course.
+
+::: {.panel-tabset}
+
+### Windows
+
+Open PowerShell and type:
+
+```powershell
+# Navigate to your Documents folder
+cd $HOME\Documents
+
+# Create the main course folder
+mkdir math5200
+
+# Navigate into it
+cd math5200
+
+# Create a subfolder for source code
+mkdir src
+
+# Verify the structure
+ls
+```
+
+### Mac/Linux
+
+Open Terminal and type:
+
+```bash
+# Navigate to your Documents folder
+cd ~/Documents
+
+# Create the main course folder
+mkdir math5200
+
+# Navigate into it
+cd math5200
+
+# Create a subfolder for source code
+mkdir src
+
+# Verify the structure
+ls
+```
+
+:::
+
+::: {.callout-note}
+## Why 'src'?
+The `src` folder is a common convention meaning "source code". Keeping your code organized from the start is a professional habit that will serve you well.
+:::
+
+### 2.2 Create Your First Python Script
+
+Now let's create a Python script file.
+
+::: {.panel-tabset}
+
+### Windows
+
+You can use any text editor. Let's use Notepad for simplicity:
+
+```powershell
+# Make sure you're in the math5200 directory
+cd $HOME\Documents\math5200\src
+
+# Open Notepad (or use your preferred text editor)
+notepad first_script.py
+```
+
+### Mac
+
+You can use TextEdit or any text editor:
+
+```bash
+# Make sure you're in the math5200 directory
+cd ~/Documents/math5200/src
+
+# Open TextEdit (or use nano, vim, etc.)
+open -a TextEdit first_script.py
+```
+
+Or use a command-line editor:
+```bash
+nano first_script.py
+```
+
+### Linux
+
+Use your preferred text editor:
+
+```bash
+# Make sure you're in the math5200 directory
+cd ~/Documents/math5200/src
+
+# Use nano (simple) or vim, gedit, etc.
+nano first_script.py
+```
+
+:::
+
+### 2.3 Write Your First Script
+
+In the text editor, type the following Python code:
+
+```{python}
+#| eval: false
+# first_script.py
+# My first Python script!
+
+print("Hello, Python world!")
+print("=" * 40)  # Print a line of 40 equals signs
+
+# Define some variables
+name = "Student"
+course = "Math 5200"
+year = 2026
+
+# Print formatted information
+print(f"Welcome, {name}!")
+print(f"Course: {course}")
+print(f"Year: {year}")
+print("=" * 40)
+
+# Do some calculations
+x = 10
+y = 20
+sum_result = x + y
+product = x * y
+
+print(f"{x} + {y} = {sum_result}")
+print(f"{x} × {y} = {product}")
+
+# Import a module and use it
+import math
+angle_rad = math.pi / 4  # 45 degrees in radians
+sin_value = math.sin(angle_rad)
+
+print("=" * 40)
+print(f"sin(π/4) = {sin_value:.4f}")
+print("Script complete!")
+```
+
+Save the file and close the editor.
+
+::: {.callout-tip}
+## Understanding the Code
+- `print()` displays text to the console
+- `"=" * 40` repeats the equals sign 40 times (string multiplication)
+- `f"..."` creates an f-string (formatted string) where `{variable}` is replaced with the variable's value
+- `{sin_value:.4f}` formats the number to 4 decimal places
+:::
+
+### 2.4 Run Your Script
+
+Now let's run the script from the terminal.
+
+::: {.panel-tabset}
+
+### Windows
+
+In PowerShell:
+
+```powershell
+# Make sure you're in the src directory
+cd $HOME\Documents\math5200\src
+
+# Run the script
+python first_script.py
+```
+
+### Mac/Linux
+
+In Terminal:
+
+```bash
+# Make sure you're in the src directory
+cd ~/Documents/math5200/src
+
+# Run the script
+python3 first_script.py
+```
+
+:::
+
+You should see output like:
+
+```
+Hello, Python world!
+========================================
+Welcome, Student!
+Course: Math 5200
+Year: 2026
+========================================
+10 + 20 = 30
+10 × 20 = 200
+========================================
+sin(π/4) = 0.7071
+Script complete!
+```
+
+<!-- Screenshot placeholder: Terminal showing the script output -->
+
+::: {.callout-tip}
+## What We Just Learned
+- Python scripts are just text files with a `.py` extension
+- We run scripts by typing `python scriptname.py` (or `python3` on Mac/Linux)
+- Scripts execute from top to bottom
+- Everything we can do interactively, we can do in a script
+:::
+
+---
+
+## Step 3: Install Spyder (Globally)
+
+While running Python from the terminal is powerful, an **Integrated Development Environment (IDE)** provides a much richer experience with features like:
+
+- **Syntax highlighting** (colored code for readability)
+- **Code completion** (suggests code as you type)
+- **Variable explorer** (see all your variables and their values)
+- **Integrated debugger** (find and fix errors)
+- **Built-in help** (instant documentation)
+
+**Spyder** (Scientific Python Development Environment) is an excellent IDE for scientific computing, similar to MATLAB or RStudio.
+
+### 3.1 Spyder Installation Options
+
+::: {.callout-important}
+## Python Version Compatibility
+Spyder typically supports Python 3.8 and higher. As of 2024, Spyder 5.x supports Python 3.8-3.11, and Spyder 6.x (in development) will support newer versions. Always check [Spyder's documentation](https://docs.spyder-ide.org/) for the latest compatibility information.
+:::
+
+We'll install Spyder globally first, then learn to use it with virtual environments later.
+
+::: {.panel-tabset}
+
+### Option 1: Install via pip (All Platforms)
+
+This is the simplest method if you already have Python installed.
+
+**Windows (PowerShell):**
+```powershell
+python -m pip install spyder
+```
+
+**Mac/Linux (Terminal):**
+```bash
+python3 -m pip install spyder
+```
+
+The installation may take several minutes as it downloads Spyder and its dependencies.
+
+### Option 2: Standalone Installer (Windows/Mac)
+
+For a more isolated installation:
+
+**Windows:**
+1. Visit [Spyder's GitHub releases](https://github.com/spyder-ide/spyder/releases)
+2. Download the latest Windows installer (.exe)
+3. Run the installer and follow the prompts
+
+**Mac:**
+1. Visit [Spyder's GitHub releases](https://github.com/spyder-ide/spyder/releases)
+2. Download the latest macOS installer (.dmg)
+3. Open the .dmg and drag Spyder to Applications
+
+### Linux
+
+For Linux, pip installation is recommended, but some distributions offer Spyder in their package managers:
+
+**Ubuntu/Debian:**
+```bash
+sudo apt install spyder
+```
+(Note: This may not be the latest version)
+
+**Conda (If you use Anaconda/Miniconda):**
+```bash
+conda install spyder
+```
+
+:::
+
+### 3.2 Launch Spyder
+
+::: {.panel-tabset}
+
+### Windows
+
+**If installed via pip:**
+```powershell
+spyder
+```
+
+**If using standalone installer:**
+- Find Spyder in your Start Menu and click it
+
+### Mac
+
+**If installed via pip:**
+```bash
+spyder
+```
+
+**If using standalone installer:**
+- Open Spyder from your Applications folder
+
+### Linux
+
+```bash
+spyder
+```
+Or find it in your applications menu.
+
+:::
+
+Spyder will take a moment to start up the first time.
+
+<!-- Screenshot placeholder: Spyder opening screen -->
+
+::: {.callout-note}
+## First Launch
+The first time you launch Spyder, it may take a bit longer as it sets up its configuration. This is normal!
+:::
+
+---
+
+## Step 4: Create Virtual Environment and Use with Spyder
+
+Now we'll create our first **virtual environment**. Think of a virtual environment as a separate Python installation specific to a project, with its own set of packages.
+
+### 4.1 Understanding Virtual Environments
+
+::: {.callout-note}
+## Why Virtual Environments?
+Imagine you have:
+- **Project A** that needs numpy version 1.24
+- **Project B** that needs numpy version 1.26 (with breaking changes)
+
+Without virtual environments, you can only have one version installed globally. With virtual environments, each project gets its own Python installation with its own packages!
+:::
+
+### 4.2 Create Your First Virtual Environment
+
+Let's create a virtual environment called `env1`.
+
+::: {.panel-tabset}
+
+### Windows
+
+```powershell
+# Navigate to your course folder
+cd $HOME\Documents\math5200
+
+# Create a virtual environment named 'env1'
+python -m venv env1
+
+# Activate the virtual environment
+.\env1\Scripts\Activate.ps1
+```
+
+::: {.callout-warning}
+## PowerShell Execution Policy
+If you get an error about execution policies, run:
+```powershell
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+```
+Then try activating again.
+:::
+
+### Mac/Linux
+
+```bash
+# Navigate to your course folder
+cd ~/Documents/math5200
+
+# Create a virtual environment named 'env1'
+python3 -m venv env1
+
+# Activate the virtual environment
+source env1/bin/activate
+```
+
+:::
+
+When activated, you'll see `(env1)` at the beginning of your command prompt:
+
+```
+(env1) PS C:\Users\YourName\Documents\math5200>
+```
+
+This indicates you're working inside the virtual environment.
+
+<!-- Screenshot placeholder: Terminal showing activated virtual environment -->
+
+### 4.3 Install Required Packages
+
+Now we'll install packages specifically for this virtual environment.
+
+```{python}
+#| eval: false
+# Upgrade pip (good practice)
+python -m pip install --upgrade pip
+
+# Install spyder-kernels (required to connect Spyder to this environment)
+pip install spyder-kernels
+
+# Install ipython (often needed for interactive features)
+pip install ipython
+```
+
+::: {.callout-note}
+## What is spyder-kernels?
+`spyder-kernels` is a bridge that allows Spyder (running globally) to execute code in your virtual environment. Without it, Spyder can't "see" your environment's Python installation.
+:::
+
+### 4.4 Find Your Virtual Environment's Python Path
+
+We need to tell Spyder where this environment's Python is located. Let's find the path:
+
+::: {.panel-tabset}
+
+### Windows
+
+```powershell
+# While env1 is activated
+(Get-Command python).Path
+```
+
+Or:
+```powershell
+python -c "import sys; print(sys.executable)"
+```
+
+This will output something like:
+```
+C:\Users\YourName\Documents\math5200\env1\Scripts\python.exe
+```
+
+**Copy this path** - you'll need it in the next step!
+
+### Mac/Linux
+
+```bash
+# While env1 is activated
+which python3
+```
+
+Or:
+```bash
+python3 -c "import sys; print(sys.executable)"
+```
+
+This will output something like:
+```
+/Users/YourName/Documents/math5200/env1/bin/python3
+```
+
+**Copy this path** - you'll need it in the next step!
+
+:::
+
+::: {.callout-tip}
+## Finding All Python Installations
+To see all Python installations on your system:
+
+**Windows (PowerShell):**
+```powershell
+py -0p  # If Python Launcher is installed
+```
+
+**Mac/Linux:**
+```bash
+# Find Python in common locations
+which -a python python3
+ls /usr/bin/python*
+ls /usr/local/bin/python*
+```
+:::
+
+### 4.5 Connect Spyder to Your Virtual Environment
+
+Now let's configure Spyder to use our `env1` virtual environment.
+
+::: {.callout-important}
+## Step-by-Step Instructions
+Follow these steps carefully. We'll make the configuration persistent so it applies every time you start a new console.
+:::
+
+1. **Open Spyder** (if not already open)
+
+2. **Go to Preferences:**
+   - **Windows/Linux:** Tools → Preferences
+   - **Mac:** Python → Preferences (or Spyder → Preferences)
+
+3. **Navigate to Python Interpreter:**
+   - In the left sidebar, click **Python interpreter**
+
+4. **Select "Use the following Python interpreter":**
+   - Click the radio button for **"Use the following Python interpreter"**
+   - Click the text box or the **folder icon** to browse
+
+5. **Paste Your Python Path:**
+   - Paste the path you copied earlier (e.g., `C:\Users\YourName\Documents\math5200\env1\Scripts\python.exe` on Windows)
+   - Click **OK** or **Apply**
+
+6. **Restart Spyder:**
+   - Close and reopen Spyder for changes to take effect
+   - Alternatively, go to **Consoles → Restart kernel** in an open console
+
+<!-- Screenshot placeholder: Spyder Preferences window showing Python interpreter settings -->
+
+::: {.callout-tip}
+## Verifying the Connection
+After restarting, you can verify which Python Spyder is using by typing in the IPython console:
+```python
+import sys
+print(sys.executable)
+```
+You should see the path to your env1 Python!
+:::
+
+### 4.6 Tour of Spyder
+
+Now that Spyder is connected to your virtual environment, let's explore its interface.
+
+<!-- Screenshot placeholder: Spyder interface with panels labeled -->
+
+Spyder has several key panels:
+
+#### 1. **Editor (Left side)**
+- This is where you write and edit your Python scripts
+- Multiple files can be open in tabs
+- Features syntax highlighting, code completion, and real-time error checking
+
+#### 2. **IPython Console (Bottom right)**
+- Interactive Python console (like the terminal, but better!)
+- Results appear immediately after you type commands
+- Access to command history
+- Rich output (plots, tables, etc.)
+
+#### 3. **Variable Explorer (Top right)**
+- Shows all variables currently in memory
+- Double-click to view/edit variable contents
+- See data types, sizes, and values at a glance
+- **This is incredibly useful for debugging and understanding program state!**
+
+#### 4. **Help/Plots Pane (Top right, tabs)**
+- **Help:** Documentation for functions/objects (press `Ctrl+I` when cursor is on a function)
+- **Plots:** Displays matplotlib plots inline
+- **Files:** Browse your file system
+
+### 4.7 Working in Spyder
+
+Let's write and run some code in Spyder.
+
+#### Using the Editor
+
+1. In the **Editor** panel, create a new file (File → New File or `Ctrl+N`)
+2. Type the following code:
+
+```{python}
+#| eval: false
+# spyder_demo.py
+# Demonstrating Spyder features
+
+import math
+
+# Create some variables
+numbers = [1, 2, 3, 4, 5]
+squared = [x**2 for x in numbers]
+
+# Calculate statistics
+total = sum(numbers)
+mean = total / len(numbers)
+std_dev = math.sqrt(sum((x - mean)**2 for x in numbers) / len(numbers))
+
+# Print results
+print(f"Numbers: {numbers}")
+print(f"Squared: {squared}")
+print(f"Mean: {mean}")
+print(f"Standard Deviation: {std_dev:.3f}")
+
+# Create a dictionary
+data = {
+    'numbers': numbers,
+    'squared': squared,
+    'mean': mean,
+    'std_dev': std_dev
+}
+
+print("\nData dictionary created!")
+print("Check the Variable Explorer →")
+```
+
+3. **Save the file** (File → Save or `Ctrl+S`) in your `math5200/src` folder as `spyder_demo.py`
+
+4. **Run the file:**
+   - Click the green "Run" triangle button in the toolbar, OR
+   - Press `F5`, OR
+   - Go to Run → Run
+
+<!-- Screenshot placeholder: Spyder with code in editor and output in console -->
+
+#### Observe the Results
+
+After running:
+
+1. **Console:** See the printed output
+2. **Variable Explorer:** See all your variables (`numbers`, `squared`, `total`, `mean`, `std_dev`, `data`)
+   - Click on `numbers` to see the list
+   - Click on `data` to see the dictionary contents
+
+::: {.callout-tip}
+## Variable Explorer Power
+The Variable Explorer is one of Spyder's best features! You can:
+- See all variables and their types/sizes
+- Double-click to view contents in detail
+- Edit simple variables directly
+- Export data to files
+:::
+
+#### Using the Console Interactively
+
+In the **IPython Console**, you can interact with the variables from your script:
+
+```{python}
+#| eval: false
+# These variables exist because we ran the script
+numbers
+# Output: [1, 2, 3, 4, 5]
+
+squared[2]
+# Output: 9
+
+data['mean']
+# Output: 3.0
+```
+
+### 4.8 Install Additional Packages
+
+Let's install `numpy`, a fundamental package for scientific computing.
+
+::: {.panel-tabset}
+
+### From Terminal
+
+Make sure your virtual environment is activated:
+
+**Windows:**
+```powershell
+cd $HOME\Documents\math5200
+.\env1\Scripts\Activate.ps1
+pip install numpy
+```
+
+**Mac/Linux:**
+```bash
+cd ~/Documents/math5200
+source env1/bin/activate
+pip install numpy
+```
+
+### From Spyder Console
+
+You can also install packages directly from Spyder's IPython console:
+
+```{python}
+#| eval: false
+!pip install numpy
+```
+
+The `!` tells IPython to run a system command.
+
+:::
+
+### 4.9 Restart Kernel and Use numpy
+
+After installing a new package, you need to restart the Python kernel to use it.
+
+1. In Spyder, go to **Consoles → Restart kernel** (or press `Ctrl+.`)
+2. In the console, type:
+
+```{python}
+#| eval: false
+import numpy as np
+
+# Create a numpy array
+arr = np.array([1, 2, 3, 4, 5])
+print(arr)
+print(f"Array type: {type(arr)}")
+
+# Perform vectorized operations
+squared = arr ** 2
+print(f"Squared: {squared}")
+
+# Numpy has lots of mathematical functions
+mean = np.mean(arr)
+std = np.std(arr)
+print(f"Mean: {mean}, Std Dev: {std}")
+```
+
+<!-- Screenshot placeholder: Spyder console showing numpy operations and Variable Explorer showing numpy array -->
+
+::: {.callout-tip}
+## Why Restart the Kernel?
+Python loads modules into memory when you first import them. To see newly installed packages, you need to restart the Python process (kernel) so it can find and load the new packages.
+:::
+
+### 4.10 Deactivate the Virtual Environment
+
+When you're done working, you can deactivate the virtual environment.
+
+::: {.panel-tabset}
+
+### Windows
+
+In PowerShell:
+```powershell
+deactivate
+```
+
+### Mac/Linux
+
+In Terminal:
+```bash
+deactivate
+```
+
+:::
+
+You'll see `(env1)` disappear from your prompt.
+
+::: {.callout-note}
+## Deactivating in Spyder
+Note that deactivating in your terminal doesn't affect Spyder. Spyder will continue using whatever Python interpreter you configured in Preferences. To switch environments in Spyder, you need to go back to Preferences and change the interpreter path.
+:::
+
+---
+
+## Step 5: Create a Second Virtual Environment
+
+Now let's create a second virtual environment to demonstrate **package isolation** - the key benefit of virtual environments.
+
+### 5.1 Create and Activate env2
+
+::: {.panel-tabset}
+
+### Windows
+
+```powershell
+# Navigate to your course folder (if not there)
+cd $HOME\Documents\math5200
+
+# Create a new virtual environment
+python -m venv env2
+
+# Activate it
+.\env2\Scripts\Activate.ps1
+```
+
+### Mac/Linux
+
+```bash
+# Navigate to your course folder (if not there)
+cd ~/Documents/math5200
+
+# Create a new virtual environment
+python3 -m venv env2
+
+# Activate it
+source env2/bin/activate
+```
+
+:::
+
+You should now see `(env2)` in your prompt.
+
+### 5.2 Install Basic Requirements
+
+```{python}
+#| eval: false
+# Upgrade pip
+python -m pip install --upgrade pip
+
+# Install spyder-kernels (required to use with Spyder)
+pip install spyder-kernels
+
+# Install ipython
+pip install ipython
+```
+
+### 5.3 Create a requirements.txt File
+
+A `requirements.txt` file lists all the packages your project needs. This makes your work **reproducible** - anyone can recreate your exact environment.
+
+Create a file called `requirements.txt` in your `math5200` folder:
+
+::: {.panel-tabset}
+
+### Windows
+
+```powershell
+cd $HOME\Documents\math5200
+notepad requirements.txt
+```
+
+### Mac
+
+```bash
+cd ~/Documents/math5200
+open -a TextEdit requirements.txt
+# or
+nano requirements.txt
+```
+
+### Linux
+
+```bash
+cd ~/Documents/math5200
+nano requirements.txt
+```
+
+:::
+
+In the file, add these packages (note: we're **not** including numpy):
+
+```
+requests==2.31.0
+tabulate==0.9.0
+```
+
+::: {.callout-note}
+## What are these packages?
+- **requests:** A library for making HTTP requests (useful for fetching data from APIs)
+- **tabulate:** A library for creating nicely formatted tables
+
+Both are useful for scientific work but don't depend on numpy, which will let us demonstrate environment isolation.
+:::
+
+Save and close the file.
+
+### 5.4 Install from requirements.txt
+
+```{python}
+#| eval: false
+# Install all packages listed in requirements.txt
+pip install -r requirements.txt
+```
+
+This installs `requests` and `tabulate` but **not** numpy.
+
+### 5.5 Connect Spyder to env2
+
+Now let's switch Spyder to use `env2`.
+
+#### 5.5.1 Get env2's Python Path
+
+::: {.panel-tabset}
+
+### Windows
+
+```powershell
+# Make sure env2 is activated
+(Get-Command python).Path
+```
+
+Output example: `C:\Users\YourName\Documents\math5200\env2\Scripts\python.exe`
+
+### Mac/Linux
+
+```bash
+# Make sure env2 is activated
+which python3
+```
+
+Output example: `/Users/YourName/Documents/math5200/env2/bin/python3`
+
+:::
+
+**Copy this path!**
+
+#### 5.5.2 Update Spyder's Interpreter
+
+1. Open Spyder (if not open)
+2. Go to **Tools → Preferences** (or Python/Spyder → Preferences on Mac)
+3. Click **Python interpreter** in the left sidebar
+4. Paste the **env2 path** into the text box
+5. Click **OK** or **Apply**
+6. **Restart Spyder** or restart the kernel (Consoles → Restart kernel)
+
+<!-- Screenshot placeholder: Changing Python interpreter in Spyder preferences -->
+
+### 5.6 Demonstrate Package Isolation
+
+Now for the important demonstration: `env2` has different packages than `env1`.
+
+#### Try to import numpy (will fail!)
+
+In Spyder's console:
+
+```{python}
+#| eval: false
+import numpy as np
+```
+
+You should get an error:
+```
+ModuleNotFoundError: No module named 'numpy'
+```
+
+::: {.callout-important}
+## This is Expected!
+This error is **good**! It shows that env2 is completely isolated from env1. Even though we installed numpy in env1, it's not available in env2. This isolation prevents package conflicts and ensures reproducibility.
+:::
+
+#### Use the packages from env2
+
+Now try using the packages we *did* install:
+
+```{python}
+#| eval: false
+import requests
+from tabulate import tabulate
+
+# Test requests (fetch some data)
+response = requests.get('https://api.github.com')
+print(f"GitHub API Status: {response.status_code}")
+
+# Test tabulate (create a nice table)
+data = [
+    ['env1', 'numpy', 'Yes'],
+    ['env1', 'requests', 'No'],
+    ['env2', 'numpy', 'No'],
+    ['env2', 'requests', 'Yes'],
+]
+headers = ['Environment', 'Package', 'Installed?']
+
+print("\nPackage Availability:")
+print(tabulate(data, headers=headers, tablefmt='grid'))
+```
+
+Expected output:
+```
+GitHub API Status: 200
+
+Package Availability:
++---------------+-----------+-------------+
+| Environment   | Package   | Installed?  |
++===============+===========+=============+
+| env1          | numpy     | Yes         |
++---------------+-----------+-------------+
+| env1          | requests  | No          |
++---------------+-----------+-------------+
+| env2          | numpy     | No          |
++---------------+-----------+-------------+
+| env2          | requests  | Yes         |
++---------------+-----------+-------------+
+```
+
+<!-- Screenshot placeholder: Spyder showing numpy import error and successful use of env2 packages -->
+
+### 5.7 Switch Back to env1
+
+To verify, let's switch back to env1 and show that numpy works there.
+
+1. Get env1's Python path again:
+
+::: {.panel-tabset}
+
+### Windows
+```powershell
+# Deactivate env2 first
+deactivate
+
+# Activate env1
+cd $HOME\Documents\math5200
+.\env1\Scripts\Activate.ps1
+
+# Get path
+(Get-Command python).Path
+```
+
+### Mac/Linux
+```bash
+# Deactivate env2 first
+deactivate
+
+# Activate env1
+cd ~/Documents/math5200
+source env1/bin/activate
+
+# Get path
+which python3
+```
+
+:::
+
+2. Update Spyder's interpreter to env1's path (same process as before)
+3. Restart Spyder's kernel
+4. Test:
+
+```{python}
+#| eval: false
+import numpy as np
+print("numpy works in env1!")
+print(np.array([1, 2, 3]))
+
+# Try requests (will fail in env1)
+import requests  # ModuleNotFoundError!
+```
+
+::: {.callout-tip}
+## Key Takeaway
+Each virtual environment is **completely independent**. This allows you to:
+- Use different versions of packages for different projects
+- Avoid conflicts between incompatible packages
+- Share exact requirements with collaborators
+- Reproduce your analysis environment months or years later
+:::
+
+### 5.8 Deactivate env2
+
+In your terminal:
+
+::: {.panel-tabset}
+
+### Windows
+```powershell
+deactivate
+```
+
+### Mac/Linux
+```bash
+deactivate
+```
+
+:::
+
+---
+
+## Basic Troubleshooting
+
+Here are solutions to common issues you might encounter:
+
+### Issue 1: "python: command not found" or "'python' is not recognized"
+
+**Solution:** Python wasn't added to your PATH during installation.
+
+- **Windows:** Uninstall and reinstall Python, making sure to check "Add Python to PATH"
+- **Mac/Linux:** Use `python3` instead of `python`, or create an alias
+
+### Issue 2: Can't activate virtual environment on Windows (Execution Policy error)
+
+**Solution:** 
+```powershell
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+```
+
+### Issue 3: Spyder won't start or crashes
+
+**Solutions:**
+- Make sure you installed spyder-kernels in your virtual environment
+- Try resetting Spyder's settings: Help → Reset Spyder to factory defaults
+- Check Python version compatibility with your Spyder version
+
+### Issue 4: Spyder doesn't see newly installed packages
+
+**Solution:** Restart the kernel (Consoles → Restart kernel or `Ctrl+.`)
+
+### Issue 5: "ModuleNotFoundError" even though package is installed
+
+**Solutions:**
+- Verify you're using the correct virtual environment in Spyder (check with `import sys; print(sys.executable)`)
+- Make sure the package is installed in the active environment: `pip list`
+- Restart the kernel after installing packages
+
+### Issue 6: Can't find the Python executable path
+
+**Solution:** Use Python itself to tell you:
+
+::: {.panel-tabset}
+
+### Windows
+```powershell
+python -c "import sys; print(sys.executable)"
+```
+
+### Mac/Linux
+```bash
+python3 -c "import sys; print(sys.executable)"
+```
+
+:::
+
+### Issue 7: Multiple Python versions installed - confusion about which is which
+
+**Solution:** 
+
+**Windows:**
+```powershell
+py -0p  # Lists all Python installations
+```
+
+**Mac/Linux:**
+```bash
+which -a python python3
+ls -l /usr/bin/python*
+ls -l /usr/local/bin/python*
+```
+
+### Issue 8: Virtual environment activated but wrong Python still running
+
+**Solution:** 
+- Deactivate and reactivate the environment
+- Check with `which python` (Mac/Linux) or `(Get-Command python).Path` (Windows)
+- Make sure you're using the activation script from the correct environment folder
+
+---
+
+## Summary
+
+Congratulations! You've completed your first steps with Python. Here's what you've learned:
+
+1. **Installing Python:** Downloaded and installed Python on your system with proper PATH configuration
+
+2. **Interactive Python:** Used the Python interpreter (REPL) to execute commands interactively and explore basic concepts like:
+   - Dynamic typing
+   - Different data types (int, float, str, bool)
+   - Importing modules
+   - Basic operations
+
+3. **Python Scripts:** Created and executed Python scripts from files, understanding the workflow of:
+   - Writing code in a text file
+   - Saving as `.py`
+   - Running from the terminal
+
+4. **Integrated Development Environment (IDE):** Installed and learned to use Spyder, exploring:
+   - The editor for writing code
+   - The IPython console for interactive work
+   - The Variable Explorer for understanding program state
+   - The Help pane for documentation
+
+5. **Virtual Environments:** Mastered the concept of isolated Python environments:
+   - Created multiple virtual environments (env1 and env2)
+   - Installed different packages in each environment
+   - Demonstrated package isolation
+   - Connected Spyder to different environments
+
+6. **Package Management:** Learned to:
+   - Install packages with `pip`
+   - Create and use `requirements.txt` for reproducibility
+   - Verify installed packages
+   - Understand dependencies
+
+### Key Concepts
+
+- **Dynamic Typing:** Variables in Python can hold any type of data
+- **Modules:** Python's extensive library provides powerful functionality through modules
+- **Virtual Environments:** Isolated Python installations prevent conflicts and ensure reproducibility
+- **IDE Benefits:** Tools like Spyder make development easier with integrated features
+- **Package Isolation:** Each virtual environment has its own set of packages
+
+### Next Steps
+
+Now that you have a solid foundation, you're ready to:
+- Write more complex Python programs
+- Install scientific computing packages (scipy, matplotlib, pandas)
+- Work on course assignments with proper environment management
+- Explore Spyder's advanced features (debugging, profiling, version control integration)
+
+### Quick Reference
+
+**Activate Virtual Environment:**
+- Windows: `.\env_name\Scripts\Activate.ps1`
+- Mac/Linux: `source env_name/bin/activate`
+
+**Deactivate:** `deactivate`
+
+**Install Package:** `pip install package_name`
+
+**List Packages:** `pip list`
+
+**Run Script:** `python script_name.py` (or `python3` on Mac/Linux)
+
+**Restart Spyder Kernel:** Consoles → Restart kernel (or `Ctrl+.`)
+
+---
+
+::: {.callout-tip}
+## Best Practices Going Forward
+1. **Always use virtual environments** for projects
+2. **Document your requirements** in `requirements.txt`
+3. **Use meaningful variable names** in your code
+4. **Comment your code** to explain the "why", not just the "what"
+5. **Save your work frequently**
+6. **Use version control** (Git) for important projects (we'll cover this later!)
+:::
+
+Happy coding!

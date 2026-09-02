@@ -35,14 +35,7 @@ Lecture materials are organized by week. Each lecture generally has two componen
 - **Class materials** contain exercises and examples that we will work through together in class.
 - **Lecture notes** provide additional background and explanation.
 
-| Lecture | Class | Notes |
-|---|---|---|
-| Lecture 1: Foundations, Computation & Binary Representations | [class](lectures/01-foundations/class.qmd) | [notes](lectures/01-foundations/notes.qmd) |
-| Lecture 2 | XXX | XXX |
-| Lecture 3 | XXX | XXX |
-| Lecture 4 | XXX | XXX |
-
-The lecture schedule will develop as the semester progresses.
+[View the lecture materials](lectures.qmd)
 
 ### Homework
 
