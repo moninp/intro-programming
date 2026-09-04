@@ -685,9 +685,6 @@ python -m pip install --upgrade pip
 
 # Install spyder-kernels (required to connect Spyder to this environment)
 pip install spyder-kernels
-
-# Install ipython (often needed for interactive features)
-pip install ipython
 ```
 
 ::: {.callout-note}
@@ -774,6 +771,18 @@ Follow these steps carefully. We'll make the configuration persistent so it appl
    - **Windows/Linux:** Tools → Preferences
    - **Mac:** Python → Preferences (or Spyder → Preferences)
 
+::: {.callout-important}
+## Mac Users: Finding Preferences
+On Mac, Preferences is **not** under Tools! Instead:
+
+- **Menu bar** (top of screen): **Spyder** → **Preferences...** OR **Python** → **Preferences...**
+- **Keyboard shortcut:** **`⌘,`** (Command + comma)
+- **Can't find it?** Help → Spyder tutorial → search "Preferences" → Enter
+
+The location is in the **menu bar at the top of your screen**, not in Spyder's window!
+:::
+
+
 3. **Navigate to Python Interpreter:**
    - In the left sidebar, click **Python interpreter**
 
@@ -800,6 +809,225 @@ print(sys.executable)
 ```
 You should see the path to your env1 Python!
 :::
+
+### 4.5.1 Troubleshooting: Spyder-Kernels Version Compatibility
+
+::: {.callout-warning}
+## Common Issue: Version Mismatch
+When you first try to use Spyder with your virtual environment, you might see an error message like:
+
+```
+The Python environment or installation whose interpreter is located at
+
+    C:\Users\YourName\Documents\math5200\env1\Scripts\python.exe
+
+doesn't have the spyder-kernels module or the right version of it installed 
+(>= 2.4.0 and < 2.5.0). Without this module is not possible for Spyder to 
+create a console for you.
+
+You can install it by activating your environment (if necessary) and 
+then running in a system terminal:
+
+    conda install spyder-kernels=2.4
+or
+    pip install spyder-kernels==2.4.*
+```
+
+**Don't panic!** This is completely normal and easy to fix.
+:::
+
+#### Why Does This Happen?
+
+The issue occurs because **Spyder** (the IDE you installed globally) and **spyder-kernels** (the bridge you installed in your virtual environment) need to have **compatible versions**.
+
+Think of it like this:
+- **Spyder** is like a remote control (installed globally on your system)
+- **spyder-kernels** is like a receiver (installed in each virtual environment)
+- The remote and receiver need to "speak the same language" (compatible versions)
+
+When you install Spyder globally, it expects a specific range of spyder-kernels versions. If you simply run `pip install spyder-kernels` in your virtual environment, you might get the latest version, which could be too new or too old for your version of Spyder.
+
+#### How to Fix It
+
+The error message helpfully tells you exactly what to do! Follow these steps:
+
+**Step 1: Note the required version from the error message**
+
+Look for the version requirement in the error. It will say something like:
+- `>= 2.4.0 and < 2.5.0` (meaning version 2.4.x)
+- Or it might directly suggest: `spyder-kernels==2.4.*`
+
+**Step 2: Activate your virtual environment (if not already active)**
+
+::: {.panel-tabset}
+
+### Windows
+```powershell
+cd $HOME\Documents\math5200
+.\env1\Scripts\Activate.ps1
+```
+
+### Mac/Linux
+```bash
+cd ~/Documents/math5200
+source env1/bin/activate
+```
+
+:::
+
+**Step 3: Install the compatible version**
+
+Use the exact command suggested in the error message. For example:
+
+```{python}
+#| eval: false
+# Install the specific version range that Spyder needs
+pip install spyder-kernels==2.4.*
+```
+
+Or if a more specific version is suggested:
+
+```{python}
+#| eval: false
+pip install spyder-kernels==2.4.3
+```
+
+The `==2.4.*` syntax means "install any version that is 2.4.something" (like 2.4.0, 2.4.1, 2.4.3, etc.)
+
+**Step 4: Restart Spyder or the kernel**
+
+- Close and reopen Spyder, OR
+- In Spyder: **Consoles → Restart kernel** (or press `Ctrl+.`)
+
+The error should now be gone!
+
+#### Checking Versions
+
+You can check which versions you have installed:
+
+**Check Spyder version:**
+
+In Spyder's console (or any Python console):
+```{python}
+#| eval: false
+import spyder
+print(spyder.__version__)
+```
+
+Or from the terminal:
+```bash
+# Windows
+spyder --version
+
+# Mac/Linux
+spyder --version
+```
+
+**Check spyder-kernels version (in your virtual environment):**
+
+```{python}
+#| eval: false
+# Make sure your virtual environment is activated first!
+pip show spyder-kernels
+```
+
+This shows you detailed information including the version number.
+
+#### Preventing This Issue
+
+To avoid version mismatches in the future:
+
+**Option 1: Install the compatible version immediately (Recommended)**
+
+When setting up a new virtual environment, install the compatible spyder-kernels version right away:
+
+```{python}
+#| eval: false
+# Activate your environment first
+# Then check what version your global Spyder needs
+# For example, if you have Spyder 5.4.x:
+pip install spyder-kernels==2.4.*
+```
+
+**Option 2: Keep Spyder updated**
+
+Periodically update your global Spyder installation:
+
+```bash
+pip install --upgrade spyder
+```
+
+Then update spyder-kernels in your virtual environments to match.
+
+**Option 3: Note the version in your documentation**
+
+When you create a `requirements.txt` file, include the specific spyder-kernels version:
+
+```
+spyder-kernels==2.4.3
+numpy==1.24.0
+# ... other packages
+```
+
+This ensures anyone recreating your environment gets the compatible version.
+
+#### Compatibility Reference
+
+Here's a general guide (check [Spyder's documentation](https://docs.spyder-ide.org/) for the latest):
+
+| Spyder Version | Compatible spyder-kernels |
+|----------------|---------------------------|
+| 5.4.x          | 2.4.x                     |
+| 5.5.x          | 2.5.x                     |
+| 6.0.x (beta)   | 3.0.x                     |
+
+::: {.callout-note}
+## Why Not Install Spyder in Each Virtual Environment?
+
+You might wonder: "Why not just install Spyder itself in each virtual environment?"
+
+**You can do this!** Some people prefer this approach because it guarantees compatibility. However:
+
+**Pros of global Spyder:**
+- Only one installation to maintain
+- Less disk space used
+- Same familiar Spyder interface across all projects
+
+**Pros of per-environment Spyder:**
+- Perfect version matching every time
+- Complete project isolation
+- Can use different Spyder versions for different projects
+
+For this course, we use the global approach because it's simpler to manage, but both are valid!
+:::
+
+#### Still Having Issues?
+
+If you've installed the correct spyder-kernels version and still see errors:
+
+1. **Completely restart Spyder** (close and reopen, not just restart kernel)
+2. **Verify the environment path** in Preferences → Python interpreter
+3. **Check that the environment is truly activated** when you install packages
+4. **Try removing and reinstalling spyder-kernels:**
+   ```bash
+   pip uninstall spyder-kernels
+   pip install spyder-kernels==2.4.*
+   ```
+
+5. **Check for conflicting installations:**
+   ```{python}
+   #| eval: false
+   # In your virtual environment
+   import sys
+   print(sys.executable)  # Should point to your virtual environment
+   
+   import spyder_kernels
+   print(spyder_kernels.__file__)  # Should be inside your virtual environment
+   ```
+
+---
+
+
 
 ### 4.6 Tour of Spyder
 
@@ -1066,9 +1294,6 @@ python -m pip install --upgrade pip
 
 # Install spyder-kernels (required to use with Spyder)
 pip install spyder-kernels
-
-# Install ipython
-pip install ipython
 ```
 
 ### 5.3 Create a requirements.txt File

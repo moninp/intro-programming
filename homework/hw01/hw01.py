@@ -126,7 +126,8 @@ for value in expressions_3a:
 
 
 # 3b. Convert the string "3.14159" to a floating-point number and store it
-# in `pi_approx`.
+# in `pi_approx`. For example, one can convert the string "17" to an integer using int("17"), or
+# the string "17.0" to a floating-point number using float("17.0").
 
 pi_approx = None
 

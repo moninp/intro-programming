@@ -16,8 +16,6 @@ This homework reinforces the main ideas from Lecture 1:
 - Cancellation and numerical stability
 - Testing and computational validation
 
-The goal is not merely to get the numerical answers. You should be able to **predict, explain, test, and validate** your computations.
-
 ## Files
 
 You should submit:
@@ -25,8 +23,6 @@ You should submit:
 ```text
 hw01.py
 ```
-
-Do not submit the instructor solution.
 
 ## Instructions
 
@@ -36,7 +32,7 @@ Do not submit the instructor solution.
 4. Write readable Python and use descriptive variable names.
 5. For explanatory questions, provide a concise answer in a comment.
 6. Your completed `hw01.py` should run from top to bottom without manual input.
-7. Do not install additional packages for this homework unless the instructor explicitly says otherwise. The problems can be completed with Python's standard library.
+7. Do not install additional packages for this homework. The problems can be completed with Python's standard library.
 8. You may consult Python documentation, course notes, and other appropriate resources. If you use AI assistance, follow the course's stated policy on responsible AI use and make sure you understand and can explain the submitted work.
 
 ## Running your homework
@@ -49,7 +45,7 @@ python hw01.py
 
 You should not get an exception.
 
-For example, if you are working from the homework directory:
+For example, if you are working from a homework directory:
 
 ```powershell
 cd homework/01
