@@ -1,0 +1,1331 @@
+---
+title: "Lecture 2: Data Structures, Algorithms, and Control Flow"
+subtitle: "From Observations to Algorithms"
+format:
+  html:
+    code-fold: false
+    toc: true
+jupyter: python3
+---
+
+# Central Question
+
+> **Can we build a program that analyzes a collection of observations?**
+
+In Lecture 1, we learned how computers represent individual values and perform calculations. Today, we tackle a more realistic problem: analyzing **collections** of observations.
+
+By the end of this lecture, you will understand how to:
+
+- represent collections of information using appropriate data structures;
+- design algorithms that process those collections;
+- implement conditional logic and iteration;
+- reason about edge cases and algorithmic efficiency.
+
+# 1. Quiz
+
+Before beginning, complete the short quiz covering Lecture 1.
+
+The quiz checks your understanding of:
+
+- binary and floating-point representation;
+- variables and program state;
+- numerical representation and error;
+- basic Python operations.
+
+::: {.callout-note}
+## Think Before You Code
+
+Throughout this lecture, you will be asked to design algorithms before implementing them. This habit—thinking through the logic first—is one of the most important computational skills you can develop.
+:::
+
+# 2. Opening: From One Value to Many
+
+Suppose we collect temperature measurements over several days:
+
+```{python}
+temperatures = [15.2, 17.1, 14.8, 19.3, 16.5, 18.2, 14.1, 20.5]
+```
+
+This is a collection of observations. What questions might we want to answer?
+
+**Pause and think:** Before continuing, write down 3-4 questions you might ask about this data.
+
+Some natural questions:
+
+- What was the highest temperature?
+- What was the lowest temperature?
+- What was the average temperature?
+- How many days exceeded a certain threshold?
+- Which observations seem unusual?
+
+Each question requires us to process the collection systematically. Let's learn how.
+
+## What Operations Do We Need?
+
+To answer these questions computationally, we need to:
+
+1. **Store** the observations in a structured way
+2. **Access** individual observations
+3. **Process** each observation in turn
+4. **Compare** observations
+5. **Make decisions** based on conditions
+6. **Accumulate** results
+
+This lecture will show you how to perform each of these operations.
+
+# Big Problem 1: Analyzing Temperature Observations
+
+For the next ~75 minutes, we'll build increasingly sophisticated programs to analyze temperature data.
+
+## Problem 1.1: Representing the Observations
+
+**Question:** How should we represent a collection of temperature measurements in Python?
+
+### What We Need
+
+We need a representation that:
+
+- preserves the order of observations (day 1, day 2, etc.)
+- allows us to access individual temperatures
+- can grow or shrink if needed
+
+### Python Lists
+
+Python provides a **list** for exactly this purpose:
+
+```{python}
+temperatures = [15.2, 17.1, 14.8, 19.3, 16.5, 18.2, 14.1, 20.5]
+```
+
+A list:
+
+- is **ordered** - elements have positions
+- is **mutable** - we can change it
+- uses **square brackets** `[]`
+
+We can access individual elements using **indexing**:
+
+```{python}
+temperatures[0]  # First temperature
+```
+
+```{python}
+temperatures[3]  # Fourth temperature
+```
+
+Python uses **zero-based indexing**: the first element is at position 0.
+
+```text
+Temperatures:  [15.2, 17.1, 14.8, 19.3, 16.5, 18.2, 14.1, 20.5]
+Indices:         0     1     2     3     4     5     6     7
+```
+
+We can also index from the end:
+
+```{python}
+temperatures[-1]  # Last temperature
+```
+
+```{python}
+temperatures[-2]  # Second-to-last temperature
+```
+
+### Slicing
+
+We can extract portions using **slicing**:
+
+```{python}
+temperatures[0:3]  # First three temperatures
+```
+
+```{python}
+temperatures[2:5]  # Days 3-5
+```
+
+The general form is `list[start:stop]`. The `start` is included, but `stop` is excluded.
+
+```{python}
+temperatures[:4]  # First four (omit start → begins at 0)
+```
+
+```{python}
+temperatures[4:]  # From day 5 onward (omit stop → goes to end)
+```
+
+### Basic List Operations
+
+How many observations do we have?
+
+```{python}
+len(temperatures)
+```
+
+What if we collect a new measurement?
+
+```{python}
+temperatures.append(17.8)
+temperatures
+```
+
+::: {.callout-note}
+## Lists Are Mutable
+
+Unlike strings (which we'll see later), lists can be modified after creation. This is useful when building up a collection of results.
+:::
+
+### Your Turn: Explore Lists
+
+```{python}
+#| eval: false
+
+# Given this data:
+temperatures = [15.2, 17.1, 14.8, 19.3, 16.5, 18.2, 14.1, 20.5]
+
+# 1. What is the temperature on day 5? (Remember: zero-indexed!)
+
+# 2. Extract the temperatures for days 3-6
+
+# 3. Get the last three temperatures using negative indexing
+
+# Your code here
+```
+
+## Problem 1.2: Finding the Maximum Temperature
+
+**Question:** How can we determine the highest temperature in our collection?
+
+### Algorithm Design
+
+Before writing code, let's design the algorithm in plain English:
+
+1. Start by assuming the first temperature is the maximum
+2. Look at each remaining temperature
+3. If we find a temperature higher than our current maximum, update the maximum
+4. After examining all temperatures, return the maximum
+
+**Pause:** Read through this algorithm. Does it make sense? Can you think of any problems with it?
+
+### Implementation: The `for` Loop
+
+To "look at each remaining temperature," we need **iteration**. Python's `for` loop does exactly this:
+
+```{python}
+temperatures = [15.2, 17.1, 14.8, 19.3, 16.5, 18.2, 14.1, 20.5]
+
+current_max = temperatures[0]
+
+for temp in temperatures[1:]:
+    if temp > current_max:
+        current_max = temp
+
+print(f"Maximum temperature: {current_max}°C")
+```
+
+### Understanding the Loop
+
+Let's trace through the first few iterations:
+
+```text
+Initial: current_max = 15.2
+
+Iteration 1: temp = 17.1
+  17.1 > 15.2? Yes → current_max = 17.1
+
+Iteration 2: temp = 14.8
+  14.8 > 17.1? No → current_max stays 17.1
+
+Iteration 3: temp = 19.3
+  19.3 > 17.1? Yes → current_max = 19.3
+
+... and so on
+```
+
+The loop **repeats** the comparison for each temperature. This is why we need iteration: we're performing the same operation multiple times.
+
+### The `if` Statement
+
+The line:
+
+```python
+if temp > current_max:
+    current_max = temp
+```
+
+demonstrates **conditional execution**. The update only happens when the condition is true.
+
+### Validation
+
+How do we know our answer is correct?
+
+```{python}
+# Python has a built-in max() function
+max(temperatures)
+```
+
+Our algorithm produces the same result. This is a simple example of **validation**: checking our implementation against a known answer or alternative method.
+
+### Your Turn: Find the Minimum
+
+```{python}
+#| eval: false
+
+temperatures = [15.2, 17.1, 14.8, 19.3, 16.5, 18.2, 14.1, 20.5]
+
+# 1. First, write the algorithm in plain English (in a comment)
+
+# 2. Implement it using a for loop
+
+# 3. Check your answer against Python's min() function
+
+# Your code here
+```
+
+## Problem 1.3: Counting Days Above a Threshold
+
+**Question:** On how many days did the temperature exceed 17°C?
+
+### Algorithm Design
+
+1. Start with a count of zero
+2. Examine each temperature
+3. If the temperature exceeds the threshold, increase the count
+4. Return the final count
+
+### Implementation
+
+```{python}
+temperatures = [15.2, 17.1, 14.8, 19.3, 16.5, 18.2, 14.1, 20.5]
+threshold = 17.0
+
+count = 0
+
+for temp in temperatures:
+    if temp > threshold:
+        count += 1
+
+print(f"Days above {threshold}°C: {count}")
+```
+
+###Accumulators
+
+The variable `count` is an **accumulator**. It maintains state across iterations:
+
+```text
+Before loop: count = 0
+
+After temp = 15.2: count = 0  (not above threshold)
+After temp = 17.1: count = 1  (above threshold)
+After temp = 14.8: count = 1  (not above threshold)
+After temp = 19.3: count = 2  (above threshold)
+...
+```
+
+This pattern—**initialize → iterate → update → return**—appears frequently in computational problems.
+
+### Your Turn: Filtering Observations
+
+```{python}
+#| eval: false
+
+temperatures = [15.2, 17.1, 14.8, 19.3, 16.5, 18.2, 14.1, 20.5]
+
+# 1. Count how many temperatures fall between 15°C and 18°C (inclusive)
+
+# 2. Create a new list containing only temperatures above 16°C
+
+# Hint for part 2: Start with an empty list and use .append()
+
+# Your code here
+```
+
+## Problem 1.4: Computing Summary Statistics
+
+**Question:** What was the average temperature?
+
+### Algorithm Design
+
+1. Start with a sum of zero
+2. Add each temperature to the sum
+3. Divide by the number of temperatures
+
+### Implementation
+
+```{python}
+temperatures = [15.2, 17.1, 14.8, 19.3, 16.5, 18.2, 14.1, 20.5]
+
+total = 0
+count = 0
+
+for temp in temperatures:
+    total += temp
+    count += 1
+
+average = total / count
+
+print(f"Average temperature: {average:.1f}°C")
+```
+
+### Multiple Accumulators
+
+Notice we're maintaining **two** pieces of state:
+- `total` - the running sum
+- `count` - the number of observations
+
+### Edge Cases
+
+**Question:** What happens if the list is empty?
+
+```{python}
+#| error: true
+
+temperatures = []
+
+total = 0
+count = 0
+
+for temp in temperatures:
+    total += temp
+    count += 1
+
+average = total / count  # Division by zero!
+```
+
+This is an **edge case**: a situation where our algorithm fails. We need to handle it:
+
+```{python}
+temperatures = []
+
+total = 0
+count = 0
+
+for temp in temperatures:
+    total += temp
+    count += 1
+
+if count > 0:
+    average = total / count
+    print(f"Average: {average:.1f}°C")
+else:
+    print("No temperatures to average")
+```
+
+::: {.callout-important}
+## Always Consider Edge Cases
+
+When designing an algorithm, ask:
+- What if the input is empty?
+- What if all values are the same?
+- What if there's only one value?
+- What if invalid data appears?
+:::
+
+### Your Turn: Range and Variance
+
+```{python}
+#| eval: false
+
+temperatures = [15.2, 17.1, 14.8, 19.3, 16.5, 18.2, 14.1, 20.5]
+
+# 1. Calculate the range (max - min) without using built-in max/min
+
+# 2. Calculate the sample variance:
+#    variance = sum((x - mean)²) / (n - 1)
+#    
+#    You'll need two passes through the data:
+#    - First pass: calculate the mean
+#    - Second pass: calculate sum of squared deviations
+
+# Your code here
+```
+
+## Problem 1.5: Representing Richer Observations
+
+**Question:** What if each observation contains more than just a temperature?
+
+Suppose we have:
+
+```text
+Day 1: Monday, 15.2°C
+Day 2: Tuesday, 17.1°C
+Day 3: Wednesday, 14.8°C
+...
+```
+
+### Tuples for Fixed Pairs
+
+A **tuple** represents a fixed collection of values:
+
+```{python}
+observation = ("Monday", 15.2)
+```
+
+We can access elements:
+
+```{python}
+observation[0]  # Day of week
+```
+
+```{python}
+observation[1]  # Temperature
+```
+
+But unlike lists, tuples are **immutable**:
+
+```{python}
+#| error: true
+
+observation[1] = 16.0  # Cannot modify
+```
+
+### Lists of Tuples
+
+We can store multiple observations:
+
+```{python}
+observations = [
+    ("Monday", 15.2),
+    ("Tuesday", 17.1),
+    ("Wednesday", 14.8),
+    ("Thursday", 19.3),
+    ("Friday", 16.5)
+]
+```
+
+Now we can ask richer questions:
+
+```{python}
+# Which day had the highest temperature?
+
+max_temp = observations[0][1]
+max_day = observations[0][0]
+
+for day, temp in observations:
+    if temp > max_temp:
+        max_temp = temp
+        max_day = day
+
+print(f"Warmest day: {max_day} ({max_temp}°C)")
+```
+
+Notice the syntax `for day, temp in observations`. This is **tuple unpacking**: Python automatically assigns `day` and `temp` from each tuple.
+
+### Your Turn: Nested Structures
+
+```{python}
+#| eval: false
+
+observations = [
+    ("Monday", 15.2),
+    ("Tuesday", 17.1),
+    ("Wednesday", 14.8),
+    ("Thursday", 19.3),
+    ("Friday", 16.5)
+]
+
+# 1. Find the coolest day and its temperature
+
+# 2. Count how many weekdays had temperatures above 16°C
+
+# 3. Create a new list containing only the temperatures (not the days)
+
+# Your code here
+```
+
+## Problem 1.6: Validation and Control Flow
+
+**Question:** What if we're collecting data interactively and need to validate input?
+
+### The `while` Loop
+
+A `while` loop repeats as long as a condition is true:
+
+```{python}
+# Simulate collecting a valid temperature
+temp = -100  # Invalid starting value
+
+# In practice, this would use input(). For demonstration:
+valid_temps = [150, -50, 25.3]  # The last one is valid
+idx = 0
+
+while temp < -50 or temp > 50:
+    # temp = float(input("Enter temperature (-50 to 50): "))
+    temp = valid_temps[idx]
+    idx += 1
+    
+    if temp < -50 or temp > 50:
+        print(f"{temp}°C is outside the valid range")
+
+print(f"Recorded temperature: {temp}°C")
+```
+
+### `break` and `continue`
+
+We can exit a loop early with `break`:
+
+```{python}
+temperatures = [15.2, 17.1, -999, 19.3, 16.5]  # -999 is a sentinel value
+
+for temp in temperatures:
+    if temp == -999:
+        print("Encountered missing data marker")
+        break
+    print(f"Temperature: {temp}°C")
+```
+
+We can skip to the next iteration with `continue`:
+
+```{python}
+temperatures = [15.2, 17.1, -999, 19.3, 16.5]
+
+for temp in temperatures:
+    if temp == -999:
+        continue  # Skip this iteration
+    print(f"Temperature: {temp}°C")
+```
+
+### `range()` for Index-Based Iteration
+
+Sometimes we need the index as well as the value:
+
+```{python}
+temperatures = [15.2, 17.1, 14.8, 19.3, 16.5]
+
+for i in range(len(temperatures)):
+    print(f"Day {i+1}: {temperatures[i]}°C")
+```
+
+`range(n)` generates numbers from 0 to n-1:
+
+```{python}
+list(range(5))
+```
+
+```{python}
+list(range(2, 8))  # Start and stop
+```
+
+```{python}
+list(range(0, 10, 2))  # Start, stop, step
+```
+
+### List Comprehensions
+
+For simple transformations, Python offers **list comprehensions**:
+
+```{python}
+temperatures = [15.2, 17.1, 14.8, 19.3, 16.5]
+
+# Convert to Fahrenheit
+fahrenheit = [(temp * 9/5) + 32 for temp in temperatures]
+fahrenheit
+```
+
+With filtering:
+
+```{python}
+# Only warm days
+warm = [temp for temp in temperatures if temp > 16]
+warm
+```
+
+::: {.callout-note}
+## When to Use Comprehensions
+
+List comprehensions are elegant for simple transformations. But if the logic is complex, a regular loop is often clearer.
+
+**Readability matters more than brevity.**
+:::
+
+### Your Turn: Data Quality
+
+```{python}
+#| eval: false
+
+# Data with potential issues
+temperatures = [15.2, 17.1, -999, 19.3, None, 16.5, 150.0, 14.8]
+
+# -999 represents missing data
+# None represents missing data
+# Values outside [-50, 50] are likely errors
+
+# 1. Count how many invalid observations there are
+
+# 2. Create a new list containing only valid temperatures
+
+# 3. Calculate the average of the valid temperatures
+
+# Your code here
+```
+
+## Checkpoint: What We've Learned
+
+We can now:
+
+1. **Represent** collections using lists
+2. **Iterate** through collections with `for` and `while`
+3. **Filter** observations based on conditions
+4. **Accumulate** results across iterations
+5. **Handle** edge cases and invalid data
+6. **Represent** structured observations with tuples
+
+These are the fundamental building blocks of data analysis.
+
+# Big Problem 2: Analyzing Text Observations
+
+Temperature measurements are numerical. But what if our observations are **text**?
+
+## Problem 2.1: Character Frequencies
+
+Suppose we have a short text passage and want to determine which letters appear most frequently:
+
+```{python}
+text = "the quick brown fox jumps over the lazy dog"
+```
+
+**Question:** How can we count how many times each character appears?
+
+### Strings as Sequences
+
+A Python **string** is a sequence of characters:
+
+```{python}
+message = "Python"
+```
+
+We can iterate through it:
+
+```{python}
+for char in message:
+    print(char)
+```
+
+We can index and slice:
+
+```{python}
+message[0]
+```
+
+```{python}
+message[1:4]
+```
+
+```{python}
+message[::-1]  # Reverse
+```
+
+### Strings Are Immutable
+
+Unlike lists, strings cannot be modified:
+
+```{python}
+#| error: true
+
+message[0] = "p"
+```
+
+Operations that appear to modify a string actually create a new one:
+
+```{python}
+message = "Python"
+lower_message = message.lower()
+
+message, lower_message
+```
+
+### Common String Operations
+
+```{python}
+text = "  Hello, World!  "
+```
+
+```{python}
+text.strip()  # Remove whitespace
+```
+
+```{python}
+text.lower()  # Convert to lowercase
+```
+
+```{python}
+text.replace("World", "Python")  # Replace substring
+```
+
+```{python}
+text.split(",")  # Split into list
+```
+
+```{python}
+"fox" in text  # Check membership
+```
+
+### Your Turn: Preprocessing Text
+
+```{python}
+#| eval: false
+
+text = "The Quick BROWN fox!"
+
+# 1. Convert to lowercase
+
+# 2. Remove the exclamation mark
+
+# 3. Check if it contains "brown"
+
+# 4. Split into words
+
+# 5. Reverse the entire string
+
+# Your code here
+```
+
+## Problem 2.2: Dictionaries for Counting
+
+To count character frequencies, we need to **associate** each character with a count.
+
+**Question:** What data structure makes sense?
+
+### Python Dictionaries
+
+A **dictionary** stores key-value pairs:
+
+```{python}
+counts = {"a": 3, "b": 1, "c": 2}
+```
+
+We access values by key:
+
+```{python}
+counts["a"]
+```
+
+We can add or update entries:
+
+```{python}
+counts["d"] = 4
+counts
+```
+
+```{python}
+counts["a"] = 5  # Update existing
+counts
+```
+
+### Counting Algorithm
+
+```{python}
+text = "banana"
+
+counts = {}
+
+for char in text:
+    if char not in counts:
+        counts[char] = 0
+    counts[char] += 1
+
+counts
+```
+
+Let's trace through this:
+
+```text
+Initial: counts = {}
+
+char = 'b': counts = {'b': 1}
+char = 'a': counts = {'b': 1, 'a': 1}
+char = 'n': counts = {'b': 1, 'a': 1, 'n': 1}
+char = 'a': counts = {'b': 1, 'a': 2, 'n': 1}
+char = 'n': counts = {'b': 1, 'a': 2, 'n': 2}
+char = 'a': counts = {'b': 1, 'a': 3, 'n': 2}
+```
+
+### Why a Dictionary?
+
+A dictionary is perfect for this problem because:
+
+- We need to look up counts by character (**fast lookup**)
+- We need to store different counts for different characters (**key-value association**)
+- We don't know in advance which characters will appear (**dynamic structure**)
+
+### Your Turn: Word Frequencies
+
+```{python}
+#| eval: false
+
+text = "the quick brown fox jumps over the lazy dog and the fox runs"
+
+# 1. Split the text into words
+
+# 2. Count how many times each word appears
+
+# 3. Find the word(s) that appear most frequently
+
+# Your code here
+```
+
+## Problem 2.3: Sets for Uniqueness
+
+**Question:** How can we determine which **distinct** characters appear in text?
+
+### Python Sets
+
+A **set** contains unique elements:
+
+```{python}
+letters = {"a", "b", "c", "b", "a"}
+letters
+```
+
+Duplicates are automatically removed.
+
+Sets are useful for:
+
+```{python}
+text = "banana"
+unique_chars = set(text)
+unique_chars
+```
+
+```{python}
+"a" in unique_chars  # Fast membership testing
+```
+
+### Set Operations
+
+```{python}
+text1 = "apple"
+text2 = "orange"
+
+set1 = set(text1)
+set2 = set(text2)
+
+set1 | set2  # Union: characters in either
+```
+
+```{python}
+set1 & set2  # Intersection: characters in both
+```
+
+```{python}
+set1 - set2  # Difference: in set1 but not set2
+```
+
+### Your Turn: Comparing Texts
+
+```{python}
+#| eval: false
+
+text1 = "the quick brown fox"
+text2 = "the lazy dog"
+
+# 1. Find letters that appear in both texts
+
+# 2. Find letters that appear in text1 but not text2
+
+# 3. Count how many distinct letters appear across both texts
+
+# Your code here
+```
+
+## Problem 2.4: What's Actually Stored?
+
+We've been working with strings like `"Python"`. But what does the computer actually store?
+
+### Characters and Code Points
+
+Each character has a numerical **code point**:
+
+```{python}
+ord("A")  # Get code point
+```
+
+```{python}
+ord("a")
+```
+
+```{python}
+chr(65)  # Get character from code point
+```
+
+This is **Unicode**: a system that assigns numbers to characters.
+
+### Encoding to Bytes
+
+The computer stores these as **bytes**:
+
+```{python}
+text = "Hello"
+encoded = text.encode("utf-8")
+encoded
+```
+
+```{python}
+list(encoded)  # Show individual bytes
+```
+
+For non-ASCII characters:
+
+```{python}
+text = "café"
+encoded = text.encode("utf-8")
+list(encoded)
+```
+
+The `é` requires multiple bytes to store.
+
+### Decoding
+
+We can convert bytes back to text:
+
+```{python}
+encoded.decode("utf-8")
+```
+
+::: {.callout-note}
+## Encoding Matters
+
+Different encoding schemes (UTF-8, ASCII, etc.) represent characters differently. This becomes important when:
+- Reading files from different sources
+- Working with web data
+- Handling international text
+
+The key conceptual point: **text is ultimately represented as binary data**, just like numbers.
+:::
+
+### Your Turn: Explore Encoding
+
+```{python}
+#| eval: false
+
+characters = ["A", "é", "中", "🙂"]
+
+# For each character:
+# 1. Find its Unicode code point using ord()
+# 2. Encode it using UTF-8
+# 3. Count how many bytes are required
+
+# Your code here
+```
+
+# Challenge: Comparing Algorithms
+
+We've learned several data structures. Does it matter which one we use?
+
+## Problem: Detect Duplicates
+
+**Question:** Does a list contain any duplicate values?
+
+### Algorithm 1: Compare All Pairs
+
+```{python}
+values = [1, 2, 3, 4, 5, 3, 6]
+
+has_duplicate = False
+
+for i in range(len(values)):
+    for j in range(i + 1, len(values)):
+        if values[i] == values[j]:
+            has_duplicate = True
+            break
+    if has_duplicate:
+        break
+
+has_duplicate
+```
+
+This uses **nested loops**: for each value, check it against every other value.
+
+### Algorithm 2: Use a Set
+
+```{python}
+values = [1, 2, 3, 4, 5, 3, 6]
+
+seen = set()
+has_duplicate = False
+
+for value in values:
+    if value in seen:
+        has_duplicate = True
+        break
+    seen.add(value)
+
+has_duplicate
+```
+
+This uses a **single loop** and a set to track what we've seen.
+
+### Which Is Better?
+
+Let's think about the computational work:
+
+**Algorithm 1:**
+- For each of n values, check against up to n other values
+- Total comparisons: roughly n²/2
+- As n grows, work grows **quadratically**: O(n²)
+
+**Algorithm 2:**
+- For each of n values, check set membership (fast) and add to set
+- Total operations: roughly n
+- As n grows, work grows **linearly**: O(n)
+
+### Demonstration
+
+```{python}
+import time
+
+def algorithm1(values):
+    """Compare all pairs"""
+    for i in range(len(values)):
+        for j in range(i + 1, len(values)):
+            if values[i] == values[j]:
+                return True
+    return False
+
+def algorithm2(values):
+    """Use a set"""
+    seen = set()
+    for value in values:
+        if value in seen:
+            return True
+        seen.add(value)
+    return False
+
+# Test with different sizes
+sizes = [100, 200, 400, 800]
+
+for n in sizes:
+    values = list(range(n))  # No duplicates (worst case)
+    
+    start = time.time()
+    algorithm1(values)
+    time1 = time.time() - start
+    
+    start = time.time()
+    algorithm2(values)
+    time2 = time.time() - start
+    
+    print(f"n={n:4d}: Algorithm 1: {time1:.4f}s  Algorithm 2: {time2:.6f}s")
+```
+
+Notice how Algorithm 1's time grows rapidly while Algorithm 2 remains fast.
+
+::: {.callout-important}
+## Algorithm and Data Structure Matter
+
+The choice of algorithm and data structure can determine whether a problem is:
+- Easy or difficult
+- Fast or slow
+- Practical or impractical
+
+This is why we study both **algorithms** and **data structures** together.
+:::
+
+### Your Turn: Complexity Reasoning
+
+```{python}
+#| eval: false
+
+# Consider these operations:
+
+# 1. Sum all values in a list of length n
+# 2. Find the maximum value in a list
+# 3. Determine if a value exists in a list
+# 4. Determine if a value exists in a set
+# 5. Count occurrences in a list using nested loops
+# 6. Count occurrences using a dictionary
+
+# For each, roughly how does the work grow with n?
+# - O(1): constant
+# - O(n): linear
+# - O(n²): quadratic
+
+# Discuss your reasoning
+```
+
+# Synthesis: From Problem to Program
+
+Let's return to the central question:
+
+> **Can we build a program that analyzes a collection of observations?**
+
+We now know the answer is **yes**, and we understand what it requires:
+
+## 1. Representation
+
+Choose a data structure based on the operations needed:
+
+| Structure | Use when you need                        |
+|-----------|------------------------------------------|
+| List      | Ordered sequence, indexing, mutation     |
+| Tuple     | Fixed, immutable groups                  |
+| Dict      | Key-value associations, counting, lookup |
+| Set       | Uniqueness, membership testing           |
+
+## 2. Algorithm
+
+Design the procedure:
+
+- What are the inputs?
+- What is the output?
+- What steps transform input to output?
+- What state must be maintained?
+- What are the edge cases?
+
+## 3. Implementation
+
+Express the algorithm using:
+
+- `for` loops for iterating through collections
+- `while` loops for validation or unknown iteration count
+- `if/elif/else` for conditional logic
+- Accumulators for maintaining state
+- Appropriate data structures
+
+## 4. Validation
+
+Check correctness:
+
+- Test with known cases
+- Check edge cases (empty input, single value, duplicates)
+- Compare with alternative methods
+- Verify assumptions (preconditions/postconditions)
+
+## 5. Efficiency
+
+Consider algorithmic complexity:
+
+- How does work grow with input size?
+- Can a different data structure improve performance?
+- Are there unnecessary repeated operations?
+
+This workflow—**represent → design → implement → validate → refine**—applies to computational problems throughout statistics, mathematics, and science.
+
+# Looking Ahead
+
+Today we learned the fundamental building blocks:
+
+- Data structures (lists, tuples, dicts, sets, strings)
+- Control flow (if, for, while)
+- Algorithm design and implementation
+- Efficiency and complexity
+
+In Lecture 3, we'll learn how to organize our code into **reusable functions** and how to use **version control** to manage our work. This will transform our programs from one-off scripts into maintainable, modular software.
+
+## Practice Problems
+
+The following problems will reinforce today's concepts. Attempt them before the next lecture.
+
+### Problem 1: Temperature Analysis
+
+```{python}
+#| eval: false
+
+temperatures = [15.2, 17.1, 14.8, 19.3, 16.5, 18.2, 14.1, 20.5, 17.8, 16.9]
+
+# 1. Find the median temperature
+#    (Sort the list, then take the middle value or average of two middle values)
+
+# 2. Count how many temperatures are above the mean
+
+# 3. Find the longest streak of consecutive days above 16°C
+
+# 4. Identify the day with the largest increase from the previous day
+
+# Your code here
+```
+
+### Problem 2: Text Analysis
+
+```{python}
+#| eval: false
+
+text = """
+Python is a programming language. Python is widely used
+for data analysis, scientific computing, and statistics.
+Data science relies heavily on Python libraries.
+"""
+
+# 1. Count how many times each word appears (case-insensitive)
+
+# 2. Find the longest word
+
+# 3. Determine the average word length
+
+# 4. Find words that appear exactly once
+
+# Your code here
+```
+
+### Problem 3: Data Cleaning
+
+```{python}
+#| eval: false
+
+observations = [
+    ("Monday", 15.2),
+    ("Tuesday", None),
+    ("Wednesday", 14.8),
+    ("Thursday", -999),
+    ("Friday", 16.5),
+    ("Saturday", 150.0),
+    ("Sunday", 14.1)
+]
+
+# Treat None and -999 as missing data
+# Treat values outside [-50, 50] as measurement errors
+
+# 1. Create a new list containing only valid observations
+
+# 2. Calculate statistics (mean, min, max) on valid data
+
+# 3. Report which days had invalid data
+
+# Your code here
+```
+
+### Problem 4: Algorithm Design
+
+```{python}
+#| eval: false
+
+# Given a list of integers, write an algorithm that finds the most
+# frequently occurring value.
+
+# If there's a tie, return any one of the tied values.
+
+# Test your algorithm on:
+# - [1, 2, 3, 2, 4, 2, 5]  (should return 2)
+# - [1, 1, 2, 2, 3, 3]     (should return 1, 2, or 3)
+# - [7]                    (should return 7)
+# - []                     (what should happen?)
+
+# Your code here
+```
+
+### Problem 5: Efficiency
+
+```{python}
+#| eval: false
+
+# Consider these two approaches to finding common elements:
+
+def common_elements_v1(list1, list2):
+    """Use nested loops"""
+    common = []
+    for x in list1:
+        for y in list2:
+            if x == y and x not in common:
+                common.append(x)
+    return common
+
+def common_elements_v2(list1, list2):
+    """Use sets"""
+    return list(set(list1) & set(list2))
+
+# 1. Test both functions on small examples to verify they work
+
+# 2. Reason about the complexity of each approach
+
+# 3. Test them on increasingly large lists and measure time
+
+# Your code here
+```
