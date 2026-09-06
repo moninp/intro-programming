@@ -1,0 +1,1979 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Lecture 3: Functions, Modularity, and Version Control – Computing Using R &amp; Python</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-3e9b1289f5f353c49b617ce48ad2bc38.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Computing Using R &amp; Python</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../syllabus.html"> 
+<span class="menu-text">Syllabus</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../lectures.html"> 
+<span class="menu-text">Lectures</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../project.html"> 
+<span class="menu-text">Project</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#central-question" id="toc-central-question" class="nav-link active" data-scroll-target="#central-question">Central Question</a></li>
+  <li><a href="#quiz" id="toc-quiz" class="nav-link" data-scroll-target="#quiz">1. Quiz</a></li>
+  <li><a href="#exercise-1-from-procedural-code-to-functions" id="toc-exercise-1-from-procedural-code-to-functions" class="nav-link" data-scroll-target="#exercise-1-from-procedural-code-to-functions">Exercise 1: From Procedural Code to Functions</a>
+  <ul class="collapse">
+  <li><a href="#the-problem-portfolio-analysis" id="toc-the-problem-portfolio-analysis" class="nav-link" data-scroll-target="#the-problem-portfolio-analysis">The Problem: Portfolio Analysis</a></li>
+  <li><a href="#exercise-1.1-your-first-function" id="toc-exercise-1.1-your-first-function" class="nav-link" data-scroll-target="#exercise-1.1-your-first-function">Exercise 1.1: Your First Function</a>
+  <ul class="collapse">
+  <li><a href="#just-in-time-concept-function-definition" id="toc-just-in-time-concept-function-definition" class="nav-link" data-scroll-target="#just-in-time-concept-function-definition">Just-in-Time Concept: Function Definition</a></li>
+  <li><a href="#your-turn-create-calculate_returns" id="toc-your-turn-create-calculate_returns" class="nav-link" data-scroll-target="#your-turn-create-calculate_returns">Your Turn: Create <code>calculate_returns()</code></a></li>
+  </ul></li>
+  <li><a href="#exercise-1.2-adding-more-functions" id="toc-exercise-1.2-adding-more-functions" class="nav-link" data-scroll-target="#exercise-1.2-adding-more-functions">Exercise 1.2: Adding More Functions</a>
+  <ul class="collapse">
+  <li><a href="#your-turn-create-helper-functions" id="toc-your-turn-create-helper-functions" class="nav-link" data-scroll-target="#your-turn-create-helper-functions">Your Turn: Create Helper Functions</a></li>
+  </ul></li>
+  <li><a href="#exercise-1.3-understanding-scope" id="toc-exercise-1.3-understanding-scope" class="nav-link" data-scroll-target="#exercise-1.3-understanding-scope">Exercise 1.3: Understanding Scope</a>
+  <ul class="collapse">
+  <li><a href="#just-in-time-concept-scope" id="toc-just-in-time-concept-scope" class="nav-link" data-scroll-target="#just-in-time-concept-scope">Just-in-Time Concept: Scope</a></li>
+  <li><a href="#your-turn-identify-scope-issues" id="toc-your-turn-identify-scope-issues" class="nav-link" data-scroll-target="#your-turn-identify-scope-issues">Your Turn: Identify Scope Issues</a></li>
+  </ul></li>
+  <li><a href="#exercise-1.4-function-parameters" id="toc-exercise-1.4-function-parameters" class="nav-link" data-scroll-target="#exercise-1.4-function-parameters">Exercise 1.4: Function Parameters</a>
+  <ul class="collapse">
+  <li><a href="#just-in-time-concept-parameters-and-arguments" id="toc-just-in-time-concept-parameters-and-arguments" class="nav-link" data-scroll-target="#just-in-time-concept-parameters-and-arguments">Just-in-Time Concept: Parameters and Arguments</a></li>
+  <li><a href="#your-turn-add-parameters" id="toc-your-turn-add-parameters" class="nav-link" data-scroll-target="#your-turn-add-parameters">Your Turn: Add Parameters</a></li>
+  </ul></li>
+  <li><a href="#checkpoint-what-weve-learned" id="toc-checkpoint-what-weve-learned" class="nav-link" data-scroll-target="#checkpoint-what-weve-learned">Checkpoint: What We’ve Learned</a></li>
+  </ul></li>
+  <li><a href="#interlude-version-control-with-git" id="toc-interlude-version-control-with-git" class="nav-link" data-scroll-target="#interlude-version-control-with-git">Interlude: Version Control with Git</a>
+  <ul class="collapse">
+  <li><a href="#what-is-git" id="toc-what-is-git" class="nav-link" data-scroll-target="#what-is-git">What is Git?</a></li>
+  <li><a href="#installing-git" id="toc-installing-git" class="nav-link" data-scroll-target="#installing-git">Installing Git</a></li>
+  <li><a href="#basic-git-configuration" id="toc-basic-git-configuration" class="nav-link" data-scroll-target="#basic-git-configuration">Basic Git Configuration</a></li>
+  <li><a href="#key-git-concepts" id="toc-key-git-concepts" class="nav-link" data-scroll-target="#key-git-concepts">Key Git Concepts</a></li>
+  <li><a href="#creating-your-first-repository" id="toc-creating-your-first-repository" class="nav-link" data-scroll-target="#creating-your-first-repository">Creating Your First Repository</a></li>
+  </ul></li>
+  <li><a href="#exercise-2-documenting-functions" id="toc-exercise-2-documenting-functions" class="nav-link" data-scroll-target="#exercise-2-documenting-functions">Exercise 2: Documenting Functions</a>
+  <ul class="collapse">
+  <li><a href="#exercise-2.1-writing-docstrings" id="toc-exercise-2.1-writing-docstrings" class="nav-link" data-scroll-target="#exercise-2.1-writing-docstrings">Exercise 2.1: Writing Docstrings</a>
+  <ul class="collapse">
+  <li><a href="#just-in-time-concept-docstrings" id="toc-just-in-time-concept-docstrings" class="nav-link" data-scroll-target="#just-in-time-concept-docstrings">Just-in-Time Concept: Docstrings</a></li>
+  <li><a href="#your-turn-add-docstrings" id="toc-your-turn-add-docstrings" class="nav-link" data-scroll-target="#your-turn-add-docstrings">Your Turn: Add Docstrings</a></li>
+  </ul></li>
+  <li><a href="#exercise-2.2-type-hints-optional-enhancement" id="toc-exercise-2.2-type-hints-optional-enhancement" class="nav-link" data-scroll-target="#exercise-2.2-type-hints-optional-enhancement">Exercise 2.2: Type Hints (Optional Enhancement)</a>
+  <ul class="collapse">
+  <li><a href="#just-in-time-concept-type-hints" id="toc-just-in-time-concept-type-hints" class="nav-link" data-scroll-target="#just-in-time-concept-type-hints">Just-in-Time Concept: Type Hints</a></li>
+  </ul></li>
+  <li><a href="#exercise-2.3-assertions-and-input-validation" id="toc-exercise-2.3-assertions-and-input-validation" class="nav-link" data-scroll-target="#exercise-2.3-assertions-and-input-validation">Exercise 2.3: Assertions and Input Validation</a>
+  <ul class="collapse">
+  <li><a href="#just-in-time-concept-assertions" id="toc-just-in-time-concept-assertions" class="nav-link" data-scroll-target="#just-in-time-concept-assertions">Just-in-Time Concept: Assertions</a></li>
+  <li><a href="#your-turn-add-input-validation" id="toc-your-turn-add-input-validation" class="nav-link" data-scroll-target="#your-turn-add-input-validation">Your Turn: Add Input Validation</a></li>
+  </ul></li>
+  <li><a href="#exercise-2.4-pure-vs-stateful-functions" id="toc-exercise-2.4-pure-vs-stateful-functions" class="nav-link" data-scroll-target="#exercise-2.4-pure-vs-stateful-functions">Exercise 2.4: Pure vs Stateful Functions</a>
+  <ul class="collapse">
+  <li><a href="#just-in-time-concept-pure-functions" id="toc-just-in-time-concept-pure-functions" class="nav-link" data-scroll-target="#just-in-time-concept-pure-functions">Just-in-Time Concept: Pure Functions</a></li>
+  <li><a href="#your-turn-compare-pure-and-stateful" id="toc-your-turn-compare-pure-and-stateful" class="nav-link" data-scroll-target="#your-turn-compare-pure-and-stateful">Your Turn: Compare Pure and Stateful</a></li>
+  </ul></li>
+  <li><a href="#git-practice-committing-your-work" id="toc-git-practice-committing-your-work" class="nav-link" data-scroll-target="#git-practice-committing-your-work">Git Practice: Committing Your Work</a>
+  <ul class="collapse">
+  <li><a href="#creating-your-first-commit" id="toc-creating-your-first-commit" class="nav-link" data-scroll-target="#creating-your-first-commit">Creating Your First Commit</a></li>
+  <li><a href="#commit-messages" id="toc-commit-messages" class="nav-link" data-scroll-target="#commit-messages">Commit Messages</a></li>
+  <li><a href="#viewing-history" id="toc-viewing-history" class="nav-link" data-scroll-target="#viewing-history">Viewing History</a></li>
+  <li><a href="#your-turn-practice-git-workflow" id="toc-your-turn-practice-git-workflow" class="nav-link" data-scroll-target="#your-turn-practice-git-workflow">Your Turn: Practice Git Workflow</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#exercise-3-modular-organization" id="toc-exercise-3-modular-organization" class="nav-link" data-scroll-target="#exercise-3-modular-organization">Exercise 3: Modular Organization</a>
+  <ul class="collapse">
+  <li><a href="#exercise-3.1-organizing-within-a-single-file" id="toc-exercise-3.1-organizing-within-a-single-file" class="nav-link" data-scroll-target="#exercise-3.1-organizing-within-a-single-file">Exercise 3.1: Organizing Within a Single File</a>
+  <ul class="collapse">
+  <li><a href="#just-in-time-concept-if-__name__-__main__" id="toc-just-in-time-concept-if-__name__-__main__" class="nav-link" data-scroll-target="#just-in-time-concept-if-__name__-__main__">Just-in-Time Concept: <code>if __name__ == "__main__"</code></a></li>
+  <li><a href="#your-turn-organize-your-code" id="toc-your-turn-organize-your-code" class="nav-link" data-scroll-target="#your-turn-organize-your-code">Your Turn: Organize Your Code</a></li>
+  </ul></li>
+  <li><a href="#exercise-3.2-multiple-files-and-modules" id="toc-exercise-3.2-multiple-files-and-modules" class="nav-link" data-scroll-target="#exercise-3.2-multiple-files-and-modules">Exercise 3.2: Multiple Files and Modules</a>
+  <ul class="collapse">
+  <li><a href="#just-in-time-concept-imports" id="toc-just-in-time-concept-imports" class="nav-link" data-scroll-target="#just-in-time-concept-imports">Just-in-Time Concept: Imports</a></li>
+  <li><a href="#import-styles" id="toc-import-styles" class="nav-link" data-scroll-target="#import-styles">Import Styles</a></li>
+  <li><a href="#your-turn-create-a-multi-file-project" id="toc-your-turn-create-a-multi-file-project" class="nav-link" data-scroll-target="#your-turn-create-a-multi-file-project">Your Turn: Create a Multi-File Project</a></li>
+  </ul></li>
+  <li><a href="#exercise-3.3-creating-a-package" id="toc-exercise-3.3-creating-a-package" class="nav-link" data-scroll-target="#exercise-3.3-creating-a-package">Exercise 3.3: Creating a Package</a></li>
+  <li><a href="#git-practice-tracking-multi-file-projects" id="toc-git-practice-tracking-multi-file-projects" class="nav-link" data-scroll-target="#git-practice-tracking-multi-file-projects">Git Practice: Tracking Multi-File Projects</a>
+  <ul class="collapse">
+  <li><a href="#gitignore-file" id="toc-gitignore-file" class="nav-link" data-scroll-target="#gitignore-file">.gitignore File</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#synthesis-building-reliable-software" id="toc-synthesis-building-reliable-software" class="nav-link" data-scroll-target="#synthesis-building-reliable-software">Synthesis: Building Reliable Software</a>
+  <ul class="collapse">
+  <li><a href="#functions---reusable-building-blocks" id="toc-functions---reusable-building-blocks" class="nav-link" data-scroll-target="#functions---reusable-building-blocks">1. <strong>Functions</strong> - Reusable Building Blocks</a></li>
+  <li><a href="#documentation---communication-and-contracts" id="toc-documentation---communication-and-contracts" class="nav-link" data-scroll-target="#documentation---communication-and-contracts">2. <strong>Documentation</strong> - Communication and Contracts</a></li>
+  <li><a href="#design-choices---pure-vs-stateful" id="toc-design-choices---pure-vs-stateful" class="nav-link" data-scroll-target="#design-choices---pure-vs-stateful">3. <strong>Design Choices</strong> - Pure vs Stateful</a></li>
+  <li><a href="#organization---from-scripts-to-modules" id="toc-organization---from-scripts-to-modules" class="nav-link" data-scroll-target="#organization---from-scripts-to-modules">4. <strong>Organization</strong> - From Scripts to Modules</a></li>
+  <li><a href="#version-control---tracking-changes-systematically" id="toc-version-control---tracking-changes-systematically" class="nav-link" data-scroll-target="#version-control---tracking-changes-systematically">5. <strong>Version Control</strong> - Tracking Changes Systematically</a></li>
+  <li><a href="#the-workflow" id="toc-the-workflow" class="nav-link" data-scroll-target="#the-workflow">The Workflow</a></li>
+  </ul></li>
+  <li><a href="#looking-ahead-lecture-4" id="toc-looking-ahead-lecture-4" class="nav-link" data-scroll-target="#looking-ahead-lecture-4">Looking Ahead: Lecture 4</a></li>
+  <li><a href="#practice-exercises" id="toc-practice-exercises" class="nav-link" data-scroll-target="#practice-exercises">Practice Exercises</a>
+  <ul class="collapse">
+  <li><a href="#exercise-1-extend-portfolio-analysis" id="toc-exercise-1-extend-portfolio-analysis" class="nav-link" data-scroll-target="#exercise-1-extend-portfolio-analysis">Exercise 1: Extend Portfolio Analysis</a></li>
+  <li><a href="#exercise-2-practice-git-workflow" id="toc-exercise-2-practice-git-workflow" class="nav-link" data-scroll-target="#exercise-2-practice-git-workflow">Exercise 2: Practice Git Workflow</a></li>
+  <li><a href="#exercise-3-write-docstrings" id="toc-exercise-3-write-docstrings" class="nav-link" data-scroll-target="#exercise-3-write-docstrings">Exercise 3: Write Docstrings</a></li>
+  <li><a href="#exercise-4-refactor-for-purity" id="toc-exercise-4-refactor-for-purity" class="nav-link" data-scroll-target="#exercise-4-refactor-for-purity">Exercise 4: Refactor for Purity</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Lecture 3: Functions, Modularity, and Version Control</h1>
+<p class="subtitle lead">From Scripts to Software</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="central-question" class="level1">
+<h1>Central Question</h1>
+<blockquote class="blockquote">
+<p><strong>How do we turn a working program into reusable and maintainable software?</strong></p>
+</blockquote>
+<p>In Lecture 2, you learned to write programs that process collections of data using loops, conditionals, and data structures. Those programs worked, but they had limitations:</p>
+<ul>
+<li>Code was difficult to reuse for similar tasks</li>
+<li>Logic was scattered and hard to follow</li>
+<li>No clear separation between different computational steps</li>
+<li>No documentation or contracts about what the code does</li>
+<li>No systematic way to track changes and improvements</li>
+</ul>
+<p>Today, we’ll transform procedural scripts into well-organized, reusable functions. We’ll learn to document our code, organize it into modules, and use version control (Git) to track our work. By the end of class, you’ll be able to build small software tools that are reliable, maintainable, and ready to share with collaborators.</p>
+<p><strong>The key insight</strong>: Good software isn’t just about making code work—it’s about making code that you (and others) can understand, trust, and build upon.</p>
+</section>
+<section id="quiz" class="level1">
+<h1>1. Quiz</h1>
+<p>Before beginning today’s lecture, complete the short quiz covering Lecture 2.</p>
+<p>The quiz checks your understanding of:</p>
+<ul>
+<li>data structures (lists, tuples, dictionaries, sets)</li>
+<li>control flow (loops, conditionals)</li>
+<li>basic algorithm design</li>
+<li>choosing appropriate data structures</li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Building on Lecture 2
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Today assumes you’re comfortable with loops, conditionals, and data structures from Lecture 2. We’ll briefly review these concepts as we use them, but the focus is on organizing that knowledge into reusable functions.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="exercise-1-from-procedural-code-to-functions" class="level1">
+<h1>Exercise 1: From Procedural Code to Functions</h1>
+<section id="the-problem-portfolio-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="the-problem-portfolio-analysis">The Problem: Portfolio Analysis</h2>
+<p>You’ve been tracking daily stock prices and need to analyze returns. Here’s a working program that does the job:</p>
+<div id="3bd5ca01" class="cell" data-execution_count="1">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Stock prices over 10 days</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>prices <span class="op">=</span> [<span class="fl">150.0</span>, <span class="fl">152.5</span>, <span class="fl">148.0</span>, <span class="fl">153.0</span>, <span class="fl">155.5</span>, <span class="fl">154.0</span>, <span class="fl">157.5</span>, <span class="fl">159.0</span>, <span class="fl">156.5</span>, <span class="fl">160.0</span>]</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate daily returns</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>returns <span class="op">=</span> []</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="bu">len</span>(prices)):</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    daily_return <span class="op">=</span> (prices[i] <span class="op">-</span> prices[i<span class="op">-</span><span class="dv">1</span>]) <span class="op">/</span> prices[i<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    returns.append(daily_return)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Returns: </span><span class="sc">{</span>returns[:<span class="dv">3</span>]<span class="sc">}</span><span class="ss">..."</span>)  <span class="co"># Show first 3</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate average return</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>total_return <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> r <span class="kw">in</span> returns:</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    total_return <span class="op">+=</span> r</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>average_return <span class="op">=</span> total_return <span class="op">/</span> <span class="bu">len</span>(returns)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Average return: </span><span class="sc">{</span>average_return<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate volatility (standard deviation of returns)</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>squared_diffs <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> r <span class="kw">in</span> returns:</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>    squared_diffs <span class="op">+=</span> (r <span class="op">-</span> average_return) <span class="op">**</span> <span class="dv">2</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>variance <span class="op">=</span> squared_diffs <span class="op">/</span> (<span class="bu">len</span>(returns) <span class="op">-</span> <span class="dv">1</span>)</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>volatility <span class="op">=</span> variance <span class="op">**</span> <span class="fl">0.5</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Volatility: </span><span class="sc">{</span>volatility<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Returns: [0.016666666666666666, -0.029508196721311476, 0.033783783783783786]...
+Average return: 0.0074
+Volatility: 0.0210</code></pre>
+</div>
+</div>
+<p>This code works, but:</p>
+<ul>
+<li>What if you need to analyze a different stock?</li>
+<li>What if you want to reuse the return calculation elsewhere?</li>
+<li>How do you test that the calculations are correct?</li>
+<li>Can a collaborator understand what each part does?</li>
+</ul>
+<p>Let’s transform this into reusable functions.</p>
+<hr>
+</section>
+<section id="exercise-1.1-your-first-function" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-1.1-your-first-function">Exercise 1.1: Your First Function</h2>
+<p>Let’s start by extracting the return calculation into a function.</p>
+<p><strong>A function</strong> packages code into a reusable unit with:</p>
+<ul>
+<li>A <strong>name</strong> that describes what it does</li>
+<li><strong>Parameters</strong> (inputs) it needs</li>
+<li>A <strong>return value</strong> (output) it produces</li>
+</ul>
+<section id="just-in-time-concept-function-definition" class="level3">
+<h3 class="anchored" data-anchor-id="just-in-time-concept-function-definition">Just-in-Time Concept: Function Definition</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> function_name(parameter1, parameter2):</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Optional documentation string."""</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Function body</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    result <span class="op">=</span> parameter1 <span class="op">+</span> parameter2</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> result</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Key parts:</p>
+<ul>
+<li><code>def</code> keyword starts the definition</li>
+<li>Parameters in parentheses</li>
+<li>Colon <code>:</code> ends the header</li>
+<li>Indented body contains the code</li>
+<li><code>return</code> sends back the result</li>
+</ul>
+</section>
+<section id="your-turn-create-calculate_returns" class="level3">
+<h3 class="anchored" data-anchor-id="your-turn-create-calculate_returns">Your Turn: Create <code>calculate_returns()</code></h3>
+<div id="7959e4b0" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_returns(prices):</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Calculate daily returns from price data."""</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Your code here</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Hint: Use the same logic as above, but work with the prices parameter</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">pass</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Test it</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>prices <span class="op">=</span> [<span class="fl">150.0</span>, <span class="fl">152.5</span>, <span class="fl">148.0</span>, <span class="fl">153.0</span>, <span class="fl">155.5</span>]</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>returns <span class="op">=</span> calculate_returns(prices)</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(returns)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>Why is this better?</strong></p>
+<ul>
+<li>The calculation is now reusable</li>
+<li>The function name documents what it does</li>
+<li>We can test it independently</li>
+<li>We can use it on different price data</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="exercise-1.2-adding-more-functions" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-1.2-adding-more-functions">Exercise 1.2: Adding More Functions</h2>
+<p>Now let’s create functions for average and volatility.</p>
+<section id="your-turn-create-helper-functions" class="level3">
+<h3 class="anchored" data-anchor-id="your-turn-create-helper-functions">Your Turn: Create Helper Functions</h3>
+<div id="1026c61b" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_average(values):</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Calculate the arithmetic mean of a list of numbers."""</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Your code here</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">pass</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_volatility(returns):</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co">    Calculate volatility (standard deviation) of returns.</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co">    Uses sample standard deviation (n-1 denominator).</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Your code here</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Hint: You'll need the average of returns first</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">pass</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Test them</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>test_returns <span class="op">=</span> [<span class="fl">0.01</span>, <span class="op">-</span><span class="fl">0.02</span>, <span class="fl">0.015</span>, <span class="fl">0.03</span>, <span class="op">-</span><span class="fl">0.01</span>]</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>avg <span class="op">=</span> calculate_average(test_returns)</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>vol <span class="op">=</span> calculate_volatility(test_returns)</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Average: </span><span class="sc">{</span>avg<span class="sc">:.4f}</span><span class="ss">, Volatility: </span><span class="sc">{</span>vol<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<hr>
+</section>
+</section>
+<section id="exercise-1.3-understanding-scope" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-1.3-understanding-scope">Exercise 1.3: Understanding Scope</h2>
+<p>Look at this code carefully:</p>
+<div id="ef46910b" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_sum(numbers):</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    total <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> num <span class="kw">in</span> numbers:</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>        total <span class="op">+=</span> num</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> total</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> calculate_sum([<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>])</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Result: </span><span class="sc">{</span>result<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Total: </span><span class="sc">{</span>total<span class="sc">}</span><span class="ss">"</span>)  <span class="co"># What happens here?</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Result: 10</code></pre>
+</div>
+<div class="cell-output cell-output-error">
+<div class="ansi-escaped-output">
+<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
+<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[2]</span><span class="ansi-green-fg">, line 9</span>
+<span class="ansi-green-fg">      5</span>     <span style="font-weight:bold;color:rgb(0,135,0)">return</span> total
+<span class="ansi-green-fg">      6</span> 
+<span class="ansi-green-fg">      7</span> result = calculate_sum([<span class="ansi-green-fg">1</span>, <span class="ansi-green-fg">2</span>, <span class="ansi-green-fg">3</span>, <span class="ansi-green-fg">4</span>])
+<span class="ansi-green-fg">      8</span> print(f"Result: {result}")
+<span class="ansi-green-fg">----&gt; </span><span class="ansi-green-fg">9</span> print(f"Total: {total}")  <span style="font-style:italic;color:rgb(95,135,135)"># What happens here?</span>
+
+<span class="ansi-red-fg">NameError</span>: name 'total' is not defined</pre>
+</div>
+</div>
+</div>
+<section id="just-in-time-concept-scope" class="level3">
+<h3 class="anchored" data-anchor-id="just-in-time-concept-scope">Just-in-Time Concept: Scope</h3>
+<p><strong>Scope</strong> determines where variables are accessible:</p>
+<ul>
+<li><strong>Local variables</strong>: Defined inside a function, only accessible within it</li>
+<li><strong>Global variables</strong>: Defined outside functions, accessible everywhere</li>
+</ul>
+<div id="c1575c72" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Global variable</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>pi <span class="op">=</span> <span class="fl">3.14159</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_area(radius):</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Local variable</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    area <span class="op">=</span> pi <span class="op">*</span> radius <span class="op">**</span> <span class="dv">2</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> area</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> calculate_area(<span class="dv">5</span>)</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(result)</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="co"># print(area)  # Error! area is local to the function</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>78.53975</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Avoid Modifying Global State
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Functions should generally work with their parameters and return results, not modify global variables. This makes them easier to understand and test.</p>
+</div>
+</div>
+</section>
+<section id="your-turn-identify-scope-issues" class="level3">
+<h3 class="anchored" data-anchor-id="your-turn-identify-scope-issues">Your Turn: Identify Scope Issues</h3>
+<div id="f29ea032" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>count <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> process_data(values):</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    count <span class="op">=</span> <span class="dv">0</span>  <span class="co"># Is this the same as the global count?</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> v <span class="kw">in</span> values:</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> v <span class="op">&gt;</span> <span class="dv">0</span>:</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>            count <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> count</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> process_data([<span class="dv">1</span>, <span class="op">-</span><span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="op">-</span><span class="dv">1</span>])</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Positive values: </span><span class="sc">{</span>result<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Global count: </span><span class="sc">{</span>count<span class="sc">}</span><span class="ss">"</span>)  <span class="co"># What will this be?</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Explain in a comment: Why are <code>count</code> inside and outside the function different?</p>
+<hr>
+</section>
+</section>
+<section id="exercise-1.4-function-parameters" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-1.4-function-parameters">Exercise 1.4: Function Parameters</h2>
+<p>Functions can accept multiple parameters and have default values.</p>
+<section id="just-in-time-concept-parameters-and-arguments" class="level3">
+<h3 class="anchored" data-anchor-id="just-in-time-concept-parameters-and-arguments">Just-in-Time Concept: Parameters and Arguments</h3>
+<div id="30517db8" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Positional parameters</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_growth(initial, final):</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (final <span class="op">-</span> initial) <span class="op">/</span> initial</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>growth <span class="op">=</span> calculate_growth(<span class="dv">100</span>, <span class="dv">110</span>)  <span class="co"># Arguments matched by position</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Growth: </span><span class="sc">{</span>growth<span class="sc">:.2%}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Growth: 10.00%</code></pre>
+</div>
+</div>
+<div id="785b7c17" class="cell" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Default parameter values</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_growth(initial, final, as_percentage<span class="op">=</span><span class="va">True</span>):</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    growth <span class="op">=</span> (final <span class="op">-</span> initial) <span class="op">/</span> initial</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> as_percentage:</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> growth <span class="op">*</span> <span class="dv">100</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> growth</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(calculate_growth(<span class="dv">100</span>, <span class="dv">110</span>))            <span class="co"># Uses default: True</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(calculate_growth(<span class="dv">100</span>, <span class="dv">110</span>, <span class="va">False</span>))     <span class="co"># Override default</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(calculate_growth(<span class="dv">100</span>, <span class="dv">110</span>, as_percentage<span class="op">=</span><span class="va">False</span>))  <span class="co"># Named argument</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>10.0
+0.1
+0.1</code></pre>
+</div>
+</div>
+</section>
+<section id="your-turn-add-parameters" class="level3">
+<h3 class="anchored" data-anchor-id="your-turn-add-parameters">Your Turn: Add Parameters</h3>
+<div id="a1383e94" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_sharpe_ratio(returns, risk_free_rate<span class="op">=</span><span class="fl">0.02</span>):</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Calculate Sharpe ratio for investment returns.</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="co">    Sharpe ratio = (mean return - risk-free rate) / volatility</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="co">    Parameters:</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="co">        returns: list of returns</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="co">        risk_free_rate: risk-free interest rate (default 0.02 = 2%)</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Your code here</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Use your calculate_average and calculate_volatility functions</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">pass</span></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Test with different risk-free rates</span></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>test_returns <span class="op">=</span> [<span class="fl">0.05</span>, <span class="fl">0.03</span>, <span class="op">-</span><span class="fl">0.01</span>, <span class="fl">0.04</span>, <span class="fl">0.02</span>]</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Sharpe (2% risk-free): </span><span class="sc">{</span>calculate_sharpe_ratio(test_returns)<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Sharpe (1% risk-free): </span><span class="sc">{</span>calculate_sharpe_ratio(test_returns, <span class="fl">0.01</span>)<span class="sc">:.3f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<hr>
+</section>
+</section>
+<section id="checkpoint-what-weve-learned" class="level2">
+<h2 class="anchored" data-anchor-id="checkpoint-what-weve-learned">Checkpoint: What We’ve Learned</h2>
+<p>We’ve transformed procedural code into reusable functions. Our code is now:</p>
+<ul>
+<li><strong>Modular</strong>: Each function does one thing well</li>
+<li><strong>Reusable</strong>: We can call functions with different data</li>
+<li><strong>Testable</strong>: We can verify each function independently</li>
+<li><strong>Readable</strong>: Function names document intent</li>
+</ul>
+<p>But we’re not done. We need to:</p>
+<ul>
+<li>Document what functions do</li>
+<li>Track our changes systematically</li>
+<li>Organize functions into modules</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="interlude-version-control-with-git" class="level1">
+<h1>Interlude: Version Control with Git</h1>
+<p>Before continuing, let’s set up Git to track our work.</p>
+<section id="what-is-git" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-git">What is Git?</h2>
+<p><strong>Git</strong> is a version control system that:</p>
+<ul>
+<li>Records snapshots of your code over time</li>
+<li>Lets you experiment without fear of breaking things</li>
+<li>Enables collaboration with others</li>
+<li>Provides a complete history of changes</li>
+</ul>
+<p>Think of it as “Track Changes” for code, but much more powerful.</p>
+</section>
+<section id="installing-git" class="level2">
+<h2 class="anchored" data-anchor-id="installing-git">Installing Git</h2>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Windows</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Mac</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false" href="">Linux</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<ol type="1">
+<li>Download Git for Windows from <a href="https://git-scm.com/download/win">git-scm.com</a></li>
+<li>Run the installer</li>
+<li><strong>Important choices during installation</strong>:
+<ul>
+<li>Select “Git Bash” as the terminal emulator</li>
+<li>Choose “Use Git from Git Bash only” (safest option)</li>
+<li>Accept other defaults</li>
+</ul></li>
+<li>After installation, search for “Git Bash” and open it</li>
+</ol>
+<p>To verify installation:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> <span class="at">--version</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<p><strong>Option 1: Install via Homebrew (recommended)</strong> 1. If you don’t have Homebrew, install it from <a href="https://brew.sh">brew.sh</a> 2. Open Terminal and run:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="ex">brew</span> install git</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Option 2: Install from git-scm.com</strong> 1. Download from <a href="https://git-scm.com/download/mac">git-scm.com/download/mac</a> 2. Open the .dmg file and follow the installer</p>
+<p>To verify installation:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> <span class="at">--version</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
+<p><strong>Ubuntu/Debian</strong>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt update</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt install git</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Fedora</strong>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> dnf install git</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Arch Linux</strong>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> pacman <span class="at">-S</span> git</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>To verify installation:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> <span class="at">--version</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</div>
+</section>
+<section id="basic-git-configuration" class="level2">
+<h2 class="anchored" data-anchor-id="basic-git-configuration">Basic Git Configuration</h2>
+<p>After installing, configure your identity (needed for commits):</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> config <span class="at">--global</span> user.name <span class="st">"Your Name"</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> config <span class="at">--global</span> user.email <span class="st">"your.email@example.com"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="key-git-concepts" class="level2">
+<h2 class="anchored" data-anchor-id="key-git-concepts">Key Git Concepts</h2>
+<p>Before using Git, understand these terms:</p>
+<ul>
+<li><strong>Repository (repo)</strong>: A folder that Git tracks</li>
+<li><strong>Commit</strong>: A snapshot of your code at a specific time</li>
+<li><strong>Working directory</strong>: The current state of your files</li>
+<li><strong>Staging area</strong>: Files prepared for the next commit</li>
+</ul>
+<p>The Git workflow:</p>
+<pre class="text"><code>Edit files → Stage changes → Commit snapshot
+    ↓            ↓              ↓
+Working dir → Staging area → Repository</code></pre>
+</section>
+<section id="creating-your-first-repository" class="level2">
+<h2 class="anchored" data-anchor-id="creating-your-first-repository">Creating Your First Repository</h2>
+<p>In Git Bash (Windows) or Terminal (Mac/Linux):</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a directory for your project</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> portfolio_analysis</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> portfolio_analysis</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize a Git repository</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> init</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Check status</span></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> status</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Understanding <code>git status</code>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This command shows:</p>
+<ul>
+<li>Which files have changed</li>
+<li>Which changes are staged</li>
+<li>Which files are untracked</li>
+</ul>
+<p>Use it frequently to understand your repository’s state.</p>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="exercise-2-documenting-functions" class="level1">
+<h1>Exercise 2: Documenting Functions</h1>
+<section id="exercise-2.1-writing-docstrings" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-2.1-writing-docstrings">Exercise 2.1: Writing Docstrings</h2>
+<p>Functions need documentation. Python uses <strong>docstrings</strong>—multi-line strings at the start of a function.</p>
+<section id="just-in-time-concept-docstrings" class="level3">
+<h3 class="anchored" data-anchor-id="just-in-time-concept-docstrings">Just-in-Time Concept: Docstrings</h3>
+<div id="f8a02a9a" class="cell" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_return(initial, final):</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Calculate the simple return on an investment.</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="co">    Parameters:</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="co">        initial: starting value</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="co">        final: ending value</span></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a><span class="co">        </span></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns:</span></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a><span class="co">        float: the return as a decimal (0.10 = 10% gain)</span></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a><span class="co">        </span></span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a><span class="co">    Example:</span></span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a><span class="co">        &gt;&gt;&gt; calculate_return(100, 110)</span></span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a><span class="co">        0.10</span></span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (final <span class="op">-</span> initial) <span class="op">/</span> initial</span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Access the docstring</span></span>
+<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(calculate_return.__doc__)</span>
+<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Or use help()</span></span>
+<span id="cb26-22"><a href="#cb26-22" aria-hidden="true" tabindex="-1"></a><span class="bu">help</span>(calculate_return)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Calculate the simple return on an investment.
+
+    Parameters:
+        initial: starting value
+        final: ending value
+
+    Returns:
+        float: the return as a decimal (0.10 = 10% gain)
+
+    Example:
+        &gt;&gt;&gt; calculate_return(100, 110)
+        0.10
+    
+Help on function calculate_return in module __main__:
+
+calculate_return(initial, final)
+    Calculate the simple return on an investment.
+
+    Parameters:
+        initial: starting value
+        final: ending value
+
+    Returns:
+        float: the return as a decimal (0.10 = 10% gain)
+
+    Example:
+        &gt;&gt;&gt; calculate_return(100, 110)
+        0.10
+</code></pre>
+</div>
+</div>
+<p>A good docstring includes:</p>
+<ul>
+<li><strong>What</strong> the function does (one-line summary)</li>
+<li><strong>Parameters</strong>: What inputs are needed</li>
+<li><strong>Returns</strong>: What output is produced</li>
+<li><strong>Examples</strong>: How to use it (optional but helpful)</li>
+</ul>
+</section>
+<section id="your-turn-add-docstrings" class="level3">
+<h3 class="anchored" data-anchor-id="your-turn-add-docstrings">Your Turn: Add Docstrings</h3>
+<div id="e61c6004" class="cell" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_returns(prices):</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="co">    # Add complete docstring here</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="co">    # Include: description, parameters, returns, example</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>    returns <span class="op">=</span> []</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="bu">len</span>(prices)):</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>        daily_return <span class="op">=</span> (prices[i] <span class="op">-</span> prices[i<span class="op">-</span><span class="dv">1</span>]) <span class="op">/</span> prices[i<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>        returns.append(daily_return)</span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> returns</span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_volatility(returns):</span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a><span class="co">    # Add complete docstring here</span></span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a>    avg <span class="op">=</span> <span class="bu">sum</span>(returns) <span class="op">/</span> <span class="bu">len</span>(returns)</span>
+<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a>    squared_diffs <span class="op">=</span> <span class="bu">sum</span>((r <span class="op">-</span> avg) <span class="op">**</span> <span class="dv">2</span> <span class="cf">for</span> r <span class="kw">in</span> returns)</span>
+<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a>    variance <span class="op">=</span> squared_diffs <span class="op">/</span> (<span class="bu">len</span>(returns) <span class="op">-</span> <span class="dv">1</span>)</span>
+<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> variance <span class="op">**</span> <span class="fl">0.5</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<hr>
+</section>
+</section>
+<section id="exercise-2.2-type-hints-optional-enhancement" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-2.2-type-hints-optional-enhancement">Exercise 2.2: Type Hints (Optional Enhancement)</h2>
+<p>Python 3.5+ supports <strong>type hints</strong>—annotations that document expected types.</p>
+<section id="just-in-time-concept-type-hints" class="level3">
+<h3 class="anchored" data-anchor-id="just-in-time-concept-type-hints">Just-in-Time Concept: Type Hints</h3>
+<div id="e37fa9ba" class="cell" data-execution_count="12">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_return(initial: <span class="bu">float</span>, final: <span class="bu">float</span>) <span class="op">-&gt;</span> <span class="bu">float</span>:</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Calculate simple return on investment."""</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (final <span class="op">-</span> initial) <span class="op">/</span> initial</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Type hints don't enforce types at runtime—they're documentation</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> calculate_return(<span class="dv">100</span>, <span class="dv">110</span>)  <span class="co"># Works fine</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Type hints help:</p>
+<ul>
+<li><strong>Readers</strong> understand expected types</li>
+<li><strong>IDEs</strong> provide better autocomplete</li>
+<li><strong>Type checkers</strong> (like mypy) catch errors</li>
+</ul>
+<div id="3c7bfa79" class="cell" data-execution_count="13">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> List</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_returns(prices: List[<span class="bu">float</span>]) <span class="op">-&gt;</span> List[<span class="bu">float</span>]:</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Calculate daily returns from price data."""</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>    returns <span class="op">=</span> []</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="bu">len</span>(prices)):</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>        daily_return <span class="op">=</span> (prices[i] <span class="op">-</span> prices[i<span class="op">-</span><span class="dv">1</span>]) <span class="op">/</span> prices[i<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>        returns.append(daily_return)</span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> returns</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Type Hints Are Optional
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Type hints are considered a professional practice but are optional for this course. They’re useful for larger projects but can be skipped in small scripts.</p>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="exercise-2.3-assertions-and-input-validation" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-2.3-assertions-and-input-validation">Exercise 2.3: Assertions and Input Validation</h2>
+<p>Functions should check their inputs to fail gracefully.</p>
+<section id="just-in-time-concept-assertions" class="level3">
+<h3 class="anchored" data-anchor-id="just-in-time-concept-assertions">Just-in-Time Concept: Assertions</h3>
+<div id="4fc99c33" class="cell" data-execution_count="14">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_return(initial: <span class="bu">float</span>, final: <span class="bu">float</span>) <span class="op">-&gt;</span> <span class="bu">float</span>:</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Calculate simple return on investment."""</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> initial <span class="op">&gt;</span> <span class="dv">0</span>, <span class="st">"Initial value must be positive"</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (final <span class="op">-</span> initial) <span class="op">/</span> initial</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a><span class="co"># This works</span></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> calculate_return(<span class="dv">100</span>, <span class="dv">110</span>)</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(result)</span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a><span class="co"># This fails with a clear message</span></span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> calculate_return(<span class="op">-</span><span class="dv">100</span>, <span class="dv">110</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>0.1</code></pre>
+</div>
+<div class="cell-output cell-output-error">
+<div class="ansi-escaped-output">
+<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">AssertionError</span>                            Traceback (most recent call last)
+<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[9]</span><span class="ansi-green-fg">, line 11</span>
+<span class="ansi-green-fg">      7</span> result = calculate_return(<span class="ansi-green-fg">100</span>, <span class="ansi-green-fg">110</span>)
+<span class="ansi-green-fg">      8</span> print(result)
+<span class="ansi-green-fg">      9</span> 
+<span class="ansi-green-fg">     10</span> <span style="font-style:italic;color:rgb(95,135,135)"># This fails with a clear message</span>
+<span class="ansi-green-fg">---&gt; </span><span class="ansi-green-fg">11</span> result = calculate_return(-<span class="ansi-green-fg">100</span>, <span class="ansi-green-fg">110</span>)
+
+<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[9]</span><span class="ansi-green-fg">, line 3</span>, in <span class="ansi-cyan-fg">calculate_return</span><span class="ansi-blue-fg">(initial, final)</span>
+<span class="ansi-green-fg">      1</span> <span style="font-weight:bold;color:rgb(0,135,0)">def</span> calculate_return(initial: float, final: float) -&gt; float:
+<span class="ansi-green-fg">      2</span>     <span class="ansi-yellow-fg">"""Calculate simple return on investment."""</span>
+<span class="ansi-green-fg">----&gt; </span><span class="ansi-green-fg">3</span>     <span style="font-weight:bold;color:rgb(0,135,0)">assert</span> initial &gt; <span class="ansi-green-fg">0</span>, <span class="ansi-yellow-fg">"Initial value must be positive"</span>
+<span class="ansi-green-fg">      4</span>     <span style="font-weight:bold;color:rgb(0,135,0)">return</span> (final - initial) / initial
+
+<span class="ansi-red-fg">AssertionError</span>: Initial value must be positive</pre>
+</div>
+</div>
+</div>
+<div id="541b9810" class="cell" data-execution_count="15">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_average(values):</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Calculate arithmetic mean."""</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> <span class="bu">len</span>(values) <span class="op">&gt;</span> <span class="dv">0</span>, <span class="st">"Cannot calculate average of empty list"</span></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">sum</span>(values) <span class="op">/</span> <span class="bu">len</span>(values)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>When to use assertions</strong>:</p>
+<ul>
+<li>Check preconditions (assumptions about inputs)</li>
+<li>Validate function contracts</li>
+<li>Catch programming errors early</li>
+</ul>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Assertions vs Exceptions
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Assertions are for catching programmer errors (things that should never happen). For user input validation or expected error conditions, use exceptions (<code>if</code>/<code>raise</code>) instead.</p>
+</div>
+</div>
+</section>
+<section id="your-turn-add-input-validation" class="level3">
+<h3 class="anchored" data-anchor-id="your-turn-add-input-validation">Your Turn: Add Input Validation</h3>
+<div id="0e661047" class="cell" data-execution_count="16">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_volatility(returns: List[<span class="bu">float</span>]) <span class="op">-&gt;</span> <span class="bu">float</span>:</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Calculate volatility of returns.</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a><span class="co">    Parameters:</span></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a><span class="co">        returns: list of return values</span></span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a><span class="co">        </span></span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns:</span></span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a><span class="co">        float: standard deviation of returns</span></span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Add assertions to check:</span></span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 1. returns is not empty</span></span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 2. returns has at least 2 values (needed for sample std dev)</span></span>
+<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Your code here</span></span>
+<span id="cb34-16"><a href="#cb34-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">pass</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<hr>
+</section>
+</section>
+<section id="exercise-2.4-pure-vs-stateful-functions" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-2.4-pure-vs-stateful-functions">Exercise 2.4: Pure vs Stateful Functions</h2>
+<p>Some functions modify state; others just compute and return values.</p>
+<section id="just-in-time-concept-pure-functions" class="level3">
+<h3 class="anchored" data-anchor-id="just-in-time-concept-pure-functions">Just-in-Time Concept: Pure Functions</h3>
+<p>A <strong>pure function</strong>:</p>
+<ul>
+<li>Always returns the same output for the same input</li>
+<li>Has no side effects (doesn’t modify anything outside itself)</li>
+<li>Is easier to test and reason about</li>
+</ul>
+<div id="703311f3" class="cell" data-execution_count="17">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Pure function - no side effects</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_total(values):</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Sum values and return total."""</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">sum</span>(values)</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Stateful function - modifies a global variable</span></span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>total <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> add_to_total(value):</span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Add value to global total."""</span></span>
+<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">global</span> total</span>
+<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a>    total <span class="op">+=</span> value</span>
+<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># No return value - the side effect IS the point</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="your-turn-compare-pure-and-stateful" class="level3">
+<h3 class="anchored" data-anchor-id="your-turn-compare-pure-and-stateful">Your Turn: Compare Pure and Stateful</h3>
+<div id="c930e62a" class="cell" data-execution_count="18">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Approach 1: Stateful (modifies a portfolio dict)</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>portfolio <span class="op">=</span> {<span class="st">"cash"</span>: <span class="dv">10000</span>, <span class="st">"stock_value"</span>: <span class="dv">0</span>}</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> buy_stock_stateful(shares, price):</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Buy stock, updating global portfolio."""</span></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>    cost <span class="op">=</span> shares <span class="op">*</span> price</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>    portfolio[<span class="st">"cash"</span>] <span class="op">-=</span> cost</span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>    portfolio[<span class="st">"stock_value"</span>] <span class="op">+=</span> cost</span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>buy_stock_stateful(<span class="dv">10</span>, <span class="dv">150</span>)</span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Portfolio: </span><span class="sc">{</span>portfolio<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Approach 2: Pure (returns new portfolio)</span></span>
+<span id="cb36-15"><a href="#cb36-15" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> buy_stock_pure(portfolio, shares, price):</span>
+<span id="cb36-16"><a href="#cb36-16" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb36-17"><a href="#cb36-17" aria-hidden="true" tabindex="-1"></a><span class="co">    Buy stock, returning updated portfolio.</span></span>
+<span id="cb36-18"><a href="#cb36-18" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb36-19"><a href="#cb36-19" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns:</span></span>
+<span id="cb36-20"><a href="#cb36-20" aria-hidden="true" tabindex="-1"></a><span class="co">        dict: new portfolio with updated values</span></span>
+<span id="cb36-21"><a href="#cb36-21" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb36-22"><a href="#cb36-22" aria-hidden="true" tabindex="-1"></a>    cost <span class="op">=</span> shares <span class="op">*</span> price</span>
+<span id="cb36-23"><a href="#cb36-23" aria-hidden="true" tabindex="-1"></a>    new_portfolio <span class="op">=</span> portfolio.copy()</span>
+<span id="cb36-24"><a href="#cb36-24" aria-hidden="true" tabindex="-1"></a>    new_portfolio[<span class="st">"cash"</span>] <span class="op">-=</span> cost</span>
+<span id="cb36-25"><a href="#cb36-25" aria-hidden="true" tabindex="-1"></a>    new_portfolio[<span class="st">"stock_value"</span>] <span class="op">+=</span> cost</span>
+<span id="cb36-26"><a href="#cb36-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> new_portfolio</span>
+<span id="cb36-27"><a href="#cb36-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-28"><a href="#cb36-28" aria-hidden="true" tabindex="-1"></a>initial_portfolio <span class="op">=</span> {<span class="st">"cash"</span>: <span class="dv">10000</span>, <span class="st">"stock_value"</span>: <span class="dv">0</span>}</span>
+<span id="cb36-29"><a href="#cb36-29" aria-hidden="true" tabindex="-1"></a>updated_portfolio <span class="op">=</span> buy_stock_pure(initial_portfolio, <span class="dv">10</span>, <span class="dv">150</span>)</span>
+<span id="cb36-30"><a href="#cb36-30" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Original: </span><span class="sc">{</span>initial_portfolio<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb36-31"><a href="#cb36-31" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Updated: </span><span class="sc">{</span>updated_portfolio<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>Discussion</strong>: What are the advantages of each approach?</p>
+<p><strong>Pure function advantages</strong>:</p>
+<ul>
+<li>Easier to test</li>
+<li>No hidden dependencies</li>
+<li>Original data preserved</li>
+<li>Can run in parallel safely</li>
+</ul>
+<p><strong>Stateful function advantages</strong>:</p>
+<ul>
+<li>Sometimes more natural</li>
+<li>Can be more efficient (no copying)</li>
+<li>Matches real-world mental model</li>
+</ul>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Default to Pure Functions
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>When possible, prefer pure functions. They’re easier to understand, test, and debug. Use stateful functions only when there’s a clear benefit.</p>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="git-practice-committing-your-work" class="level2">
+<h2 class="anchored" data-anchor-id="git-practice-committing-your-work">Git Practice: Committing Your Work</h2>
+<p>Let’s save a snapshot of our progress.</p>
+<section id="creating-your-first-commit" class="level3">
+<h3 class="anchored" data-anchor-id="creating-your-first-commit">Creating Your First Commit</h3>
+<ol type="1">
+<li><strong>Create a file</strong> <code>portfolio.py</code> with your functions</li>
+<li><strong>Add it to staging</strong>:</li>
+</ol>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb37"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add portfolio.py</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ol start="3" type="1">
+<li><strong>Check status</strong>:</li>
+</ol>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb38"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> status</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ol start="4" type="1">
+<li><strong>Commit with a message</strong>:</li>
+</ol>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb39"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"Add portfolio analysis functions"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="commit-messages" class="level3">
+<h3 class="anchored" data-anchor-id="commit-messages">Commit Messages</h3>
+<p>Good commit messages:</p>
+<ul>
+<li>Use present tense: “Add function” not “Added function”</li>
+<li>Be specific: “Add calculate_returns function” not “Update code”</li>
+<li>Explain <em>what</em> changed, not <em>how</em> (code shows how)</li>
+</ul>
+<p>Examples:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb40"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"Add return and volatility calculations"</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"Add input validation to calculate_volatility"</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"Refactor: extract calculate_average function"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="viewing-history" class="level3">
+<h3 class="anchored" data-anchor-id="viewing-history">Viewing History</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb41"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># See commit history</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> log</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Shorter format</span></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> log <span class="at">--oneline</span></span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a><span class="co"># See what changed</span></span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> diff</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="your-turn-practice-git-workflow" class="level3">
+<h3 class="anchored" data-anchor-id="your-turn-practice-git-workflow">Your Turn: Practice Git Workflow</h3>
+<ol type="1">
+<li>Create <code>portfolio.py</code> with your functions</li>
+<li>Initialize a Git repository</li>
+<li>Add and commit your file</li>
+<li>Make a change (add a docstring you forgot)</li>
+<li>Check the diff</li>
+<li>Commit the improvement</li>
+</ol>
+<hr>
+</section>
+</section>
+</section>
+<section id="exercise-3-modular-organization" class="level1">
+<h1>Exercise 3: Modular Organization</h1>
+<section id="exercise-3.1-organizing-within-a-single-file" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-3.1-organizing-within-a-single-file">Exercise 3.1: Organizing Within a Single File</h2>
+<p>As code grows, organization matters even within a single file.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># portfolio.py</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="co">"""</span></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a><span class="co">Portfolio analysis functions.</span></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a><span class="co">This module provides functions for analyzing investment portfolios:</span></span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a><span class="co">- Return calculations</span></span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a><span class="co">- Risk metrics (volatility, Sharpe ratio)</span></span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a><span class="co">- Portfolio optimization helpers</span></span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a><span class="co">"""</span></span>
+<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-12"><a href="#cb42-12" aria-hidden="true" tabindex="-1"></a><span class="co"># ============================================================================</span></span>
+<span id="cb42-13"><a href="#cb42-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Return Calculations</span></span>
+<span id="cb42-14"><a href="#cb42-14" aria-hidden="true" tabindex="-1"></a><span class="co"># ============================================================================</span></span>
+<span id="cb42-15"><a href="#cb42-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-16"><a href="#cb42-16" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_returns(prices):</span>
+<span id="cb42-17"><a href="#cb42-17" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Calculate daily returns from price series."""</span></span>
+<span id="cb42-18"><a href="#cb42-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ...</span></span>
+<span id="cb42-19"><a href="#cb42-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-20"><a href="#cb42-20" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_cumulative_return(prices):</span>
+<span id="cb42-21"><a href="#cb42-21" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Calculate total return over period."""</span></span>
+<span id="cb42-22"><a href="#cb42-22" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ...</span></span>
+<span id="cb42-23"><a href="#cb42-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-24"><a href="#cb42-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-25"><a href="#cb42-25" aria-hidden="true" tabindex="-1"></a><span class="co"># ============================================================================</span></span>
+<span id="cb42-26"><a href="#cb42-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Risk Metrics</span></span>
+<span id="cb42-27"><a href="#cb42-27" aria-hidden="true" tabindex="-1"></a><span class="co"># ============================================================================</span></span>
+<span id="cb42-28"><a href="#cb42-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-29"><a href="#cb42-29" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_volatility(returns):</span>
+<span id="cb42-30"><a href="#cb42-30" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Calculate return volatility (standard deviation)."""</span></span>
+<span id="cb42-31"><a href="#cb42-31" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ...</span></span>
+<span id="cb42-32"><a href="#cb42-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-33"><a href="#cb42-33" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_sharpe_ratio(returns, risk_free_rate<span class="op">=</span><span class="fl">0.02</span>):</span>
+<span id="cb42-34"><a href="#cb42-34" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Calculate Sharpe ratio."""</span></span>
+<span id="cb42-35"><a href="#cb42-35" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ...</span></span>
+<span id="cb42-36"><a href="#cb42-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-37"><a href="#cb42-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-38"><a href="#cb42-38" aria-hidden="true" tabindex="-1"></a><span class="co"># ============================================================================</span></span>
+<span id="cb42-39"><a href="#cb42-39" aria-hidden="true" tabindex="-1"></a><span class="co"># Utility Functions</span></span>
+<span id="cb42-40"><a href="#cb42-40" aria-hidden="true" tabindex="-1"></a><span class="co"># ============================================================================</span></span>
+<span id="cb42-41"><a href="#cb42-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-42"><a href="#cb42-42" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_average(values):</span>
+<span id="cb42-43"><a href="#cb42-43" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Calculate arithmetic mean."""</span></span>
+<span id="cb42-44"><a href="#cb42-44" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ...</span></span>
+<span id="cb42-45"><a href="#cb42-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-46"><a href="#cb42-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-47"><a href="#cb42-47" aria-hidden="true" tabindex="-1"></a><span class="co"># ============================================================================</span></span>
+<span id="cb42-48"><a href="#cb42-48" aria-hidden="true" tabindex="-1"></a><span class="co"># Main Program</span></span>
+<span id="cb42-49"><a href="#cb42-49" aria-hidden="true" tabindex="-1"></a><span class="co"># ============================================================================</span></span>
+<span id="cb42-50"><a href="#cb42-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-51"><a href="#cb42-51" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">"__main__"</span>:</span>
+<span id="cb42-52"><a href="#cb42-52" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Test code or example usage</span></span>
+<span id="cb42-53"><a href="#cb42-53" aria-hidden="true" tabindex="-1"></a>    prices <span class="op">=</span> [<span class="dv">150</span>, <span class="fl">152.5</span>, <span class="dv">148</span>, <span class="dv">153</span>, <span class="fl">155.5</span>]</span>
+<span id="cb42-54"><a href="#cb42-54" aria-hidden="true" tabindex="-1"></a>    returns <span class="op">=</span> calculate_returns(prices)</span>
+<span id="cb42-55"><a href="#cb42-55" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Returns: </span><span class="sc">{</span>returns<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="just-in-time-concept-if-__name__-__main__" class="level3">
+<h3 class="anchored" data-anchor-id="just-in-time-concept-if-__name__-__main__">Just-in-Time Concept: <code>if __name__ == "__main__"</code></h3>
+<p>This special block runs only when you execute the file directly:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># portfolio.py</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_return(initial, final):</span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (final <span class="op">-</span> initial) <span class="op">/</span> initial</span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">"__main__"</span>:</span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># This runs when you do: python portfolio.py</span></span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>    result <span class="op">=</span> calculate_return(<span class="dv">100</span>, <span class="dv">110</span>)</span>
+<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Return: </span><span class="sc">{</span>result<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>But when you import the module, that block doesn’t run:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co"># other_script.py</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> portfolio <span class="im">import</span> calculate_return</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a><span class="co"># The if __name__ == "__main__" block in portfolio.py doesn't execute</span></span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> calculate_return(<span class="dv">200</span>, <span class="dv">220</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="your-turn-organize-your-code" class="level3">
+<h3 class="anchored" data-anchor-id="your-turn-organize-your-code">Your Turn: Organize Your Code</h3>
+<div id="a11993ff" class="cell" data-execution_count="19">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Take your portfolio functions and organize them into sections:</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Module docstring at top</span></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Return calculations</span></span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Risk metrics</span></span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. Statistical helpers</span></span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 5. Test/example code in if __name__ == "__main__" block</span></span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Your organized code here</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<hr>
+</section>
+</section>
+<section id="exercise-3.2-multiple-files-and-modules" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-3.2-multiple-files-and-modules">Exercise 3.2: Multiple Files and Modules</h2>
+<p>As projects grow, split code into multiple files.</p>
+<section id="just-in-time-concept-imports" class="level3">
+<h3 class="anchored" data-anchor-id="just-in-time-concept-imports">Just-in-Time Concept: Imports</h3>
+<p><strong>Project structure:</strong></p>
+<pre class="text"><code>portfolio_project/
+    portfolio.py       # Main portfolio functions
+    statistics.py      # Statistical helpers
+    analysis.py        # Uses functions from other modules</code></pre>
+<p><strong>statistics.py:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co">"""Statistical helper functions."""</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_mean(values):</span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Calculate arithmetic mean."""</span></span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">sum</span>(values) <span class="op">/</span> <span class="bu">len</span>(values)</span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_std(values):</span>
+<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Calculate sample standard deviation."""</span></span>
+<span id="cb47-9"><a href="#cb47-9" aria-hidden="true" tabindex="-1"></a>    mean <span class="op">=</span> calculate_mean(values)</span>
+<span id="cb47-10"><a href="#cb47-10" aria-hidden="true" tabindex="-1"></a>    squared_diffs <span class="op">=</span> <span class="bu">sum</span>((x <span class="op">-</span> mean) <span class="op">**</span> <span class="dv">2</span> <span class="cf">for</span> x <span class="kw">in</span> values)</span>
+<span id="cb47-11"><a href="#cb47-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (squared_diffs <span class="op">/</span> (<span class="bu">len</span>(values) <span class="op">-</span> <span class="dv">1</span>)) <span class="op">**</span> <span class="fl">0.5</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>portfolio.py:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="co">"""Portfolio analysis functions."""</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> statistics <span class="im">import</span> calculate_mean, calculate_std</span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_sharpe_ratio(returns, risk_free_rate<span class="op">=</span><span class="fl">0.02</span>):</span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Calculate Sharpe ratio using statistical helpers."""</span></span>
+<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a>    avg_return <span class="op">=</span> calculate_mean(returns)</span>
+<span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a>    volatility <span class="op">=</span> calculate_std(returns)</span>
+<span id="cb48-9"><a href="#cb48-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (avg_return <span class="op">-</span> risk_free_rate) <span class="op">/</span> volatility</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>analysis.py:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="co">"""Main analysis script."""</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> portfolio <span class="im">import</span> calculate_sharpe_ratio</span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>returns <span class="op">=</span> [<span class="fl">0.01</span>, <span class="fl">0.02</span>, <span class="op">-</span><span class="fl">0.01</span>, <span class="fl">0.03</span>, <span class="fl">0.015</span>]</span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a>sharpe <span class="op">=</span> calculate_sharpe_ratio(returns)</span>
+<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Sharpe Ratio: </span><span class="sc">{</span>sharpe<span class="sc">:.3f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="import-styles" class="level3">
+<h3 class="anchored" data-anchor-id="import-styles">Import Styles</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Import entire module</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> portfolio</span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> portfolio.calculate_returns(prices)</span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Import specific functions</span></span>
+<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> portfolio <span class="im">import</span> calculate_returns, calculate_volatility</span>
+<span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> calculate_returns(prices)</span>
+<span id="cb50-8"><a href="#cb50-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-9"><a href="#cb50-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Import with alias</span></span>
+<span id="cb50-10"><a href="#cb50-10" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> portfolio <span class="im">as</span> pf</span>
+<span id="cb50-11"><a href="#cb50-11" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> pf.calculate_returns(prices)</span>
+<span id="cb50-12"><a href="#cb50-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-13"><a href="#cb50-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Import everything (discouraged - unclear what's imported)</span></span>
+<span id="cb50-14"><a href="#cb50-14" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> portfolio <span class="im">import</span> <span class="op">*</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Prefer Explicit Imports
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Use <code>from module import specific_function</code> for clarity. Avoid <code>import *</code> except in interactive sessions.</p>
+</div>
+</div>
+</section>
+<section id="your-turn-create-a-multi-file-project" class="level3">
+<h3 class="anchored" data-anchor-id="your-turn-create-a-multi-file-project">Your Turn: Create a Multi-File Project</h3>
+<div id="45d9a4d1" class="cell" data-execution_count="20">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Create stats.py with:</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="co">#    - calculate_mean()</span></span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a><span class="co">#    - calculate_std()</span></span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a><span class="co">#    - calculate_correlation() (optional)</span></span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Create portfolio.py with:</span></span>
+<span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a><span class="co">#    - calculate_returns() (using stats functions)</span></span>
+<span id="cb51-8"><a href="#cb51-8" aria-hidden="true" tabindex="-1"></a><span class="co">#    - calculate_sharpe_ratio() (using stats functions)</span></span>
+<span id="cb51-9"><a href="#cb51-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-10"><a href="#cb51-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Create main.py with:</span></span>
+<span id="cb51-11"><a href="#cb51-11" aria-hidden="true" tabindex="-1"></a><span class="co">#    - Import your functions</span></span>
+<span id="cb51-12"><a href="#cb51-12" aria-hidden="true" tabindex="-1"></a><span class="co">#    - Analyze sample data</span></span>
+<span id="cb51-13"><a href="#cb51-13" aria-hidden="true" tabindex="-1"></a><span class="co">#    - Print results</span></span>
+<span id="cb51-14"><a href="#cb51-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-15"><a href="#cb51-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Test your imports work correctly!</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<hr>
+</section>
+</section>
+<section id="exercise-3.3-creating-a-package" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-3.3-creating-a-package">Exercise 3.3: Creating a Package</h2>
+<p>For larger projects, organize modules into a <strong>package</strong> (a directory with <code>__init__.py</code>).</p>
+<pre class="text"><code>portfolio_package/
+    __init__.py
+    returns.py
+    risk.py
+    stats.py</code></pre>
+<p><strong><code>__init__.py</code></strong> (can be empty or define package-level imports):</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb53"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="co">"""Portfolio analysis package."""</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> .returns <span class="im">import</span> calculate_returns</span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> .risk <span class="im">import</span> calculate_volatility, calculate_sharpe_ratio</span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a><span class="va">__all__</span> <span class="op">=</span> [<span class="st">'calculate_returns'</span>, <span class="st">'calculate_volatility'</span>, <span class="st">'calculate_sharpe_ratio'</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Now you can:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb54"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> portfolio_package</span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>returns <span class="op">=</span> portfolio_package.calculate_returns(prices)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>or:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb55"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> portfolio_package <span class="im">import</span> calculate_returns, calculate_volatility</span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>returns <span class="op">=</span> calculate_returns(prices)</span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a>vol <span class="op">=</span> calculate_volatility(returns)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Packages Are Advanced
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Creating packages is useful for larger projects but optional for this course. Focus on organizing code into well-structured modules first.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="git-practice-tracking-multi-file-projects" class="level2">
+<h2 class="anchored" data-anchor-id="git-practice-tracking-multi-file-projects">Git Practice: Tracking Multi-File Projects</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb56"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Add all Python files</span></span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add <span class="pp">*</span>.py</span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Or add everything</span></span>
+<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add .</span>
+<span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-7"><a href="#cb56-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Check what's staged</span></span>
+<span id="cb56-8"><a href="#cb56-8" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> status</span>
+<span id="cb56-9"><a href="#cb56-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-10"><a href="#cb56-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Commit</span></span>
+<span id="cb56-11"><a href="#cb56-11" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"Refactor into modular structure"</span></span>
+<span id="cb56-12"><a href="#cb56-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-13"><a href="#cb56-13" aria-hidden="true" tabindex="-1"></a><span class="co"># See history</span></span>
+<span id="cb56-14"><a href="#cb56-14" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> log <span class="at">--oneline</span> <span class="at">--graph</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="gitignore-file" class="level3">
+<h3 class="anchored" data-anchor-id="gitignore-file">.gitignore File</h3>
+<p>Some files shouldn’t be tracked (e.g., <code>__pycache__</code>, <code>.pyc</code> files).</p>
+<p>Create <code>.gitignore</code>:</p>
+<pre class="text"><code># Python
+__pycache__/
+*.py[cod]
+*.so
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db</code></pre>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb58"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add .gitignore</span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"Add .gitignore for Python project"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<hr>
+</section>
+</section>
+</section>
+<section id="synthesis-building-reliable-software" class="level1">
+<h1>Synthesis: Building Reliable Software</h1>
+<p>Let’s return to our central question:</p>
+<blockquote class="blockquote">
+<p><strong>How do we turn a working program into reusable and maintainable software?</strong></p>
+</blockquote>
+<p>We now understand that good software requires:</p>
+<section id="functions---reusable-building-blocks" class="level2">
+<h2 class="anchored" data-anchor-id="functions---reusable-building-blocks">1. <strong>Functions</strong> - Reusable Building Blocks</h2>
+<ul>
+<li>Package logic into named, testable units</li>
+<li>Define clear parameters and return values</li>
+<li>Understand scope to avoid unintended interactions</li>
+</ul>
+</section>
+<section id="documentation---communication-and-contracts" class="level2">
+<h2 class="anchored" data-anchor-id="documentation---communication-and-contracts">2. <strong>Documentation</strong> - Communication and Contracts</h2>
+<ul>
+<li>Write docstrings describing what functions do</li>
+<li>Optionally add type hints for clarity</li>
+<li>Use assertions to validate assumptions</li>
+</ul>
+</section>
+<section id="design-choices---pure-vs-stateful" class="level2">
+<h2 class="anchored" data-anchor-id="design-choices---pure-vs-stateful">3. <strong>Design Choices</strong> - Pure vs Stateful</h2>
+<ul>
+<li>Prefer pure functions when possible (easier to test and reason about)</li>
+<li>Use stateful approaches when benefits are clear</li>
+<li>Document side effects in docstrings</li>
+</ul>
+</section>
+<section id="organization---from-scripts-to-modules" class="level2">
+<h2 class="anchored" data-anchor-id="organization---from-scripts-to-modules">4. <strong>Organization</strong> - From Scripts to Modules</h2>
+<ul>
+<li>Group related functions into logical sections</li>
+<li>Split large codebases into multiple files</li>
+<li>Use imports to connect modules</li>
+<li>Consider packages for larger projects</li>
+</ul>
+</section>
+<section id="version-control---tracking-changes-systematically" class="level2">
+<h2 class="anchored" data-anchor-id="version-control---tracking-changes-systematically">5. <strong>Version Control</strong> - Tracking Changes Systematically</h2>
+<ul>
+<li>Initialize Git repositories for projects</li>
+<li>Commit snapshots at meaningful points</li>
+<li>Write descriptive commit messages</li>
+<li>Use <code>.gitignore</code> to exclude generated files</li>
+</ul>
+</section>
+<section id="the-workflow" class="level2">
+<h2 class="anchored" data-anchor-id="the-workflow">The Workflow</h2>
+<pre class="text"><code>Problem
+   ↓
+Procedural solution (make it work)
+   ↓
+Extract functions (make it reusable)
+   ↓
+Add documentation (make it understandable)
+   ↓
+Organize into modules (make it maintainable)
+   ↓
+Track with Git (make it safe)
+   ↓
+Test and refine (make it reliable)</code></pre>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Looking Ahead to Numerical Computing
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Next lecture, we’ll apply these principles to numerical computing with NumPy. The functions you write will work with arrays instead of lists, but the organizational principles remain the same. Well-structured code is even more important when dealing with large datasets and complex numerical algorithms.</p>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="looking-ahead-lecture-4" class="level1">
+<h1>Looking Ahead: Lecture 4</h1>
+<p>Next time, we’ll introduce <strong>NumPy</strong> for numerical computing:</p>
+<ul>
+<li>Arrays vs Python lists</li>
+<li>Vectorized operations</li>
+<li>Linear algebra</li>
+<li>Numerical algorithms</li>
+<li>Performance considerations</li>
+</ul>
+<p>The functions you’ve learned to write today will form the building blocks for more sophisticated numerical programs. The modularity and documentation practices will become even more valuable as our code grows in complexity.</p>
+<p><strong>Preview</strong>: Your portfolio analysis functions could be enhanced with NumPy:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb60"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_returns_vectorized(prices):</span>
+<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Calculate returns using NumPy - much faster for large datasets!"""</span></span>
+<span id="cb60-5"><a href="#cb60-5" aria-hidden="true" tabindex="-1"></a>    prices_array <span class="op">=</span> np.array(prices)</span>
+<span id="cb60-6"><a href="#cb60-6" aria-hidden="true" tabindex="-1"></a>    returns <span class="op">=</span> (prices_array[<span class="dv">1</span>:] <span class="op">-</span> prices_array[:<span class="op">-</span><span class="dv">1</span>]) <span class="op">/</span> prices_array[:<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb60-7"><a href="#cb60-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> returns</span>
+<span id="cb60-8"><a href="#cb60-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-9"><a href="#cb60-9" aria-hidden="true" tabindex="-1"></a><span class="co"># This works with your existing function structure!</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<hr>
+</section>
+<section id="practice-exercises" class="level1">
+<h1>Practice Exercises</h1>
+<section id="exercise-1-extend-portfolio-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-1-extend-portfolio-analysis">Exercise 1: Extend Portfolio Analysis</h2>
+<p>Add these functions to your portfolio module:</p>
+<div id="66a87d72" class="cell" data-execution_count="21">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb61"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_max_drawdown(prices):</span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Calculate maximum drawdown (largest peak-to-trough decline).</span></span>
+<span id="cb61-4"><a href="#cb61-4" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb61-5"><a href="#cb61-5" aria-hidden="true" tabindex="-1"></a><span class="co">    Parameters:</span></span>
+<span id="cb61-6"><a href="#cb61-6" aria-hidden="true" tabindex="-1"></a><span class="co">        prices: list of prices</span></span>
+<span id="cb61-7"><a href="#cb61-7" aria-hidden="true" tabindex="-1"></a><span class="co">        </span></span>
+<span id="cb61-8"><a href="#cb61-8" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns:</span></span>
+<span id="cb61-9"><a href="#cb61-9" aria-hidden="true" tabindex="-1"></a><span class="co">        float: maximum drawdown as decimal (0.20 = 20% decline)</span></span>
+<span id="cb61-10"><a href="#cb61-10" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb61-11"><a href="#cb61-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Your code here</span></span>
+<span id="cb61-12"><a href="#cb61-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">pass</span></span>
+<span id="cb61-13"><a href="#cb61-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb61-14"><a href="#cb61-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb61-15"><a href="#cb61-15" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_correlation(returns1, returns2):</span>
+<span id="cb61-16"><a href="#cb61-16" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb61-17"><a href="#cb61-17" aria-hidden="true" tabindex="-1"></a><span class="co">    Calculate correlation between two return series.</span></span>
+<span id="cb61-18"><a href="#cb61-18" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb61-19"><a href="#cb61-19" aria-hidden="true" tabindex="-1"></a><span class="co">    Correlation measures how two investments move together.</span></span>
+<span id="cb61-20"><a href="#cb61-20" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb61-21"><a href="#cb61-21" aria-hidden="true" tabindex="-1"></a><span class="co">    Parameters:</span></span>
+<span id="cb61-22"><a href="#cb61-22" aria-hidden="true" tabindex="-1"></a><span class="co">        returns1: first return series</span></span>
+<span id="cb61-23"><a href="#cb61-23" aria-hidden="true" tabindex="-1"></a><span class="co">        returns2: second return series</span></span>
+<span id="cb61-24"><a href="#cb61-24" aria-hidden="true" tabindex="-1"></a><span class="co">        </span></span>
+<span id="cb61-25"><a href="#cb61-25" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns:</span></span>
+<span id="cb61-26"><a href="#cb61-26" aria-hidden="true" tabindex="-1"></a><span class="co">        float: correlation coefficient (-1 to 1)</span></span>
+<span id="cb61-27"><a href="#cb61-27" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb61-28"><a href="#cb61-28" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Your code here</span></span>
+<span id="cb61-29"><a href="#cb61-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">pass</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="exercise-2-practice-git-workflow" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-2-practice-git-workflow">Exercise 2: Practice Git Workflow</h2>
+<ol type="1">
+<li>Make changes to your portfolio module</li>
+<li>Use <code>git diff</code> to see what changed</li>
+<li>Stage and commit the changes</li>
+<li>View your commit history</li>
+<li>Create a <code>.gitignore</code> file</li>
+<li>Make another commit</li>
+</ol>
+</section>
+<section id="exercise-3-write-docstrings" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-3-write-docstrings">Exercise 3: Write Docstrings</h2>
+<p>Review all your functions. Ensure each has:</p>
+<ul>
+<li>One-line summary</li>
+<li>Parameter descriptions</li>
+<li>Return value description</li>
+<li>At least one example</li>
+</ul>
+</section>
+<section id="exercise-4-refactor-for-purity" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-4-refactor-for-purity">Exercise 4: Refactor for Purity</h2>
+<p>Find functions in your code that modify global state. Refactor them into pure functions that return new values instead.</p>
+<hr>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Homework Preview
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This week’s homework will ask you to:</p>
+<ul>
+<li>Build a complete module with multiple related functions</li>
+<li>Write comprehensive documentation</li>
+<li>Organize code logically</li>
+<li>Track your work with Git</li>
+<li>Create a README explaining your module</li>
+<li>(Optional) Add type hints and assertions</li>
+</ul>
+<p>This will combine everything from today’s lecture into a cohesive project.</p>
+</div>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/moninp\.github\.io\/intro-programming\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
