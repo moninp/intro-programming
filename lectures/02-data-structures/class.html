@@ -343,7 +343,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="opening-from-one-value-to-many" class="level1">
 <h1>2. Opening: From One Value to Many</h1>
 <p>Suppose we collect temperature measurements over several days:</p>
-<div id="18adc9ff" class="cell" data-execution_count="1">
+<div id="f42e3cac" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>temperatures <span class="op">=</span> [<span class="fl">15.2</span>, <span class="fl">17.1</span>, <span class="fl">14.8</span>, <span class="fl">19.3</span>, <span class="fl">16.5</span>, <span class="fl">18.2</span>, <span class="fl">14.1</span>, <span class="fl">20.5</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>This is a collection of observations. What questions might we want to answer?</p>
@@ -389,7 +389,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="python-lists" class="level3">
 <h3 class="anchored" data-anchor-id="python-lists">Python Lists</h3>
 <p>Python provides a <strong>list</strong> for exactly this purpose:</p>
-<div id="4d2e6aa8" class="cell" data-execution_count="2">
+<div id="ac21a1bb" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>temperatures <span class="op">=</span> [<span class="fl">15.2</span>, <span class="fl">17.1</span>, <span class="fl">14.8</span>, <span class="fl">19.3</span>, <span class="fl">16.5</span>, <span class="fl">18.2</span>, <span class="fl">14.1</span>, <span class="fl">20.5</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>A list:</p>
@@ -399,13 +399,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>uses <strong>square brackets</strong> <code>[]</code></li>
 </ul>
 <p>We can access individual elements using <strong>indexing</strong>:</p>
-<div id="c6d1f286" class="cell" data-execution_count="3">
+<div id="91bdfcd2" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>temperatures[<span class="dv">0</span>]  <span class="co"># First temperature</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
 <pre><code>15.2</code></pre>
 </div>
 </div>
-<div id="c5392720" class="cell" data-execution_count="4">
+<div id="31a73686" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>temperatures[<span class="dv">3</span>]  <span class="co"># Fourth temperature</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
 <pre><code>19.3</code></pre>
@@ -415,13 +415,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre class="text"><code>Temperatures:  [15.2, 17.1, 14.8, 19.3, 16.5, 18.2, 14.1, 20.5]
 Indices:         0     1     2     3     4     5     6     7</code></pre>
 <p>We can also index from the end:</p>
-<div id="2213091b" class="cell" data-execution_count="5">
+<div id="55998de3" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>temperatures[<span class="op">-</span><span class="dv">1</span>]  <span class="co"># Last temperature</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="5">
 <pre><code>20.5</code></pre>
 </div>
 </div>
-<div id="57ebf1d1" class="cell" data-execution_count="6">
+<div id="c11d6443" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>temperatures[<span class="op">-</span><span class="dv">2</span>]  <span class="co"># Second-to-last temperature</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
 <pre><code>14.1</code></pre>
@@ -431,26 +431,26 @@ Indices:         0     1     2     3     4     5     6     7</code></pre>
 <section id="slicing" class="level3">
 <h3 class="anchored" data-anchor-id="slicing">Slicing</h3>
 <p>We can extract portions using <strong>slicing</strong>:</p>
-<div id="7c16709e" class="cell" data-execution_count="7">
+<div id="5079eefb" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>temperatures[<span class="dv">0</span>:<span class="dv">3</span>]  <span class="co"># First three temperatures</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="7">
 <pre><code>[15.2, 17.1, 14.8]</code></pre>
 </div>
 </div>
-<div id="b96f7e8b" class="cell" data-execution_count="8">
+<div id="42cbf4e8" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>temperatures[<span class="dv">2</span>:<span class="dv">5</span>]  <span class="co"># Days 3-5</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="8">
 <pre><code>[14.8, 19.3, 16.5]</code></pre>
 </div>
 </div>
 <p>The general form is <code>list[start:stop]</code>. The <code>start</code> is included, but <code>stop</code> is excluded.</p>
-<div id="9e060800" class="cell" data-execution_count="9">
+<div id="14b0eac5" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>temperatures[:<span class="dv">4</span>]  <span class="co"># First four (omit start → begins at 0)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="9">
 <pre><code>[15.2, 17.1, 14.8, 19.3]</code></pre>
 </div>
 </div>
-<div id="26f3951d" class="cell" data-execution_count="10">
+<div id="41d98322" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>temperatures[<span class="dv">4</span>:]  <span class="co"># From day 5 onward (omit stop → goes to end)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="10">
 <pre><code>[16.5, 18.2, 14.1, 20.5]</code></pre>
@@ -460,14 +460,14 @@ Indices:         0     1     2     3     4     5     6     7</code></pre>
 <section id="basic-list-operations" class="level3">
 <h3 class="anchored" data-anchor-id="basic-list-operations">Basic List Operations</h3>
 <p>How many observations do we have?</p>
-<div id="aa5f428c" class="cell" data-execution_count="11">
+<div id="7a7ec0dd" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(temperatures)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="11">
 <pre><code>8</code></pre>
 </div>
 </div>
 <p>What if we collect a new measurement?</p>
-<div id="64bdd485" class="cell" data-execution_count="12">
+<div id="c3a300db" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>temperatures.append(<span class="fl">17.8</span>)</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>temperatures</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="12">
@@ -490,7 +490,7 @@ Indices:         0     1     2     3     4     5     6     7</code></pre>
 </section>
 <section id="your-turn-explore-lists" class="level3">
 <h3 class="anchored" data-anchor-id="your-turn-explore-lists">Your Turn: Explore Lists</h3>
-<div id="3ec21018" class="cell" data-execution_count="13">
+<div id="57e9ccb8" class="cell" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Given this data:</span></span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>temperatures <span class="op">=</span> [<span class="fl">15.2</span>, <span class="fl">17.1</span>, <span class="fl">14.8</span>, <span class="fl">19.3</span>, <span class="fl">16.5</span>, <span class="fl">18.2</span>, <span class="fl">14.1</span>, <span class="fl">20.5</span>]</span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -521,7 +521,7 @@ Indices:         0     1     2     3     4     5     6     7</code></pre>
 <section id="implementation-the-for-loop" class="level3">
 <h3 class="anchored" data-anchor-id="implementation-the-for-loop">Implementation: The <code>for</code> Loop</h3>
 <p>To “look at each remaining temperature,” we need <strong>iteration</strong>. Python’s <code>for</code> loop does exactly this:</p>
-<div id="eb83662e" class="cell" data-execution_count="14">
+<div id="14200d42" class="cell" data-execution_count="14">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>temperatures <span class="op">=</span> [<span class="fl">15.2</span>, <span class="fl">17.1</span>, <span class="fl">14.8</span>, <span class="fl">19.3</span>, <span class="fl">16.5</span>, <span class="fl">18.2</span>, <span class="fl">14.1</span>, <span class="fl">20.5</span>]</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>current_max <span class="op">=</span> temperatures[<span class="dv">0</span>]</span>
@@ -563,7 +563,7 @@ Iteration 3: temp = 19.3
 <section id="validation" class="level3">
 <h3 class="anchored" data-anchor-id="validation">Validation</h3>
 <p>How do we know our answer is correct?</p>
-<div id="39b65418" class="cell" data-execution_count="15">
+<div id="e4115e5f" class="cell" data-execution_count="15">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Python has a built-in max() function</span></span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="bu">max</span>(temperatures)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="14">
@@ -574,7 +574,7 @@ Iteration 3: temp = 19.3
 </section>
 <section id="your-turn-find-the-minimum" class="level3">
 <h3 class="anchored" data-anchor-id="your-turn-find-the-minimum">Your Turn: Find the Minimum</h3>
-<div id="24fef5f0" class="cell" data-execution_count="16">
+<div id="c289544e" class="cell" data-execution_count="16">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>temperatures <span class="op">=</span> [<span class="fl">15.2</span>, <span class="fl">17.1</span>, <span class="fl">14.8</span>, <span class="fl">19.3</span>, <span class="fl">16.5</span>, <span class="fl">18.2</span>, <span class="fl">14.1</span>, <span class="fl">20.5</span>]</span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. First, write the algorithm in plain English (in a comment)</span></span>
@@ -601,7 +601,7 @@ Iteration 3: temp = 19.3
 </section>
 <section id="implementation" class="level3">
 <h3 class="anchored" data-anchor-id="implementation">Implementation</h3>
-<div id="82d14c91" class="cell" data-execution_count="17">
+<div id="4e1f0581" class="cell" data-execution_count="17">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>temperatures <span class="op">=</span> [<span class="fl">15.2</span>, <span class="fl">17.1</span>, <span class="fl">14.8</span>, <span class="fl">19.3</span>, <span class="fl">16.5</span>, <span class="fl">18.2</span>, <span class="fl">14.1</span>, <span class="fl">20.5</span>]</span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>threshold <span class="op">=</span> <span class="fl">17.0</span></span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -629,7 +629,7 @@ After temp = 19.3: count = 2  (above threshold)
 </section>
 <section id="your-turn-filtering-observations" class="level3">
 <h3 class="anchored" data-anchor-id="your-turn-filtering-observations">Your Turn: Filtering Observations</h3>
-<div id="0f5cc409" class="cell" data-execution_count="18">
+<div id="19b5fca8" class="cell" data-execution_count="18">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>temperatures <span class="op">=</span> [<span class="fl">15.2</span>, <span class="fl">17.1</span>, <span class="fl">14.8</span>, <span class="fl">19.3</span>, <span class="fl">16.5</span>, <span class="fl">18.2</span>, <span class="fl">14.1</span>, <span class="fl">20.5</span>]</span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Count how many temperatures fall between 15°C and 18°C (inclusive)</span></span>
@@ -655,7 +655,7 @@ After temp = 19.3: count = 2  (above threshold)
 </section>
 <section id="implementation-1" class="level3">
 <h3 class="anchored" data-anchor-id="implementation-1">Implementation</h3>
-<div id="7815d6fc" class="cell" data-execution_count="19">
+<div id="4eeb9b43" class="cell" data-execution_count="19">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>temperatures <span class="op">=</span> [<span class="fl">15.2</span>, <span class="fl">17.1</span>, <span class="fl">14.8</span>, <span class="fl">19.3</span>, <span class="fl">16.5</span>, <span class="fl">18.2</span>, <span class="fl">14.1</span>, <span class="fl">20.5</span>]</span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>total <span class="op">=</span> <span class="dv">0</span></span>
@@ -680,7 +680,7 @@ After temp = 19.3: count = 2  (above threshold)
 <section id="edge-cases" class="level3">
 <h3 class="anchored" data-anchor-id="edge-cases">Edge Cases</h3>
 <p><strong>Question:</strong> What happens if the list is empty?</p>
-<div id="2a31134b" class="cell" data-execution_count="20">
+<div id="67259bd4" class="cell" data-execution_count="20">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>temperatures <span class="op">=</span> []</span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>total <span class="op">=</span> <span class="dv">0</span></span>
@@ -707,7 +707,7 @@ After temp = 19.3: count = 2  (above threshold)
 </div>
 </div>
 <p>This is an <strong>edge case</strong>: a situation where our algorithm fails. We need to handle it:</p>
-<div id="e640d80f" class="cell" data-execution_count="21">
+<div id="fd267b4b" class="cell" data-execution_count="21">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>temperatures <span class="op">=</span> []</span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>total <span class="op">=</span> <span class="dv">0</span></span>
@@ -742,7 +742,7 @@ After temp = 19.3: count = 2  (above threshold)
 </section>
 <section id="your-turn-range-and-variance" class="level3">
 <h3 class="anchored" data-anchor-id="your-turn-range-and-variance">Your Turn: Range and Variance</h3>
-<div id="8e74a24d" class="cell" data-execution_count="22">
+<div id="d205cd11" class="cell" data-execution_count="22">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>temperatures <span class="op">=</span> [<span class="fl">15.2</span>, <span class="fl">17.1</span>, <span class="fl">14.8</span>, <span class="fl">19.3</span>, <span class="fl">16.5</span>, <span class="fl">18.2</span>, <span class="fl">14.1</span>, <span class="fl">20.5</span>]</span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Calculate the range (max - min) without using built-in max/min</span></span>
@@ -769,24 +769,24 @@ Day 3: Wednesday, 14.8°C
 <section id="tuples-for-fixed-pairs" class="level3">
 <h3 class="anchored" data-anchor-id="tuples-for-fixed-pairs">Tuples for Fixed Pairs</h3>
 <p>A <strong>tuple</strong> represents a fixed collection of values:</p>
-<div id="91620f1e" class="cell" data-execution_count="23">
+<div id="3c8c9d82" class="cell" data-execution_count="23">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>observation <span class="op">=</span> (<span class="st">"Monday"</span>, <span class="fl">15.2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>We can access elements:</p>
-<div id="ced4e13a" class="cell" data-execution_count="24">
+<div id="46d9816b" class="cell" data-execution_count="24">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>observation[<span class="dv">0</span>]  <span class="co"># Day of week</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="20">
 <pre><code>'Monday'</code></pre>
 </div>
 </div>
-<div id="fac24d6f" class="cell" data-execution_count="25">
+<div id="bf5e4f84" class="cell" data-execution_count="25">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>observation[<span class="dv">1</span>]  <span class="co"># Temperature</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="21">
 <pre><code>15.2</code></pre>
 </div>
 </div>
 <p>But unlike lists, tuples are <strong>immutable</strong>:</p>
-<div id="93117dd3" class="cell" data-execution_count="26">
+<div id="afcc73ec" class="cell" data-execution_count="26">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>observation[<span class="dv">1</span>] <span class="op">=</span> <span class="fl">16.0</span>  <span class="co"># Cannot modify</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-error">
 <div class="ansi-escaped-output">
@@ -803,7 +803,7 @@ Day 3: Wednesday, 14.8°C
 <section id="lists-of-tuples" class="level3">
 <h3 class="anchored" data-anchor-id="lists-of-tuples">Lists of Tuples</h3>
 <p>We can store multiple observations:</p>
-<div id="3f14c3d4" class="cell" data-execution_count="27">
+<div id="3123eb15" class="cell" data-execution_count="27">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>observations <span class="op">=</span> [</span>
 <span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Monday"</span>, <span class="fl">15.2</span>),</span>
 <span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Tuesday"</span>, <span class="fl">17.1</span>),</span>
@@ -813,7 +813,7 @@ Day 3: Wednesday, 14.8°C
 <span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Now we can ask richer questions:</p>
-<div id="9417ecdb" class="cell" data-execution_count="28">
+<div id="94412111" class="cell" data-execution_count="28">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Which day had the highest temperature?</span></span>
 <span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>max_temp <span class="op">=</span> observations[<span class="dv">0</span>][<span class="dv">1</span>]</span>
@@ -833,7 +833,7 @@ Day 3: Wednesday, 14.8°C
 </section>
 <section id="your-turn-nested-structures" class="level3">
 <h3 class="anchored" data-anchor-id="your-turn-nested-structures">Your Turn: Nested Structures</h3>
-<div id="d03a52e7" class="cell" data-execution_count="29">
+<div id="fcdc9068" class="cell" data-execution_count="29">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>observations <span class="op">=</span> [</span>
 <span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Monday"</span>, <span class="fl">15.2</span>),</span>
 <span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Tuesday"</span>, <span class="fl">17.1</span>),</span>
@@ -858,7 +858,7 @@ Day 3: Wednesday, 14.8°C
 <section id="the-while-loop" class="level3">
 <h3 class="anchored" data-anchor-id="the-while-loop">The <code>while</code> Loop</h3>
 <p>A <code>while</code> loop repeats as long as a condition is true:</p>
-<div id="73abd6b2" class="cell" data-execution_count="30">
+<div id="0fb330cd" class="cell" data-execution_count="30">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulate collecting a valid temperature</span></span>
 <span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>temp <span class="op">=</span> <span class="op">-</span><span class="dv">100</span>  <span class="co"># Invalid starting value</span></span>
 <span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -884,7 +884,7 @@ Recorded temperature: -50°C</code></pre>
 <section id="break-and-continue" class="level3">
 <h3 class="anchored" data-anchor-id="break-and-continue"><code>break</code> and <code>continue</code></h3>
 <p>We can exit a loop early with <code>break</code>:</p>
-<div id="230ac574" class="cell" data-execution_count="31">
+<div id="5e95a4d8" class="cell" data-execution_count="31">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>temperatures <span class="op">=</span> [<span class="fl">15.2</span>, <span class="fl">17.1</span>, <span class="op">-</span><span class="dv">999</span>, <span class="fl">19.3</span>, <span class="fl">16.5</span>]  <span class="co"># -999 is a sentinel value</span></span>
 <span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> temp <span class="kw">in</span> temperatures:</span>
@@ -899,7 +899,7 @@ Encountered missing data marker</code></pre>
 </div>
 </div>
 <p>We can skip to the next iteration with <code>continue</code>:</p>
-<div id="6d50c1fe" class="cell" data-execution_count="32">
+<div id="94056425" class="cell" data-execution_count="32">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>temperatures <span class="op">=</span> [<span class="fl">15.2</span>, <span class="fl">17.1</span>, <span class="op">-</span><span class="dv">999</span>, <span class="fl">19.3</span>, <span class="fl">16.5</span>]</span>
 <span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> temp <span class="kw">in</span> temperatures:</span>
@@ -917,7 +917,7 @@ Temperature: 16.5°C</code></pre>
 <section id="range-for-index-based-iteration" class="level3">
 <h3 class="anchored" data-anchor-id="range-for-index-based-iteration"><code>range()</code> for Index-Based Iteration</h3>
 <p>Sometimes we need the index as well as the value:</p>
-<div id="f3aa1dbe" class="cell" data-execution_count="33">
+<div id="16e35058" class="cell" data-execution_count="33">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb59"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>temperatures <span class="op">=</span> [<span class="fl">15.2</span>, <span class="fl">17.1</span>, <span class="fl">14.8</span>, <span class="fl">19.3</span>, <span class="fl">16.5</span>]</span>
 <span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(temperatures)):</span>
@@ -931,19 +931,19 @@ Day 5: 16.5°C</code></pre>
 </div>
 </div>
 <p><code>range(n)</code> generates numbers from 0 to n-1:</p>
-<div id="d45c8103" class="cell" data-execution_count="34">
+<div id="c0e8058c" class="cell" data-execution_count="34">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb61"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="bu">list</span>(<span class="bu">range</span>(<span class="dv">5</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="29">
 <pre><code>[0, 1, 2, 3, 4]</code></pre>
 </div>
 </div>
-<div id="67f4bff5" class="cell" data-execution_count="35">
+<div id="b96ba898" class="cell" data-execution_count="35">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb63"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="bu">list</span>(<span class="bu">range</span>(<span class="dv">2</span>, <span class="dv">8</span>))  <span class="co"># Start and stop</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="30">
 <pre><code>[2, 3, 4, 5, 6, 7]</code></pre>
 </div>
 </div>
-<div id="27c86432" class="cell" data-execution_count="36">
+<div id="cd78c4a9" class="cell" data-execution_count="36">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb65"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="bu">list</span>(<span class="bu">range</span>(<span class="dv">0</span>, <span class="dv">10</span>, <span class="dv">2</span>))  <span class="co"># Start, stop, step</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="31">
 <pre><code>[0, 2, 4, 6, 8]</code></pre>
@@ -953,7 +953,7 @@ Day 5: 16.5°C</code></pre>
 <section id="list-comprehensions" class="level3">
 <h3 class="anchored" data-anchor-id="list-comprehensions">List Comprehensions</h3>
 <p>For simple transformations, Python offers <strong>list comprehensions</strong>:</p>
-<div id="0a02c2ec" class="cell" data-execution_count="37">
+<div id="6e84c5f3" class="cell" data-execution_count="37">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb67"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a>temperatures <span class="op">=</span> [<span class="fl">15.2</span>, <span class="fl">17.1</span>, <span class="fl">14.8</span>, <span class="fl">19.3</span>, <span class="fl">16.5</span>]</span>
 <span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert to Fahrenheit</span></span>
@@ -964,7 +964,7 @@ Day 5: 16.5°C</code></pre>
 </div>
 </div>
 <p>With filtering:</p>
-<div id="8b4f22a2" class="cell" data-execution_count="38">
+<div id="cb4f7cb1" class="cell" data-execution_count="38">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb69"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Only warm days</span></span>
 <span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>warm <span class="op">=</span> [temp <span class="cf">for</span> temp <span class="kw">in</span> temperatures <span class="cf">if</span> temp <span class="op">&gt;</span> <span class="dv">16</span>]</span>
 <span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a>warm</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -989,7 +989,7 @@ Day 5: 16.5°C</code></pre>
 </section>
 <section id="your-turn-data-quality" class="level3">
 <h3 class="anchored" data-anchor-id="your-turn-data-quality">Your Turn: Data Quality</h3>
-<div id="3a5e3a2f" class="cell" data-execution_count="39">
+<div id="e739ce5f" class="cell" data-execution_count="39">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb71"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Data with potential issues</span></span>
 <span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>temperatures <span class="op">=</span> [<span class="fl">15.2</span>, <span class="fl">17.1</span>, <span class="op">-</span><span class="dv">999</span>, <span class="fl">19.3</span>, <span class="va">None</span>, <span class="fl">16.5</span>, <span class="fl">150.0</span>, <span class="fl">14.8</span>]</span>
 <span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1027,18 +1027,18 @@ Day 5: 16.5°C</code></pre>
 <section id="exercise-2.1-character-frequencies" class="level2">
 <h2 class="anchored" data-anchor-id="exercise-2.1-character-frequencies">Exercise 2.1: Character Frequencies</h2>
 <p>Suppose we have a short text passage and want to determine which letters appear most frequently:</p>
-<div id="69ffe91d" class="cell" data-execution_count="40">
+<div id="4b8a94ae" class="cell" data-execution_count="40">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb72"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>text <span class="op">=</span> <span class="st">"the quick brown fox jumps over the lazy dog"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p><strong>Question:</strong> How can we count how many times each character appears?</p>
 <section id="strings-as-sequences" class="level3">
 <h3 class="anchored" data-anchor-id="strings-as-sequences">Strings as Sequences</h3>
 <p>A Python <strong>string</strong> is a sequence of characters:</p>
-<div id="cca19dca" class="cell" data-execution_count="41">
+<div id="9d90d0ac" class="cell" data-execution_count="41">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb73"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>message <span class="op">=</span> <span class="st">"Python"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>We can iterate through it:</p>
-<div id="2da0ee53" class="cell" data-execution_count="42">
+<div id="51bcfee9" class="cell" data-execution_count="42">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb74"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> char <span class="kw">in</span> message:</span>
 <span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(char)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -1051,19 +1051,19 @@ n</code></pre>
 </div>
 </div>
 <p>We can index and slice:</p>
-<div id="b133c39f" class="cell" data-execution_count="43">
+<div id="3ebf3885" class="cell" data-execution_count="43">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb76"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a>message[<span class="dv">0</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="37">
 <pre><code>'P'</code></pre>
 </div>
 </div>
-<div id="4daad62d" class="cell" data-execution_count="44">
+<div id="2cad9500" class="cell" data-execution_count="44">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb78"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a>message[<span class="dv">1</span>:<span class="dv">4</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="38">
 <pre><code>'yth'</code></pre>
 </div>
 </div>
-<div id="9e06ca44" class="cell" data-execution_count="45">
+<div id="6fe4b6d2" class="cell" data-execution_count="45">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb80"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a>message[::<span class="op">-</span><span class="dv">1</span>]  <span class="co"># Reverse</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="39">
 <pre><code>'nohtyP'</code></pre>
@@ -1073,7 +1073,7 @@ n</code></pre>
 <section id="strings-are-immutable" class="level3">
 <h3 class="anchored" data-anchor-id="strings-are-immutable">Strings Are Immutable</h3>
 <p>Unlike lists, strings cannot be modified:</p>
-<div id="18a1958b" class="cell" data-execution_count="46">
+<div id="b977e264" class="cell" data-execution_count="46">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb82"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a>message[<span class="dv">0</span>] <span class="op">=</span> <span class="st">"p"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-error">
 <div class="ansi-escaped-output">
@@ -1087,7 +1087,7 @@ n</code></pre>
 </div>
 </div>
 <p>Operations that appear to modify a string actually create a new one:</p>
-<div id="a3f01686" class="cell" data-execution_count="47">
+<div id="dd9d529c" class="cell" data-execution_count="47">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb83"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a>message <span class="op">=</span> <span class="st">"Python"</span></span>
 <span id="cb83-2"><a href="#cb83-2" aria-hidden="true" tabindex="-1"></a>lower_message <span class="op">=</span> message.lower()</span>
 <span id="cb83-3"><a href="#cb83-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1099,34 +1099,34 @@ n</code></pre>
 </section>
 <section id="common-string-operations" class="level3">
 <h3 class="anchored" data-anchor-id="common-string-operations">Common String Operations</h3>
-<div id="dd964425" class="cell" data-execution_count="48">
+<div id="1df2a63d" class="cell" data-execution_count="48">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb85"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a>text <span class="op">=</span> <span class="st">"  Hello, World!  "</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="b10d1616" class="cell" data-execution_count="49">
+<div id="5f6189e4" class="cell" data-execution_count="49">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb86"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a>text.strip()  <span class="co"># Remove whitespace</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="43">
 <pre><code>'Hello, World!'</code></pre>
 </div>
 </div>
-<div id="133ef112" class="cell" data-execution_count="50">
+<div id="a874b2e0" class="cell" data-execution_count="50">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb88"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a>text.lower()  <span class="co"># Convert to lowercase</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="44">
 <pre><code>'  hello, world!  '</code></pre>
 </div>
 </div>
-<div id="f39a91e6" class="cell" data-execution_count="51">
+<div id="4a512f08" class="cell" data-execution_count="51">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb90"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a>text.replace(<span class="st">"World"</span>, <span class="st">"Python"</span>)  <span class="co"># Replace substring</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="45">
 <pre><code>'  Hello, Python!  '</code></pre>
 </div>
 </div>
-<div id="cf9274b1" class="cell" data-execution_count="52">
+<div id="91558d6c" class="cell" data-execution_count="52">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb92"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a>text.split(<span class="st">","</span>)  <span class="co"># Split into list</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="46">
 <pre><code>['  Hello', ' World!  ']</code></pre>
 </div>
 </div>
-<div id="0f41b821" class="cell" data-execution_count="53">
+<div id="ab5a7d1d" class="cell" data-execution_count="53">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb94"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a><span class="co">"fox"</span> <span class="kw">in</span> text  <span class="co"># Check membership</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="47">
 <pre><code>False</code></pre>
@@ -1135,7 +1135,7 @@ n</code></pre>
 </section>
 <section id="your-turn-preprocessing-text" class="level3">
 <h3 class="anchored" data-anchor-id="your-turn-preprocessing-text">Your Turn: Preprocessing Text</h3>
-<div id="428b1109" class="cell" data-execution_count="54">
+<div id="0a610b4b" class="cell" data-execution_count="54">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb96"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a>text <span class="op">=</span> <span class="st">"The Quick BROWN fox!"</span></span>
 <span id="cb96-2"><a href="#cb96-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb96-3"><a href="#cb96-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Convert to lowercase</span></span>
@@ -1159,25 +1159,25 @@ n</code></pre>
 <section id="python-dictionaries" class="level3">
 <h3 class="anchored" data-anchor-id="python-dictionaries">Python Dictionaries</h3>
 <p>A <strong>dictionary</strong> stores key-value pairs:</p>
-<div id="72cd4813" class="cell" data-execution_count="55">
+<div id="39054d07" class="cell" data-execution_count="55">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb97"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a>counts <span class="op">=</span> {<span class="st">"a"</span>: <span class="dv">3</span>, <span class="st">"b"</span>: <span class="dv">1</span>, <span class="st">"c"</span>: <span class="dv">2</span>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>We access values by key:</p>
-<div id="e967cb84" class="cell" data-execution_count="56">
+<div id="c6c2f8fc" class="cell" data-execution_count="56">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb98"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb98-1"><a href="#cb98-1" aria-hidden="true" tabindex="-1"></a>counts[<span class="st">"a"</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="49">
 <pre><code>3</code></pre>
 </div>
 </div>
 <p>We can add or update entries:</p>
-<div id="45fb8e26" class="cell" data-execution_count="57">
+<div id="d08571f7" class="cell" data-execution_count="57">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb100"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb100-1"><a href="#cb100-1" aria-hidden="true" tabindex="-1"></a>counts[<span class="st">"d"</span>] <span class="op">=</span> <span class="dv">4</span></span>
 <span id="cb100-2"><a href="#cb100-2" aria-hidden="true" tabindex="-1"></a>counts</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="50">
 <pre><code>{'a': 3, 'b': 1, 'c': 2, 'd': 4}</code></pre>
 </div>
 </div>
-<div id="a236288a" class="cell" data-execution_count="58">
+<div id="24cf9263" class="cell" data-execution_count="58">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb102"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb102-1"><a href="#cb102-1" aria-hidden="true" tabindex="-1"></a>counts[<span class="st">"a"</span>] <span class="op">=</span> <span class="dv">5</span>  <span class="co"># Update existing</span></span>
 <span id="cb102-2"><a href="#cb102-2" aria-hidden="true" tabindex="-1"></a>counts</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="51">
@@ -1187,7 +1187,7 @@ n</code></pre>
 </section>
 <section id="counting-algorithm" class="level3">
 <h3 class="anchored" data-anchor-id="counting-algorithm">Counting Algorithm</h3>
-<div id="b16691b1" class="cell" data-execution_count="59">
+<div id="da8b8ce6" class="cell" data-execution_count="59">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb104"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb104-1"><a href="#cb104-1" aria-hidden="true" tabindex="-1"></a>text <span class="op">=</span> <span class="st">"banana"</span></span>
 <span id="cb104-2"><a href="#cb104-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb104-3"><a href="#cb104-3" aria-hidden="true" tabindex="-1"></a>counts <span class="op">=</span> {}</span>
@@ -1223,7 +1223,7 @@ char = 'a': counts = {'b': 1, 'a': 3, 'n': 2}</code></pre>
 </section>
 <section id="your-turn-word-frequencies" class="level3">
 <h3 class="anchored" data-anchor-id="your-turn-word-frequencies">Your Turn: Word Frequencies</h3>
-<div id="28aaf1e6" class="cell" data-execution_count="60">
+<div id="4ac42c61" class="cell" data-execution_count="60">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb107"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb107-1"><a href="#cb107-1" aria-hidden="true" tabindex="-1"></a>text <span class="op">=</span> <span class="st">"the quick brown fox jumps over the lazy dog and the fox runs"</span></span>
 <span id="cb107-2"><a href="#cb107-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb107-3"><a href="#cb107-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Split the text into words</span></span>
@@ -1242,7 +1242,7 @@ char = 'a': counts = {'b': 1, 'a': 3, 'n': 2}</code></pre>
 <section id="python-sets" class="level3">
 <h3 class="anchored" data-anchor-id="python-sets">Python Sets</h3>
 <p>A <strong>set</strong> contains unique elements:</p>
-<div id="7ca1fc63" class="cell" data-execution_count="61">
+<div id="c59558f1" class="cell" data-execution_count="61">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb108"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb108-1"><a href="#cb108-1" aria-hidden="true" tabindex="-1"></a>letters <span class="op">=</span> {<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span>, <span class="st">"b"</span>, <span class="st">"a"</span>}</span>
 <span id="cb108-2"><a href="#cb108-2" aria-hidden="true" tabindex="-1"></a>letters</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="53">
@@ -1251,7 +1251,7 @@ char = 'a': counts = {'b': 1, 'a': 3, 'n': 2}</code></pre>
 </div>
 <p>Duplicates are automatically removed.</p>
 <p>Sets are useful for:</p>
-<div id="c610ed26" class="cell" data-execution_count="62">
+<div id="ab88a9f7" class="cell" data-execution_count="62">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb110"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a>text <span class="op">=</span> <span class="st">"banana"</span></span>
 <span id="cb110-2"><a href="#cb110-2" aria-hidden="true" tabindex="-1"></a>unique_chars <span class="op">=</span> <span class="bu">set</span>(text)</span>
 <span id="cb110-3"><a href="#cb110-3" aria-hidden="true" tabindex="-1"></a>unique_chars</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1259,7 +1259,7 @@ char = 'a': counts = {'b': 1, 'a': 3, 'n': 2}</code></pre>
 <pre><code>{'a', 'b', 'n'}</code></pre>
 </div>
 </div>
-<div id="d965eaa5" class="cell" data-execution_count="63">
+<div id="499b97ec" class="cell" data-execution_count="63">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb112"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb112-1"><a href="#cb112-1" aria-hidden="true" tabindex="-1"></a><span class="co">"a"</span> <span class="kw">in</span> unique_chars  <span class="co"># Fast membership testing</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="55">
 <pre><code>True</code></pre>
@@ -1268,7 +1268,7 @@ char = 'a': counts = {'b': 1, 'a': 3, 'n': 2}</code></pre>
 </section>
 <section id="set-operations" class="level3">
 <h3 class="anchored" data-anchor-id="set-operations">Set Operations</h3>
-<div id="454bdd9b" class="cell" data-execution_count="64">
+<div id="a3970363" class="cell" data-execution_count="64">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb114"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb114-1"><a href="#cb114-1" aria-hidden="true" tabindex="-1"></a>text1 <span class="op">=</span> <span class="st">"apple"</span></span>
 <span id="cb114-2"><a href="#cb114-2" aria-hidden="true" tabindex="-1"></a>text2 <span class="op">=</span> <span class="st">"orange"</span></span>
 <span id="cb114-3"><a href="#cb114-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1280,13 +1280,13 @@ char = 'a': counts = {'b': 1, 'a': 3, 'n': 2}</code></pre>
 <pre><code>{'a', 'e', 'g', 'l', 'n', 'o', 'p', 'r'}</code></pre>
 </div>
 </div>
-<div id="1b72e114" class="cell" data-execution_count="65">
+<div id="86068989" class="cell" data-execution_count="65">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb116"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb116-1"><a href="#cb116-1" aria-hidden="true" tabindex="-1"></a>set1 <span class="op">&amp;</span> set2  <span class="co"># Intersection: characters in both</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="57">
 <pre><code>{'a', 'e'}</code></pre>
 </div>
 </div>
-<div id="09359dbf" class="cell" data-execution_count="66">
+<div id="a7e87f9c" class="cell" data-execution_count="66">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb118"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb118-1"><a href="#cb118-1" aria-hidden="true" tabindex="-1"></a>set1 <span class="op">-</span> set2  <span class="co"># Difference: in set1 but not set2</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="58">
 <pre><code>{'l', 'p'}</code></pre>
@@ -1295,7 +1295,7 @@ char = 'a': counts = {'b': 1, 'a': 3, 'n': 2}</code></pre>
 </section>
 <section id="your-turn-comparing-texts" class="level3">
 <h3 class="anchored" data-anchor-id="your-turn-comparing-texts">Your Turn: Comparing Texts</h3>
-<div id="17ceac0d" class="cell" data-execution_count="67">
+<div id="25e1021d" class="cell" data-execution_count="67">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb120"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb120-1"><a href="#cb120-1" aria-hidden="true" tabindex="-1"></a>text1 <span class="op">=</span> <span class="st">"the quick brown fox"</span></span>
 <span id="cb120-2"><a href="#cb120-2" aria-hidden="true" tabindex="-1"></a>text2 <span class="op">=</span> <span class="st">"the lazy dog"</span></span>
 <span id="cb120-3"><a href="#cb120-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1315,19 +1315,19 @@ char = 'a': counts = {'b': 1, 'a': 3, 'n': 2}</code></pre>
 <section id="characters-and-code-points" class="level3">
 <h3 class="anchored" data-anchor-id="characters-and-code-points">Characters and Code Points</h3>
 <p>Each character has a numerical <strong>code point</strong>:</p>
-<div id="77f0befa" class="cell" data-execution_count="68">
+<div id="e25ad208" class="cell" data-execution_count="68">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb121"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb121-1"><a href="#cb121-1" aria-hidden="true" tabindex="-1"></a><span class="bu">ord</span>(<span class="st">"A"</span>)  <span class="co"># Get code point</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="59">
 <pre><code>65</code></pre>
 </div>
 </div>
-<div id="4564e5d3" class="cell" data-execution_count="69">
+<div id="5234d19d" class="cell" data-execution_count="69">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb123"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb123-1"><a href="#cb123-1" aria-hidden="true" tabindex="-1"></a><span class="bu">ord</span>(<span class="st">"a"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="60">
 <pre><code>97</code></pre>
 </div>
 </div>
-<div id="f093ec62" class="cell" data-execution_count="70">
+<div id="b76d4dee" class="cell" data-execution_count="70">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb125"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb125-1"><a href="#cb125-1" aria-hidden="true" tabindex="-1"></a><span class="bu">chr</span>(<span class="dv">65</span>)  <span class="co"># Get character from code point</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="61">
 <pre><code>'A'</code></pre>
@@ -1338,7 +1338,7 @@ char = 'a': counts = {'b': 1, 'a': 3, 'n': 2}</code></pre>
 <section id="encoding-to-bytes" class="level3">
 <h3 class="anchored" data-anchor-id="encoding-to-bytes">Encoding to Bytes</h3>
 <p>The computer stores these as <strong>bytes</strong>:</p>
-<div id="213a1dd8" class="cell" data-execution_count="71">
+<div id="68a0318d" class="cell" data-execution_count="71">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb127"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb127-1"><a href="#cb127-1" aria-hidden="true" tabindex="-1"></a>text <span class="op">=</span> <span class="st">"Hello"</span></span>
 <span id="cb127-2"><a href="#cb127-2" aria-hidden="true" tabindex="-1"></a>encoded <span class="op">=</span> text.encode(<span class="st">"utf-8"</span>)</span>
 <span id="cb127-3"><a href="#cb127-3" aria-hidden="true" tabindex="-1"></a>encoded</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1346,14 +1346,14 @@ char = 'a': counts = {'b': 1, 'a': 3, 'n': 2}</code></pre>
 <pre><code>b'Hello'</code></pre>
 </div>
 </div>
-<div id="568a5bae" class="cell" data-execution_count="72">
+<div id="e4e8b582" class="cell" data-execution_count="72">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb129"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb129-1"><a href="#cb129-1" aria-hidden="true" tabindex="-1"></a><span class="bu">list</span>(encoded)  <span class="co"># Show individual bytes</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="63">
 <pre><code>[72, 101, 108, 108, 111]</code></pre>
 </div>
 </div>
 <p>For non-ASCII characters:</p>
-<div id="c47b6740" class="cell" data-execution_count="73">
+<div id="53e08f82" class="cell" data-execution_count="73">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb131"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb131-1"><a href="#cb131-1" aria-hidden="true" tabindex="-1"></a>text <span class="op">=</span> <span class="st">"café"</span></span>
 <span id="cb131-2"><a href="#cb131-2" aria-hidden="true" tabindex="-1"></a>encoded <span class="op">=</span> text.encode(<span class="st">"utf-8"</span>)</span>
 <span id="cb131-3"><a href="#cb131-3" aria-hidden="true" tabindex="-1"></a><span class="bu">list</span>(encoded)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1366,7 +1366,7 @@ char = 'a': counts = {'b': 1, 'a': 3, 'n': 2}</code></pre>
 <section id="decoding" class="level3">
 <h3 class="anchored" data-anchor-id="decoding">Decoding</h3>
 <p>We can convert bytes back to text:</p>
-<div id="a54cc092" class="cell" data-execution_count="74">
+<div id="d4577b89" class="cell" data-execution_count="74">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb133"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb133-1"><a href="#cb133-1" aria-hidden="true" tabindex="-1"></a>encoded.decode(<span class="st">"utf-8"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="65">
 <pre><code>'café'</code></pre>
@@ -1389,7 +1389,7 @@ char = 'a': counts = {'b': 1, 'a': 3, 'n': 2}</code></pre>
 </section>
 <section id="your-turn-explore-encoding" class="level3">
 <h3 class="anchored" data-anchor-id="your-turn-explore-encoding">Your Turn: Explore Encoding</h3>
-<div id="2970ef09" class="cell" data-execution_count="75">
+<div id="de4272e1" class="cell" data-execution_count="75">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb135"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb135-1"><a href="#cb135-1" aria-hidden="true" tabindex="-1"></a>characters <span class="op">=</span> [<span class="st">"A"</span>, <span class="st">"é"</span>, <span class="st">"中"</span>, <span class="st">"🙂"</span>]</span>
 <span id="cb135-2"><a href="#cb135-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb135-3"><a href="#cb135-3" aria-hidden="true" tabindex="-1"></a><span class="co"># For each character:</span></span>
@@ -1410,7 +1410,7 @@ char = 'a': counts = {'b': 1, 'a': 3, 'n': 2}</code></pre>
 <p><strong>Question:</strong> Does a list contain any duplicate values?</p>
 <section id="algorithm-1-compare-all-pairs" class="level3">
 <h3 class="anchored" data-anchor-id="algorithm-1-compare-all-pairs">Algorithm 1: Compare All Pairs</h3>
-<div id="9a7cb3a0" class="cell" data-execution_count="76">
+<div id="5a401bc3" class="cell" data-execution_count="76">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb136"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb136-1"><a href="#cb136-1" aria-hidden="true" tabindex="-1"></a>values <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">3</span>, <span class="dv">6</span>]</span>
 <span id="cb136-2"><a href="#cb136-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb136-3"><a href="#cb136-3" aria-hidden="true" tabindex="-1"></a>has_duplicate <span class="op">=</span> <span class="va">False</span></span>
@@ -1432,7 +1432,7 @@ char = 'a': counts = {'b': 1, 'a': 3, 'n': 2}</code></pre>
 </section>
 <section id="algorithm-2-use-a-set" class="level3">
 <h3 class="anchored" data-anchor-id="algorithm-2-use-a-set">Algorithm 2: Use a Set</h3>
-<div id="e1b9c7ae" class="cell" data-execution_count="77">
+<div id="2d0b79b4" class="cell" data-execution_count="77">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb138"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb138-1"><a href="#cb138-1" aria-hidden="true" tabindex="-1"></a>values <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">3</span>, <span class="dv">6</span>]</span>
 <span id="cb138-2"><a href="#cb138-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb138-3"><a href="#cb138-3" aria-hidden="true" tabindex="-1"></a>seen <span class="op">=</span> <span class="bu">set</span>()</span>
@@ -1459,7 +1459,7 @@ char = 'a': counts = {'b': 1, 'a': 3, 'n': 2}</code></pre>
 </section>
 <section id="demonstration" class="level3">
 <h3 class="anchored" data-anchor-id="demonstration">Demonstration</h3>
-<div id="084bdf38" class="cell" data-execution_count="78">
+<div id="6b001dd1" class="cell" data-execution_count="78">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb140"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb140-1"><a href="#cb140-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
 <span id="cb140-2"><a href="#cb140-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb140-3"><a href="#cb140-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> algorithm1(values):</span>
@@ -1495,10 +1495,10 @@ char = 'a': counts = {'b': 1, 'a': 3, 'n': 2}</code></pre>
 <span id="cb140-33"><a href="#cb140-33" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb140-34"><a href="#cb140-34" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"n=</span><span class="sc">{</span>n<span class="sc">:4d}</span><span class="ss">: Algorithm 1: </span><span class="sc">{</span>time1<span class="sc">:.4f}</span><span class="ss">s  Algorithm 2: </span><span class="sc">{</span>time2<span class="sc">:.6f}</span><span class="ss">s"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>n= 100: Algorithm 1: 0.0001s  Algorithm 2: 0.000007s
-n= 200: Algorithm 1: 0.0004s  Algorithm 2: 0.000010s
-n= 400: Algorithm 1: 0.0025s  Algorithm 2: 0.000019s
-n= 800: Algorithm 1: 0.0118s  Algorithm 2: 0.000038s</code></pre>
+<pre><code>n= 100: Algorithm 1: 0.0001s  Algorithm 2: 0.000006s
+n= 200: Algorithm 1: 0.0004s  Algorithm 2: 0.000009s
+n= 400: Algorithm 1: 0.0025s  Algorithm 2: 0.000018s
+n= 800: Algorithm 1: 0.0214s  Algorithm 2: 0.000036s</code></pre>
 </div>
 </div>
 <p>Notice how Algorithm 1’s time grows rapidly while Algorithm 2 remains fast.</p>
@@ -1519,7 +1519,7 @@ n= 800: Algorithm 1: 0.0118s  Algorithm 2: 0.000038s</code></pre>
 </section>
 <section id="your-turn-complexity-reasoning" class="level3">
 <h3 class="anchored" data-anchor-id="your-turn-complexity-reasoning">Your Turn: Complexity Reasoning</h3>
-<div id="125adc3c" class="cell" data-execution_count="79">
+<div id="45fc587f" class="cell" data-execution_count="79">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb142"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb142-1"><a href="#cb142-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Consider these operations:</span></span>
 <span id="cb142-2"><a href="#cb142-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb142-3"><a href="#cb142-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Sum all values in a list of length n</span></span>
@@ -1634,7 +1634,7 @@ n= 800: Algorithm 1: 0.0118s  Algorithm 2: 0.000038s</code></pre>
 <p>The following problems will reinforce today’s concepts. Attempt them before the next lecture.</p>
 <section id="exercise-1-temperature-analysis" class="level3">
 <h3 class="anchored" data-anchor-id="exercise-1-temperature-analysis">Exercise 1: Temperature Analysis</h3>
-<div id="309185fc" class="cell" data-execution_count="80">
+<div id="7b101e78" class="cell" data-execution_count="80">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb143"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb143-1"><a href="#cb143-1" aria-hidden="true" tabindex="-1"></a>temperatures <span class="op">=</span> [<span class="fl">15.2</span>, <span class="fl">17.1</span>, <span class="fl">14.8</span>, <span class="fl">19.3</span>, <span class="fl">16.5</span>, <span class="fl">18.2</span>, <span class="fl">14.1</span>, <span class="fl">20.5</span>, <span class="fl">17.8</span>, <span class="fl">16.9</span>]</span>
 <span id="cb143-2"><a href="#cb143-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb143-3"><a href="#cb143-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Find the median temperature</span></span>
@@ -1651,7 +1651,7 @@ n= 800: Algorithm 1: 0.0118s  Algorithm 2: 0.000038s</code></pre>
 </section>
 <section id="exercise-2-text-analysis" class="level3">
 <h3 class="anchored" data-anchor-id="exercise-2-text-analysis">Exercise 2: Text Analysis</h3>
-<div id="cc2cedd3" class="cell" data-execution_count="81">
+<div id="58da03ff" class="cell" data-execution_count="81">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb144"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb144-1"><a href="#cb144-1" aria-hidden="true" tabindex="-1"></a>text <span class="op">=</span> <span class="st">"""</span></span>
 <span id="cb144-2"><a href="#cb144-2" aria-hidden="true" tabindex="-1"></a><span class="st">Python is a programming language. Python is widely used</span></span>
 <span id="cb144-3"><a href="#cb144-3" aria-hidden="true" tabindex="-1"></a><span class="st">for data analysis, scientific computing, and statistics.</span></span>
@@ -1671,7 +1671,7 @@ n= 800: Algorithm 1: 0.0118s  Algorithm 2: 0.000038s</code></pre>
 </section>
 <section id="exercise-3-data-cleaning" class="level3">
 <h3 class="anchored" data-anchor-id="exercise-3-data-cleaning">Exercise 3: Data Cleaning</h3>
-<div id="c8dd2ad0" class="cell" data-execution_count="82">
+<div id="0885af36" class="cell" data-execution_count="82">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb145"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb145-1"><a href="#cb145-1" aria-hidden="true" tabindex="-1"></a>observations <span class="op">=</span> [</span>
 <span id="cb145-2"><a href="#cb145-2" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Monday"</span>, <span class="fl">15.2</span>),</span>
 <span id="cb145-3"><a href="#cb145-3" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Tuesday"</span>, <span class="va">None</span>),</span>
@@ -1696,7 +1696,7 @@ n= 800: Algorithm 1: 0.0118s  Algorithm 2: 0.000038s</code></pre>
 </section>
 <section id="exercise-4-algorithm-design" class="level3">
 <h3 class="anchored" data-anchor-id="exercise-4-algorithm-design">Exercise 4: Algorithm Design</h3>
-<div id="469994a1" class="cell" data-execution_count="83">
+<div id="f4c548dc" class="cell" data-execution_count="83">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb146"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb146-1"><a href="#cb146-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Given a list of integers, write an algorithm that finds the most</span></span>
 <span id="cb146-2"><a href="#cb146-2" aria-hidden="true" tabindex="-1"></a><span class="co"># frequently occurring value.</span></span>
 <span id="cb146-3"><a href="#cb146-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1713,7 +1713,7 @@ n= 800: Algorithm 1: 0.0118s  Algorithm 2: 0.000038s</code></pre>
 </section>
 <section id="exercise-5-efficiency" class="level3">
 <h3 class="anchored" data-anchor-id="exercise-5-efficiency">Exercise 5: Efficiency</h3>
-<div id="9c547387" class="cell" data-execution_count="84">
+<div id="463a230e" class="cell" data-execution_count="84">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb147"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb147-1"><a href="#cb147-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Consider these two approaches to finding common elements:</span></span>
 <span id="cb147-2"><a href="#cb147-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb147-3"><a href="#cb147-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> common_elements_v1(list1, list2):</span>
