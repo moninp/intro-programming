@@ -53,7 +53,7 @@ Short quizzes will be used to reinforce important concepts and provide regular f
 
 The semester project is an extended computational project in which you will apply the tools and ideas from the course to a problem of your choosing.
 
-[Project description and instructions](project/)
+[Project description and instructions](project.qmd)
 
 ## Software and Tools
 
