@@ -71,7 +71,7 @@ The original ASCII standard assigns numeric codes to a relatively small set of c
 
 For example:
 
-```python
+```{python}
 ord("A")
 ```
 
@@ -83,7 +83,7 @@ returns:
 
 and:
 
-```python
+```{python}
 chr(65)
 ```
 
@@ -95,6 +95,8 @@ returns:
 
 ASCII is useful but limited. It was designed around the needs of English-language text and contains only a small number of characters.
 
+The ASCII standard defines codes from 0 through 127, using 7 bits. An eighth bit was sometimes used for extended character sets, but these were not standardized.
+
 ## 2.2 Unicode
 
 **Unicode** is a much larger standard intended to provide a consistent representation for characters used by languages around the world.
@@ -103,21 +105,29 @@ A Unicode **code point** is a number assigned to a character.
 
 For example:
 
-```python
+```{python}
 ord("A")
 ```
 
-gives the Unicode code point for `A`, while:
+gives the Unicode code point for `A`, which is 65 (the same as ASCII for compatibility), while:
 
-```python
+```{python}
 ord("é")
 ```
 
-gives the code point for `é`.
+gives the code point 233 for `é`, and:
+
+```{python}
+ord("中")
+```
+
+gives the code point 20013.
 
 The important distinction is:
 
 > A Unicode code point identifies a character; it is not necessarily the same thing as the bytes used to store that character.
+
+Unicode defines over 140,000 code points, organized into blocks representing different scripts and symbol systems.
 
 ## 2.3 UTF-8
 
@@ -125,26 +135,59 @@ The important distinction is:
 
 For example:
 
-```python
+```{python}
 "A".encode("utf-8")
 ```
 
-produces a one-byte representation, while a character such as `é` requires more than one byte:
+produces a one-byte representation:
 
-```python
+```text
+b'A'
+```
+
+while a character such as `é` requires more than one byte:
+
+```{python}
 "é".encode("utf-8")
 ```
 
-The resulting object is a sequence of bytes.
+produces:
+
+```text
+b'\xc3\xa9'
+```
+
+The resulting object is a sequence of bytes. We can see the individual byte values:
+
+```{python}
+list("é".encode("utf-8"))
+```
+
+This shows that `é` requires two bytes: 195 and 169.
+
+Characters outside the ASCII range require multiple bytes. For example:
+
+```{python}
+list("中".encode("utf-8"))
+```
+
+This character requires three bytes.
 
 We can convert those bytes back into a string:
 
-```python
+```{python}
 b = "é".encode("utf-8")
 b.decode("utf-8")
 ```
 
 The distinction among **character**, **code point**, and **byte** is important when working with files and data.
+
+UTF-8 has several useful properties:
+
+* ASCII characters (codes 0–127) are encoded using a single byte with the same value as the ASCII code;
+* characters with higher code points use multiple bytes;
+* byte sequences are self-synchronizing;
+* the encoding is efficient for text that is predominantly ASCII.
 
 ## 2.4 Why encodings matter
 
@@ -157,7 +200,30 @@ This can produce:
 - decoding errors;
 - corrupted data.
 
+For example:
+
+```{python}
+text = "café"
+bytes_utf8 = text.encode("utf-8")
+
+# Correct decoding
+print(bytes_utf8.decode("utf-8"))
+
+# Incorrect decoding (will likely cause an error or produce wrong characters)
+try:
+    print(bytes_utf8.decode("ascii"))
+except UnicodeDecodeError as e:
+    print(f"Error: {e}")
+```
+
 This is one reason that importing data is a computational task rather than simply "opening a file."
+
+When working with text files, you should:
+
+1. Know the encoding of your input files;
+2. Specify the encoding explicitly when reading or writing;
+3. Be prepared to handle encoding errors;
+4. Use UTF-8 as the default for new files when possible.
 
 ---
 
@@ -167,21 +233,27 @@ A Python `str` is a sequence of characters.
 
 For example:
 
-```python
+```{python}
 name = "Ada Lovelace"
 ```
 
 We can inspect its length:
 
-```python
+```{python}
 len(name)
 ```
 
 and access individual characters using **indexing**:
 
-```python
+```{python}
 name[0]
+```
+
+```{python}
 name[1]
+```
+
+```{python}
 name[-1]
 ```
 
@@ -191,7 +263,7 @@ Python uses **zero-based indexing**. Thus the first element has index `0`.
 
 If:
 
-```python
+```{python}
 s = "Python"
 ```
 
@@ -204,13 +276,13 @@ index:    0   1   2   3   4   5
 
 Thus:
 
-```python
+```{python}
 s[0]
 ```
 
 is `"P"` and:
 
-```python
+```{python}
 s[5]
 ```
 
@@ -218,17 +290,32 @@ is `"n"`.
 
 Negative indices count from the end:
 
-```python
+```{python}
 s[-1]
 ```
 
-is `"n"`.
+is `"n"`, and:
+
+```{python}
+s[-2]
+```
+
+is `"o"`.
+
+The relationship between positive and negative indices is:
+
+```text
+s[-k] is equivalent to s[len(s) - k]
+```
+
+for positive integers $k \leq$ `len(s)`.
 
 ## 3.2 Slicing
 
 A **slice** selects a portion of a sequence.
 
-```python
+```{python}
+s = "Python"
 s[1:4]
 ```
 
@@ -241,7 +328,7 @@ returns:
 The general form is:
 
 ```python
-s[start:stop]
+s[start:stop:step]
 ```
 
 The starting index is included, but the stopping index is excluded.
@@ -252,7 +339,7 @@ This convention is extremely useful because the length of:
 s[a:b]
 ```
 
-is normally:
+is:
 
 ```text
 b - a
@@ -260,7 +347,37 @@ b - a
 
 provided the indices are valid.
 
-We will see the same convention with lists and other sequences.
+We can omit either endpoint:
+
+```{python}
+s[:3]    # From beginning to position 3
+```
+
+```{python}
+s[3:]    # From position 3 to end
+```
+
+```{python}
+s[:]     # Entire string
+```
+
+We can specify a step:
+
+```{python}
+s[::2]   # Every second character
+```
+
+```{python}
+s[::-1]  # Reverse the string
+```
+
+Slicing never raises an `IndexError` even if indices are out of range:
+
+```{python}
+s[100:200]  # Empty string
+```
+
+This behavior is useful but can also hide bugs if you expect an error when accessing invalid positions.
 
 ## 3.3 Strings are immutable
 
@@ -273,29 +390,126 @@ s = "Python"
 s[0] = "J"
 ```
 
+Attempting this produces:
+
+```text
+TypeError: 'str' object does not support item assignment
+```
+
 Instead, we create a new string:
 
-```python
+```{python}
+s = "Python"
 s = "J" + s[1:]
+s
+```
+
+Operations that appear to modify a string actually create new string objects:
+
+```{python}
+original = "hello"
+modified = original.upper()
+
+print(f"Original: {original}")
+print(f"Modified: {modified}")
+print(f"Same object? {original is modified}")
 ```
 
 Immutability is an important concept because different data structures have different rules about whether their contents can be changed.
+
+The advantages of immutability include:
+
+* strings can be safely shared between different parts of a program;
+* strings can be used as dictionary keys;
+* certain optimizations are possible;
+* reasoning about program behavior is simpler.
 
 ## 3.4 String methods
 
 Strings have many useful methods:
 
-```python
+```{python}
 text = "  Hello, World!  "
 
-text.strip()
-text.lower()
-text.upper()
-text.replace("World", "Python")
-text.split(",")
+text.strip()      # Remove leading/trailing whitespace
+```
+
+```{python}
+text.lower()      # Convert to lowercase
+```
+
+```{python}
+text.upper()      # Convert to uppercase
+```
+
+```{python}
+text.replace("World", "Python")  # Replace substring
+```
+
+```{python}
+text.split(",")   # Split into list
+```
+
+Testing string properties:
+
+```{python}
+"12345".isdigit()
+```
+
+```{python}
+"Hello".isalpha()
+```
+
+```{python}
+"hello".startswith("he")
+```
+
+```{python}
+"hello".endswith("lo")
+```
+
+Searching:
+
+```{python}
+"hello world".find("world")  # Returns index or -1
+```
+
+```{python}
+"world" in "hello world"     # Boolean membership
+```
+
+Formatting:
+
+```{python}
+name = "Alice"
+age = 25
+f"My name is {name} and I am {age} years old"
 ```
 
 These methods are particularly useful when processing real-world data, where text is often messy.
+
+## 3.5 String concatenation and repetition
+
+Strings support concatenation with `+`:
+
+```{python}
+"Hello" + " " + "World"
+```
+
+and repetition with `*`:
+
+```{python}
+"Python" * 3
+```
+
+For efficient concatenation of many strings, use `"".join()`:
+
+```{python}
+words = ["Python", "is", "powerful"]
+" ".join(words)
+```
+
+This is more efficient than repeated concatenation because strings are immutable.
 
 ---
 
@@ -328,51 +542,165 @@ A **list** is an ordered, mutable collection.
 
 For example:
 
-```python
+```{python}
 temperatures = [72, 75, 68, 70, 74]
 ```
 
 A list can contain values of different types:
 
-```python
+```{python}
 items = [10, "hello", True, 3.14]
 ```
 
 although in scientific and data-analysis applications, lists will often contain values of a common type.
 
-## 5.1 Indexing and slicing
+## 5.1 Creating lists
+
+Lists can be created in several ways:
+
+```{python}
+# Literal notation
+numbers = [1, 2, 3, 4, 5]
+
+# Empty list
+empty = []
+
+# From another iterable
+chars = list("hello")
+chars
+```
+
+```{python}
+# Using a list comprehension
+squares = [x**2 for x in range(5)]
+squares
+```
+
+## 5.2 Indexing and slicing
 
 Lists use the same indexing and slicing conventions as strings:
 
-```python
+```{python}
+temperatures = [72, 75, 68, 70, 74]
+
 temperatures[0]
+```
+
+```{python}
 temperatures[-1]
+```
+
+```{python}
 temperatures[1:4]
 ```
 
 This is not accidental. Both strings and lists are examples of **sequences**.
 
-## 5.2 Lists are mutable
+Python sequences share common operations:
 
-Unlike strings, lists can be modified.
+| Operation | Meaning |
+|-----------|---------|
+| `len(s)` | Number of elements |
+| `s[i]` | Element at index $i$ |
+| `s[i:j]` | Slice from $i$ to $j$ |
+| `x in s` | Is $x$ an element of $s$? |
+| `s + t` | Concatenation |
+| `s * n` | Repetition |
 
-```python
+## 5.3 Lists are mutable
+
+Unlike strings, lists can be modified:
+
+```{python}
+temperatures = [72, 75, 68, 70, 74]
 temperatures[0] = 73
+temperatures
 ```
 
 We can append an element:
 
-```python
+```{python}
 temperatures.append(76)
+temperatures
 ```
 
-or remove an element:
+Insert at a specific position:
 
-```python
-temperatures.pop()
+```{python}
+temperatures.insert(2, 69)
+temperatures
 ```
 
-## 5.3 Lists and mathematical vectors
+Remove an element by value:
+
+```{python}
+temperatures.remove(69)
+temperatures
+```
+
+Remove and return an element by index:
+
+```{python}
+last = temperatures.pop()
+print(f"Removed: {last}")
+print(f"Remaining: {temperatures}")
+```
+
+Extend with another list:
+
+```{python}
+temperatures.extend([77, 78])
+temperatures
+```
+
+Clear all elements:
+
+```{python}
+example = [1, 2, 3]
+example.clear()
+example
+```
+
+## 5.4 List methods
+
+Common list methods include:
+
+```{python}
+numbers = [3, 1, 4, 1, 5, 9, 2, 6]
+
+# Count occurrences
+numbers.count(1)
+```
+
+```{python}
+# Find index of first occurrence
+numbers.index(4)
+```
+
+```{python}
+# Sort in place
+numbers.sort()
+numbers
+```
+
+```{python}
+# Reverse in place
+numbers.reverse()
+numbers
+```
+
+Note that `sort()` and `reverse()` modify the list in place and return `None`.
+
+To create a sorted copy without modifying the original:
+
+```{python}
+original = [3, 1, 4, 1, 5]
+sorted_copy = sorted(original)
+print(f"Original: {original}")
+print(f"Sorted: {sorted_copy}")
+```
+
+## 5.5 Lists and mathematical vectors
 
 It is tempting to think of a Python list as a mathematical vector:
 
@@ -392,11 +720,48 @@ A Python list is a general-purpose container. It does not automatically perform 
 
 For example:
 
-```python
+```{python}
 x = [1, 2, 3]
+y = [4, 5, 6]
+
+# This does NOT perform element-wise addition
+x + y
 ```
 
-does not behave like a NumPy vector. This distinction will become important when we study NumPy.
+This concatenates the lists rather than adding corresponding elements.
+
+For mathematical vector operations, we will later use NumPy arrays:
+
+```python
+import numpy as np
+
+x = np.array([1, 2, 3])
+y = np.array([4, 5, 6])
+
+x + y  # Element-wise addition: array([5, 7, 9])
+```
+
+This distinction will become important when we study NumPy.
+
+## 5.6 Nested lists
+
+Lists can contain other lists:
+
+```{python}
+matrix = [
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9]
+]
+
+matrix[0]      # First row
+```
+
+```{python}
+matrix[0][1]   # First row, second column
+```
+
+This provides a simple way to represent two-dimensional data, though NumPy arrays are more efficient for numerical work.
 
 ---
 
@@ -404,33 +769,105 @@ does not behave like a NumPy vector. This distinction will become important when
 
 A **tuple** is an ordered, immutable collection.
 
-```python
+```{python}
 point = (3, 4)
 ```
 
+## 6.1 Creating tuples
+
+Tuples are typically created with parentheses:
+
+```{python}
+coordinates = (3.5, 7.2)
+date = (2026, 1, 15)
+```
+
+A single-element tuple requires a trailing comma:
+
+```{python}
+single = (42,)
+type(single)
+```
+
+Without the comma, Python interprets the parentheses as grouping:
+
+```{python}
+not_a_tuple = (42)
+type(not_a_tuple)
+```
+
+Parentheses can sometimes be omitted:
+
+```{python}
+point = 3, 4
+point
+```
+
+This is called **tuple packing**.
+
+**Tuple unpacking** assigns elements to multiple variables:
+
+```{python}
+x, y = point
+print(f"x = {x}, y = {y}")
+```
+
+## 6.2 Tuple operations
+
 Tuples can be indexed:
 
-```python
+```{python}
+point = (3, 4)
 point[0]
 ```
 
 but their contents cannot be changed:
 
 ```python
-point[0] = 5
+point[0] = 5  # TypeError
 ```
 
-will produce an error.
+Tuples support the same sequence operations as lists, except those that would modify the tuple:
+
+```{python}
+a = (1, 2, 3)
+b = (4, 5, 6)
+
+a + b        # Concatenation
+```
+
+```{python}
+a * 2        # Repetition
+```
+
+```{python}
+len(a)       # Length
+```
+
+```{python}
+2 in a       # Membership
+```
+
+## 6.3 When to use tuples
 
 Tuples are useful when the collection represents a fixed group of values.
 
 For example:
 
-```python
+```{python}
 date = (2026, 8, 25)
 ```
 
-might represent a year, month, and day.
+might represent a year, month, and day that should not be modified.
+
+Another common use is returning multiple values from a function:
+
+```python
+def get_min_max(values):
+    return min(values), max(values)
+
+minimum, maximum = get_min_max([3, 1, 4, 1, 5])
+```
 
 The important conceptual distinction is:
 
@@ -438,6 +875,16 @@ The important conceptual distinction is:
 |---|---:|---:|
 | `list` | Yes | Yes |
 | `tuple` | Yes | No |
+
+Use a list when:
+* the collection will grow or shrink;
+* elements will be modified;
+* order matters but the collection is not conceptually "fixed."
+
+Use a tuple when:
+* the collection represents a fixed structure;
+* immutability is desirable (e.g., for use as a dictionary key);
+* the collection represents heterogeneous data that belongs together.
 
 ---
 
@@ -447,7 +894,7 @@ A **dictionary** stores **key-value pairs**.
 
 For example:
 
-```python
+```{python}
 student = {
     "name": "Ada",
     "year": 1,
@@ -455,10 +902,131 @@ student = {
 }
 ```
 
+## 7.1 Creating dictionaries
+
+Dictionaries can be created in several ways:
+
+```{python}
+# Literal notation
+prices = {"AAPL": 150, "GOOGL": 2800, "MSFT": 300}
+
+# Empty dictionary
+empty = {}
+
+# Using dict()
+grades = dict(Alice=85, Bob=92, Carlos=88)
+grades
+```
+
+```{python}
+# From key-value pairs
+pairs = [("a", 1), ("b", 2), ("c", 3)]
+dict(pairs)
+```
+
+## 7.2 Accessing and modifying
+
 We retrieve a value using its key:
 
-```python
+```{python}
+student = {"name": "Ada", "year": 1, "program": "Mathematics"}
 student["name"]
+```
+
+We can add or modify entries:
+
+```{python}
+student["year"] = 2
+student["advisor"] = "Dr. Smith"
+student
+```
+
+Attempting to access a nonexistent key raises a `KeyError`:
+
+```python
+student["age"]  # KeyError
+```
+
+The `get()` method provides a safer alternative:
+
+```{python}
+student.get("age")         # Returns None
+```
+
+```{python}
+student.get("age", 25)     # Returns default value
+```
+
+## 7.3 Dictionary operations
+
+Check if a key exists:
+
+```{python}
+"name" in student
+```
+
+```{python}
+"age" in student
+```
+
+Remove a key:
+
+```{python}
+student = {"name": "Ada", "year": 1, "program": "Mathematics"}
+del student["program"]
+student
+```
+
+```{python}
+# Remove and return value
+year = student.pop("year")
+print(f"Removed year: {year}")
+print(f"Remaining: {student}")
+```
+
+Get all keys, values, or items:
+
+```{python}
+prices = {"AAPL": 150, "GOOGL": 2800, "MSFT": 300}
+
+list(prices.keys())
+```
+
+```{python}
+list(prices.values())
+```
+
+```{python}
+list(prices.items())
+```
+
+Iterate over a dictionary:
+
+```{python}
+for ticker, price in prices.items():
+    print(f"{ticker}: ${price}")
+```
+
+## 7.4 Dictionaries as mappings
+
+Mathematically, a dictionary is naturally related to the idea of a **mapping** or function.
+
+For example:
+
+$$
+f(\text{student ID}) = \text{student name}.
+$$
+
+A dictionary can implement a finite version of this idea:
+
+```{python}
+names = {
+    101: "Ada",
+    102: "Grace",
+    103: "Alan"
+}
+
+names[102]
 ```
 
 This is fundamentally different from list indexing.
@@ -471,37 +1039,20 @@ A dictionary asks:
 
 > What value is associated with this key?
 
-## 7.1 Dictionaries as mappings
+## 7.5 Keys and values
 
-Mathematically, a dictionary is naturally related to the idea of a **mapping** or function.
+Dictionary keys must satisfy restrictions that values do not necessarily have. In particular, keys must be **hashable**.
 
-For example:
+An object is hashable if:
+* it has a hash value that never changes during its lifetime;
+* it can be compared for equality.
 
-$$
-f(\text{student ID}) = \text{student name}.
-$$
-
-A dictionary can implement a finite version of this idea:
+Immutable types (int, float, str, tuple) are hashable. Mutable types (list, dict, set) are not.
 
 ```python
-names = {
-    101: "Ada",
-    102: "Grace",
-    103: "Alan"
-}
+valid = {(1, 2): "coordinates"}    # Tuple key: OK
+invalid = {[1, 2]: "list key"}     # List key: Error
 ```
-
-Then:
-
-```python
-names[102]
-```
-
-returns `"Grace"`.
-
-## 7.2 Keys and values
-
-Dictionary keys must satisfy restrictions that values do not necessarily have. In particular, keys must be hashable.
 
 For now, the important practical idea is:
 
@@ -514,46 +1065,172 @@ Examples include:
 - country code → country name;
 - word → frequency.
 
+## 7.6 Dictionary comprehensions
+
+Similar to list comprehensions:
+
+```{python}
+squares = {x: x**2 for x in range(5)}
+squares
+```
+
+```{python}
+# With filtering
+even_squares = {x: x**2 for x in range(10) if x % 2 == 0}
+even_squares
+```
+
 ---
 
 # 8. Sets
 
 A **set** is an unordered collection of distinct elements.
 
-```python
+```{python}
 countries = {"US", "UK", "France", "US"}
+countries
 ```
 
 The duplicate `"US"` is not retained as a second element.
 
+## 8.1 Creating sets
+
+```{python}
+# Literal notation (for non-empty sets)
+letters = {"a", "b", "c"}
+
+# Using set()
+numbers = set([1, 2, 3, 2, 1])
+numbers
+```
+
+```{python}
+# From a string
+chars = set("hello")
+chars
+```
+
+Note: `{}` creates an empty dictionary, not an empty set. Use `set()` for an empty set:
+
+```{python}
+empty_dict = {}
+empty_set = set()
+
+type(empty_dict), type(empty_set)
+```
+
+## 8.2 Set operations
+
 Sets are closely connected to mathematical set theory.
 
-For example:
+```{python}
+A = {1, 2, 3, 4}
+B = {3, 4, 5, 6}
+```
 
-```python
+**Union** ($A \cup B$):
+
+```{python}
+A | B
+```
+
+**Intersection** ($A \cap B$):
+
+```{python}
+A & B
+```
+
+**Difference** ($A \setminus B$):
+
+```{python}
+A - B
+```
+
+**Symmetric difference** ($A \triangle B$):
+
+```{python}
+A ^ B
+```
+
+These correspond naturally to familiar mathematical operations.
+
+## 8.3 Set methods
+
+```{python}
+fruits = {"apple", "banana", "orange"}
+
+# Add element
+fruits.add("grape")
+fruits
+```
+
+```{python}
+# Remove element (raises KeyError if not present)
+fruits.remove("banana")
+fruits
+```
+
+```{python}
+# Remove element (no error if not present)
+fruits.discard("kiwi")
+fruits
+```
+
+Test relationships:
+
+```{python}
 A = {1, 2, 3}
-B = {3, 4, 5}
+B = {1, 2, 3, 4, 5}
+
+A.issubset(B)
 ```
 
-We can compute:
-
-```python
-A | B      # union
-A & B      # intersection
-A - B      # difference
+```{python}
+B.issuperset(A)
 ```
 
-These correspond naturally to familiar mathematical operations:
+```{python}
+A.isdisjoint({4, 5, 6})
+```
 
-$$
-A \cup B,\qquad A \cap B,\qquad A\setminus B.
-$$
+## 8.4 Sets and membership testing
 
 Sets are especially useful when the important question is membership:
 
 > Is this element in the collection?
 
-rather than position.
+Membership testing for sets is very efficient (average $O(1)$ time) compared to lists ($O(n)$ time):
+
+```{python}
+import time
+
+# Large collection
+large_list = list(range(100000))
+large_set = set(range(100000))
+
+# Test membership
+target = 99999
+
+# List membership
+start = time.time()
+_ = target in large_list
+list_time = time.time() - start
+
+# Set membership
+start = time.time()
+_ = target in large_set
+set_time = time.time() - start
+
+print(f"List: {list_time:.6f}s")
+print(f"Set:  {set_time:.6f}s")
+```
+
+## 8.5 Set comprehensions
+
+```{python}
+squares = {x**2 for x in range(10)}
+squares
+```
 
 ---
 
@@ -565,49 +1242,91 @@ Consider the following problems.
 
 Store the daily temperatures for a week in chronological order.
 
-A list is a natural choice:
+A **list** is a natural choice:
 
-```python
+```{python}
 temperatures = [72, 75, 68, 70, 74, 77, 71]
 ```
+
+**Why?** Order matters, and we may want to modify values or add new observations.
 
 ### Problem B
 
 Store the population of each state, where the state name is the natural identifier.
 
-A dictionary is natural:
+A **dictionary** is natural:
 
-```python
+```{python}
 population = {
-    "Virginia": ...,
-    "Maryland": ...,
-    "New York": ...
+    "Virginia": 8654542,
+    "Maryland": 6177224,
+    "New York": 20201249
 }
 ```
+
+**Why?** We want to look up population by state name (key-value mapping).
 
 ### Problem C
 
 Store the unique states represented in a dataset.
 
-A set is natural:
+A **set** is natural:
 
-```python
+```{python}
 states = {"Virginia", "Maryland", "Virginia", "New York"}
+states
 ```
+
+**Why?** We only care about presence/absence, not count or order. Duplicates are automatically eliminated.
 
 ### Problem D
 
 Store the coordinates of a point that should not change.
 
-A tuple is reasonable:
+A **tuple** is reasonable:
 
-```python
+```{python}
 point = (3.5, 7.2)
+```
+
+**Why?** The structure is fixed (always two coordinates) and immutability prevents accidental modification.
+
+### Problem E
+
+Store a time series where we need both fast access by time and the ability to add new observations.
+
+Consider a **dictionary** with timestamps as keys:
+
+```{python}
+time_series = {
+    "2024-01-01": 100.5,
+    "2024-01-02": 102.3,
+    "2024-01-03": 101.8
+}
+```
+
+Or a list of tuples if order matters:
+
+```{python}
+time_series = [
+    ("2024-01-01", 100.5),
+    ("2024-01-02", 102.3),
+    ("2024-01-03", 101.8)
+]
 ```
 
 The important lesson is:
 
 > **Data structures encode assumptions about how information will be used.**
+
+When choosing a data structure, ask:
+
+1. Do I need to preserve order?
+2. Will I need to modify elements?
+3. Will I search for elements by value or by key?
+4. Do I need to prevent duplicates?
+5. What operations will be most frequent?
+6. How large will the collection become?
 
 ---
 
@@ -630,23 +1349,46 @@ The two fundamental ideas are:
 
 Python has two Boolean values:
 
-```python
+```{python}
 True
+```
+
+```{python}
 False
 ```
 
 Comparisons produce Boolean values.
 
-```python
+```{python}
 x = 10
 
 x > 5
+```
+
+```{python}
 x == 10
+```
+
+```{python}
 x != 7
+```
+
+```{python}
 x <= 12
 ```
 
-The result of each expression is either `True` or `False`.
+The comparison operators are:
+
+| Operator | Meaning |
+|---|---|
+| `==` | Equal to |
+| `!=` | Not equal to |
+| `<` | Less than |
+| `<=` | Less than or equal to |
+| `>` | Greater than |
+| `>=` | Greater than or equal to |
+
+Note: `==` tests equality; `=` is assignment.
 
 ## 11.1 Boolean operators
 
@@ -660,19 +1402,39 @@ not
 
 For example:
 
-```python
-x > 0 and x < 10
+```{python}
+x = 10
+
+x > 0 and x < 20
 ```
 
-means that both conditions must be true.
-
-We can also write:
-
-```python
-0 < x < 10
+```{python}
+x < 0 or x > 100
 ```
 
-which is Python's chained-comparison syntax.
+```{python}
+not (x == 10)
+```
+
+Boolean operators follow these rules:
+
+| Expression | True when |
+|---|---|
+| `A and B` | Both A and B are True |
+| `A or B` | At least one of A or B is True |
+| `not A` | A is False |
+
+We can also write chained comparisons:
+
+```{python}
+0 < x < 20
+```
+
+which is equivalent to:
+
+```{python}
+x > 0 and x < 20
+```
 
 The mathematical connection is direct:
 
@@ -682,20 +1444,60 @@ $$
 
 But remember that a Boolean expression is evaluated by the program and produces a Boolean value.
 
+## 11.2 Truthiness
+
+Python considers some values "truthy" and others "falsy" in Boolean contexts.
+
+**Falsy values:**
+- `False`
+- `None`
+- `0` (and `0.0`)
+- Empty sequences: `""`, `[]`, `()`
+- Empty mappings: `{}`
+
+**Everything else is truthy**, including:
+- `True`
+- Non-zero numbers
+- Non-empty sequences and mappings
+
+Example:
+
+```{python}
+if [1, 2, 3]:
+    print("Non-empty list is truthy")
+
+if not []:
+    print("Empty list is falsy")
+```
+
+This is useful but can lead to subtle bugs. For explicit checks, prefer:
+
+```python
+if len(my_list) > 0:  # Explicit
+    ...
+
+if my_list:           # More Pythonic, but relies on truthiness
+    ...
+```
+
 ---
 
 # 12. Conditional Statements
 
 An `if` statement allows a program to choose whether to execute a block of code.
 
-```python
+```{python}
+x = 10
+
 if x > 0:
     print("positive")
 ```
 
 We can add an alternative:
 
-```python
+```{python}
+x = -3
+
 if x > 0:
     print("positive")
 else:
@@ -704,7 +1506,9 @@ else:
 
 And multiple alternatives:
 
-```python
+```{python}
+x = 0
+
 if x > 0:
     print("positive")
 elif x < 0:
@@ -713,11 +1517,44 @@ else:
     print("zero")
 ```
 
+## 12.1 Indentation and blocks
+
 Python uses **indentation** to define blocks of code.
 
 This is part of the language syntax, not merely a formatting convention.
 
-## 12.1 Mathematical logic and program logic
+```python
+if condition:
+    statement1
+    statement2
+    statement3
+next_statement
+```
+
+All statements at the same indentation level belong to the same block.
+
+The standard is 4 spaces per indentation level. **Do not mix tabs and spaces.**
+
+## 12.2 Nested conditionals
+
+Conditionals can be nested:
+
+```{python}
+x = 10
+y = 20
+
+if x > 0:
+    if y > 0:
+        print("Both positive")
+    else:
+        print("x positive, y non-positive")
+else:
+    print("x non-positive")
+```
+
+While nesting is sometimes necessary, deeply nested conditionals can be hard to read. Consider refactoring into functions or using early returns.
+
+## 12.3 Mathematical logic and program logic
 
 A conditional statement is closely related to mathematical reasoning.
 
@@ -734,6 +1571,8 @@ if x > 0:
 
 But a program must also specify **what action to take** when the condition is true or false.
 
+The conditional statement is an **imperative** construct (it commands the computer to do something), while mathematical logic is typically **declarative** (it states what is true).
+
 ---
 
 # 13. Iteration with `for`
@@ -742,7 +1581,7 @@ A `for` loop repeats a block of code for each element in a sequence or other ite
 
 For example:
 
-```python
+```{python}
 numbers = [2, 4, 6, 8]
 
 for x in numbers:
@@ -750,6 +1589,8 @@ for x in numbers:
 ```
 
 The loop variable `x` takes each value in turn.
+
+## 13.1 Loop structure
 
 A useful way to think about the loop is:
 
@@ -765,11 +1606,62 @@ execute body
 ...
 ```
 
-## 13.1 Accumulating a result
+The general syntax is:
+
+```python
+for variable in iterable:
+    statement
+    statement
+    ...
+```
+
+## 13.2 Iterating over different types
+
+You can iterate over any **iterable**, including:
+
+**Lists:**
+```{python}
+for value in [1, 2, 3]:
+    print(value)
+```
+
+**Strings:**
+```{python}
+for char in "hello":
+    print(char)
+```
+
+**Tuples:**
+```{python}
+for item in (10, 20, 30):
+    print(item)
+```
+
+**Dictionaries** (iterates over keys):
+```{python}
+prices = {"AAPL": 150, "GOOGL": 2800}
+
+for ticker in prices:
+    print(f"{ticker}: ${prices[ticker]}")
+```
+
+Or iterate over items:
+```{python}
+for ticker, price in prices.items():
+    print(f"{ticker}: ${price}")
+```
+
+**Sets:**
+```{python}
+for item in {1, 2, 3}:
+    print(item)
+```
+
+## 13.3 Accumulating a result
 
 One common pattern is to maintain a running total.
 
-```python
+```{python}
 numbers = [2, 4, 6, 8]
 
 total = 0
@@ -786,7 +1678,49 @@ $$
 \sum_{i=1}^n x_i.
 $$
 
-The program state changes after every iteration.
+The pattern is:
+
+1. Initialize accumulator
+2. For each element:
+   - Update accumulator
+3. Use final accumulated value
+
+Other accumulation patterns:
+
+**Product:**
+```{python}
+numbers = [2, 3, 4]
+product = 1
+
+for x in numbers:
+    product *= x
+
+product
+```
+
+**Building a list:**
+```{python}
+squares = []
+
+for x in range(5):
+    squares.append(x**2)
+
+squares
+```
+
+**Counting:**
+```{python}
+values = [1, 2, 3, 2, 1, 4, 2]
+count = 0
+
+for x in values:
+    if x == 2:
+        count += 1
+
+count
+```
+
+The program state changes after every iteration. This is a fundamental difference between a loop and a mathematical expression.
 
 ---
 
@@ -794,7 +1728,7 @@ The program state changes after every iteration.
 
 The `range()` function is useful when we want to iterate over integer values.
 
-```python
+```{python}
 for i in range(5):
     print(i)
 ```
@@ -811,14 +1745,16 @@ produces:
 
 The stop value is excluded.
 
-We can specify a starting value:
+## 14.1 `range()` variations
 
-```python
+Start and stop:
+
+```{python}
 for i in range(1, 6):
     print(i)
 ```
 
-which produces:
+produces:
 
 ```text
 1
@@ -828,15 +1764,43 @@ which produces:
 5
 ```
 
+With a step:
+
+```{python}
+for i in range(0, 10, 2):
+    print(i)
+```
+
+produces:
+
+```text
+0
+2
+4
+6
+8
+```
+
+Counting backward:
+
+```{python}
+for i in range(5, 0, -1):
+    print(i)
+```
+
+## 14.2 `range()` for mathematical sums
+
 This makes `range()` especially useful for implementing mathematical sums and recurrences.
 
 For example:
 
-```python
+```{python}
 total = 0
 
 for i in range(1, 11):
     total += i
+
+total
 ```
 
 computes:
@@ -845,21 +1809,89 @@ $$
 \sum_{i=1}^{10} i.
 $$
 
+Or:
+
+```{python}
+total = 0
+
+for i in range(1, 11):
+    total += i**2
+
+total
+```
+
+computes:
+
+$$
+\sum_{i=1}^{10} i^2.
+$$
+
+## 14.3 `range()` with `len()`
+
+To iterate with indices:
+
+```{python}
+values = [10, 20, 30, 40]
+
+for i in range(len(values)):
+    print(f"Index {i}: {values[i]}")
+```
+
+However, if you don't need the index, iterating directly is more Pythonic:
+
+```{python}
+for value in values:
+    print(value)
+```
+
+If you need both index and value, use `enumerate()`:
+
+```{python}
+for i, value in enumerate(values):
+    print(f"Index {i}: {value}")
+```
+
 ---
 
 # 15. `while` Loops
 
 A `while` loop repeats as long as a condition remains true.
 
-```python
+```{python}
 x = 1
 
-while x < 10:
+while x <= 5:
     print(x)
     x = x + 1
 ```
 
 Unlike a `for` loop, the number of iterations does not necessarily have to be known in advance.
+
+## 15.1 `while` loop structure
+
+The general form is:
+
+```python
+while condition:
+    statement
+    statement
+    ...
+```
+
+The condition is checked before each iteration. If it's `False`, the loop terminates.
+
+Example:
+
+```{python}
+x = 1
+
+while x < 100:
+    x *= 2
+
+x
+```
+
+## 15.2 Infinite loops
 
 A `while` loop requires care: if the condition never becomes false, the program can enter an **infinite loop**.
 
@@ -870,22 +1902,133 @@ x = 1
 
 while x < 10:
     print(x)
+    # Missing: x += 1
 ```
 
-never changes `x`, so the condition remains true.
+never changes `x`, so the condition remains true forever.
 
 This is an example of a programming error that is logically different from a syntax error.
 
+**Important:** Always ensure the loop makes progress toward termination.
+
+## 15.3 When to use `while` vs `for`
+
+Use `for` when:
+- Iterating over a known collection
+- Number of iterations is predetermined
+- Iterating through a sequence
+
+Use `while` when:
+- Condition-based termination
+- Number of iterations unknown in advance
+- Implementing algorithms like binary search, convergence tests, user input validation
+
+Example of `while` for validation:
+
+```python
+# Simulated user input
+valid_inputs = ["invalid", "also_bad", "yes"]
+input_index = 0
+
+def get_input():
+    global input_index
+    result = valid_inputs[input_index]
+    input_index += 1
+    return result
+
+response = get_input()
+
+while response not in ["yes", "no"]:
+    print(f"Invalid input: {response}")
+    response = get_input()
+
+print(f"Valid response: {response}")
+```
+
 ---
 
-# 16. List Comprehensions
+# 16. `break` and `continue`
+
+## 16.1 `break`
+
+`break` exits the loop immediately:
+
+```{python}
+for i in range(10):
+    if i == 5:
+        break
+    print(i)
+```
+
+This is useful for:
+- Early termination when a condition is met
+- Search algorithms that stop when a match is found
+- Error conditions
+
+Example:
+
+```{python}
+values = [10, 20, 30, -1, 40, 50]
+
+for value in values:
+    if value < 0:
+        print("Found sentinel value, stopping")
+        break
+    print(value)
+```
+
+## 16.2 `continue`
+
+`continue` skips the rest of the current iteration and proceeds to the next:
+
+```{python}
+for i in range(5):
+    if i == 2:
+        continue
+    print(i)
+```
+
+This is useful for:
+- Skipping invalid data
+- Filtering during iteration
+- Avoiding nested conditionals
+
+Example:
+
+```{python}
+values = [10, -5, 20, -3, 30]
+
+for value in values:
+    if value < 0:
+        continue
+    print(value)
+```
+
+## 16.3 `break` and `continue` in nested loops
+
+`break` and `continue` affect only the innermost loop:
+
+```{python}
+for i in range(3):
+    for j in range(3):
+        if j == 1:
+            break
+        print(f"i={i}, j={j}")
+```
+
+To break out of multiple nested loops, use a flag or refactor into a function with `return`.
+
+---
+
+# 17. List Comprehensions
 
 Python provides a compact way to construct lists from other iterables.
 
 For example:
 
-```python
+```{python}
 squares = [x**2 for x in range(1, 6)]
+squares
 ```
 
 produces:
@@ -900,10 +2043,29 @@ $$
 \{x^2 : x=1,\ldots,5\}.
 $$
 
-A comprehension can also contain a condition:
+## 17.1 General syntax
+
+The general form is:
 
 ```python
+[expression for variable in iterable]
+```
+
+This is equivalent to:
+
+```python
+result = []
+for variable in iterable:
+    result.append(expression)
+```
+
+## 17.2 Conditional filtering
+
+A comprehension can also contain a condition:
+
+```{python}
 even_squares = [x**2 for x in range(1, 11) if x % 2 == 0]
+even_squares
 ```
 
 which produces:
@@ -912,135 +2074,119 @@ which produces:
 [4, 16, 36, 64, 100]
 ```
 
+The general form is:
+
+```python
+[expression for variable in iterable if condition]
+```
+
+## 17.3 More complex examples
+
+Transform strings:
+
+```{python}
+words = ["hello", "world", "python"]
+uppercase = [word.upper() for word in words]
+uppercase
+```
+
+Extract from tuples:
+
+```{python}
+pairs = [(1, "a"), (2, "b"), (3, "c")]
+numbers = [num for num, letter in pairs]
+numbers
+```
+
+Nested comprehensions:
+
+```{python}
+matrix = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+flat = [value for row in matrix for value in row]
+flat
+```
+
+## 17.4 When to use comprehensions
+
 List comprehensions are convenient, but they should be used when they make the logic clearer rather than simply making code shorter.
 
----
+**Good use:**
+```{python}
+squares = [x**2 for x in range(10)]
+```
 
-# 17. Processing Data with Control Flow
+**Harder to read:**
+```python
+result = [x**2 if x % 2 == 0 else x**3 for x in range(10) if x > 5]
+```
 
-The combination of data structures and control flow allows us to write useful programs.
-
-Suppose we have:
+For complex logic, a regular loop is often clearer:
 
 ```python
-temperatures = [72, 91, 68, 104, 75, 89, 63]
+result = []
+for x in range(10):
+    if x > 5:
+        if x % 2 == 0:
+            result.append(x**2)
+        else:
+            result.append(x**3)
 ```
 
-We might want to identify unusually high temperatures.
+## 17.5 Dictionary and set comprehensions
 
-```python
-for temperature in temperatures:
-    if temperature > 90:
-        print(temperature)
+Similar syntax for dictionaries:
+
+```{python}
+squares = {x: x**2 for x in range(5)}
+squares
 ```
 
-This combines:
+And sets:
 
-- a list;
-- iteration;
-- a conditional;
-- a comparison.
-
-We can construct a new list:
-
-```python
-hot_days = [
-    temperature
-    for temperature in temperatures
-    if temperature > 90
-]
+```{python}
+squares = {x**2 for x in range(-5, 6)}
+squares
 ```
-
-The result is:
-
-```text
-[91, 104]
-```
-
-This is a simple example of a data-processing pipeline.
 
 ---
 
-# 18. Implementing Simple Statistical Functions
+# 18. Algorithmic Thinking
 
-Programming becomes particularly useful when we turn repeated reasoning into an algorithm.
+We have now encountered several examples where we started with a problem and translated it into computational steps.
 
-Suppose we want to calculate the arithmetic mean of a collection:
-
-$$
-\bar{x} = \frac{1}{n}\sum_{i=1}^n x_i.
-$$
-
-One direct algorithm is:
-
-```python
-def mean(values):
-    total = 0
-
-    for x in values:
-        total += x
-
-    return total / len(values)
-```
-
-Although functions are formally introduced in Lecture 3, it is useful to see this example now because it illustrates how a mathematical definition becomes an algorithm.
-
-The algorithm is:
-
-```text
-total ← 0
-
-for each value:
-    add value to total
-
-return total / number of values
-```
-
-The mathematical formula and the program express the same underlying idea, but the program must specify the sequence of operations.
-
----
-
-# 19. Finding the Maximum
-
-Consider the problem of finding the largest value in a list without using Python's built-in `max()`.
-
-Mathematically, we want:
-
-$$
-\max(x_1,\ldots,x_n).
-$$
-
-One algorithm is:
-
-1. Start with the first value as the current maximum.
-2. Examine each remaining value.
-3. If the new value is larger, replace the current maximum.
-4. Return the current maximum.
-
-A direct implementation is:
-
-```python
-def maximum(values):
-    current_max = values[0]
-
-    for x in values[1:]:
-        if x > current_max:
-            current_max = x
-
-    return current_max
-```
-
-The important idea is the use of **program state**.
-
-At each point in the loop, `current_max` represents the largest value encountered so far.
-
-This pattern appears throughout scientific computing and data analysis.
-
----
-
-# 20. Algorithms
+That process is central to programming.
 
 An **algorithm** is a finite, well-defined procedure for solving a problem.
+
+## 18.1 What is an algorithm?
+
+A useful conceptual workflow is:
+
+```text
+Problem
+   ↓
+Specification
+   ↓
+Algorithm
+   ↓
+Implementation
+   ↓
+Testing
+   ↓
+Result
+```
+
+This is closely related to the computational workflow introduced in Lecture 1.
+
+**Problem:** An informal statement of what we want to accomplish.
+
+**Specification:** A precise statement of inputs, outputs, and requirements.
+
+**Algorithm:** A step-by-step procedure for transforming inputs into outputs.
+
+**Implementation:** Code that executes the algorithm.
+
+**Testing:** Verification that the implementation produces correct results.
 
 A useful distinction is:
 
@@ -1052,58 +2198,79 @@ For example:
 
 **Algorithm:** Scan the collection while maintaining the largest value seen so far.
 
-**Implementation:** Write that algorithm in Python.
+**Implementation:** Python code that executes that algorithm.
 
 There can be multiple algorithms for the same problem and multiple implementations of the same algorithm.
 
----
+## 18.2 From problem to algorithm
 
-# 21. Specification → Algorithm → Implementation
+Consider the problem:
 
-A disciplined computational workflow separates three stages.
+> Given a list of numbers, determine the largest value.
 
-## Specification
+A natural algorithm is:
 
-State precisely what the program should accomplish.
+1. Start with the first value as the current maximum.
+2. Examine the next value.
+3. If it is larger than the current maximum, make it the new maximum.
+4. Continue until every value has been examined.
+5. Return the maximum.
 
-For example:
+We can implement this directly:
 
-> Given a nonempty sequence of numbers, return its largest element.
+```{python}
+numbers = [7, 3, 12, 5, 9]
 
-## Algorithm
+current_max = numbers[0]
 
-Describe how to accomplish the specification.
+for number in numbers[1:]:
+    if number > current_max:
+        current_max = number
 
-```text
-Set current maximum to first element.
-
-For every remaining element:
-    if the element exceeds current maximum:
-        replace current maximum.
-
-Return current maximum.
+current_max
 ```
 
-## Implementation
+Python of course already provides:
 
-Translate the algorithm into Python:
-
-```python
-def maximum(values):
-    current_max = values[0]
-
-    for x in values[1:]:
-        if x > current_max:
-            current_max = x
-
-    return current_max
+```{python}
+max(numbers)
 ```
 
-This separation becomes increasingly important as programs become larger.
+But implementing the algorithm ourselves is useful because it forces us to understand the underlying procedure.
+
+## 18.3 Preconditions and postconditions
+
+A precise specification includes:
+
+**Preconditions:** Assumptions about the input.
+
+**Postconditions:** Guarantees about the output.
+
+For the maximum-finding problem:
+
+**Precondition:** The input is a nonempty collection of comparable values.
+
+**Postcondition:** The output is an element of the collection that is greater than or equal to every other element.
+
+This style of specification will become more important when we write functions in Lecture 3.
+
+## 18.4 Edge cases
+
+**Edge cases** are inputs at the boundary of valid inputs or that have special properties.
+
+For finding a maximum:
+
+- Empty collection (violates precondition)
+- Single element
+- All elements equal
+- Negative numbers
+- Very large collection
+
+Good algorithm design considers edge cases explicitly rather than discovering them through failures.
 
 ---
 
-# 22. Tracing an Algorithm
+# 19. Tracing Algorithms
 
 One of the most useful programming skills is the ability to execute an algorithm **on paper**.
 
@@ -1122,148 +2289,172 @@ Rather than guessing the final result, construct a state table:
 
 | Statement | `x` | `y` |
 |---|---:|---:|
+| Initial | | |
 | `x = 5` | 5 | |
 | `y = 2` | 5 | 2 |
 | `x = x + y` | 7 | 2 |
 | `y = x + y` | 7 | 9 |
 | `x = y - x` | 2 | 9 |
 
+After execution: `x = 2`, `y = 9`.
+
 Tracing is useful because it forces us to reason about the program's state rather than relying on trial and error.
 
-It is also an important debugging skill.
+## 19.1 Tracing loops
 
----
-
-# 23. Basic Computational Complexity
-
-Two algorithms can produce the same answer while requiring very different amounts of computational work.
-
-Suppose we calculate:
-
-$$
-\sum_{i=1}^{n} i^2.
-$$
-
-A loop performs approximately $n$ iterations:
+For loops, track the loop variable and any accumulators:
 
 ```python
 total = 0
-
-for i in range(1, n + 1):
+for i in range(1, 4):
     total += i**2
 ```
 
-We describe this informally as having **linear** growth in the number of operations:
+| Iteration | `i` | `total` |
+|---|---:|---:|
+| Before loop | | 0 |
+| 1 | 1 | 1 |
+| 2 | 2 | 5 |
+| 3 | 3 | 14 |
+| After loop | | 14 |
+
+This is an important debugging skill and helps develop intuition for how code executes.
+
+---
+
+# 20. Algorithm Complexity
+
+Two algorithms can produce the same answer while requiring very different amounts of computational work.
+
+## 20.1 Informal complexity
+
+Suppose we have a list containing `n` observations.
+
+A simple loop through the entire list requires work proportional to $n$.
+
+We describe this informally as:
 
 $$
-O(n).
+O(n)
 $$
 
-By contrast, the closed-form formula
+For example:
 
-$$
-\frac{n(n+1)(2n+1)}{6}
-$$
+```{python}
+numbers = list(range(100))
 
-requires a fixed number of arithmetic operations, so its computational work is approximately:
+total = 0
 
-$$
-O(1).
-$$
+for number in numbers:
+    total += number
 
-The difference becomes important when $n$ is large.
+total
+```
 
-## 23.1 Why complexity matters
+The loop processes each observation once.
 
-We do not need advanced computer science to see the practical implication.
+Now consider a nested loop:
 
-If an algorithm requires approximately:
+```{python}
+numbers = list(range(10))
 
-$$
-n
-$$
+count = 0
 
-operations and another requires approximately:
+for x in numbers:
+    for y in numbers:
+        count += 1
+
+count
+```
+
+The inner loop runs once for every combination of `x` and `y`.
+
+With `n` observations, this requires roughly:
 
 $$
 n^2
 $$
 
-operations, then increasing the input size by a factor of 100 changes the work by approximately:
+operations, or:
+
+$$
+O(n^2).
+$$
+
+For `n = 100`, this may not matter.
+
+For `n = 1,000,000`, it matters enormously.
+
+## 20.2 Common complexity classes
+
+| Notation | Name | Example |
+|---|---|---|
+| $O(1)$ | Constant | Array index access |
+| $O(\log n)$ | Logarithmic | Binary search |
+| $O(n)$ | Linear | Single loop through data |
+| $O(n \log n)$ | Linearithmic | Efficient sorting |
+| $O(n^2)$ | Quadratic | Nested loop |
+| $O(2^n)$ | Exponential | Recursive Fibonacci (naive) |
+
+## 20.3 Why complexity matters
+
+If an algorithm requires approximately $n$ operations and another requires approximately $n^2$ operations, then increasing the input size by a factor of 100 changes the work by approximately:
 
 - factor of 100 for the first algorithm;
 - factor of 10,000 for the second.
 
 Thus algorithmic choices can become consequential very quickly.
 
----
+Example: Finding duplicates
 
-# 24. Complexity Is About Growth, Not Exact Timing
+**Algorithm 1:** Compare all pairs ($O(n^2)$)
+
+```python
+def has_duplicate_v1(values):
+    for i in range(len(values)):
+        for j in range(i + 1, len(values)):
+            if values[i] == values[j]:
+                return True
+    return False
+```
+
+**Algorithm 2:** Use a set ($O(n)$)
+
+```python
+def has_duplicate_v2(values):
+    seen = set()
+    for value in values:
+        if value in seen:
+            return True
+        seen.add(value)
+    return False
+```
+
+For small inputs, the difference may be negligible. For large inputs, the difference can be dramatic.
+
+## 20.4 Complexity is about growth, not exact timing
 
 Big-O notation describes how computational requirements grow with input size. It is not a stopwatch.
 
 An algorithm with complexity $O(n)$ can be slower than another algorithm with complexity $O(n^2)$ for small inputs if its constant costs are much larger.
 
-Similarly, actual performance depends on:
-
-- hardware;
-- implementation details;
-- memory access;
-- interpreter overhead;
-- libraries;
-- input characteristics.
-
 The point of complexity analysis is to reason about **scaling**.
 
----
+::: {.callout-important}
+You do **not** need to become a theoretical computer scientist to write good statistical or mathematical programs.
 
-# 25. A Complete Example: Filtering and Summarizing Data
+But you should develop the habit of asking:
 
-Consider:
-
-```python
-scores = [72, 91, 84, 65, 98, 77, 88]
-```
-
-Suppose we want to calculate the mean of scores that are at least 80.
-
-We can first identify the qualifying observations:
-
-```python
-selected = []
-
-for score in scores:
-    if score >= 80:
-        selected.append(score)
-```
-
-Then calculate their mean:
-
-```python
-total = 0
-
-for score in selected:
-    total += score
-
-mean_score = total / len(selected)
-```
-
-This program contains several layers:
-
-1. a data structure stores the observations;
-2. control flow selects observations;
-3. another loop accumulates a quantity;
-4. the result is computed from the accumulated state.
-
-This pattern—**select, transform, summarize**—will appear repeatedly later in the course when we work with pandas and R.
+> How does the amount of work required by this algorithm grow as my data become larger?
+:::
 
 ---
 
-# 26. Common Programming Pitfalls
+# 21. Common Programming Pitfalls
 
 The concepts in this lecture introduce several common sources of errors.
 
-## 26.1 Off-by-one errors
+## 21.1 Off-by-one errors
 
 Because Python uses zero-based indexing and excludes the stop value in slices and `range()`, it is easy to write:
 
@@ -1273,15 +2464,46 @@ range(1, 10)
 
 when you intended to include 10.
 
-Always check the first and last values explicitly.
+**Fix:** Use `range(1, 11)`.
 
-## 26.2 Mutability confusion
+Always check the first and last values explicitly when working with ranges and slices.
+
+## 21.2 Mutability confusion
 
 Lists can be changed; strings and tuples cannot.
 
+```python
+s = "hello"
+s[0] = "H"  # Error: strings are immutable
+
+lst = [1, 2, 3]
+lst[0] = 10  # OK: lists are mutable
+```
+
 Knowing whether a data structure is mutable helps explain unexpected behavior.
 
-## 26.3 Confusing position and identity
+**Especially confusing:** Mutable default arguments
+
+```python
+def add_to_list(item, lst=[]):  # Dangerous!
+    lst.append(item)
+    return lst
+
+print(add_to_list(1))  # [1]
+print(add_to_list(2))  # [1, 2] -- Unexpected!
+```
+
+**Fix:** Use `None` as default:
+
+```python
+def add_to_list(item, lst=None):
+    if lst is None:
+        lst = []
+    lst.append(item)
+    return lst
+```
+
+## 21.3 Confusing position and identity
 
 A list is naturally indexed by position:
 
@@ -1297,11 +2519,39 @@ prices["AAPL"]
 
 Choosing the wrong structure can make a problem unnecessarily difficult.
 
-## 26.4 Infinite loops
+## 21.4 Modifying a list while iterating
+
+```python
+numbers = [1, 2, 3, 4, 5]
+
+for num in numbers:
+    if num % 2 == 0:
+        numbers.remove(num)  # Dangerous!
+
+print(numbers)  # May not remove all even numbers
+```
+
+**Fix:** Create a new list or iterate over a copy:
+
+```python
+numbers = [1, 2, 3, 4, 5]
+numbers = [num for num in numbers if num % 2 != 0]
+```
+
+## 21.5 Infinite loops
 
 A `while` loop must eventually make its condition false if termination is expected.
 
-## 26.5 Assuming code that runs is correct
+```python
+x = 10
+while x > 0:
+    print(x)
+    # Missing: x -= 1
+```
+
+Always ensure loop variables are modified in a way that progresses toward termination.
+
+## 21.6 Assuming code that runs is correct
 
 As emphasized in Lecture 1:
 
@@ -1309,19 +2559,21 @@ As emphasized in Lecture 1:
 
 A program can execute perfectly while implementing the wrong algorithm.
 
+Always test with known inputs and edge cases.
+
 ---
 
-# 27. Data Structures as Computational Models
+# 22. Data Structures as Computational Models
 
 The data structures introduced today can be viewed as different models for organizing information.
 
-| Structure | Natural question |
-|---|---|
-| String | What sequence of characters do I have? |
-| List | What values occur in this ordered collection? |
-| Tuple | What fixed group of values belongs together? |
-| Dictionary | What value is associated with this key? |
-| Set | Which distinct values are present? |
+| Structure | Natural question | Key property | Use when |
+|---|---|---|---|
+| String | What sequence of characters? | Immutable text | Text processing |
+| List | What ordered values? | Mutable sequence | Collections that change |
+| Tuple | What fixed group? | Immutable sequence | Fixed structure |
+| Dictionary | What value for this key? | Key-value mapping | Lookup by identifier |
+| Set | Which distinct values? | Unique elements | Membership testing |
 
 This perspective is more useful than memorizing isolated syntax.
 
@@ -1334,7 +2586,7 @@ When encountering a new programming problem, ask:
 
 ---
 
-# 28. Putting It All Together
+# 23. Putting It All Together
 
 Today's material extends the computational workflow from Lecture 1.
 
@@ -1376,7 +2628,7 @@ The syntax can then be treated as the language used to express the solution.
 
 ---
 
-# 29. Key Takeaways
+# 24. Key Takeaways
 
 You should leave this lecture understanding the following ideas.
 
@@ -1384,13 +2636,13 @@ You should leave this lecture understanding the following ideas.
 
 2. **Strings are sequences.** They can be indexed and sliced, but strings are immutable.
 
-3. **Lists are ordered and mutable.** They are useful for collections in which position matters.
+3. **Lists are ordered and mutable.** They are useful for collections in which position matters and contents may change.
 
 4. **Tuples are ordered and immutable.** They are useful for fixed collections of related values.
 
-5. **Dictionaries represent mappings.** They associate keys with values.
+5. **Dictionaries represent mappings.** They associate keys with values and provide efficient lookup.
 
-6. **Sets represent collections of distinct elements.** They connect naturally to mathematical set operations.
+6. **Sets represent collections of distinct elements.** They connect naturally to mathematical set operations and provide efficient membership testing.
 
 7. **Data structures should be chosen based on the operations a problem requires.**
 
@@ -1398,21 +2650,25 @@ You should leave this lecture understanding the following ideas.
 
 9. **Loops implement iteration.** They allow an algorithm to repeat operations over data.
 
-10. **`range()` generates integer sequences for iteration.** Its stop value is excluded.
+10. **`for` loops iterate over collections.** Use them when the items to process are known.
 
-11. **List comprehensions provide a concise way to construct lists.** Concision should not come at the expense of clarity.
+11. **`while` loops continue until a condition changes.** Use them when the number of iterations is not predetermined.
 
-12. **An algorithm is a precise procedure for solving a problem.** It is distinct from both the problem specification and its implementation.
+12. **`range()` generates integer sequences for iteration.** Its stop value is excluded.
 
-13. **Program state changes during execution.** Tracing state by hand is an important programming and debugging skill.
+13. **List comprehensions provide a concise way to construct lists.** Use them when they improve clarity.
 
-14. **Computational complexity describes how resource requirements grow with input size.**
+14. **An algorithm is a precise procedure for solving a problem.** It is distinct from both the problem specification and its implementation.
 
-15. **Good computational work begins with a clear problem and algorithm, not with typing code immediately.**
+15. **Program state changes during execution.** Tracing state by hand is an important programming and debugging skill.
+
+16. **Computational complexity describes how resource requirements grow with input size.** Algorithmic choices affect scalability.
+
+17. **Good computational work begins with a clear problem and algorithm, not with typing code immediately.**
 
 ---
 
-# 30. Further Questions to Think About
+# 25. Further Questions to Think About
 
 Before the next lecture, consider:
 
@@ -1424,14 +2680,16 @@ Before the next lecture, consider:
 6. How would you implement the median of a list without using a built-in sorting function?
 7. What is the difference between an algorithm and a Python program?
 8. How would you test a function that finds the maximum of a list?
-9. Can you think of two different algorithms for the same computational problem?
+9. Can you think of two different algorithms for the same computational problem that have different complexity?
 10. Why can an algorithm that works perfectly for 100 observations become impractical for 100 million observations?
+11. What are some situations where a `while` loop is more appropriate than a `for` loop?
+12. How does the choice of data structure affect the complexity of an algorithm?
 
 These questions will recur throughout the course as we move from small Python programs to numerical computing, data analysis, and statistical programming.
 
 ---
 
-# Looking Ahead
+# 26. Looking Ahead
 
 Next time we will turn our attention to **functions, modularity, documentation, and version control**.
 
@@ -1447,3 +2705,19 @@ We will build on today's control flow and data structures to learn how to:
 - organize a reproducible computational project.
 
 The goal is to move from writing individual pieces of code to **building reliable computational tools**.
+
+Functions will allow us to:
+- encapsulate algorithms;
+- create abstractions;
+- reuse code;
+- test systematically;
+- build larger programs from smaller components.
+
+Version control (Git) will allow us to:
+- track changes over time;
+- collaborate effectively;
+- maintain project history;
+- recover from mistakes;
+- document development process.
+
+Together, these tools transform programming from writing scripts to building maintainable, reproducible computational systems.
