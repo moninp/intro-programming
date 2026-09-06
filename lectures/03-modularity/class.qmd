@@ -29,6 +29,7 @@ Today, we'll transform procedural scripts into well-organized, reusable function
 Before beginning today's lecture, complete the short quiz covering Lecture 2.
 
 The quiz checks your understanding of:
+
 - data structures (lists, tuples, dictionaries, sets)
 - control flow (loops, conditionals)
 - basic algorithm design
@@ -42,7 +43,7 @@ Today assumes you're comfortable with loops, conditionals, and data structures f
 
 ---
 
-# Big Problem 1: From Procedural Code to Functions
+# Exercise 1: From Procedural Code to Functions
 
 ## The Problem: Portfolio Analysis
 
@@ -79,6 +80,7 @@ print(f"Volatility: {volatility:.4f}")
 ```
 
 This code works, but:
+
 - What if you need to analyze a different stock?
 - What if you want to reuse the return calculation elsewhere?
 - How do you test that the calculations are correct?
@@ -88,11 +90,12 @@ Let's transform this into reusable functions.
 
 ---
 
-## Problem 1.1: Your First Function
+## Exercise 1.1: Your First Function
 
 Let's start by extracting the return calculation into a function.
 
 **A function** packages code into a reusable unit with:
+
 - A **name** that describes what it does
 - **Parameters** (inputs) it needs
 - A **return value** (output) it produces
@@ -108,6 +111,7 @@ def function_name(parameter1, parameter2):
 ```
 
 Key parts:
+
 - `def` keyword starts the definition
 - Parameters in parentheses
 - Colon `:` ends the header
@@ -132,6 +136,7 @@ print(returns)
 ```
 
 **Why is this better?**
+
 - The calculation is now reusable
 - The function name documents what it does
 - We can test it independently
@@ -139,7 +144,7 @@ print(returns)
 
 ---
 
-## Problem 1.2: Adding More Functions
+## Exercise 1.2: Adding More Functions
 
 Now let's create functions for average and volatility.
 
@@ -174,11 +179,13 @@ print(f"Average: {avg:.4f}, Volatility: {vol:.4f}")
 
 ---
 
-## Problem 1.3: Understanding Scope
+## Exercise 1.3: Understanding Scope
 
 Look at this code carefully:
 
 ```{python}
+#| error: true
+
 def calculate_sum(numbers):
     total = 0
     for num in numbers:
@@ -240,7 +247,7 @@ Explain in a comment: Why are `count` inside and outside the function different?
 
 ---
 
-## Problem 1.4: Function Parameters
+## Exercise 1.4: Function Parameters
 
 Functions can accept multiple parameters and have default values.
 
@@ -298,12 +305,14 @@ print(f"Sharpe (1% risk-free): {calculate_sharpe_ratio(test_returns, 0.01):.3f}"
 ## Checkpoint: What We've Learned
 
 We've transformed procedural code into reusable functions. Our code is now:
+
 - **Modular**: Each function does one thing well
 - **Reusable**: We can call functions with different data
 - **Testable**: We can verify each function independently
 - **Readable**: Function names document intent
 
 But we're not done. We need to:
+
 - Document what functions do
 - Track our changes systematically
 - Organize functions into modules
@@ -317,6 +326,7 @@ Before continuing, let's set up Git to track our work.
 ## What is Git?
 
 **Git** is a version control system that:
+
 - Records snapshots of your code over time
 - Lets you experiment without fear of breaking things
 - Enables collaboration with others
@@ -432,6 +442,7 @@ git status
 ## Understanding `git status`
 
 This command shows:
+
 - Which files have changed
 - Which changes are staged
 - Which files are untracked
@@ -441,9 +452,9 @@ Use it frequently to understand your repository's state.
 
 ---
 
-# Big Problem 2: Documenting Functions
+# Exercise 2: Documenting Functions
 
-## Problem 2.1: Writing Docstrings
+## Exercise 2.1: Writing Docstrings
 
 Functions need documentation. Python uses **docstrings**—multi-line strings at the start of a function.
 
@@ -475,6 +486,7 @@ help(calculate_return)
 ```
 
 A good docstring includes:
+
 - **What** the function does (one-line summary)
 - **Parameters**: What inputs are needed
 - **Returns**: What output is produced
@@ -509,7 +521,7 @@ def calculate_volatility(returns):
 
 ---
 
-## Problem 2.2: Type Hints (Optional Enhancement)
+## Exercise 2.2: Type Hints (Optional Enhancement)
 
 Python 3.5+ supports **type hints**—annotations that document expected types.
 
@@ -522,10 +534,10 @@ def calculate_return(initial: float, final: float) -> float:
 
 # Type hints don't enforce types at runtime—they're documentation
 result = calculate_return(100, 110)  # Works fine
-result = calculate_return("100", "110")  # Also works, but shouldn't!
 ```
 
 Type hints help:
+
 - **Readers** understand expected types
 - **IDEs** provide better autocomplete
 - **Type checkers** (like mypy) catch errors
@@ -550,7 +562,7 @@ Type hints are considered a professional practice but are optional for this cour
 
 ---
 
-## Problem 2.3: Assertions and Input Validation
+## Exercise 2.3: Assertions and Input Validation
 
 Functions should check their inputs to fail gracefully.
 
@@ -580,6 +592,7 @@ def calculate_average(values):
 ```
 
 **When to use assertions**:
+
 - Check preconditions (assumptions about inputs)
 - Validate function contracts
 - Catch programming errors early
@@ -615,13 +628,14 @@ def calculate_volatility(returns: List[float]) -> float:
 
 ---
 
-## Problem 2.4: Pure vs Stateful Functions
+## Exercise 2.4: Pure vs Stateful Functions
 
 Some functions modify state; others just compute and return values.
 
 ### Just-in-Time Concept: Pure Functions
 
 A **pure function**:
+
 - Always returns the same output for the same input
 - Has no side effects (doesn't modify anything outside itself)
 - Is easier to test and reason about
@@ -683,12 +697,14 @@ print(f"Updated: {updated_portfolio}")
 **Discussion**: What are the advantages of each approach?
 
 **Pure function advantages**:
+
 - Easier to test
 - No hidden dependencies
 - Original data preserved
 - Can run in parallel safely
 
 **Stateful function advantages**:
+
 - Sometimes more natural
 - Can be more efficient (no copying)
 - Matches real-world mental model
@@ -724,6 +740,7 @@ git commit -m "Add portfolio analysis functions"
 ### Commit Messages
 
 Good commit messages:
+
 - Use present tense: "Add function" not "Added function"
 - Be specific: "Add calculate_returns function" not "Update code"
 - Explain *what* changed, not *how* (code shows how)
@@ -759,9 +776,9 @@ git diff
 
 ---
 
-# Big Problem 3: Modular Organization
+# Exercise 3: Modular Organization
 
-## Problem 3.1: Organizing Within a Single File
+## Exercise 3.1: Organizing Within a Single File
 
 As code grows, organization matters even within a single file.
 
@@ -866,7 +883,7 @@ result = calculate_return(200, 220)
 
 ---
 
-## Problem 3.2: Multiple Files and Modules
+## Exercise 3.2: Multiple Files and Modules
 
 As projects grow, split code into multiple files.
 
@@ -968,7 +985,7 @@ Use `from module import specific_function` for clarity. Avoid `import *` except 
 
 ---
 
-## Problem 3.3: Creating a Package
+## Exercise 3.3: Creating a Package
 
 For larger projects, organize modules into a **package** (a directory with `__init__.py`).
 
@@ -1068,27 +1085,32 @@ Let's return to our central question:
 We now understand that good software requires:
 
 ## 1. **Functions** - Reusable Building Blocks
+
 - Package logic into named, testable units
 - Define clear parameters and return values
 - Understand scope to avoid unintended interactions
 
 ## 2. **Documentation** - Communication and Contracts
+
 - Write docstrings describing what functions do
 - Optionally add type hints for clarity
 - Use assertions to validate assumptions
 
 ## 3. **Design Choices** - Pure vs Stateful
+
 - Prefer pure functions when possible (easier to test and reason about)
 - Use stateful approaches when benefits are clear
 - Document side effects in docstrings
 
 ## 4. **Organization** - From Scripts to Modules
+
 - Group related functions into logical sections
 - Split large codebases into multiple files
 - Use imports to connect modules
 - Consider packages for larger projects
 
 ## 5. **Version Control** - Tracking Changes Systematically
+
 - Initialize Git repositories for projects
 - Commit snapshots at meaningful points
 - Write descriptive commit messages
@@ -1200,6 +1222,7 @@ def calculate_correlation(returns1, returns2):
 ## Exercise 3: Write Docstrings
 
 Review all your functions. Ensure each has:
+
 - One-line summary
 - Parameter descriptions
 - Return value description
@@ -1215,6 +1238,7 @@ Find functions in your code that modify global state. Refactor them into pure fu
 ## Homework Preview
 
 This week's homework will ask you to:
+
 - Build a complete module with multiple related functions
 - Write comprehensive documentation
 - Organize code logically
