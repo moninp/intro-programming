@@ -110,34 +110,59 @@ Functions provide several essential benefits:
 **Abstraction**: Hide implementation details behind a clear interface
 
 ```{python}
-# Instead of:
+# Define function first
+def calculate_mean(data):
+    """Calculate arithmetic mean."""
+    total = 0
+    for value in data:
+        total += value
+    return total / len(data)
+
+# Instead of repeating this logic:
+data = [1, 2, 3, 4, 5]
 total = 0
 for value in data:
     total += value
 average = total / len(data)
+print(f"Manual calculation: {average}")
 
 # We can write:
 average = calculate_mean(data)
+print(f"Using function: {average}")
 ```
 
 **Reusability**: Write once, use many times
 
 ```{python}
-mean_temperatures = calculate_mean(temperatures)
-mean_returns = calculate_mean(stock_returns)
-mean_grades = calculate_mean(student_grades)
+# Same function works on different data
+temperatures = [72, 75, 68, 71, 73]
+stock_returns = [0.01, 0.02, -0.01, 0.03, 0.015]
+student_grades = [85, 90, 78, 92, 88]
+
+mean_temp = calculate_mean(temperatures)
+mean_return = calculate_mean(stock_returns)
+mean_grade = calculate_mean(student_grades)
+
+print(f"Mean temperature: {mean_temp}")
+print(f"Mean return: {mean_return:.4f}")
+print(f"Mean grade: {mean_grade}")
 ```
 
 **Testability**: Verify correctness independently
 
 ```{python}
+# Test the function
 assert calculate_mean([1, 2, 3, 4, 5]) == 3.0
 assert calculate_mean([10, 20]) == 15.0
+print("All tests passed!")
 ```
 
 **Decomposition**: Break complex problems into smaller pieces
 
 ```{python}
+#| eval: false
+
+# Pseudocode showing decomposition
 def analyze_portfolio(prices):
     """Complete portfolio analysis."""
     returns = calculate_returns(prices)
@@ -147,25 +172,13 @@ def analyze_portfolio(prices):
     return avg_return, volatility, sharpe
 ```
 
-**Documentation**: Function names and docstrings explain intent
-
-```{python}
-def calculate_sharpe_ratio(returns, risk_free_rate=0.02):
-    """
-    Calculate Sharpe ratio for investment returns.
-    
-    The Sharpe ratio measures risk-adjusted return:
-    (mean return - risk-free rate) / volatility
-    """
-    # Implementation
-    pass
-```
-
 ## 2.3 Function anatomy
 
 A Python function definition has several parts:
 
-```python
+```{python}
+#| eval: false
+
 def function_name(parameter1, parameter2, parameter3=default_value):
     """
     Docstring: describes what the function does.
@@ -238,6 +251,9 @@ Functions can return:
 ```{python}
 def square(x):
     return x ** 2
+
+result = square(7)
+print(result)
 ```
 
 **Multiple values (as a tuple):**
@@ -247,7 +263,8 @@ def min_max(values):
     """Return both minimum and maximum."""
     return min(values), max(values)
 
-minimum, maximum = min_max([3, 1, 4, 1, 5])
+test_values = [3, 1, 4, 1, 5]
+minimum, maximum = min_max(test_values)
 print(f"Min: {minimum}, Max: {maximum}")
 ```
 
@@ -272,6 +289,10 @@ def find_first_positive(values):
         if value > 0:
             return value  # Exit immediately
     return None  # Only if loop completes without returning
+
+test_values = [-1, -2, 3, 4, -5]
+result = find_first_positive(test_values)
+print(f"First positive: {result}")
 ```
 
 ## 2.6 Functions are objects
@@ -332,15 +353,21 @@ This flexibility is powerful for advanced programming patterns, though we won't 
 
 **Parameters** are variables in the function definition:
 
-```python
+```{python}
+#| eval: false
+
 def calculate_return(initial, final):  # initial, final are parameters
     return (final - initial) / initial
 ```
 
 **Arguments** are values passed when calling the function:
 
-```python
+```{python}
+def calculate_return(initial, final):
+    return (final - initial) / initial
+
 result = calculate_return(100, 110)  # 100, 110 are arguments
+print(f"Return: {result}")
 ```
 
 ## 3.2 Positional parameters
@@ -363,31 +390,28 @@ print(f"Growth: {result:.2%}")
 Arguments can be passed by name:
 
 ```{python}
-# Same function as above
-result = calculate_growth(initial=100, final=150, periods=5)
-print(f"Growth: {result:.2%}")
+def calculate_growth(initial, final, periods):
+    """Calculate annualized growth rate."""
+    growth = (final / initial) ** (1 / periods) - 1
+    return growth
+
+# Same function, different call styles
+result1 = calculate_growth(initial=100, final=150, periods=5)
+print(f"Growth (keyword): {result1:.2%}")
 
 # Can be in any order
-result = calculate_growth(periods=5, final=150, initial=100)
-print(f"Growth: {result:.2%}")
+result2 = calculate_growth(periods=5, final=150, initial=100)
+print(f"Growth (reordered): {result2:.2%}")
 
 # Can mix positional and keyword
-result = calculate_growth(100, final=150, periods=5)
-print(f"Growth: {result:.2%}")
+result3 = calculate_growth(100, final=150, periods=5)
+print(f"Growth (mixed): {result3:.2%}")
 ```
 
 **Rules:**
 
 - Positional arguments must come before keyword arguments
 - Each parameter can receive a value only once
-
-```python
-# This is an error:
-calculate_growth(100, initial=100, final=150, periods=5)  # initial specified twice
-
-# This is an error:
-calculate_growth(initial=100, 150, final=150, periods=5)  # positional after keyword
-```
 
 ## 3.4 Default parameter values
 
@@ -404,7 +428,11 @@ def calculate_sharpe_ratio(returns, risk_free_rate=0.02, periods_per_year=252):
         periods_per_year: trading periods per year (default 252 for daily)
     """
     mean_return = sum(returns) / len(returns)
-    std_return = (sum((r - mean_return)**2 for r in returns) / (len(returns) - 1)) ** 0.5
+    
+    # Calculate standard deviation
+    squared_diffs = [(r - mean_return)**2 for r in returns]
+    variance = sum(squared_diffs) / (len(returns) - 1)
+    std_return = variance ** 0.5
     
     annualized_return = mean_return * periods_per_year
     annualized_std = std_return * (periods_per_year ** 0.5)
@@ -414,13 +442,13 @@ def calculate_sharpe_ratio(returns, risk_free_rate=0.02, periods_per_year=252):
 
 # Use all defaults
 returns = [0.01, 0.02, -0.01, 0.03, 0.015]
-print(calculate_sharpe_ratio(returns))
+print(f"Sharpe (defaults): {calculate_sharpe_ratio(returns):.3f}")
 
 # Override risk-free rate
-print(calculate_sharpe_ratio(returns, risk_free_rate=0.03))
+print(f"Sharpe (3% rf): {calculate_sharpe_ratio(returns, risk_free_rate=0.03):.3f}")
 
 # Override both
-print(calculate_sharpe_ratio(returns, risk_free_rate=0.03, periods_per_year=12))
+print(f"Sharpe (3% rf, monthly): {calculate_sharpe_ratio(returns, risk_free_rate=0.03, periods_per_year=12):.3f}")
 ```
 
 **Default value rules:**
@@ -462,6 +490,8 @@ print_portfolio(AAPL=100, GOOGL=50, MSFT=75)
 **Combining different parameter types:**
 
 ```{python}
+#| eval: false
+
 def complex_function(required, *args, keyword_only, default_param=10, **kwargs):
     """Demonstrate parameter types."""
     print(f"Required: {required}")
@@ -469,8 +499,6 @@ def complex_function(required, *args, keyword_only, default_param=10, **kwargs):
     print(f"Keyword only: {keyword_only}")
     print(f"Default: {default_param}")
     print(f"Kwargs: {kwargs}")
-
-# complex_function(1, 2, 3, keyword_only=4, extra1=5, extra2=6)
 ```
 
 Order rules:
@@ -505,16 +533,16 @@ print(add_to_list(3))  # [1, 2, 3]
 **Correct pattern:**
 
 ```{python}
-def add_to_list(item, items=None):  # GOOD
+def add_to_list_correct(item, items=None):  # GOOD
     """Add item to list."""
     if items is None:
         items = []
     items.append(item)
     return items
 
-print(add_to_list(1))  # [1]
-print(add_to_list(2))  # [2]
-print(add_to_list(3))  # [3]
+print(add_to_list_correct(1))  # [1]
+print(add_to_list_correct(2))  # [2]
+print(add_to_list_correct(3))  # [3]
 ```
 
 ::: {.callout-warning}
@@ -554,7 +582,7 @@ def calculate_total(values):
 result = calculate_total([1, 2, 3])
 print(result)  # 6
 
-# print(total)  # NameError: total is not defined
+# print(total)  # Would raise NameError: total is not defined
 ```
 
 **Why local scope matters:**
@@ -599,12 +627,12 @@ print(counter)  # 2
 ```{python}
 #| error: true
 
-counter = 0
+counter_test = 0
 
-def increment():
-    counter += 1  # Tries to create local counter, but reads it first
+def increment_bad():
+    counter_test += 1  # Tries to create local counter_test, but reads it first
 
-increment()  # UnboundLocalError
+increment_bad()  # UnboundLocalError
 ```
 
 ::: {.callout-warning}
@@ -636,32 +664,7 @@ print(triple(5))  # 15
 
 The inner function has access to variables in the enclosing function's scope.
 
-## 4.6 Namespaces
-
-A **namespace** is a mapping from names to objects.
-
-Python maintains several namespaces:
-
-- **Local namespace**: Current function
-- **Global namespace**: Current module
-- **Built-in namespace**: Python built-ins (`print`, `len`, `sum`, etc.)
-
-```{python}
-def example():
-    # Local namespace
-    local_var = 10
-    print(locals())  # Dict of local variables
-
-# Global namespace
-global_var = 20
-print(globals())  # Dict of global variables (long output!)
-
-# Built-in namespace
-import builtins
-print(dir(builtins))  # List of built-in names
-```
-
-## 4.7 Scope best practices
+## 4.6 Scope best practices
 
 **Do:**
 
@@ -676,20 +679,22 @@ def calculate_tax(income, tax_rate):
     return income * tax_rate
 
 tax = calculate_tax(50000, 0.25)
+print(f"Tax: ${tax:,.2f}")
 ```
 
 **Avoid:**
 
 ```{python}
 # Bad: relies on global state
-income = 50000
-tax_rate = 0.25
+income_global = 50000
+tax_rate_global = 0.25
 
-def calculate_tax():
+def calculate_tax_bad():
     """Calculate tax (depends on globals)."""
-    return income * tax_rate  # Fragile!
+    return income_global * tax_rate_global  # Fragile!
 
-tax = calculate_tax()
+tax = calculate_tax_bad()
+print(f"Tax (bad): ${tax:,.2f}")
 ```
 
 The second version is harder to test, reuse, and understand.
@@ -710,7 +715,9 @@ Good documentation:
 
 **Without documentation:**
 
-```python
+```{python}
+#| eval: false
+
 def calc(x, y, z=0.02):
     a = sum(x) / len(x)
     b = (sum((v - a)**2 for v in x) / (len(x)-1))**0.5
@@ -721,8 +728,8 @@ What does this do? What are x, y, z? What units? What happens if x is empty?
 
 **With documentation:**
 
-```python
-def calculate_sharpe_ratio(returns, benchmark_returns=None, risk_free_rate=0.02):
+```{python}
+def calculate_sharpe_ratio_documented(returns, benchmark_returns=None, risk_free_rate=0.02):
     """
     Calculate Sharpe ratio for investment returns.
     
@@ -742,16 +749,23 @@ def calculate_sharpe_ratio(returns, benchmark_returns=None, risk_free_rate=0.02)
         
     Example:
         >>> returns = [0.01, 0.02, -0.01, 0.03, 0.015]
-        >>> calculate_sharpe_ratio(returns)
-        0.8944
+        >>> calculate_sharpe_ratio_documented(returns)
+        0.8944...
     """
     if len(returns) < 2:
         raise ValueError("Need at least 2 returns to calculate Sharpe ratio")
         
     mean_return = sum(returns) / len(returns)
-    std_dev = (sum((r - mean_return)**2 for r in returns) / (len(returns) - 1)) ** 0.5
+    squared_diffs = [(r - mean_return)**2 for r in returns]
+    variance = sum(squared_diffs) / (len(returns) - 1)
+    std_dev = variance ** 0.5
     
     return (mean_return - risk_free_rate) / std_dev
+
+# Test it
+test_returns = [0.01, 0.02, -0.01, 0.03, 0.015]
+result = calculate_sharpe_ratio_documented(test_returns)
+print(f"Sharpe ratio: {result:.4f}")
 ```
 
 Now the intent is clear even without reading the implementation.
@@ -760,7 +774,9 @@ Now the intent is clear even without reading the implementation.
 
 Python uses **docstrings** - string literals immediately following the function definition:
 
-```python
+```{python}
+#| eval: false
+
 def function_name(parameters):
     """
     One-line summary.
@@ -792,76 +808,7 @@ print(example.__doc__)
 help(example)
 ```
 
-## 5.3 Common docstring styles
-
-**Google style:**
-
-```python
-def function(arg1, arg2):
-    """
-    Summary line.
-    
-    Extended description.
-    
-    Args:
-        arg1 (type): Description.
-        arg2 (type): Description.
-        
-    Returns:
-        type: Description.
-        
-    Raises:
-        ErrorType: Description.
-    """
-    pass
-```
-
-**NumPy style:**
-
-```python
-def function(arg1, arg2):
-    """
-    Summary line.
-    
-    Extended description.
-    
-    Parameters
-    ----------
-    arg1 : type
-        Description.
-    arg2 : type
-        Description.
-        
-    Returns
-    -------
-    type
-        Description.
-    """
-    pass
-```
-
-**reStructuredText (Sphinx) style:**
-
-```python
-def function(arg1, arg2):
-    """
-    Summary line.
-    
-    Extended description.
-    
-    :param arg1: Description
-    :type arg1: type
-    :param arg2: Description
-    :type arg2: type
-    :return: Description
-    :rtype: type
-    """
-    pass
-```
-
-Choose a style and be consistent. This course uses a simplified format based on Google style.
-
-## 5.4 What to document
+## 5.3 What to document
 
 **Always document:**
 
@@ -908,9 +855,9 @@ def calculate_compound_interest(principal, rate, periods, compounds_per_period=1
         
     Example:
         >>> calculate_compound_interest(1000, 0.05, 10)
-        1628.89
+        1628.89...
         >>> calculate_compound_interest(1000, 0.05, 10, compounds_per_period=12)
-        1647.01
+        1647.01...
     """
     if principal < 0 or rate < 0:
         raise ValueError("Principal and rate must be non-negative")
@@ -918,14 +865,18 @@ def calculate_compound_interest(principal, rate, periods, compounds_per_period=1
         raise ValueError("Must compound at least once per period")
         
     return principal * (1 + rate / compounds_per_period) ** (compounds_per_period * periods)
+
+# Test it
+result = calculate_compound_interest(1000, 0.05, 10)
+print(f"After 10 years: ${result:.2f}")
 ```
 
-## 5.5 Type hints (optional but recommended)
+## 5.4 Type hints (optional but recommended)
 
 Python 3.5+ supports **type hints** - annotations that document expected types:
 
 ```{python}
-from typing import List, Optional, Tuple
+from typing import List, Tuple
 
 def calculate_statistics(values: List[float]) -> Tuple[float, float, float]:
     """
@@ -937,19 +888,21 @@ def calculate_statistics(values: List[float]) -> Tuple[float, float, float]:
     Returns:
         tuple: (mean, min, max)
     """
-    mean = sum(values) / len(values)
+    mean_val = sum(values) / len(values)
     minimum = min(values)
     maximum = max(values)
-    return mean, minimum, maximum
+    return mean_val, minimum, maximum
 
 # Type hints don't enforce types at runtime
-result = calculate_statistics([1, 2, 3, 4, 5])
+result = calculate_statistics([1.0, 2.0, 3.0, 4.0, 5.0])
 print(result)
 ```
 
 **Common type hints:**
 
-```python
+```{python}
+#| eval: false
+
 from typing import List, Dict, Tuple, Optional, Union, Any
 
 def example(
@@ -983,18 +936,18 @@ Functions should handle invalid inputs gracefully:
 ```{python}
 #| error: true
 
-def calculate_mean(values):
+def calculate_mean_unsafe(values):
     """Calculate arithmetic mean."""
     return sum(values) / len(values)
 
 # What happens with empty list?
-calculate_mean([])  # ZeroDivisionError!
+calculate_mean_unsafe([])  # ZeroDivisionError!
 ```
 
 Better:
 
 ```{python}
-def calculate_mean(values):
+def calculate_mean_safe(values):
     """
     Calculate arithmetic mean.
     
@@ -1010,9 +963,13 @@ def calculate_mean(values):
 
 # Now we get a clear error message
 try:
-    calculate_mean([])
+    calculate_mean_safe([])
 except ValueError as e:
     print(f"Error: {e}")
+
+# Test with valid input
+result = calculate_mean_safe([1, 2, 3, 4, 5])
+print(f"Mean: {result}")
 ```
 
 ## 6.2 Assertions
@@ -1051,7 +1008,9 @@ calculate_interest(-1000, 0.05, 5)  # AssertionError: Principal must be positive
 
 ## 6.3 Assertions vs exceptions
 
-```python
+```{python}
+#| eval: false
+
 # Assertion: programming error (should never happen)
 def calculate_return(initial, final):
     assert initial > 0, "Initial value must be positive (programming error)"
@@ -1059,6 +1018,7 @@ def calculate_return(initial, final):
 
 # Exception: expected error condition
 def read_price_data(filename):
+    import os
     if not os.path.exists(filename):
         raise FileNotFoundError(f"File not found: {filename}")
     # ... read file
@@ -1071,7 +1031,9 @@ def read_price_data(filename):
 **Preconditions** are conditions that must be true before a function executes:
 
 ```{python}
-def calculate_sharpe_ratio(returns, risk_free_rate=0.02):
+#| eval: false
+
+def calculate_sharpe_ratio_with_checks(returns, risk_free_rate=0.02):
     """
     Calculate Sharpe ratio.
     
@@ -1099,8 +1061,12 @@ def calculate_probability(successes, trials):
     """
     probability = successes / trials
     
-    assert 0 <= probability <= 1, "Probability must be in [0, 1]"
+    assert 0 <= probability <= 1, f"Probability must be in [0, 1], got {probability}"
     return probability
+
+# Test valid input
+result = calculate_probability(75, 100)
+print(f"Probability: {result}")
 ```
 
 Postconditions are useful for catching computational errors:
@@ -1108,14 +1074,8 @@ Postconditions are useful for catching computational errors:
 ```{python}
 #| error: true
 
-def calculate_probability(successes, trials):
-    """Calculate probability with postcondition check."""
-    probability = successes / trials
-    assert 0 <= probability <= 1, f"Invalid probability: {probability}"
-    return probability
-
 # Bug: swapped arguments
-calculate_probability(100, 75)  # AssertionError: Invalid probability: 1.333...
+calculate_probability(100, 75)  # AssertionError: Invalid probability
 ```
 
 ---
@@ -1155,16 +1115,16 @@ A **stateful function** modifies state outside itself:
 
 ```{python}
 # Stateful function - modifies global
-total = 0
+total_global = 0
 
 def add_to_total(value):
     """Add value to global total."""
-    global total
-    total += value
+    global total_global
+    total_global += value
 
 add_to_total(10)
 add_to_total(20)
-print(total)  # 30
+print(total_global)  # 30
 ```
 
 **Problems with stateful functions:**
@@ -1175,43 +1135,22 @@ print(total)  # 30
 - **Not reusable**: Tied to specific global variables
 - **Not parallel**: Race conditions possible
 
-## 7.3 Side effects
-
-Common side effects include:
-
-- Modifying global variables
-- Modifying mutable arguments
-- Writing to files
-- Printing to console
-- Network communication
-- Random number generation (non-deterministic)
-
-```{python}
-# Has side effects
-def save_results(data, filename):
-    """Write data to file (side effect)."""
-    with open(filename, 'w') as f:
-        f.write(str(data))
-```
-
-Side effects are sometimes necessary, but should be clearly documented and isolated.
-
-## 7.4 Refactoring stateful to pure
+## 7.3 Refactoring stateful to pure
 
 **Stateful version:**
 
 ```{python}
-portfolio = {"cash": 10000, "stocks": 0}
+portfolio_global = {"cash": 10000, "stocks": 0}
 
-def buy_stocks(shares, price):
+def buy_stocks_stateful(shares, price):
     """Buy stocks (modifies portfolio)."""
-    global portfolio
+    global portfolio_global
     cost = shares * price
-    portfolio["cash"] -= cost
-    portfolio["stocks"] += shares
+    portfolio_global["cash"] -= cost
+    portfolio_global["stocks"] += shares
 
-buy_stocks(10, 100)
-print(portfolio)
+buy_stocks_stateful(10, 100)
+print(f"Portfolio (stateful): {portfolio_global}")
 ```
 
 **Pure version:**
@@ -1238,77 +1177,49 @@ def buy_stocks_pure(portfolio, shares, price):
 initial = {"cash": 10000, "stocks": 0}
 after_purchase = buy_stocks_pure(initial, 10, 100)
 
-print(f"Initial: {initial}")
-print(f"After: {after_purchase}")
+print(f"Initial (pure): {initial}")
+print(f"After (pure): {after_purchase}")
 ```
 
 The pure version:
+
 - Doesn't modify the original portfolio
 - Can be tested without side effects
 - Can be called multiple times safely
 - Makes data flow explicit
 
-## 7.5 When to use each
+## 7.4 When to use each
 
 **Prefer pure functions when:**
+
 - Performing calculations
 - Transforming data
 - Building reusable libraries
 - Writing tests
 
 **Use stateful functions when:**
+
 - Genuinely modeling stateful entities
 - Performance requires in-place modification
 - Side effects are the primary purpose (I/O, logging)
 
-**Example: Pure is better:**
+::: {.callout-tip}
+## Default to Pure Functions
 
-```{python}
-# Pure: clear, testable
-def calculate_sharpe_ratio(returns, risk_free_rate):
-    """Calculate Sharpe ratio."""
-    mean = sum(returns) / len(returns)
-    std = (sum((r - mean)**2 for r in returns) / (len(returns) - 1)) ** 0.5
-    return (mean - risk_free_rate) / std
-```
-
-**Example: Stateful is acceptable:**
-
-```{python}
-class DataLogger:
-    """Log data to file (inherently stateful)."""
-    
-    def __init__(self, filename):
-        self.file = open(filename, 'w')
-    
-    def log(self, message):
-        """Write message to log file."""
-        self.file.write(message + '\n')
-        self.file.flush()
-    
-    def close(self):
-        self.file.close()
-```
+When possible, prefer pure functions. They're easier to understand, test, and debug. Use stateful functions only when there's a clear benefit.
+:::
 
 ---
 
 # 8. Code Organization and Modularity
 
-## 8.1 Why organize code?
-
-As programs grow, organization becomes essential:
-
-- **Understandability**: Related code is grouped together
-- **Maintainability**: Changes are localized
-- **Reusability**: Components can be used independently
-- **Testability**: Each component can be tested in isolation
-- **Collaboration**: Multiple people can work on different parts
-
-## 8.2 Organizing within a single file
+## 8.1 Organizing within a single file
 
 Even in a single file, use structure:
 
-```python
+```{python}
+#| eval: false
+
 """
 Portfolio analysis module.
 
@@ -1339,11 +1250,6 @@ def calculate_returns(prices):
     return returns
 
 
-def calculate_cumulative_return(prices):
-    """Calculate total return over period."""
-    return (prices[-1] - prices[0]) / prices[0]
-
-
 # ============================================================================
 # Risk Metrics
 # ============================================================================
@@ -1356,30 +1262,6 @@ def calculate_volatility(returns):
     return daily_vol * (TRADING_DAYS_PER_YEAR ** 0.5)
 
 
-def calculate_sharpe_ratio(returns, risk_free_rate=DEFAULT_RISK_FREE_RATE):
-    """Calculate Sharpe ratio."""
-    mean_return = sum(returns) / len(returns)
-    vol = calculate_volatility(returns)
-    annual_return = mean_return * TRADING_DAYS_PER_YEAR
-    return (annual_return - risk_free_rate) / vol
-
-
-# ============================================================================
-# Statistical Helpers
-# ============================================================================
-
-def calculate_mean(values):
-    """Calculate arithmetic mean."""
-    return sum(values) / len(values)
-
-
-def calculate_std(values):
-    """Calculate sample standard deviation."""
-    mean = calculate_mean(values)
-    variance = sum((x - mean)**2 for x in values) / (len(values) - 1)
-    return variance ** 0.5
-
-
 # ============================================================================
 # Main Program / Tests
 # ============================================================================
@@ -1388,10 +1270,7 @@ if __name__ == "__main__":
     # Example usage or tests
     prices = [100, 102, 101, 105, 103]
     returns = calculate_returns(prices)
-    sharpe = calculate_sharpe_ratio(returns)
-    
     print(f"Returns: {returns}")
-    print(f"Sharpe ratio: {sharpe:.3f}")
 ```
 
 **Organization principles:**
@@ -1402,287 +1281,32 @@ if __name__ == "__main__":
 - Comments separate major sections
 - `if __name__ == "__main__"` for test code
 
-## 8.3 The `if __name__ == "__main__"` pattern
+## 8.2 The `if __name__ == "__main__"` pattern
 
 This special construct allows code to behave differently when:
+
 - Run directly as a script
 - Imported as a module
 
-```python
-# my_module.py
-
+```{python}
+# Demonstration of __name__
 def useful_function():
     """This can be imported."""
     return 42
 
 if __name__ == "__main__":
-    # This only runs when executing: python my_module.py
-    # It does NOT run when: import my_module
+    # This only runs when executing directly
     print("Running as script")
     print(useful_function())
+else:
+    print("Imported as module")
 ```
-
-**When run directly:**
-```bash
-$ python my_module.py
-Running as script
-42
-```
-
-**When imported:**
-```python
-import my_module
-# "Running as script" does NOT print
-result = my_module.useful_function()
-```
-
-**Common uses:**
-
-- Example usage
-- Tests
-- Command-line interface
-- Development/debugging code
 
 ---
 
-# 9. Modules and Imports
+# 9. Version Control with Git
 
-## 9.1 What is a module?
-
-A **module** is a Python file containing definitions and statements.
-
-**File: `statistics.py`**
-```python
-"""Statistical functions."""
-
-def mean(values):
-    """Calculate mean."""
-    return sum(values) / len(values)
-
-def std(values):
-    """Calculate standard deviation."""
-    m = mean(values)
-    variance = sum((x - m)**2 for x in values) / (len(values) - 1)
-    return variance ** 0.5
-```
-
-**Using the module:**
-```python
-import statistics
-
-data = [1, 2, 3, 4, 5]
-print(statistics.mean(data))
-print(statistics.std(data))
-```
-
-## 9.2 Import styles
-
-**Import entire module:**
-
-```python
-import statistics
-
-result = statistics.mean([1, 2, 3])
-```
-
-**Import specific names:**
-
-```python
-from statistics import mean, std
-
-result = mean([1, 2, 3])
-```
-
-**Import with alias:**
-
-```python
-import statistics as stats
-
-result = stats.mean([1, 2, 3])
-```
-
-**Import everything (discouraged):**
-
-```python
-from statistics import *  # Avoid this!
-
-result = mean([1, 2, 3])  # Where did mean come from?
-```
-
-::: {.callout-warning}
-## Avoid `import *`
-
-Using `from module import *` makes it unclear which names come from where and can cause naming conflicts.
-:::
-
-## 9.3 Module search path
-
-Python searches for modules in:
-
-1. Current directory
-2. Directories in `PYTHONPATH` environment variable
-3. Standard library directories
-4. Site-packages directories (installed packages)
-
-You can see the search path:
-
-```{python}
-import sys
-for path in sys.path[:5]:  # Show first 5
-    print(path)
-```
-
-## 9.4 Multi-file projects
-
-**Project structure:**
-
-```text
-portfolio_project/
-    main.py
-    returns.py
-    risk.py
-    stats.py
-```
-
-**File: `stats.py`**
-```python
-"""Statistical helper functions."""
-
-def mean(values):
-    """Calculate mean."""
-    return sum(values) / len(values)
-
-def std(values):
-    """Calculate standard deviation."""
-    m = mean(values)
-    variance = sum((x - m)**2 for x in values) / (len(values) - 1)
-    return variance ** 0.5
-```
-
-**File: `returns.py`**
-```python
-"""Return calculation functions."""
-
-def calculate_returns(prices):
-    """Calculate daily returns."""
-    returns = []
-    for i in range(1, len(prices)):
-        r = (prices[i] - prices[i-1]) / prices[i-1]
-        returns.append(r)
-    return returns
-```
-
-**File: `risk.py`**
-```python
-"""Risk metric functions."""
-
-from stats import mean, std
-from returns import calculate_returns
-
-def calculate_sharpe_ratio(prices, risk_free_rate=0.02):
-    """Calculate Sharpe ratio from prices."""
-    returns = calculate_returns(prices)
-    avg_return = mean(returns)
-    volatility = std(returns)
-    return (avg_return - risk_free_rate) / volatility
-```
-
-**File: `main.py`**
-```python
-"""Main analysis script."""
-
-from risk import calculate_sharpe_ratio
-
-prices = [100, 102, 101, 105, 103, 107]
-sharpe = calculate_sharpe_ratio(prices)
-print(f"Sharpe ratio: {sharpe:.3f}")
-```
-
-## 9.5 Packages
-
-A **package** is a directory containing modules and a special `__init__.py` file.
-
-**Directory structure:**
-
-```text
-portfolio/
-    __init__.py
-    returns.py
-    risk.py
-    stats.py
-```
-
-**File: `portfolio/__init__.py`**
-```python
-"""
-Portfolio analysis package.
-
-This package provides tools for analyzing investment portfolios.
-"""
-
-# Make key functions available at package level
-from .returns import calculate_returns
-from .risk import calculate_sharpe_ratio, calculate_volatility
-
-__all__ = ['calculate_returns', 'calculate_sharpe_ratio', 'calculate_volatility']
-__version__ = '0.1.0'
-```
-
-**Using the package:**
-
-```python
-# Can import from package
-from portfolio import calculate_returns, calculate_sharpe_ratio
-
-# Or import the package
-import portfolio
-
-prices = [100, 102, 101, 105]
-returns = portfolio.calculate_returns(prices)
-sharpe = portfolio.calculate_sharpe_ratio(prices)
-```
-
-**Relative imports within package:**
-
-```python
-# In portfolio/risk.py
-from .stats import mean, std  # From same package
-from .returns import calculate_returns
-```
-
-## 9.6 Import best practices
-
-**Do:**
-- Import at the top of files
-- Import standard library first, then third-party, then local
-- Use one import per line for clarity
-- Group related imports
-
-```python
-# Standard library
-import os
-import sys
-from typing import List
-
-# Third-party
-import numpy as np
-import pandas as pd
-
-# Local
-from .stats import mean, std
-from .returns import calculate_returns
-```
-
-**Avoid:**
-- Circular imports (module A imports module B which imports module A)
-- `import *` except in interactive sessions
-- Importing inside functions (usually)
-
----
-
-# 10. Version Control with Git
-
-## 10.1 Why version control?
+## 9.1 Why version control?
 
 **Problems without version control:**
 
@@ -1702,7 +1326,7 @@ from .returns import calculate_returns
 - Enables code review
 - Documents development process
 
-## 10.2 Git concepts
+## 9.2 Git concepts
 
 **Repository**: A directory that Git tracks
 
@@ -1728,162 +1352,21 @@ git commit (save snapshot)
 git push (upload to remote, optional)
 ```
 
-## 10.3 Initial Git configuration
-
-After installing Git, configure your identity:
+## 9.3 Basic Git commands
 
 ```bash
-git config --global user.name "Your Name"
-git config --global user.email "your.email@example.com"
-```
-
-Check configuration:
-
-```bash
-git config --list
-```
-
-## 10.4 Creating a repository
-
-**Initialize a new repository:**
-
-```bash
-# Create project directory
-mkdir portfolio_analysis
-cd portfolio_analysis
-
-# Initialize Git repository
+# Initialize repository
 git init
 
 # Check status
 git status
-```
-
-Output:
-```text
-Initialized empty Git repository in /path/to/portfolio_analysis/.git/
-```
-
-**Clone an existing repository:**
-
-```bash
-git clone https://github.com/username/repository.git
-```
-
-## 10.5 Basic Git workflow
-
-**1. Check status:**
-
-```bash
-git status
-```
-
-Shows:
-- Which files have changed
-- Which files are staged
-- Which files are untracked
-
-**2. Stage changes:**
-
-```bash
-# Stage specific file
-git add portfolio.py
-
-# Stage all Python files
-git add *.py
-
-# Stage all changes
-git add .
-```
-
-**3. Commit changes:**
-
-```bash
-git commit -m "Add portfolio analysis functions"
-```
-
-**Good commit messages:**
-- Use present tense: "Add feature" not "Added feature"
-- Be specific: "Add calculate_sharpe_ratio function"
-- Explain WHAT changed, not HOW (code shows how)
-
-**4. View history:**
-
-```bash
-# Full history
-git log
-
-# Condensed history
-git log --oneline
-
-# Visual history
-git log --graph --oneline
-```
-
-**5. See what changed:**
-
-```bash
-# Show unstaged changes
-git diff
-
-# Show staged changes
-git diff --staged
-
-# Show changes in specific file
-git diff portfolio.py
-```
-
-## 10.6 The .gitignore file
-
-Tell Git to ignore certain files:
-
-**File: `.gitignore`**
-```text
-# Python
-__pycache__/
-*.py[cod]
-*.so
-*.egg-info/
-
-# Virtual environments
-venv/
-env/
-ENV/
-
-# IDE
-.vscode/
-.idea/
-*.swp
-
-# OS
-.DS_Store
-Thumbs.db
-
-# Project specific
-data/
-*.csv
-*.log
-```
-
-Then add and commit:
-
-```bash
-git add .gitignore
-git commit -m "Add .gitignore for Python project"
-```
-
-## 10.7 Common Git commands
-
-```bash
-# Status
-git status
 
 # Stage files
-git add file.py
+git add filename.py
 git add .
 
-# Commit
-git commit -m "Commit message"
+# Commit changes
+git commit -m "Add feature"
 
 # View history
 git log
@@ -1891,155 +1374,63 @@ git log --oneline
 
 # See changes
 git diff
-
-# Undo unstaged changes
-git checkout -- file.py
-
-# Undo last commit (keep changes)
-git reset HEAD~1
-
-# Show file at specific commit
-git show commit_hash:file.py
-
-# List files in repository
-git ls-files
 ```
 
-## 10.8 Branches (conceptual)
+::: {.callout-note}
+## Git Installation
 
-**Branches** allow parallel development:
-
-```text
-main:      A---B---C---D
-                \
-feature:         E---F
-```
-
-Common workflow:
-1. Create branch for new feature
-2. Develop feature on branch
-3. Merge back to main when complete
-
-**Basic branch commands:**
-
-```bash
-# Create new branch
-git branch feature-name
-
-# Switch to branch
-git checkout feature-name
-
-# Create and switch (shortcut)
-git checkout -b feature-name
-
-# List branches
-git branch
-
-# Merge branch into current branch
-git merge feature-name
-```
-
-For this course, we'll primarily work on the main branch.
-
-## 10.9 Remote repositories (GitHub, GitLab)
-
-**Add remote:**
-
-```bash
-git remote add origin https://github.com/username/repository.git
-```
-
-**Push to remote:**
-
-```bash
-git push origin main
-```
-
-**Pull from remote:**
-
-```bash
-git pull origin main
-```
-
-**Clone repository:**
-
-```bash
-git clone https://github.com/username/repository.git
-```
-
-## 10.10 Git best practices
-
-**Do:**
-- Commit often (small, logical changes)
-- Write clear commit messages
-- Use .gitignore for generated files
-- Check `git status` before committing
-- Review `git diff` before staging
-
-**Avoid:**
-- Committing large binary files
-- Committing passwords or secrets
-- Committing generated files (\_\_pycache\_\_, .pyc)
-- Vague commit messages ("fixed stuff", "updates")
+See the in-class materials for platform-specific installation instructions for Windows, Mac, and Linux.
+:::
 
 ---
 
-# 11. Testing and Validation
+# 10. Testing and Validation
 
-## 11.1 Why test functions?
+## 10.1 Why test functions?
 
 Testing ensures:
+
 - Functions produce correct results
 - Changes don't break existing functionality
 - Edge cases are handled properly
 - Code behaves as documented
 
 ```{python}
-def calculate_mean(values):
+def calculate_mean_test(values):
     """Calculate arithmetic mean."""
     return sum(values) / len(values)
 
 # Test with known values
-assert calculate_mean([1, 2, 3, 4, 5]) == 3.0
-assert calculate_mean([10, 20]) == 15.0
-assert calculate_mean([5]) == 5.0
+assert calculate_mean_test([1, 2, 3, 4, 5]) == 3.0
+assert calculate_mean_test([10, 20]) == 15.0
+assert calculate_mean_test([5]) == 5.0
 
 print("All tests passed!")
 ```
 
-## 11.2 Types of tests
+## 10.2 Types of tests
 
 **Unit tests**: Test individual functions in isolation
 
 ```{python}
+def calculate_return_func(initial, final):
+    """Calculate simple return."""
+    return (final - initial) / initial
+
 def test_calculate_return():
     """Test return calculation."""
     # Basic case
-    assert calculate_return(100, 110) == 0.10
+    assert calculate_return_func(100, 110) == 0.10
     
     # Loss case
-    assert calculate_return(100, 90) == -0.10
+    assert calculate_return_func(100, 90) == -0.10
     
     # No change
-    assert calculate_return(100, 100) == 0.0
-
-def calculate_return(initial, final):
-    """Calculate simple return."""
-    return (final - initial) / initial
-```
-
-**Integration tests**: Test how components work together
-
-```{python}
-def test_portfolio_analysis():
-    """Test complete portfolio analysis pipeline."""
-    prices = [100, 102, 101, 105, 103]
+    assert calculate_return_func(100, 100) == 0.0
     
-    returns = calculate_returns(prices)
-    assert len(returns) == 4
-    
-    sharpe = calculate_sharpe_ratio(returns)
-    assert isinstance(sharpe, float)
+    print("Return calculation tests passed!")
+
+test_calculate_return()
 ```
 
 **Edge case tests**: Test boundary conditions
@@ -2048,123 +1439,32 @@ def test_portfolio_analysis():
 def test_edge_cases():
     """Test edge cases for mean calculation."""
     # Single value
-    assert calculate_mean([5]) == 5.0
+    assert calculate_mean_test([5]) == 5.0
     
     # Negative values
-    assert calculate_mean([-1, -2, -3]) == -2.0
+    assert calculate_mean_test([-1, -2, -3]) == -2.0
     
     # Mixed signs
-    assert calculate_mean([-1, 0, 1]) == 0.0
+    assert calculate_mean_test([-1, 0, 1]) == 0.0
     
-    # Empty list should raise error
-    try:
-        calculate_mean([])
-        assert False, "Should have raised ValueError"
-    except ValueError:
-        pass  # Expected
+    print("Edge case tests passed!")
+
+test_edge_cases()
 ```
-
-## 11.3 The assert statement
-
-```python
-assert condition, "Error message if condition is False"
-```
-
-Examples:
-
-```{python}
-# Test equality
-assert 2 + 2 == 4
-
-# Test inequality  
-assert 5 > 3
-
-# Test approximate equality (floating point)
-result = 0.1 + 0.2
-assert abs(result - 0.3) < 1e-10, f"Expected 0.3, got {result}"
-
-# Test exception raised
-try:
-    result = 1 / 0
-    assert False, "Should have raised ZeroDivisionError"
-except ZeroDivisionError:
-    pass  # Expected
-```
-
-## 11.4 Testing strategies
-
-**Test-driven development (TDD):**
-
-1. Write tests first (they fail)
-2. Write minimal code to pass tests
-3. Refactor
-4. Repeat
-
-**Example:**
-
-```python
-# Step 1: Write test first
-def test_calculate_volatility():
-    """Test volatility calculation."""
-    returns = [0.01, 0.02, -0.01, 0.03, -0.01]
-    vol = calculate_volatility(returns)
-    assert isinstance(vol, float)
-    assert vol > 0
-
-# Step 2: Implement function to pass test
-def calculate_volatility(returns):
-    """Calculate sample standard deviation."""
-    mean = sum(returns) / len(returns)
-    variance = sum((r - mean)**2 for r in returns) / (len(returns) - 1)
-    return variance ** 0.5
-
-# Step 3: Run test
-test_calculate_volatility()
-print("Test passed!")
-```
-
-## 11.5 Testing frameworks
-
-Python provides the `unittest` module:
-
-```python
-import unittest
-
-class TestPortfolioFunctions(unittest.TestCase):
-    """Test portfolio analysis functions."""
-    
-    def test_calculate_return(self):
-        """Test return calculation."""
-        self.assertEqual(calculate_return(100, 110), 0.10)
-        self.assertEqual(calculate_return(100, 90), -0.10)
-    
-    def test_calculate_mean(self):
-        """Test mean calculation."""
-        self.assertEqual(calculate_mean([1, 2, 3]), 2.0)
-        self.assertAlmostEqual(calculate_mean([1, 2, 4]), 2.33, places=2)
-    
-    def test_empty_list_raises_error(self):
-        """Test that empty list raises ValueError."""
-        with self.assertRaises(ValueError):
-            calculate_mean([])
-
-if __name__ == '__main__':
-    unittest.main()
-```
-
-For this course, simple `assert` statements are sufficient. Testing frameworks become important for larger projects.
 
 ---
 
-# 12. Function Design Principles
+# 11. Function Design Principles
 
-## 12.1 Single Responsibility Principle
+## 11.1 Single Responsibility Principle
 
 Each function should do one thing well:
 
 **Bad:**
 
-```python
+```{python}
+#| eval: false
+
 def analyze_data(data):
     """Do everything (too much!)."""
     # Clean data
@@ -2187,12 +1487,12 @@ def analyze_data(data):
 
 **Good:**
 
-```python
+```{python}
 def clean_data(data):
     """Remove None values."""
     return [x for x in data if x is not None]
 
-def calculate_statistics(data):
+def calculate_statistics_func(data):
     """Calculate mean and variance."""
     mean = sum(data) / len(data)
     variance = sum((x - mean)**2 for x in data) / len(data)
@@ -2203,232 +1503,34 @@ def print_statistics(mean, variance):
     print(f"Mean: {mean}")
     print(f"Variance: {variance}")
 
-def save_statistics(mean, variance, filename):
-    """Save statistics to file."""
-    with open(filename, 'w') as f:
-        f.write(f"{mean},{variance}\n")
-
 # Main workflow is now clear
-data = [1, 2, None, 3, 4]
-cleaned = clean_data(data)
-mean, var = calculate_statistics(cleaned)
-print_statistics(mean, var)
-save_statistics(mean, var, 'results.txt')
+data_example = [1, 2, None, 3, 4]
+cleaned = clean_data(data_example)
+mean_val, var_val = calculate_statistics_func(cleaned)
+print_statistics(mean_val, var_val)
 ```
 
-## 12.2 Keep functions small
-
-Functions should typically be 10-20 lines or less. If longer, consider decomposing.
-
-**Signs a function is too large:**
-- Multiple distinct sections
-- Hard to name what it does
-- Requires extensive comments
-- Difficult to test
-
-## 12.3 Clear naming
+## 11.2 Clear naming
 
 Function names should clearly indicate purpose:
 
 **Good names:**
+
 - `calculate_mean()`
 - `filter_positive_values()`
 - `convert_to_returns()`
 - `validate_inputs()`
 
 **Poor names:**
+
 - `do_stuff()`
 - `process()`
 - `calc()`
 - `func1()`
 
-## 12.4 Limit parameters
-
-Functions with many parameters are hard to use:
-
-**Problematic:**
-
-```python
-def configure_strategy(symbol, start, end, interval, risk_free, 
-                      stop_loss, take_profit, max_position, 
-                      rebalance_freq, benchmark, verbose):
-    pass  # Too many parameters!
-```
-
-**Better - use a configuration object:**
-
-```python
-from dataclasses import dataclass
-
-@dataclass
-class StrategyConfig:
-    """Strategy configuration."""
-    symbol: str
-    start_date: str
-    end_date: str
-    interval: str
-    risk_free_rate: float = 0.02
-    stop_loss: float = 0.05
-    take_profit: float = 0.10
-
-def configure_strategy(config: StrategyConfig):
-    """Configure strategy using config object."""
-    pass
-```
-
-## 12.5 Don't repeat yourself (DRY)
-
-Avoid duplicating code:
-
-**Bad:**
-
-```python
-def analyze_stock_a(prices):
-    returns = [(prices[i] - prices[i-1])/prices[i-1] 
-               for i in range(1, len(prices))]
-    mean = sum(returns) / len(returns)
-    var = sum((r - mean)**2 for r in returns) / (len(returns)-1)
-    return mean, var**0.5
-
-def analyze_stock_b(prices):
-    returns = [(prices[i] - prices[i-1])/prices[i-1] 
-               for i in range(1, len(prices))]
-    mean = sum(returns) / len(returns)
-    var = sum((r - mean)**2 for r in returns) / (len(returns)-1)
-    return mean, var**0.5
-```
-
-**Good:**
-
-```python
-def calculate_returns(prices):
-    """Calculate returns."""
-    return [(prices[i] - prices[i-1])/prices[i-1] 
-            for i in range(1, len(prices))]
-
-def calculate_stats(values):
-    """Calculate mean and standard deviation."""
-    mean = sum(values) / len(values)
-    var = sum((v - mean)**2 for v in values) / (len(values)-1)
-    return mean, var**0.5
-
-def analyze_stock(prices):
-    """Analyze any stock."""
-    returns = calculate_returns(prices)
-    return calculate_stats(returns)
-```
-
 ---
 
-# 13. Common Pitfalls and Debugging
-
-## 13.1 Mutable default arguments
-
-See Section 3.6 for details. Always use `None` as default for mutable arguments.
-
-## 13.2 Modifying lists during iteration
-
-**Dangerous:**
-
-```{python}
-values = [1, 2, 3, 4, 5]
-
-# DON'T modify list while iterating
-for value in values:
-    if value % 2 == 0:
-        values.remove(value)  # Unpredictable behavior!
-
-print(values)  # May not remove all even numbers!
-```
-
-**Safe:**
-
-```{python}
-values = [1, 2, 3, 4, 5]
-
-# Create new list
-odd_values = [v for v in values if v % 2 != 0]
-
-print(odd_values)
-```
-
-## 13.3 Variable scope confusion
-
-```{python}
-#| error: true
-
-def increment_counter():
-    counter += 1  # Tries to read before assignment
-    return counter
-
-counter = 0
-increment_counter()  # UnboundLocalError
-```
-
-Fix: Use `global` or pass as parameter and return:
-
-```{python}
-def increment_counter(counter):
-    """Increment counter (pure function)."""
-    return counter + 1
-
-counter = 0
-counter = increment_counter(counter)
-print(counter)  # 1
-```
-
-## 13.4 Floating-point comparison
-
-```{python}
-def calculate_ratio(a, b):
-    return a / b
-
-# Direct comparison can fail
-result = calculate_ratio(1, 3) * 3
-print(result == 1.0)  # May be False!
-
-# Use tolerance
-print(abs(result - 1.0) < 1e-10)  # True
-```
-
-## 13.5 Debugging strategies
-
-**Print debugging:**
-
-```python
-def calculate_sharpe(returns, rf_rate=0.02):
-    print(f"DEBUG: returns = {returns}")
-    print(f"DEBUG: rf_rate = {rf_rate}")
-    
-    mean = sum(returns) / len(returns)
-    print(f"DEBUG: mean = {mean}")
-    
-    # ... rest of function
-```
-
-**Using assertions for sanity checks:**
-
-```python
-def calculate_probability(successes, trials):
-    """Calculate probability."""
-    assert trials > 0, "Trials must be positive"
-    assert 0 <= successes <= trials, "Invalid successes count"
-    
-    prob = successes / trials
-    
-    assert 0 <= prob <= 1, f"Invalid probability: {prob}"
-    return prob
-```
-
-**Test incrementally:**
-
-- Write small functions
-- Test each function immediately
-- Build larger functions from tested smaller ones
-
----
-
-# 14. Looking Ahead: Numerical Computing
+# 12. Looking Ahead: Numerical Computing
 
 In Lecture 4, we'll apply these organizational principles to numerical computing with NumPy.
 
@@ -2436,7 +1538,9 @@ The functions you've learned to write will form the foundation for:
 
 **NumPy arrays** instead of Python lists:
 
-```python
+```{python}
+#| eval: false
+
 import numpy as np
 
 def calculate_returns_vectorized(prices):
@@ -2448,7 +1552,9 @@ def calculate_returns_vectorized(prices):
 
 **Vectorized operations** for efficiency:
 
-```python
+```{python}
+#| eval: false
+
 # Python loops (slow for large data)
 returns = []
 for i in range(1, len(prices)):
@@ -2456,17 +1562,9 @@ for i in range(1, len(prices)):
     returns.append(r)
 
 # NumPy vectorization (fast!)
-returns = (prices[1:] - prices[:-1]) / prices[:-1]
-```
-
-**Linear algebra** and matrix operations:
-
-```python
 import numpy as np
-
-def calculate_portfolio_return(weights, returns):
-    """Calculate portfolio return using matrix multiplication."""
-    return np.dot(weights, returns)
+prices_array = np.array(prices)
+returns = (prices_array[1:] - prices_array[:-1]) / prices_array[:-1]
 ```
 
 The organizational principles from this lecture—functions, modules, documentation, version control—become even more important as our code grows in complexity and our datasets become larger.
@@ -2475,7 +1573,7 @@ The organizational principles from this lecture—functions, modules, documentat
 
 ---
 
-# 15. Key Takeaways
+# 13. Key Takeaways
 
 You should leave this lecture understanding the following ideas:
 
@@ -2521,7 +1619,7 @@ You should leave this lecture understanding the following ideas:
 
 ---
 
-# 16. Further Questions to Think About
+# 14. Further Questions to Think About
 
 Before the next lecture, consider:
 
