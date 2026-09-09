@@ -1,0 +1,1934 @@
+---
+title: "Lecture 4: Numerical Computing with NumPy"
+subtitle: "From Loops to Arrays: Efficient Mathematical Computation"
+format:
+  html:
+    code-fold: false
+    toc: true
+jupyter: python3
+---
+
+# Central Question
+
+> **Can we use computers to simulate the spread of infectious diseases and predict epidemic outcomes?**
+
+In March 2020, public health officials worldwide faced urgent questions: How fast will COVID-19 spread? When will hospitals be overwhelmed? What impact will social distancing have? These questions require **mathematical models** that track how diseases spread through populations.
+
+The classic **SIR model** divides a population into three groups:
+- **S**usceptible: people who could catch the disease
+- **I**nfectious: people currently infected who can spread it
+- **R**ecovered: people who've recovered (or died) and are no longer infectious
+
+The model uses differential equations to describe how people move between these states over time. But these equations rarely have closed-form solutions—we need **numerical methods** to approximate them.
+
+Today, we'll learn to:
+1. Work with **NumPy arrays**, Python's fundamental tool for numerical computing
+2. Understand **vectorization**—expressing operations on entire arrays efficiently
+3. Implement **numerical integration** to solve differential equations
+4. Simulate an SIR epidemic and explore intervention strategies
+
+We'll also take a brief detour to see **VSCode**, a professional development environment widely used in industry. This is optional—you can continue with Spyder—but I want you to see the tools used in real-world data science.
+
+By the end of class, you'll be able to simulate disease outbreaks, predict their trajectories, and evaluate public health interventions—all with about 50 lines of Python code.
+
+---
+
+# 1. Quiz
+
+Before we begin, please complete Quiz 4, which covers functions, modularity, and Git from Lecture 3.
+
+The quiz should take approximately 10 minutes. Once everyone has finished, we'll start with NumPy fundamentals.
+
+---
+
+# Exercise 1: NumPy Fundamentals
+
+> **Goal:** Master the basics of NumPy arrays—the foundation for all scientific computing in Python.
+
+Python lists are flexible and convenient, but they're inefficient for numerical work. When we need to perform millions of arithmetic operations on large datasets, we need something better.
+
+**NumPy** (Numerical Python) provides:
+- Efficient arrays that store homogeneous data compactly in memory
+- Vectorized operations that work on entire arrays without explicit loops
+- A vast library of mathematical functions
+- The foundation for pandas, scipy, scikit-learn, and most scientific Python packages
+
+Let's start by setting up our environment and exploring what NumPy can do.
+
+---
+
+## Exercise 1.1: Environment Setup & NumPy Verification
+
+Before we work with NumPy, let's ensure it's installed in our virtual environment.
+
+::: {.callout-note}
+## Virtual Environment from Lecture 0
+We'll use `env1` that you created in Lecture 0. If you don't have it, create it now:
+
+**Windows:**
+```powershell
+cd $HOME\Documents\math5200
+python -m venv env1
+.\env1\Scripts\Activate.ps1
+```
+
+**Mac/Linux:**
+```bash
+cd ~/Documents/math5200
+python3 -m venv env1
+source env1/bin/activate
+```
+:::
+
+### Your Turn: Activate Environment and Verify NumPy
+
+```{python}
+#| eval: false
+
+# In your terminal, activate env1
+# Then start Python or Spyder
+
+# In Python/Spyder console:
+import numpy as np
+print(f"NumPy version: {np.__version__}")
+```
+
+If NumPy is not installed, install it:
+
+```bash
+# In your terminal with env1 activated:
+pip install numpy
+```
+
+Then restart your Python console/Spyder kernel.
+
+::: {.callout-tip}
+## Checking Installed Packages
+To see all packages in your current environment:
+```bash
+pip list
+```
+
+To see information about a specific package:
+```bash
+pip show numpy
+```
+:::
+
+### Just-in-Time Concept: Why Virtual Environments?
+
+Recall from Lecture 0 that virtual environments isolate project dependencies. This is crucial because:
+
+- Different projects may need different package versions
+- You can experiment without breaking your system Python
+- Your work becomes reproducible—others can recreate your exact environment
+
+NumPy is typically the first scientific package you'll install. From here, most other packages (pandas, matplotlib, scipy, scikit-learn) build on NumPy arrays.
+
+---
+
+## Exercise 1.2: From Lists to Arrays
+
+Let's see the fundamental difference between Python lists and NumPy arrays.
+
+Suppose we're tracking daily COVID-19 case counts in a region:
+
+```{python}
+import numpy as np
+
+# Python list of daily cases
+daily_cases_list = [45, 52, 48, 67, 71, 89, 103, 98, 87, 92]
+
+# Convert to NumPy array
+daily_cases = np.array(daily_cases_list)
+
+print("Python list:", daily_cases_list)
+print("NumPy array:", daily_cases)
+print(f"Type: {type(daily_cases)}")
+```
+
+Arrays have useful attributes:
+
+```{python}
+print(f"Shape: {daily_cases.shape}")      # (10,) - one-dimensional with 10 elements
+print(f"Dtype: {daily_cases.dtype}")      # int64 or int32 - all elements are integers
+print(f"Size: {daily_cases.size}")        # 10 - total number of elements
+print(f"Ndim: {daily_cases.ndim}")        # 1 - number of dimensions
+```
+
+### Your Turn: Create Arrays from Epidemiological Data
+
+```{python}
+#| eval: false
+
+import numpy as np
+
+# Daily counts for three weeks of an outbreak
+week1_cases = [12, 15, 18, 23, 29, 35, 42]
+week2_cases = [51, 63, 78, 94, 115, 139, 168]
+week3_cases = [203, 245, 294, 353, 425, 510, 612]
+
+# Convert each to NumPy array
+week1 = np.array(week1_cases)
+week2 = np.array(week2_cases)
+week3 = np.array(week3_cases)
+
+# Examine properties
+print(f"Week 1 shape: {week1.shape}, dtype: {week1.dtype}")
+print(f"Week 2 size: {week2.size}, ndim: {week2.ndim}")
+print(f"Week 3 array:\n{week3}")
+```
+
+Now create a **2D array** representing all three weeks:
+
+```{python}
+#| eval: false
+
+# Stack weeks into a 2D array (rows = weeks, columns = days)
+all_weeks = np.array([week1_cases, week2_cases, week3_cases])
+
+print(f"Shape of all_weeks: {all_weeks.shape}")  # Should be (3, 7)
+print(f"2D array:\n{all_weeks}")
+```
+
+### Just-in-Time Concept: NumPy Arrays
+
+**Key properties:**
+1. **Homogeneous:** All elements have the same type (unlike lists)
+2. **Fixed size:** Once created, size doesn't change (unlike lists that can grow)
+3. **Efficient:** Stored contiguously in memory, enabling fast operations
+4. **N-dimensional:** Can be 1D, 2D, 3D, or higher
+
+**Why does this matter?**
+
+When you write:
+```python
+total = sum(daily_cases_list)  # Python list
+```
+Python must:
+1. Loop through each element
+2. Check its type
+3. Call the appropriate addition operation
+4. Handle potential type conversions
+
+With NumPy:
+```python
+total = daily_cases.sum()  # NumPy array
+```
+NumPy:
+1. Knows all elements are the same type
+2. Uses optimized C code to sum them in one pass
+3. Operates directly on contiguous memory
+
+The result? NumPy can be **10-100x faster** for numerical operations.
+
+---
+
+## Exercise 1.3: Array Indexing and Slicing
+
+Like Python lists, we can index and slice arrays. But NumPy adds powerful capabilities for multi-dimensional data.
+
+### 1D Array Indexing
+
+```{python}
+daily_cases = np.array([45, 52, 48, 67, 71, 89, 103, 98, 87, 92])
+
+# Access individual elements (0-indexed)
+print(f"Day 0: {daily_cases[0]} cases")
+print(f"Day 5: {daily_cases[5]} cases")
+print(f"Last day: {daily_cases[-1]} cases")
+
+# Slicing: array[start:stop:step]
+first_week = daily_cases[:7]
+second_half = daily_cases[5:]
+every_other = daily_cases[::2]
+
+print(f"First week: {first_week}")
+print(f"Second half: {second_half}")
+print(f"Every other day: {every_other}")
+```
+
+### 2D Array Indexing
+
+```{python}
+# 2D array: 3 weeks × 7 days
+outbreak_data = np.array([
+    [12, 15, 18, 23, 29, 35, 42],      # Week 1
+    [51, 63, 78, 94, 115, 139, 168],   # Week 2
+    [203, 245, 294, 353, 425, 510, 612] # Week 3
+])
+
+# Access elements: array[row, column]
+print(f"Week 2, Day 3: {outbreak_data[1, 2]} cases")  # 78
+
+# Access entire rows or columns
+week_2 = outbreak_data[1, :]       # All of week 2
+day_5_all_weeks = outbreak_data[:, 4]  # Day 5 across all weeks
+
+print(f"Week 2: {week_2}")
+print(f"Day 5 (all weeks): {day_5_all_weeks}")
+
+# Slicing works too
+first_two_weeks = outbreak_data[:2, :]
+weekdays_only = outbreak_data[:, :5]
+
+print(f"First two weeks:\n{first_two_weeks}")
+print(f"Weekdays only:\n{weekdays_only}")
+```
+
+### Boolean Indexing (Advanced)
+
+NumPy's most powerful feature: select elements based on conditions.
+
+```{python}
+daily_cases = np.array([45, 52, 48, 67, 71, 89, 103, 98, 87, 92])
+
+# Create boolean mask
+high_case_days = daily_cases > 70
+
+print(f"Boolean mask: {high_case_days}")
+print(f"High case days: {daily_cases[high_case_days]}")
+
+# Direct filtering
+print(f"Days with >80 cases: {daily_cases[daily_cases > 80]}")
+```
+
+### Your Turn: Extract Outbreak Information
+
+```{python}
+#| eval: false
+
+import numpy as np
+
+# Outbreak data: 4 regions × 10 days
+outbreak = np.array([
+    [23, 29, 35, 41, 49, 58, 69, 81, 95, 112],   # Region A
+    [15, 18, 22, 26, 31, 37, 44, 52, 62, 73],    # Region B
+    [45, 56, 69, 85, 104, 127, 155, 189, 230, 280], # Region C
+    [8, 9, 11, 13, 15, 18, 21, 25, 29, 34]       # Region D
+])
+
+# Task 1: Extract Region C's data
+region_c = # Your code here
+
+# Task 2: Get day 5 data for all regions
+day_5 = # Your code here
+
+# Task 3: Get the last 3 days for Region B
+region_b_end = # Your code here
+
+# Task 4: Find all days/regions with >100 cases
+high_outbreak = # Your code here
+
+# Task 5: Get first week (days 0-6) for regions A and C
+subset = # Your code here
+
+print(f"Region C: {region_c}")
+print(f"Day 5 all regions: {day_5}")
+print(f"Region B last 3 days: {region_b_end}")
+print(f"Days with >100 cases: {high_outbreak}")
+print(f"Subset:\n{subset}")
+```
+
+::: {.callout-tip}
+## Remember
+- Single index for 1D: `array[5]`
+- Two indices for 2D: `array[row, col]`
+- `:` means "all" in that dimension
+- Boolean arrays can be used as masks
+:::
+
+---
+
+## Exercise 1.4: Elementwise Operations
+
+The real power of NumPy emerges when we perform operations on entire arrays at once—no loops required.
+
+### Basic Arithmetic
+
+```{python}
+import numpy as np
+
+daily_cases = np.array([45, 52, 48, 67, 71, 89, 103, 98, 87, 92])
+
+# Elementwise operations
+doubled = daily_cases * 2
+per_capita = daily_cases / 100000  # per 100k population
+growth = daily_cases - daily_cases[0]  # relative to day 0
+
+print(f"Doubled: {doubled}")
+print(f"Per capita: {per_capita}")
+print(f"Growth from day 0: {growth}")
+```
+
+### Operations Between Arrays
+
+```{python}
+# Calculate daily changes
+yesterday = daily_cases[:-1]  # All but last
+today = daily_cases[1:]       # All but first
+
+daily_change = today - yesterday
+percent_change = (daily_change / yesterday) * 100
+
+print(f"Daily change: {daily_change}")
+print(f"Percent change: {percent_change}")
+```
+
+### Universal Functions (ufuncs)
+
+NumPy provides optimized mathematical functions that operate elementwise:
+
+```{python}
+# Suppose we're modeling exponential growth
+time = np.array([0, 1, 2, 3, 4, 5])
+growth_rate = 0.15
+
+# Exponential growth: N(t) = N₀ * e^(rt)
+cases = 50 * np.exp(growth_rate * time)
+
+print(f"Exponential growth: {cases}")
+
+# Logarithms (useful for transforming skewed data)
+log_cases = np.log(daily_cases)
+print(f"Log-transformed: {log_cases}")
+
+# Trigonometric functions
+angles = np.array([0, np.pi/6, np.pi/4, np.pi/3, np.pi/2])
+sines = np.sin(angles)
+print(f"Sines: {sines}")
+```
+
+Common ufuncs:
+- **Arithmetic:** `np.add`, `np.subtract`, `np.multiply`, `np.divide`
+- **Exponents:** `np.exp`, `np.log`, `np.log10`, `np.power`, `np.sqrt`
+- **Trigonometry:** `np.sin`, `np.cos`, `np.tan`
+- **Rounding:** `np.round`, `np.floor`, `np.ceil`
+- **Comparison:** `np.maximum`, `np.minimum`
+
+### Your Turn: Calculate Epidemiological Metrics
+
+```{python}
+#| eval: false
+
+import numpy as np
+
+# Daily cases over 14 days
+cases = np.array([23, 29, 35, 41, 49, 58, 69, 81, 95, 112, 131, 154, 180, 211])
+
+# Task 1: Calculate 7-day moving average
+# Hint: Average days 0-6, then 1-7, then 2-8, etc.
+week1_avg = np.mean(cases[:7])
+week2_avg = np.mean(cases[7:])
+print(f"Week 1 average: {week1_avg:.1f}")
+print(f"Week 2 average: {week2_avg:.1f}")
+
+# Task 2: Calculate daily growth factor (today / yesterday)
+yesterday = cases[:-1]
+today = cases[1:]
+growth_factor = # Your code here
+print(f"Daily growth factors: {growth_factor}")
+
+# Task 3: Estimate doubling time
+# Formula: doubling_time ≈ log(2) / log(growth_factor)
+doubling_times = # Your code here
+print(f"Doubling times (days): {doubling_times}")
+
+# Task 4: Project forward 7 days using average growth rate
+avg_growth = np.mean(growth_factor)
+last_value = cases[-1]
+projection = # Use np.exp or powers to project forward
+print(f"7-day projection: {projection}")
+
+# Task 5: Calculate cumulative cases
+cumulative = # Use np.cumsum
+print(f"Cumulative cases: {cumulative}")
+```
+
+::: {.callout-important}
+## Vectorization Principle
+When you see a loop over array elements performing the same operation, think: "Can I vectorize this?"
+
+**Instead of:**
+```python
+result = []
+for x in array:
+    result.append(x ** 2)
+```
+
+**Write:**
+```python
+result = array ** 2
+```
+
+Not only is it shorter, it's much faster!
+:::
+
+---
+
+## Exercise 1.5: Array Aggregations
+
+Once we have data in arrays, we often want summary statistics.
+
+### Basic Aggregations
+
+```{python}
+import numpy as np
+
+daily_cases = np.array([45, 52, 48, 67, 71, 89, 103, 98, 87, 92])
+
+# Statistical summaries
+total = np.sum(daily_cases)
+average = np.mean(daily_cases)
+median = np.median(daily_cases)
+std_dev = np.std(daily_cases)
+minimum = np.min(daily_cases)
+maximum = np.max(daily_cases)
+
+print(f"Total cases: {total}")
+print(f"Average: {average:.1f}")
+print(f"Median: {median}")
+print(f"Std deviation: {std_dev:.1f}")
+print(f"Range: {minimum} to {maximum}")
+```
+
+### Aggregations Along Axes (2D Arrays)
+
+For 2D arrays, we can aggregate along different dimensions:
+
+```{python}
+# 3 regions × 7 days
+outbreak = np.array([
+    [12, 15, 18, 23, 29, 35, 42],      # Region A
+    [51, 63, 78, 94, 115, 139, 168],   # Region B
+    [203, 245, 294, 353, 425, 510, 612] # Region C
+])
+
+# Sum across all elements
+total_cases = np.sum(outbreak)
+print(f"Total across all regions/days: {total_cases}")
+
+# Sum across axis 0 (down columns) - total per day across regions
+daily_totals = np.sum(outbreak, axis=0)
+print(f"Daily totals: {daily_totals}")
+
+# Sum across axis 1 (across rows) - total per region across days
+region_totals = np.sum(outbreak, axis=1)
+print(f"Region totals: {region_totals}")
+
+# Average per day
+daily_averages = np.mean(outbreak, axis=0)
+print(f"Average cases per day: {daily_averages}")
+
+# Maximum per region
+region_maxima = np.max(outbreak, axis=1)
+print(f"Peak cases per region: {region_maxima}")
+```
+
+::: {.callout-note}
+## Understanding Axes
+- **axis=0**: Aggregates "down" the rows (collapses rows, keeps columns)
+- **axis=1**: Aggregates "across" the columns (collapses columns, keeps rows)
+
+Think: "Which dimension disappears?"
+:::
+
+### Your Turn: Regional Outbreak Analysis
+
+```{python}
+#| eval: false
+
+import numpy as np
+
+# 5 regions × 10 days of case data
+outbreak = np.array([
+    [23, 29, 35, 41, 49, 58, 69, 81, 95, 112],   # Region A
+    [15, 18, 22, 26, 31, 37, 44, 52, 62, 73],    # Region B
+    [45, 56, 69, 85, 104, 127, 155, 189, 230, 280], # Region C
+    [8, 9, 11, 13, 15, 18, 21, 25, 29, 34],      # Region D
+    [67, 82, 100, 122, 148, 180, 219, 266, 323, 392] # Region E
+])
+
+# Task 1: Calculate total cases across all regions and days
+total = # Your code here
+
+# Task 2: Calculate total cases per region (across all days)
+region_totals = # Your code here
+
+# Task 3: Calculate total cases per day (across all regions)
+daily_totals = # Your code here
+
+# Task 4: Find average cases per region
+region_averages = # Your code here
+
+# Task 5: Find the peak day for each region
+region_peaks = # Your code here
+
+# Task 6: Find which region had the worst day overall
+worst_day_per_region = np.max(outbreak, axis=1)
+worst_region = # Find index of maximum, then identify region
+print(f"Region with highest single-day cases: Region {chr(65 + worst_region)}")
+
+# Task 7: Calculate standard deviation per region
+region_std = # Your code here
+
+print(f"Total cases: {total}")
+print(f"Region totals: {region_totals}")
+print(f"Daily totals: {daily_totals}")
+print(f"Region averages: {region_averages}")
+print(f"Region peaks: {region_peaks}")
+print(f"Region std deviations: {region_std}")
+```
+
+::: {.callout-tip}
+## Useful Aggregation Functions
+- `np.sum()`, `np.mean()`, `np.median()`
+- `np.std()`, `np.var()` (standard deviation, variance)
+- `np.min()`, `np.max()`
+- `np.argmin()`, `np.argmax()` (indices of min/max)
+- `np.percentile()` (e.g., 25th, 50th, 75th percentiles)
+- `np.cumsum()` (cumulative sum)
+:::
+
+---
+
+## Exercise 1.6: Linear Algebra Essentials
+
+NumPy provides comprehensive linear algebra operations through `np.linalg`. Let's explore the basics that appear frequently in scientific computing and epidemiology.
+
+### Vectors and Dot Products
+
+```{python}
+import numpy as np
+
+# Two population groups
+susceptible = np.array([800, 600, 400, 200])
+infectious = np.array([10, 30, 50, 70])
+
+# Dot product: how "aligned" are two vectors?
+dot_product = np.dot(susceptible, infectious)
+# Equivalent: susceptible @ infectious
+
+print(f"Dot product: {dot_product}")
+```
+
+### Matrix Operations
+
+Matrices are 2D arrays. Let's see fundamental operations:
+
+```{python}
+# Contact matrix: how much do age groups interact?
+# Rows/cols represent age groups: [0-20, 21-40, 41-60, 61+]
+contact_matrix = np.array([
+    [8, 3, 2, 1],   # Young interact mostly with young
+    [3, 6, 3, 1],   # Middle age balanced
+    [2, 3, 5, 2],   # Older adults
+    [1, 1, 2, 4]    # Elderly interact less overall
+])
+
+# Current infected population by age group
+infected = np.array([50, 30, 20, 10])
+
+# Matrix-vector multiplication: expected new infections
+# Each age group's contribution = contact rate × number infected
+new_infections = contact_matrix @ infected
+# Equivalent: np.matmul(contact_matrix, infected)
+
+print(f"New infections by age group: {new_infections}")
+```
+
+### Matrix Multiplication
+
+```{python}
+# Transmission probability matrix
+transmission_prob = np.array([
+    [0.05, 0.03],  # Age group 1 → 1, 1 → 2
+    [0.03, 0.04]   # Age group 2 → 1, 2 → 2
+])
+
+# Contact rates
+contact_rates = np.array([
+    [10, 5],
+    [5, 8]
+])
+
+# Combined effect: contact × transmission probability
+combined_risk = transmission_prob @ contact_rates
+
+print(f"Combined risk matrix:\n{combined_risk}")
+```
+
+### Matrix Inverse
+
+Sometimes we need to solve systems of linear equations. The inverse is one approach:
+
+```{python}
+# Simple 2×2 system: ax + by = e, cx + dy = f
+# Matrix form: Ax = b
+A = np.array([
+    [2, 1],
+    [1, 3]
+])
+
+b = np.array([8, 13])
+
+# Solve using inverse: x = A⁻¹b
+A_inv = np.linalg.inv(A)
+solution = A_inv @ b
+
+print(f"Matrix A:\n{A}")
+print(f"Inverse of A:\n{A_inv}")
+print(f"Solution: {solution}")
+
+# Verify: A @ solution should equal b
+verification = A @ solution
+print(f"Verification (should equal b): {verification}")
+```
+
+::: {.callout-note}
+## Better Way to Solve Linear Systems
+For solving `Ax = b`, use `np.linalg.solve(A, b)` instead of computing the inverse explicitly. It's more accurate and faster:
+```python
+solution = np.linalg.solve(A, b)
+```
+:::
+
+### Eigenvalues and Eigenvectors
+
+Eigenvalues are crucial for understanding system dynamics, including epidemic growth rates:
+
+```{python}
+# Next-generation matrix for disease transmission
+# Each element: expected infections caused in group i by group j
+NGM = np.array([
+    [1.5, 0.3],
+    [0.3, 1.2]
+])
+
+# Find eigenvalues and eigenvectors
+eigenvalues, eigenvectors = np.linalg.eig(NGM)
+
+print(f"Eigenvalues: {eigenvalues}")
+print(f"Eigenvectors:\n{eigenvectors}")
+
+# The largest eigenvalue is the basic reproduction number R₀
+R0 = np.max(eigenvalues)
+print(f"\nBasic reproduction number R₀: {R0:.3f}")
+print(f"Epidemic will {'grow' if R0 > 1 else 'die out'} (R₀ {'>' if R0 > 1 else '<'} 1)")
+```
+
+::: {.callout-important}
+## Why Eigenvalues Matter in Epidemiology
+The **dominant eigenvalue** of a disease transmission matrix is the **basic reproduction number** (R₀):
+- **R₀ > 1**: Disease spreads (epidemic)
+- **R₀ < 1**: Disease dies out
+- **R₀ = 1**: Endemic equilibrium
+
+This is the mathematical foundation for "flattening the curve"!
+:::
+
+### Your Turn: Linear Algebra for Disease Modeling
+
+```{python}
+#| eval: false
+
+import numpy as np
+
+# Contact matrix: average daily contacts between age groups
+# Age groups: [0-20, 21-40, 41-60, 61+]
+contact = np.array([
+    [12, 4, 3, 1],
+    [4, 10, 5, 2],
+    [3, 5, 8, 3],
+    [1, 2, 3, 6]
+])
+
+# Transmission probability per contact
+transmission_prob = 0.05
+
+# Task 1: Create next-generation matrix
+NGM = # Your code here (contact matrix × transmission probability)
+
+# Task 2: Calculate eigenvalues
+eigenvalues, eigenvectors = # Your code here
+
+# Task 3: Find R₀ (largest eigenvalue)
+R0 = # Your code here
+
+print(f"Next-generation matrix:\n{NGM}")
+print(f"Eigenvalues: {eigenvalues}")
+print(f"R₀ = {R0:.3f}")
+print(f"Disease will {'spread' if R0 > 1 else 'die out'}")
+
+# Task 4: Model intervention (reduce contacts by 50%)
+contact_intervention = contact * 0.5
+NGM_intervention = # Your code here
+eigenvalues_intervention, _ = np.linalg.eig(NGM_intervention)
+R0_intervention = np.max(eigenvalues_intervention)
+
+print(f"\nWith 50% contact reduction:")
+print(f"New R₀ = {R0_intervention:.3f}")
+print(f"Reduction: {(R0 - R0_intervention) / R0 * 100:.1f}%")
+
+# Task 5: Solve for equilibrium population
+# Suppose we have: dS/dt = -βSI/N, equilibrium when dS/dt = 0
+# This is a simple linear system for demonstration
+A = np.array([
+    [1, -0.5],
+    [-0.3, 1]
+])
+b = np.array([100, 50])
+
+equilibrium = # Use np.linalg.solve
+print(f"\nEquilibrium populations: {equilibrium}")
+```
+
+::: {.callout-tip}
+## Key Linear Algebra Functions
+- **Matrix operations:** `@` (matmul), `np.dot()`
+- **Linear systems:** `np.linalg.solve(A, b)`
+- **Matrix properties:** `np.linalg.inv()`, `np.linalg.det()`
+- **Decompositions:** `np.linalg.eig()`, `np.linalg.svd()`
+- **Norms:** `np.linalg.norm()`
+:::
+
+---
+
+## Break (10 minutes)
+
+Good work so far! You've learned the fundamentals of NumPy:
+- Creating and inspecting arrays
+- Indexing and slicing
+- Vectorized operations
+- Aggregations
+- Basic linear algebra
+
+After the break, we'll take a quick detour to see **VSCode**, then apply everything we've learned to solve a real epidemic model.
+
+Stretch, grab water, and we'll reconvene to see how professionals work with code.
+
+---
+
+# VSCode: A Professional Development Environment
+
+> **Note:** This is an **optional** tool demonstration. You can continue using Spyder—it's excellent for scientific computing. One homework question will ask you to install VSCode and verify it works, but all other coursework is IDE-agnostic.
+
+::: {.callout-note}
+## Why Are We Showing This?
+VSCode (Visual Studio Code) is the most popular code editor in professional data science and software development. While Spyder is purpose-built for scientific Python, VSCode offers:
+- Superior Git integration (our focus today)
+- Support for any programming language (Python, R, JavaScript, etc.)
+- Massive ecosystem of extensions
+- Industry-standard workflows
+
+You'll see both Spyder and VSCode used in real-world data science. I want you to know what's out there so you can choose the right tool for each project.
+:::
+
+## What is VSCode?
+
+**Visual Studio Code** is a free, open-source code editor developed by Microsoft. Don't confuse it with "Visual Studio" (a different, heavier IDE for C++/C#/.NET).
+
+**Key features:**
+- Lightweight but powerful
+- Works on Windows, Mac, and Linux
+- Extensive extension marketplace
+- Built-in Git support
+- Integrated terminal
+- Syntax highlighting for 100+ languages
+- IntelliSense (smart code completion)
+
+**Who uses it?**
+- Data scientists at tech companies
+- Software engineers
+- Web developers
+- Academic researchers
+- Basically anyone writing code professionally
+
+## Installation (Do This Later for Homework)
+
+::: {.callout-important}
+## For Today: Watch Only
+Right now, just watch the demonstration. For **Homework 4, Question 1**, you'll install VSCode yourself and submit a screenshot showing it works.
+:::
+
+**Installation steps (do for homework):**
+
+1. Visit [code.visualstudio.com](https://code.visualstudio.com/)
+2. Download for your operating system
+3. Run installer (accept defaults on Windows; drag to Applications on Mac)
+4. Launch VSCode
+
+That's it! It's simpler than Spyder because it doesn't include Python—you connect it to your existing Python installation.
+
+---
+
+## Setting Up Python in VSCode
+
+**Step 1: Install the Python Extension**
+
+1. Click the **Extensions** icon in the left sidebar (or press `Ctrl+Shift+X` / `Cmd+Shift+X`)
+2. Search for "Python"
+3. Install the official **Python** extension by Microsoft (it has 80+ million downloads)
+
+This extension provides:
+- Python syntax highlighting
+- Code completion and IntelliSense
+- Linting (error detection)
+- Debugging
+- Interactive Python support
+- Jupyter notebook support
+
+**Step 2: Open Your Project Folder**
+
+```
+File → Open Folder → Navigate to math5200/src
+```
+
+VSCode works best when you open a folder (not individual files). This lets it understand your project structure.
+
+**Step 3: Select Python Interpreter**
+
+1. Press `Ctrl+Shift+P` (Windows/Linux) or `Cmd+Shift+P` (Mac) to open the **Command Palette**
+2. Type "Python: Select Interpreter"
+3. Choose your `env1` Python from the list
+   - Look for: `.../math5200/env1/Scripts/python.exe` (Windows)
+   - Or: `.../math5200/env1/bin/python` (Mac/Linux)
+
+Once selected, you'll see the Python version in the **bottom-left corner** of VSCode.
+
+::: {.callout-tip}
+## Can't Find Your Environment?
+If `env1` doesn't appear in the list:
+1. Click "Enter interpreter path..."
+2. Browse to your `env1` folder
+3. Windows: Select `env1/Scripts/python.exe`
+4. Mac/Linux: Select `env1/bin/python`
+:::
+
+**Step 4: Verify the Setup**
+
+Create a simple test file:
+
+```python
+# test_vscode.py
+import numpy as np
+
+print(f"NumPy version: {np.__version__}")
+
+arr = np.array([1, 2, 3, 4, 5])
+print(f"Array: {arr}")
+print(f"Mean: {arr.mean()}")
+```
+
+**Run it:**
+- Click the **play button** (▶️) in the top-right corner
+- Or right-click in the editor and choose "Run Python File in Terminal"
+
+You should see output in the integrated terminal at the bottom.
+
+---
+
+## Interactive Python in VSCode
+
+One of VSCode's best features is the **Interactive Window**—similar to Spyder's console.
+
+**Method 1: Run Selection Interactively**
+
+1. Write some Python code
+2. Highlight a few lines
+3. Press `Shift+Enter`
+
+The code runs in an interactive window where you can see results and continue typing commands—just like Spyder!
+
+```python
+# Try this: select and press Shift+Enter
+import numpy as np
+x = np.array([1, 2, 3, 4, 5])
+print(x)
+
+# Now in the interactive window, you can type more commands:
+# >>> x.mean()
+# >>> x ** 2
+```
+
+**Method 2: Jupyter-Style Cells**
+
+You can create "cells" using `# %%`:
+
+```python
+# %% Cell 1: Import and setup
+import numpy as np
+
+# %% Cell 2: Create data
+cases = np.array([23, 29, 35, 41, 49])
+
+# %% Cell 3: Analyze
+print(f"Mean: {cases.mean()}")
+print(f"Total: {cases.sum()}")
+```
+
+Click the "Run Cell" button that appears above each `# %%` marker, or press `Shift+Enter` while in the cell.
+
+**Variable Explorer**
+
+When running interactively, click the **Variables** button in the interactive window toolbar to see all variables—similar to Spyder's Variable Explorer!
+
+::: {.callout-tip}
+## Spyder vs. VSCode for Interactive Work
+- **Spyder:** Variable explorer is always visible, more MATLAB-like, designed for scientific workflows
+- **VSCode:** More flexible, better for mixed workflows (scripts + interactive), preferred in industry
+
+Both are great! Use what feels comfortable.
+:::
+
+---
+
+## Git Integration in VSCode
+
+This is where VSCode truly shines. After learning Git commands in Lecture 3, seeing Git **visually** is a game-changer.
+
+### Visual Git Status
+
+Look at the left sidebar. The **Source Control** icon (looks like a branch) shows:
+- How many files have changed
+- Which files are modified, added, or deleted
+
+**Modified files appear with colors:**
+- **M** (Modified): Orange/yellow
+- **U** (Untracked): Green
+- **D** (Deleted): Red
+
+This is like `git status` but visual!
+
+### The Source Control Panel
+
+Click the Source Control icon (or press `Ctrl+Shift+G` / `Cmd+Shift+G`).
+
+You'll see:
+- **Changes:** Files that have been modified
+- **Staged Changes:** Files ready to commit
+
+**To stage a file:**
+- Hover over it and click the **+** icon
+- Or right-click and choose "Stage Changes"
+
+**To unstage:**
+- Click the **−** icon
+
+This is `git add` through a GUI!
+
+### Viewing Differences (Diffs)
+
+Click on any modified file in the Source Control panel. VSCode shows:
+- **Left side:** Original version
+- **Right side:** Your changes
+- **Highlighted:** Exactly what changed
+
+This is like `git diff` but much easier to read!
+
+### Committing Changes
+
+1. Stage your changes (click the + icons)
+2. Type a commit message in the text box at the top
+3. Click the **checkmark** icon (✓) or press `Ctrl+Enter`
+
+Done! That's `git commit -m "message"` through the GUI.
+
+### Git History
+
+Want to see previous commits? Install the **GitLens** extension (highly recommended):
+
+1. Extensions panel → Search "GitLens"
+2. Install GitLens by GitKraken
+3. Now you can see:
+   - Who changed each line (hover over code)
+   - Commit history timeline
+   - Branch visualization
+
+### Push/Pull to GitHub
+
+::: {.callout-note}
+## GitHub Integration
+If you've set up a GitHub remote repository (which we covered in Lecture 3), you can push/pull directly from VSCode.
+:::
+
+After committing locally:
+1. Click the **...** menu in Source Control panel
+2. Choose **Push** to send commits to GitHub
+3. Choose **Pull** to get updates from GitHub
+
+Or use the **↑** (push) / **↓** (pull) icons in the bottom-left status bar.
+
+### Using Git in the Terminal
+
+VSCode includes an integrated terminal (View → Terminal or ``Ctrl+` ``). You can use Git commands here just like in your system terminal:
+
+```bash
+git status
+git add .
+git commit -m "Implement SIR model"
+git push origin main
+```
+
+**Best of both worlds:** Use the GUI for staging/viewing diffs, and terminal for commands you've memorized.
+
+---
+
+## When to Use Spyder vs. VSCode
+
+Let's be practical. Here's my recommendation:
+
+### Use Spyder When:
+✅ You're primarily writing scientific Python  
+✅ You love the Variable Explorer (it's better than VSCode's)  
+✅ You come from MATLAB and want familiar workflows  
+✅ You're doing exploratory data analysis  
+✅ You want everything in one unified interface  
+
+### Use VSCode When:
+✅ You're working on projects with multiple languages (Python + R + markdown)  
+✅ You need excellent Git integration (it's clearly superior)  
+✅ You're collaborating on GitHub  
+✅ You're building web apps, APIs, or software packages  
+✅ You want an industry-standard workflow  
+
+### The Truth:
+Most data scientists use **both**:
+- Spyder for interactive analysis and exploring data
+- VSCode for version-controlled projects and writing production code
+
+**You don't have to choose!** Install both, use each when it fits.
+
+---
+
+## Homework Preview: Your Task
+
+**Homework 4, Question 1** will ask you to:
+
+1. Install VSCode and the Python extension
+2. Open your `math5200` folder in VSCode
+3. Select your `env1` Python interpreter (verify it shows in bottom-left)
+4. Create a simple `.py` file that imports NumPy and creates an array
+5. Run it successfully in VSCode
+6. Submit a screenshot showing:
+   - Your code in the editor
+   - The output in the terminal
+   - The Python interpreter name in bottom-left corner
+
+That's it! 5-10 minutes of work to verify you can use professional tools.
+
+---
+
+## Questions?
+
+Before we move on to applying NumPy to epidemic modeling, any questions about VSCode?
+
+Remember:
+- **Optional for coursework** (except one homework question)
+- **Worth learning** for your career
+- **Not a replacement** for Spyder (it's a complement)
+
+Alright, let's get back to the main event: using NumPy to simulate disease outbreaks!
+
+---
+
+# Exercise 2: Vectorization & Numerical Algorithms
+
+> **Goal:** Use NumPy's power to simulate infectious disease dynamics and explore public health interventions.
+
+Now we'll apply everything we've learned to answer our central question: **Can we simulate epidemic spread computationally?**
+
+We'll implement the **SIR model**—a fundamental tool in epidemiology—and use **numerical integration** to solve the differential equations that govern disease dynamics.
+
+---
+
+## Exercise 2.1: The Cost of Loops
+
+Before we dive into epidemiology, let's see why vectorization matters for numerical computing.
+
+### A Simple Calculation: Sum of Squares
+
+Suppose we want to calculate $\sum_{i=1}^{n} i^2$ for large $n$.
+
+**Loop-based approach:**
+
+```{python}
+import time
+
+n = 1000000  # one million
+
+# Using a Python loop
+start = time.time()
+total_loop = 0
+for i in range(1, n + 1):
+    total_loop += i ** 2
+loop_time = time.time() - start
+
+print(f"Loop result: {total_loop}")
+print(f"Loop time: {loop_time:.4f} seconds")
+```
+
+**Vectorized approach:**
+
+```{python}
+import numpy as np
+import time
+
+n = 1000000
+
+# Using NumPy
+start = time.time()
+numbers = np.arange(1, n + 1)
+total_numpy = np.sum(numbers ** 2)
+numpy_time = time.time() - start
+
+print(f"NumPy result: {total_numpy}")
+print(f"NumPy time: {numpy_time:.4f} seconds")
+print(f"Speedup: {loop_time / numpy_time:.1f}x faster")
+```
+
+You should see NumPy is 10-100x faster!
+
+::: {.callout-important}
+## Why Is NumPy So Much Faster?
+1. **Compiled C code:** NumPy operations run in optimized C/Fortran libraries
+2. **Vectorization:** CPU can perform multiple operations simultaneously (SIMD - Single Instruction Multiple Data)
+3. **Memory locality:** Data is contiguous in memory, enabling fast access
+4. **No Python overhead:** No per-element type checking or function calls
+
+For scientific computing, this performance difference is crucial. Imagine simulating a million-person epidemic over 365 days—vectorization can mean the difference between minutes and hours!
+:::
+
+### Your Turn: Compare Performance on a More Complex Operation
+
+```{python}
+#| eval: false
+
+import numpy as np
+import time
+
+# Simulate calculating exponential growth for many starting values
+n = 500000
+initial_values = np.arange(1, n + 1)
+growth_rate = 0.05
+time_steps = 10
+
+# Method 1: Loop
+start = time.time()
+results_loop = []
+for val in initial_values:
+    result = val * np.exp(growth_rate * time_steps)
+    results_loop.append(result)
+loop_time = time.time() - start
+
+# Method 2: Vectorized
+start = time.time()
+results_numpy = initial_values * np.exp(growth_rate * time_steps)
+numpy_time = time.time() - start
+
+# Verify they give the same answer
+print(f"Results match: {np.allclose(results_loop, results_numpy)}")
+print(f"Loop time: {loop_time:.4f}s")
+print(f"NumPy time: {numpy_time:.4f}s")
+print(f"Speedup: {loop_time / numpy_time:.1f}x")
+
+# Task: Now try with even more complex calculations
+# Calculate: (x^2 + 2x + 1) * sin(x) * e^(-x/100) for all x
+start = time.time()
+# Your loop-based code here
+loop_complex_time = time.time() - start
+
+start = time.time()
+x = initial_values
+results_complex = # Your vectorized code here
+numpy_complex_time = time.time() - start
+
+print(f"\nComplex calculation speedup: {loop_complex_time / numpy_complex_time:.1f}x")
+```
+
+---
+
+## Exercise 2.2: The SIR Model - Mathematical Background
+
+The **SIR model** divides a population into three compartments:
+
+- **S(t):** Susceptible individuals (can catch the disease)
+- **I(t):** Infectious individuals (currently infected, can spread disease)
+- **R(t):** Recovered individuals (immune, cannot catch or spread disease)
+
+The model is governed by three differential equations:
+
+$$
+\begin{align}
+\frac{dS}{dt} &= -\frac{\beta S I}{N} \\[10pt]
+\frac{dI}{dt} &= \frac{\beta S I}{N} - \gamma I \\[10pt]
+\frac{dR}{dt} &= \gamma I
+\end{align}
+$$
+
+Where:
+- $N = S + I + R$ is the total population (constant)
+- $\beta$ is the **transmission rate** (contacts per day × probability of transmission per contact)
+- $\gamma$ is the **recovery rate** (1/infectious period)
+- $R_0 = \beta / \gamma$ is the **basic reproduction number**
+
+**Interpretation:**
+- $\frac{dS}{dt}$: Susceptible people become infected at rate $\beta S I / N$
+- $\frac{dI}{dt}$: New infections minus recoveries
+- $\frac{dR}{dt}$: Infected people recover at rate $\gamma$
+
+### Euler's Method for Numerical Integration
+
+We can't solve these equations analytically, but we can approximate the solution numerically using **Euler's method**:
+
+$$
+y(t + \Delta t) \approx y(t) + \frac{dy}{dt} \cdot \Delta t
+$$
+
+For the SIR model:
+
+$$
+\begin{align}
+S(t + \Delta t) &\approx S(t) + \frac{dS}{dt} \cdot \Delta t \\
+I(t + \Delta t) &\approx I(t) + \frac{dI}{dt} \cdot \Delta t \\
+R(t + \Delta t) &\approx R(t) + \frac{dR}{dt} \cdot \Delta t
+\end{align}
+$$
+
+This is a **discrete-time approximation** of the continuous-time dynamics.
+
+### Your Turn: Implement SIR Model (Loop-Based)
+
+First, let's implement the SIR model using loops to understand the algorithm:
+
+```{python}
+#| eval: false
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Parameters
+N = 1000          # Total population
+I0 = 10           # Initial infected
+R0 = 0            # Initial recovered  
+S0 = N - I0 - R0  # Initial susceptible
+
+beta = 0.5        # Transmission rate (contacts per day × P(transmission))
+gamma = 0.1       # Recovery rate (1/10 day infectious period)
+
+# Time parameters
+t_max = 160       # Simulate for 160 days
+dt = 1            # Time step (1 day)
+n_steps = int(t_max / dt)
+
+# Initialize arrays to store results
+S = np.zeros(n_steps)
+I = np.zeros(n_steps)
+R = np.zeros(n_steps)
+t = np.zeros(n_steps)
+
+# Set initial conditions
+S[0] = S0
+I[0] = I0
+R[0] = R0
+t[0] = 0
+
+# Euler's method: step through time
+for step in range(1, n_steps):
+    # Current values
+    S_curr = S[step - 1]
+    I_curr = I[step - 1]
+    R_curr = R[step - 1]
+    
+    # Calculate derivatives
+    dS_dt = -beta * S_curr * I_curr / N
+    dI_dt = beta * S_curr * I_curr / N - gamma * I_curr
+    dR_dt = gamma * I_curr
+    
+    # Update using Euler's method
+    S[step] = S_curr + dS_dt * dt
+    I[step] = I_curr + dI_dt * dt
+    R[step] = R_curr + dR_dt * dt
+    t[step] = step * dt
+
+# Plot results
+plt.figure(figsize=(10, 6))
+plt.plot(t, S, label='Susceptible', linewidth=2)
+plt.plot(t, I, label='Infectious', linewidth=2)
+plt.plot(t, R, label='Recovered', linewidth=2)
+plt.xlabel('Time (days)', fontsize=12)
+plt.ylabel('Number of individuals', fontsize=12)
+plt.title('SIR Model: Disease Outbreak Simulation', fontsize=14)
+plt.legend(fontsize=11)
+plt.grid(True, alpha=0.3)
+plt.show()
+
+# Print key statistics
+peak_day = np.argmax(I)
+peak_infections = I[peak_day]
+total_infected = R[-1]  # Final recovered = total who got infected
+attack_rate = total_infected / N * 100
+
+print(f"Peak infections: {peak_infections:.0f} on day {peak_day}")
+print(f"Total infected: {total_infected:.0f} ({attack_rate:.1f}% of population)")
+print(f"R₀ = β/γ = {beta/gamma:.2f}")
+```
+
+**Questions to consider:**
+1. What happens at the peak of the epidemic?
+2. Why do susceptibles decrease even after infections peak?
+3. What's the relationship between R₀ and total attack rate?
+
+---
+
+## Exercise 2.3: Vectorized SIR Simulation
+
+The loop-based implementation works, but for more complex models (e.g., age-structured populations, spatial models), we need vectorization.
+
+Let's create a vectorized version that:
+1. Is more concise
+2. Runs faster
+3. Is easier to extend
+
+### Your Turn: Vectorized Implementation
+
+```{python}
+#| eval: false
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+def sir_model_vectorized(S0, I0, R0, beta, gamma, t_max, dt):
+    """
+    Simulate SIR model using vectorized NumPy operations.
+    
+    Parameters:
+    -----------
+    S0, I0, R0 : float
+        Initial susceptible, infectious, recovered populations
+    beta : float
+        Transmission rate
+    gamma : float
+        Recovery rate
+    t_max : float
+        Maximum time to simulate
+    dt : float
+        Time step
+        
+    Returns:
+    --------
+    t, S, I, R : numpy arrays
+        Time points and population trajectories
+    """
+    N = S0 + I0 + R0
+    n_steps = int(t_max / dt)
+    
+    # Initialize arrays
+    S = np.zeros(n_steps)
+    I = np.zeros(n_steps)
+    R = np.zeros(n_steps)
+    t = np.arange(n_steps) * dt
+    
+    # Initial conditions
+    S[0], I[0], R[0] = S0, I0, R0
+    
+    # Euler's method - vectorized where possible
+    for step in range(1, n_steps):
+        # Current state
+        S_curr, I_curr, R_curr = S[step-1], I[step-1], R[step-1]
+        
+        # Derivatives
+        infection_rate = beta * S_curr * I_curr / N
+        recovery_rate = gamma * I_curr
+        
+        dS_dt = -infection_rate
+        dI_dt = infection_rate - recovery_rate
+        dR_dt = recovery_rate
+        
+        # Update (vectorized arithmetic)
+        S[step] = S_curr + dS_dt * dt
+        I[step] = I_curr + dI_dt * dt
+        R[step] = R_curr + dR_dt * dt
+    
+    return t, S, I, R
+
+# Run simulation
+t, S, I, R = sir_model_vectorized(
+    S0=990, I0=10, R0=0,
+    beta=0.5, gamma=0.1,
+    t_max=160, dt=1
+)
+
+# Plot
+plt.figure(figsize=(10, 6))
+plt.plot(t, S, label='Susceptible', linewidth=2)
+plt.plot(t, I, label='Infectious', linewidth=2)
+plt.plot(t, R, label='Recovered', linewidth=2)
+plt.xlabel('Time (days)')
+plt.ylabel('Population')
+plt.title('SIR Model (Vectorized Implementation)')
+plt.legend()
+plt.grid(True, alpha=0.3)
+plt.show()
+```
+
+**Now extend it:** Create a function that simulates **multiple scenarios** simultaneously:
+
+```{python}
+#| eval: false
+
+def sir_multiple_scenarios(S0, I0, R0, beta_values, gamma, t_max, dt):
+    """
+    Simulate SIR model for multiple beta values simultaneously.
+    
+    This demonstrates true vectorization: simulating many scenarios at once!
+    """
+    N = S0 + I0 + R0
+    n_steps = int(t_max / dt)
+    n_scenarios = len(beta_values)
+    
+    # Initialize 2D arrays: rows = scenarios, columns = time steps
+    S = np.zeros((n_scenarios, n_steps))
+    I = np.zeros((n_scenarios, n_steps))
+    R = np.zeros((n_scenarios, n_steps))
+    t = np.arange(n_steps) * dt
+    
+    # Initial conditions (same for all scenarios)
+    S[:, 0] = S0
+    I[:, 0] = I0
+    R[:, 0] = R0
+    
+    # Convert beta_values to column vector for broadcasting
+    beta = np.array(beta_values).reshape(-1, 1)
+    
+    # Euler's method with vectorized scenarios
+    for step in range(1, n_steps):
+        S_curr = S[:, step-1]
+        I_curr = I[:, step-1]
+        
+        # Vectorized across scenarios!
+        infection_rate = beta.flatten() * S_curr * I_curr / N
+        recovery_rate = gamma * I_curr
+        
+        S[:, step] = S_curr - infection_rate * dt
+        I[:, step] = I_curr + (infection_rate - recovery_rate) * dt
+        R[:, step] = R[:, step-1] + recovery_rate * dt
+    
+    return t, S, I, R
+
+# Simulate different transmission rates
+beta_scenarios = [0.3, 0.5, 0.7]
+labels = [f'β = {b}' for b in beta_scenarios]
+
+t, S, I, R = sir_multiple_scenarios(
+    S0=990, I0=10, R0=0,
+    beta_values=beta_scenarios,
+    gamma=0.1,
+    t_max=160, dt=1
+)
+
+# Plot infectious curves for all scenarios
+plt.figure(figsize=(10, 6))
+for i, label in enumerate(labels):
+    plt.plot(t, I[i, :], label=label, linewidth=2)
+
+plt.xlabel('Time (days)')
+plt.ylabel('Infectious individuals')
+plt.title('Effect of Transmission Rate on Epidemic Dynamics')
+plt.legend()
+plt.grid(True, alpha=0.3)
+plt.show()
+
+# Calculate R₀ for each scenario
+R0_values = np.array(beta_scenarios) / 0.1
+print("\nBasic Reproduction Numbers:")
+for beta, R0 in zip(beta_scenarios, R0_values):
+    print(f"β = {beta}: R₀ = {R0:.1f}")
+```
+
+::: {.callout-important}
+## The Power of Vectorization
+Notice how we simulated **three scenarios simultaneously** by representing beta as an array. This is the essence of vectorization: organize your computation so NumPy can process multiple values at once.
+
+For 100 scenarios, this approach would be 10-50x faster than running 100 separate loops!
+:::
+
+---
+
+## Exercise 2.4: Public Health Interventions
+
+Now let's use our model to explore interventions. Public health officials have several tools:
+
+1. **Social distancing:** Reduce contacts (decrease β)
+2. **Vaccination:** Start with fewer susceptibles (decrease S₀)
+3. **Isolation:** Reduce infectious period (increase γ)
+
+### Your Turn: Model Interventions
+
+```{python}
+#| eval: false
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Baseline scenario
+N = 1000
+S0, I0, R0 = 990, 10, 0
+beta_baseline = 0.5
+gamma = 0.1
+t_max = 160
+dt = 1
+
+# Run baseline
+t, S_base, I_base, R_base = sir_model_vectorized(
+    S0, I0, R0, beta_baseline, gamma, t_max, dt
+)
+
+# Intervention 1: Social distancing (50% reduction in contacts)
+beta_distancing = beta_baseline * 0.5
+t, S_dist, I_dist, R_dist = sir_model_vectorized(
+    S0, I0, R0, beta_distancing, gamma, t_max, dt
+)
+
+# Intervention 2: Vaccination (30% of population vaccinated)
+S0_vacc = S0 * 0.7
+R0_vacc = N - S0_vacc - I0
+t, S_vacc, I_vacc, R_vacc = sir_model_vectorized(
+    S0_vacc, I0, R0_vacc, beta_baseline, gamma, t_max, dt
+)
+
+# Intervention 3: Better treatment (reduce infectious period from 10 to 5 days)
+gamma_treatment = 0.2  # 1/5 days
+t, S_treat, I_treat, R_treat = sir_model_vectorized(
+    S0, I0, R0, beta_baseline, gamma_treatment, t_max, dt
+)
+
+# Plot comparison
+fig, axes = plt.subplots(2, 2, figsize=(14, 10))
+
+scenarios = [
+    (I_base, 'Baseline', axes[0, 0]),
+    (I_dist, 'Social Distancing (-50% contacts)', axes[0, 1]),
+    (I_vacc, 'Vaccination (30% coverage)', axes[1, 0]),
+    (I_treat, 'Better Treatment (-50% infectious period)', axes[1, 1])
+]
+
+for I_data, title, ax in scenarios:
+    ax.plot(t, I_data, linewidth=2, color='red')
+    ax.set_xlabel('Time (days)')
+    ax.set_ylabel('Infectious individuals')
+    ax.set_title(title)
+    ax.grid(True, alpha=0.3)
+    
+    # Add peak info
+    peak_day = np.argmax(I_data)
+    peak_val = I_data[peak_day]
+    ax.axvline(peak_day, color='gray', linestyle='--', alpha=0.5)
+    ax.text(peak_day + 5, peak_val, f'Peak: {peak_val:.0f}\nDay {peak_day}',
+            fontsize=9)
+
+plt.tight_layout()
+plt.show()
+
+# Summary statistics
+print("\nIntervention Comparison:")
+print(f"{'Scenario':<30} {'Peak I':<10} {'Peak Day':<10} {'Total Infected':<15}")
+print("-" * 65)
+
+scenarios_data = [
+    ('Baseline', I_base, R_base),
+    ('Social Distancing', I_dist, R_dist),
+    ('Vaccination', I_vacc, R_vacc),
+    ('Better Treatment', I_treat, R_treat)
+]
+
+for name, I_data, R_data in scenarios_data:
+    peak_I = np.max(I_data)
+    peak_day = np.argmax(I_data)
+    total_infected = R_data[-1]
+    print(f"{name:<30} {peak_I:<10.0f} {peak_day:<10} {total_infected:<15.0f}")
+
+# Calculate effectiveness
+baseline_total = R_base[-1]
+print("\nIntervention Effectiveness (% reduction in total cases):")
+for name, _, R_data in scenarios_data[1:]:
+    reduction = (baseline_total - R_data[-1]) / baseline_total * 100
+    print(f"{name}: {reduction:.1f}%")
+```
+
+**Discussion questions:**
+1. Which intervention is most effective at reducing peak infections?
+2. Which reduces total infections most?
+3. Why might "flattening the curve" (reducing peak) be important even if total cases are similar?
+4. What's the relationship between R₀ and intervention effectiveness?
+
+---
+
+## Exercise 2.5: Exploring Parameter Space
+
+Let's systematically explore how transmission rate (β) and recovery rate (γ) affect epidemic outcomes.
+
+### Your Turn: Create a Parameter Grid
+
+```{python}
+#| eval: false
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Parameter ranges
+beta_range = np.linspace(0.1, 1.0, 20)  # 20 values from 0.1 to 1.0
+gamma_range = np.linspace(0.05, 0.3, 20)  # 20 values from 0.05 to 0.3
+
+# Create meshgrid for vectorized evaluation
+beta_grid, gamma_grid = np.meshgrid(beta_range, gamma_range)
+
+# Calculate R₀ = β/γ for every combination
+R0_grid = beta_grid / gamma_grid
+
+# Initialize result grids
+peak_infections = np.zeros_like(R0_grid)
+total_infections = np.zeros_like(R0_grid)
+
+# Simulate for each parameter combination
+N = 1000
+S0, I0, R0 = 990, 10, 0
+t_max = 200
+dt = 1
+
+print("Simulating parameter grid...")
+for i in range(len(gamma_range)):
+    for j in range(len(beta_range)):
+        beta = beta_grid[i, j]
+        gamma = gamma_grid[i, j]
+        
+        t, S, I, R = sir_model_vectorized(
+            S0, I0, R0, beta, gamma, t_max, dt
+        )
+        
+        peak_infections[i, j] = np.max(I)
+        total_infections[i, j] = R[-1]
+
+print("Done!")
+
+# Create visualizations
+fig, axes = plt.subplots(1, 3, figsize=(18, 5))
+
+# Plot 1: R₀ heatmap
+im1 = axes[0].contourf(beta_range, gamma_range, R0_grid, levels=20, cmap='viridis')
+axes[0].contour(beta_range, gamma_range, R0_grid, levels=[1], colors='white', linewidths=2)
+axes[0].set_xlabel('β (transmission rate)')
+axes[0].set_ylabel('γ (recovery rate)')
+axes[0].set_title('Basic Reproduction Number (R₀)')
+plt.colorbar(im1, ax=axes[0])
+axes[0].text(0.5, 0.2, 'R₀ = 1', color='white', fontsize=12, fontweight='bold')
+
+# Plot 2: Peak infections
+im2 = axes[1].contourf(beta_range, gamma_range, peak_infections, levels=20, cmap='Reds')
+axes[1].set_xlabel('β (transmission rate)')
+axes[1].set_ylabel('γ (recovery rate)')
+axes[1].set_title('Peak Infections')
+plt.colorbar(im2, ax=axes[1])
+
+# Plot 3: Total infections (attack rate)
+attack_rate = total_infections / N * 100
+im3 = axes[2].contourf(beta_range, gamma_range, attack_rate, levels=20, cmap='YlOrRd')
+axes[2].set_xlabel('β (transmission rate)')
+axes[2].set_ylabel('γ (recovery rate)')
+axes[2].set_title('Attack Rate (%)')
+plt.colorbar(im3, ax=axes[2])
+
+plt.tight_layout()
+plt.show()
+
+# Find critical threshold: where R₀ = 1
+print("\nEpidemic Threshold (R₀ = 1):")
+print("For an epidemic to occur, β/γ > 1, meaning β > γ")
+print(f"Example: If γ = 0.1, then β must exceed {0.1:.2f} for an epidemic")
+
+# Find worst-case scenario
+worst_idx = np.unravel_index(np.argmax(total_infections), total_infections.shape)
+worst_beta = beta_grid[worst_idx]
+worst_gamma = gamma_grid[worst_idx]
+worst_R0 = R0_grid[worst_idx]
+worst_attack = attack_rate[worst_idx]
+
+print(f"\nWorst-case scenario in our grid:")
+print(f"β = {worst_beta:.2f}, γ = {worst_gamma:.2f}")
+print(f"R₀ = {worst_R0:.2f}")
+print(f"Attack rate: {worst_attack:.1f}%")
+```
+
+::: {.callout-tip}
+## Computational Efficiency
+We just simulated **400 different epidemic scenarios** (20 × 20 grid). With our vectorized NumPy implementation, this takes seconds. With pure Python loops, it would take minutes!
+
+This kind of parameter exploration is crucial for:
+- Understanding model behavior
+- Fitting models to data
+- Uncertainty quantification
+- Sensitivity analysis
+:::
+
+**Extension challenge:** Modify the code to also show:
+1. Time to peak as a function of parameters
+2. Duration of epidemic (time until I < 1)
+3. Hospital capacity threshold (assuming 5% of infections need hospitalization)
+
+---
+
+# Challenge / Synthesis
+
+Let's return to our **central question**: 
+
+> **Can we use computers to simulate the spread of infectious diseases and predict epidemic outcomes?**
+
+**Answer: Yes!** And now you know how.
+
+## What We've Accomplished Today
+
+**NumPy Fundamentals:**
+- Created and manipulated arrays efficiently
+- Understood vectorization and its performance benefits
+- Performed aggregations and linear algebra operations
+
+**Numerical Computing:**
+- Implemented Euler's method for numerical integration
+- Solved differential equations computationally
+- Compared loop-based and vectorized implementations
+
+**Epidemiological Modeling:**
+- Built a working SIR model from scratch
+- Simulated disease outbreaks
+- Evaluated public health interventions
+- Explored parameter space systematically
+
+**Professional Tools:**
+- Saw VSCode and its Git integration (optional but valuable)
+
+## The Bigger Picture
+
+The SIR model is just the beginning. The same computational approach extends to:
+
+**More complex epidemic models:**
+- SEIR (with Exposed state for incubation period)
+- Age-structured models (different contact rates by age)
+- Spatial models (disease spreading geographically)
+- Stochastic models (accounting for randomness)
+
+**Other differential equations:**
+- Climate models (temperature, precipitation dynamics)
+- Economic models (supply and demand, growth)
+- Chemical reactions (reaction kinetics)
+- Population ecology (predator-prey, competition)
+- Physics simulations (projectile motion, circuits)
+
+**The workflow stays the same:**
+1. Express the problem mathematically (differential equations)
+2. Choose a numerical method (Euler, Runge-Kutta, etc.)
+3. Implement using NumPy arrays
+4. Vectorize for efficiency
+5. Validate against known solutions
+6. Explore parameter space
+7. Interpret results scientifically
+
+## Key Lessons
+
+**NumPy is the foundation:**
+- Almost all scientific Python builds on NumPy
+- pandas, matplotlib, scipy, scikit-learn all use NumPy arrays
+- Learn NumPy well, and you can use them all
+
+**Vectorization is essential:**
+- Think in terms of operations on entire arrays
+- Avoid explicit Python loops when possible
+- 10-100x speedups are common
+
+**Numerical methods are approximations:**
+- Euler's method is simple but not the most accurate
+- For serious work, use scipy.integrate.odeint or solve_ivp
+- Always validate your results
+
+**Models inform decisions:**
+- The SIR model guided COVID-19 policy worldwide
+- "Flatten the curve" came from models like ours
+- Computational tools help us think about complex systems
+
+## Reflecting on VSCode
+
+We also saw VSCode today. Remember:
+- It's **optional** but **professionally valuable**
+- Excellent Git integration makes version control easier
+- Works with any language (you'll use R later in this course)
+- Many data scientists use **both** Spyder and VSCode
+
+For homework, you'll install it and verify it works. After that, use whatever tool you prefer!
+
+---
+
+# Looking Ahead
+
+**Next lecture: Pandas - From Raw Data to Analysis**
+
+Today we worked with arrays: homogeneous numerical data. But real-world datasets are messier:
+- Mixed types (numbers, text, dates)
+- Missing values
+- Complex structures
+- Multiple variables
+- Need for filtering, grouping, and transformation
+
+**Pandas** gives us **DataFrames**—structured tables like Excel spreadsheets or R data frames, but powered by NumPy under the hood.
+
+We'll learn to:
+- Read CSV files and other formats
+- Inspect and clean messy data
+- Filter, sort, and transform
+- Group and aggregate
+- Merge datasets
+- Handle missing values
+- Prepare data for analysis
+
+Everything we learned about NumPy today will carry over—pandas is built on top of NumPy!
+
+---
+
+## Homework 4 Preview
+
+**Question 1 (VSCode):**
+- Install VSCode and Python extension
+- Connect to env1
+- Run a simple NumPy script
+- Submit screenshot
+
+**Questions 2-6 (NumPy & Numerical Computing):**
+- Array operations and indexing
+- Implement numerical algorithms
+- Extend the SIR model (e.g., add vaccination)
+- Performance comparisons
+- Parameter exploration
+
+**Estimated time:** 3-4 hours
+
+All homework questions except #1 are IDE-agnostic—use Spyder, VSCode, or even the terminal. Your choice!
+
+---
+
+## Final Thoughts
+
+You've taken a big step today. You can now:
+
+✅ Manipulate arrays efficiently with NumPy  
+✅ Vectorize operations for speed  
+✅ Solve differential equations numerically  
+✅ Simulate complex systems (epidemic dynamics)  
+✅ Explore parameter spaces systematically  
+✅ Use professional development tools (VSCode)  
+
+This is the computational toolkit that powers data science, scientific research, and quantitative analysis across fields.
+
+In the next class, we'll apply these skills to real, messy datasets with pandas. The journey from mathematical abstractions to practical data analysis continues!
+
+**Great work today. See you next time!**
+
+---
+

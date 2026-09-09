@@ -1,0 +1,2327 @@
+---
+title: "Lecture 4 — Numerical Computing with NumPy"
+subtitle: "Background Notes"
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    code-fold: false
+jupyter: python3
+---
+
+# 1. Introduction
+
+Numerical computing is the foundation of modern scientific work, data science, and computational research. From simulating disease outbreaks to modeling climate change, from analyzing financial markets to training machine learning models, nearly all quantitative work relies on efficient numerical computation.
+
+Python has emerged as the dominant language for scientific computing, largely due to **NumPy** (Numerical Python). NumPy provides the fundamental building blocks:
+
+- **Arrays**: Efficient, homogeneous, multi-dimensional data structures
+- **Vectorization**: Operations on entire arrays without explicit loops
+- **Mathematical functions**: Comprehensive library of optimized numerical operations
+- **Linear algebra**: Matrix operations, decompositions, and solvers
+- **Integration with other tools**: NumPy arrays are the lingua franca of scientific Python
+
+This lecture introduces NumPy through the lens of **epidemic modeling**. The SIR (Susceptible-Infectious-Recovered) model describes disease spread using differential equations that rarely have closed-form solutions. We need numerical methods to approximate these solutions, and NumPy makes this both possible and efficient.
+
+Understanding NumPy is essential because:
+
+1. **It's ubiquitous**: pandas, matplotlib, scikit-learn, scipy, and countless other packages build on NumPy
+2. **It's fast**: NumPy operations are implemented in C and can be 10-100x faster than pure Python
+3. **It's expressive**: Vectorized code often mirrors mathematical notation closely
+4. **It scales**: The same code works on arrays of any size (within memory limits)
+
+The computational workflow we'll develop—from mathematical model to numerical algorithm to efficient implementation—transfers to virtually any quantitative problem. Whether you're analyzing genomes, simulating physical systems, or processing sensor data, the principles remain the same.
+
+Beyond NumPy, we'll briefly explore **development environments**. While Spyder is excellent for scientific computing, VSCode represents the industry standard for software development. Understanding both tools and when to use each is part of becoming a well-rounded computational scientist.
+
+By the end of these notes, you'll understand:
+- How NumPy arrays differ from Python lists and why it matters
+- How to create, manipulate, and analyze multi-dimensional arrays
+- How vectorization enables efficient numerical computing
+- How to implement numerical algorithms (particularly integration of differential equations)
+- How to apply these tools to real scientific problems
+- Best practices for numerical computing in Python
+
+Let's begin with the fundamental question: why do we need NumPy at all?
+
+---
+
+# 2. Why NumPy?
+
+## 2.1 The Limitations of Python Lists
+
+Python lists are flexible and convenient, but they have significant limitations for numerical work:
+
+**1. Performance overhead**
+
+```{python}
+# Python list: every element is a full Python object
+python_list = [1, 2, 3, 4, 5]
+
+# Each element carries:
+# - Type information
+# - Reference count
+# - The actual value
+# - Overhead for Python's dynamic typing
+
+import sys
+print(f"Memory for one integer: {sys.getsizeof(1)} bytes")
+print(f"Memory for list of 5 integers: {sys.getsizeof(python_list)} bytes")
+```
+
+Each integer object in Python takes 28 bytes (on 64-bit systems), even though the actual number might fit in 4 bytes!
+
+**2. No vectorized operations**
+
+```{python}
+# To add two lists elementwise, you need explicit loops
+list1 = [1, 2, 3, 4, 5]
+list2 = [10, 20, 30, 40, 50]
+
+# This doesn't work:
+# result = list1 + list2  # This concatenates, doesn't add elementwise!
+
+# You must loop:
+result = []
+for i in range(len(list1)):
+    result.append(list1[i] + list2[i])
+
+print(result)
+```
+
+**3. Type heterogeneity makes optimization impossible**
+
+```{python}
+# Python lists can contain mixed types
+mixed_list = [1, "hello", 3.14, True, None]
+
+# This flexibility prevents optimization:
+# - Can't store contiguously in memory
+# - Can't use specialized instructions
+# - Must check type for every operation
+```
+
+## 2.2 NumPy's Solution
+
+NumPy solves these problems through **homogeneous, contiguous arrays**:
+
+```{python}
+import numpy as np
+
+# NumPy array: all elements same type, stored contiguously
+numpy_array = np.array([1, 2, 3, 4, 5])
+
+# Benefits:
+# 1. Compact storage
+print(f"Array memory: {numpy_array.nbytes} bytes")  # Much smaller!
+
+# 2. Vectorized operations
+array1 = np.array([1, 2, 3, 4, 5])
+array2 = np.array([10, 20, 30, 40, 50])
+result = array1 + array2  # Works directly!
+print(f"Elementwise addition: {result}")
+
+# 3. Type homogeneity enables optimization
+print(f"Data type: {numpy_array.dtype}")
+```
+
+## 2.3 Performance Comparison
+
+Let's measure the difference:
+
+```{python}
+import numpy as np
+import time
+
+n = 1000000
+
+# Python lists
+python_list = list(range(n))
+start = time.time()
+result_list = [x ** 2 for x in python_list]
+python_time = time.time() - start
+
+# NumPy array
+numpy_array = np.arange(n)
+start = time.time()
+result_numpy = numpy_array ** 2
+numpy_time = time.time() - start
+
+print(f"Python list: {python_time:.4f} seconds")
+print(f"NumPy array: {numpy_time:.4f} seconds")
+print(f"Speedup: {python_time / numpy_time:.1f}x")
+```
+
+NumPy is typically 10-100x faster due to:
+- **Contiguous memory**: Data stored sequentially for cache efficiency
+- **Compiled C code**: Core operations implemented in C/Fortran
+- **Vectorization**: CPU can process multiple elements simultaneously (SIMD)
+- **No Python overhead**: No per-element type checking or Python function calls
+
+## 2.4 When to Use Lists vs. Arrays
+
+**Use Python lists when:**
+- You need mixed types
+- The data structure needs to grow/shrink frequently
+- You're working with small amounts of data
+- You need list-specific methods (`.append()`, `.insert()`, etc.)
+
+**Use NumPy arrays when:**
+- All elements are the same type (especially numbers)
+- You need mathematical operations
+- You're working with large datasets
+- Performance matters
+- You're interfacing with scientific libraries
+
+---
+
+# 3. Array Fundamentals
+
+## 3.1 Creating Arrays
+
+NumPy provides many ways to create arrays:
+
+```{python}
+import numpy as np
+
+# From Python list or tuple
+arr1 = np.array([1, 2, 3, 4, 5])
+print(f"From list: {arr1}")
+
+# From nested lists (2D)
+arr2 = np.array([[1, 2, 3], [4, 5, 6]])
+print(f"2D array:\n{arr2}")
+
+# From nested lists (3D)
+arr3 = np.array([[[1, 2], [3, 4]], [[5, 6], [7, 8]]])
+print(f"3D array:\n{arr3}")
+```
+
+## 3.2 Array Attributes
+
+Every array has key attributes describing its structure:
+
+```{python}
+import numpy as np
+
+arr = np.array([[1, 2, 3, 4],
+                [5, 6, 7, 8],
+                [9, 10, 11, 12]])
+
+# Shape: dimensions of the array
+print(f"Shape: {arr.shape}")  # (3, 4) = 3 rows, 4 columns
+
+# Ndim: number of dimensions
+print(f"Ndim: {arr.ndim}")  # 2 dimensions
+
+# Size: total number of elements
+print(f"Size: {arr.size}")  # 12 elements
+
+# Dtype: data type of elements
+print(f"Dtype: {arr.dtype}")  # int64 (or int32 on 32-bit systems)
+
+# Itemsize: size of each element in bytes
+print(f"Itemsize: {arr.itemsize} bytes")  # 8 bytes for int64
+
+# Nbytes: total bytes consumed
+print(f"Nbytes: {arr.nbytes} bytes")  # 96 bytes = 12 elements × 8 bytes
+```
+
+## 3.3 Data Types (dtypes)
+
+NumPy supports many numerical types:
+
+```{python}
+import numpy as np
+
+# Integer types
+int8_arr = np.array([1, 2, 3], dtype=np.int8)     # -128 to 127
+int16_arr = np.array([1, 2, 3], dtype=np.int16)   # -32768 to 32767
+int32_arr = np.array([1, 2, 3], dtype=np.int32)   # ~-2 billion to 2 billion
+int64_arr = np.array([1, 2, 3], dtype=np.int64)   # very large range
+
+print(f"int8 uses {int8_arr.itemsize} bytes per element")
+print(f"int64 uses {int64_arr.itemsize} bytes per element")
+
+# Unsigned integers (only non-negative)
+uint8_arr = np.array([1, 2, 3], dtype=np.uint8)   # 0 to 255
+
+# Floating-point types
+float32_arr = np.array([1.0, 2.0, 3.0], dtype=np.float32)  # Single precision
+float64_arr = np.array([1.0, 2.0, 3.0], dtype=np.float64)  # Double precision (default)
+
+print(f"float32 uses {float32_arr.itemsize} bytes")
+print(f"float64 uses {float64_arr.itemsize} bytes")
+
+# Complex numbers
+complex_arr = np.array([1+2j, 3+4j], dtype=np.complex128)
+print(f"Complex array: {complex_arr}")
+
+# Boolean
+bool_arr = np.array([True, False, True], dtype=np.bool_)
+print(f"Boolean array: {bool_arr}")
+```
+
+**Choosing the right dtype:**
+- Use `int32` or `int64` for integers unless memory is critical
+- Use `float64` (default) for most floating-point work
+- Use `float32` for very large datasets where precision loss is acceptable
+- Use `uint8` for image data (pixel values 0-255)
+- Use `bool_` for boolean masks
+
+**Type promotion:**
+
+```{python}
+import numpy as np
+
+# When mixing types, NumPy promotes to the more general type
+int_arr = np.array([1, 2, 3])
+float_arr = np.array([1.0, 2.0, 3.0])
+
+result = int_arr + float_arr
+print(f"Result dtype: {result.dtype}")  # float64
+
+# Can convert types explicitly
+float_to_int = float_arr.astype(np.int32)
+print(f"Converted: {float_to_int}, dtype: {float_to_int.dtype}")
+```
+
+---
+
+# 4. Array Creation Methods
+
+## 4.1 Arrays from Ranges
+
+```{python}
+import numpy as np
+
+# arange: like Python's range()
+arr1 = np.arange(10)  # 0 to 9
+print(f"arange(10): {arr1}")
+
+arr2 = np.arange(5, 15)  # 5 to 14
+print(f"arange(5, 15): {arr2}")
+
+arr3 = np.arange(0, 1, 0.1)  # Works with floats!
+print(f"arange(0, 1, 0.1): {arr3}")
+
+# linspace: evenly spaced points (inclusive endpoint)
+arr4 = np.linspace(0, 1, 11)  # 11 points from 0 to 1
+print(f"linspace(0, 1, 11): {arr4}")
+
+# logspace: logarithmically spaced points
+arr5 = np.logspace(0, 2, 5)  # 5 points from 10^0 to 10^2
+print(f"logspace(0, 2, 5): {arr5}")
+```
+
+**When to use which:**
+- `arange`: When you know the step size
+- `linspace`: When you know the number of points
+- `logspace`: For logarithmic scales (common in science)
+
+## 4.2 Arrays of Zeros, Ones, and Constants
+
+```{python}
+import numpy as np
+
+# Zeros
+zeros_1d = np.zeros(5)
+zeros_2d = np.zeros((3, 4))  # Note: shape is a tuple!
+print(f"Zeros 1D: {zeros_1d}")
+print(f"Zeros 2D:\n{zeros_2d}")
+
+# Ones
+ones_1d = np.ones(5)
+ones_2d = np.ones((2, 3))
+print(f"Ones 2D:\n{ones_2d}")
+
+# Full: filled with a specific value
+full_arr = np.full((3, 3), 7)
+print(f"Full of 7s:\n{full_arr}")
+
+# Empty: uninitialized (faster but contains garbage)
+empty_arr = np.empty((2, 2))  # Don't rely on values!
+print(f"Empty (random garbage):\n{empty_arr}")
+```
+
+## 4.3 Identity and Diagonal Matrices
+
+```{python}
+import numpy as np
+
+# Identity matrix
+identity = np.eye(4)
+print(f"4×4 identity:\n{identity}")
+
+# Alternative: np.identity
+identity2 = np.identity(3)
+print(f"3×3 identity:\n{identity2}")
+
+# Diagonal matrix from vector
+diag_vals = np.array([1, 2, 3, 4])
+diag_matrix = np.diag(diag_vals)
+print(f"Diagonal matrix:\n{diag_matrix}")
+
+# Extract diagonal from matrix
+matrix = np.array([[1, 2, 3],
+                   [4, 5, 6],
+                   [7, 8, 9]])
+diagonal = np.diag(matrix)
+print(f"Extracted diagonal: {diagonal}")
+```
+
+## 4.4 Arrays Like Other Arrays
+
+```{python}
+import numpy as np
+
+# Create arrays with same shape as existing arrays
+original = np.array([[1, 2, 3], [4, 5, 6]])
+
+zeros_like = np.zeros_like(original)
+ones_like = np.ones_like(original)
+full_like = np.full_like(original, 99)
+
+print(f"Original:\n{original}")
+print(f"Zeros like:\n{zeros_like}")
+print(f"Ones like:\n{ones_like}")
+print(f"Full like:\n{full_like}")
+```
+
+## 4.5 Random Arrays
+
+```{python}
+import numpy as np
+
+# Set seed for reproducibility
+np.random.seed(42)
+
+# Random floats in [0, 1)
+rand_uniform = np.random.rand(3, 3)
+print(f"Random uniform:\n{rand_uniform}")
+
+# Random floats from standard normal distribution
+rand_normal = np.random.randn(3, 3)
+print(f"Random normal:\n{rand_normal}")
+
+# Random integers
+rand_ints = np.random.randint(0, 10, size=(3, 3))
+print(f"Random integers 0-9:\n{rand_ints}")
+
+# Random choice from array
+choices = np.random.choice(['A', 'B', 'C'], size=10)
+print(f"Random choices: {choices}")
+
+# Shuffle array
+arr = np.arange(10)
+np.random.shuffle(arr)
+print(f"Shuffled: {arr}")
+```
+
+::: {.callout-note}
+## NumPy Random Number Generation
+As of NumPy 1.17, the preferred way is using `np.random.Generator`:
+
+```python
+rng = np.random.default_rng(seed=42)
+rand_vals = rng.random((3, 3))
+```
+
+This provides better performance and more features. The older `np.random` functions still work but are considered legacy.
+:::
+
+---
+
+# 5. Indexing and Slicing
+
+## 5.1 Basic Indexing (1D)
+
+```{python}
+import numpy as np
+
+arr = np.array([10, 20, 30, 40, 50, 60, 70, 80, 90])
+
+# Single element
+print(f"arr[0]: {arr[0]}")    # First element
+print(f"arr[4]: {arr[4]}")    # Fifth element
+print(f"arr[-1]: {arr[-1]}")  # Last element
+print(f"arr[-2]: {arr[-2]}")  # Second-to-last
+
+# Slicing: arr[start:stop:step]
+print(f"arr[2:5]: {arr[2:5]}")      # Elements 2, 3, 4
+print(f"arr[:3]: {arr[:3]}")        # First three
+print(f"arr[5:]: {arr[5:]}")        # From index 5 to end
+print(f"arr[::2]: {arr[::2]}")      # Every other element
+print(f"arr[::-1]: {arr[::-1]}")    # Reversed
+print(f"arr[1:7:2]: {arr[1:7:2]}")  # Start=1, stop=7, step=2
+```
+
+## 5.2 Multi-dimensional Indexing
+
+```{python}
+import numpy as np
+
+arr = np.array([[10, 20, 30, 40],
+                [50, 60, 70, 80],
+                [90, 100, 110, 120]])
+
+# Single element: arr[row, col]
+print(f"arr[0, 0]: {arr[0, 0]}")    # Top-left
+print(f"arr[1, 2]: {arr[1, 2]}")    # Row 1, column 2 → 70
+print(f"arr[-1, -1]: {arr[-1, -1]}") # Bottom-right
+
+# Entire row
+print(f"arr[1, :]: {arr[1, :]}")    # Row 1
+
+# Entire column
+print(f"arr[:, 2]: {arr[:, 2]}")    # Column 2
+
+# Subarray
+print(f"arr[0:2, 1:3]:\n{arr[0:2, 1:3]}")  # Rows 0-1, cols 1-2
+```
+
+## 5.3 Boolean Indexing
+
+One of NumPy's most powerful features:
+
+```{python}
+import numpy as np
+
+arr = np.array([10, 25, 30, 15, 45, 50, 20])
+
+# Create boolean mask
+mask = arr > 25
+print(f"Mask: {mask}")
+
+# Use mask to filter
+filtered = arr[mask]
+print(f"Values > 25: {filtered}")
+
+# Can do in one line
+print(f"Values <= 20: {arr[arr <= 20]}")
+
+# Compound conditions
+print(f"Values between 20 and 40: {arr[(arr >= 20) & (arr <= 40)]}")
+```
+
+**Important:** Use `&` (and), `|` (or), `~` (not) for boolean array operations, not Python's `and`, `or`, `not`!
+
+```{python}
+import numpy as np
+
+arr = np.array([10, 25, 30, 15, 45, 50, 20])
+
+# Correct
+result = arr[(arr > 15) & (arr < 40)]
+print(f"Correct: {result}")
+
+# Wrong - would cause error:
+# result = arr[(arr > 15) and (arr < 40)]  # ValueError!
+```
+
+## 5.4 Fancy Indexing
+
+Select elements using integer arrays:
+
+```{python}
+import numpy as np
+
+arr = np.array([10, 20, 30, 40, 50, 60, 70, 80])
+
+# Index with array of indices
+indices = np.array([0, 2, 4, 7])
+selected = arr[indices]
+print(f"Selected: {selected}")
+
+# Can repeat indices
+indices2 = np.array([1, 1, 3, 3, 3])
+repeated = arr[indices2]
+print(f"Repeated: {repeated}")
+
+# 2D fancy indexing
+arr2d = np.array([[1, 2, 3],
+                  [4, 5, 6],
+                  [7, 8, 9]])
+
+rows = np.array([0, 1, 2])
+cols = np.array([2, 1, 0])
+diagonal = arr2d[rows, cols]  # Elements (0,2), (1,1), (2,0)
+print(f"Diagonal elements: {diagonal}")
+```
+
+## 5.5 Views vs. Copies
+
+**Critical concept:** Slicing creates *views*, not copies!
+
+```{python}
+import numpy as np
+
+# Original array
+arr = np.array([1, 2, 3, 4, 5])
+
+# Slice creates a view
+slice_view = arr[1:4]
+print(f"Original: {arr}")
+print(f"Slice: {slice_view}")
+
+# Modifying the view modifies the original!
+slice_view[0] = 999
+print(f"After modifying slice:")
+print(f"Original: {arr}")  # Changed!
+print(f"Slice: {slice_view}")
+```
+
+To create a copy:
+
+```{python}
+import numpy as np
+
+arr = np.array([1, 2, 3, 4, 5])
+
+# Explicit copy
+slice_copy = arr[1:4].copy()
+
+slice_copy[0] = 999
+print(f"Original: {arr}")  # Unchanged
+print(f"Copy: {slice_copy}")
+```
+
+**Why views?** Memory efficiency! For large arrays, creating copies would be slow and wasteful. Views allow you to work with parts of arrays without duplication.
+
+**When does NumPy copy?**
+- Explicit: `.copy()`
+- Fancy indexing and boolean indexing create copies
+- Slicing creates views
+
+---
+
+# 6. Array Operations
+
+## 6.1 Elementwise Arithmetic
+
+```{python}
+import numpy as np
+
+a = np.array([1, 2, 3, 4])
+b = np.array([10, 20, 30, 40])
+
+# Basic arithmetic
+print(f"a + b: {a + b}")
+print(f"a - b: {a - b}")
+print(f"a * b: {a * b}")   # Elementwise multiplication, NOT matrix multiplication!
+print(f"a / b: {a / b}")
+print(f"a ** 2: {a ** 2}")  # Exponentiation
+
+# With scalars (broadcasting)
+print(f"a + 10: {a + 10}")
+print(f"a * 2: {a * 2}")
+```
+
+## 6.2 Comparison Operations
+
+```{python}
+import numpy as np
+
+a = np.array([1, 2, 3, 4, 5])
+b = np.array([5, 4, 3, 2, 1])
+
+# Elementwise comparisons return boolean arrays
+print(f"a > b: {a > b}")
+print(f"a == 3: {a == 3}")
+print(f"a >= b: {a >= b}")
+
+# Check if any/all elements satisfy condition
+print(f"Any a > 4: {np.any(a > 4)}")
+print(f"All a > 0: {np.all(a > 0)}")
+print(f"All a > 3: {np.all(a > 3)}")
+```
+
+## 6.3 In-Place Operations
+
+```{python}
+import numpy as np
+
+arr = np.array([1, 2, 3, 4, 5])
+print(f"Original: {arr}")
+
+# In-place operations modify the array
+arr += 10  # Same as arr = arr + 10, but potentially faster and saves memory
+print(f"After += 10: {arr}")
+
+arr *= 2
+print(f"After *= 2: {arr}")
+
+# Can also use methods
+arr2 = np.array([1.1, 2.2, 3.3])
+print(f"Before: {arr2}")
+np.round(arr2, out=arr2)  # Round in-place
+print(f"After round: {arr2}")
+```
+
+---
+
+# 7. Universal Functions (ufuncs)
+
+## 7.1 What are ufuncs?
+
+Universal functions operate elementwise on arrays, are implemented in compiled C code, and are much faster than Python loops.
+
+```{python}
+import numpy as np
+
+arr = np.array([0, np.pi/6, np.pi/4, np.pi/3, np.pi/2])
+
+# Trigonometric functions
+print(f"sin: {np.sin(arr)}")
+print(f"cos: {np.cos(arr)}")
+print(f"tan: {np.tan(arr)}")
+
+# Exponential and logarithm
+arr2 = np.array([1, 2, 3, 4, 5])
+print(f"exp: {np.exp(arr2)}")
+print(f"log: {np.log(arr2)}")
+print(f"log10: {np.log10(arr2)}")
+print(f"log2: {np.log2(arr2)}")
+
+# Power functions
+print(f"sqrt: {np.sqrt(arr2)}")
+print(f"square: {np.square(arr2)}")
+print(f"power(arr2, 3): {np.power(arr2, 3)}")
+```
+
+## 7.2 Common ufuncs by Category
+
+**Trigonometric:**
+```{python}
+import numpy as np
+
+x = np.linspace(0, 2*np.pi, 5)
+print(f"sin: {np.sin(x)}")
+print(f"arcsin: {np.arcsin(np.array([0, 0.5, 1]))}")
+```
+
+**Hyperbolic:**
+```{python}
+import numpy as np
+
+x = np.array([0, 1, 2])
+print(f"sinh: {np.sinh(x)}")
+print(f"cosh: {np.cosh(x)}")
+print(f"tanh: {np.tanh(x)}")
+```
+
+**Rounding:**
+```{python}
+import numpy as np
+
+arr = np.array([1.2, 2.7, 3.5, 4.1])
+print(f"round: {np.round(arr)}")
+print(f"floor: {np.floor(arr)}")
+print(f"ceil: {np.ceil(arr)}")
+print(f"trunc: {np.trunc(arr)}")
+```
+
+**Sign and absolute value:**
+```{python}
+import numpy as np
+
+arr = np.array([-2, -1, 0, 1, 2])
+print(f"abs: {np.abs(arr)}")
+print(f"sign: {np.sign(arr)}")
+```
+
+## 7.3 Binary ufuncs
+
+```{python}
+import numpy as np
+
+a = np.array([1, 2, 3])
+b = np.array([4, 5, 6])
+
+# Arithmetic (already seen)
+print(f"add: {np.add(a, b)}")        # Same as a + b
+print(f"multiply: {np.multiply(a, b)}")  # Same as a * b
+
+# Comparison
+print(f"maximum: {np.maximum(a, b)}")  # Elementwise max
+print(f"minimum: {np.minimum(a, b)}")  # Elementwise min
+
+# Example use case
+x = np.array([-2, 3, -5, 7])
+clipped = np.maximum(x, 0)  # ReLU function (max(x, 0))
+print(f"ReLU: {clipped}")
+```
+
+## 7.4 Specifying Output Arrays
+
+For memory efficiency, ufuncs can write results to existing arrays:
+
+```{python}
+import numpy as np
+
+arr = np.array([1.0, 2.0, 3.0, 4.0, 5.0])
+result = np.empty_like(arr)  # Pre-allocate
+
+np.sqrt(arr, out=result)  # Write result in-place
+print(f"Result: {result}")
+```
+
+---
+
+# 8. Broadcasting
+
+## 8.1 What is Broadcasting?
+
+Broadcasting allows NumPy to perform operations on arrays of different shapes by automatically "stretching" smaller arrays to match larger ones.
+
+**Basic example:**
+
+```{python}
+import numpy as np
+
+arr = np.array([1, 2, 3, 4, 5])
+scalar = 10
+
+# scalar is "broadcast" to match arr's shape
+result = arr + scalar
+print(f"arr + scalar: {result}")
+# Equivalent to: arr + np.array([10, 10, 10, 10, 10])
+```
+
+## 8.2 Broadcasting Rules
+
+Arrays are compatible for broadcasting if, for each dimension (starting from the right):
+1. The dimensions are equal, OR
+2. One of them is 1
+
+```{python}
+import numpy as np
+
+# Example 1: Scalar broadcast
+a = np.array([[1, 2, 3],
+              [4, 5, 6]])  # Shape: (2, 3)
+b = 10                     # Shape: ()
+
+result = a + b  # b broadcasts to (2, 3)
+print(f"Result:\n{result}")
+
+# Example 2: 1D to 2D
+a = np.array([[1, 2, 3],
+              [4, 5, 6]])  # Shape: (2, 3)
+b = np.array([10, 20, 30])  # Shape: (3,)
+
+# b broadcasts to shape (2, 3) by repeating across rows
+result = a + b
+print(f"Result:\n{result}")
+
+# Example 3: Column vector broadcast
+a = np.array([[1, 2, 3],
+              [4, 5, 6]])     # Shape: (2, 3)
+b = np.array([[10],
+              [20]])          # Shape: (2, 1)
+
+# b broadcasts to (2, 3) by repeating across columns
+result = a + b
+print(f"Result:\n{result}")
+```
+
+## 8.3 Broadcasting Examples
+
+**Centering data:**
+
+```{python}
+import numpy as np
+
+# Data: samples × features
+data = np.array([[1, 2, 3],
+                 [4, 5, 6],
+                 [7, 8, 9]])
+
+# Calculate mean of each column
+means = data.mean(axis=0)  # Shape: (3,)
+print(f"Column means: {means}")
+
+# Center the data
+centered = data - means  # means broadcasts to (3, 3)
+print(f"Centered data:\n{centered}")
+
+# Verify: means should now be ~0
+print(f"New means: {centered.mean(axis=0)}")
+```
+
+**Standardization (z-score):**
+
+```{python}
+import numpy as np
+
+data = np.array([[1.0, 2.0, 3.0],
+                 [4.0, 5.0, 6.0],
+                 [7.0, 8.0, 9.0]])
+
+means = data.mean(axis=0)
+stds = data.std(axis=0)
+
+standardized = (data - means) / stds
+print(f"Standardized:\n{standardized}")
+print(f"New means: {standardized.mean(axis=0)}")
+print(f"New stds: {standardized.std(axis=0)}")
+```
+
+## 8.4 Common Broadcasting Patterns
+
+**Outer product:**
+
+```{python}
+import numpy as np
+
+a = np.array([1, 2, 3, 4, 5])      # Shape: (5,)
+b = np.array([10, 20, 30])         # Shape: (3,)
+
+# Reshape to enable broadcasting
+a_col = a[:, np.newaxis]   # Shape: (5, 1)
+b_row = b[np.newaxis, :]   # Shape: (1, 3)
+
+outer = a_col * b_row      # Broadcasts to (5, 3)
+print(f"Outer product:\n{outer}")
+
+# Alternative using np.outer
+outer2 = np.outer(a, b)
+print(f"np.outer:\n{outer2}")
+```
+
+**Distance matrix:**
+
+```{python}
+import numpy as np
+
+# Points in 2D
+points = np.array([[0, 0],
+                   [1, 0],
+                   [0, 1],
+                   [1, 1]])
+
+# Compute pairwise distances
+# Broadcasting: (n, 1, 2) - (1, n, 2) → (n, n, 2)
+diff = points[:, np.newaxis, :] - points[np.newaxis, :, :]
+distances = np.sqrt(np.sum(diff**2, axis=2))
+
+print(f"Distance matrix:\n{distances}")
+```
+
+---
+
+# 9. Array Aggregations
+
+## 9.1 Basic Aggregations
+
+```{python}
+import numpy as np
+
+arr = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+
+# Basic statistics
+print(f"Sum: {np.sum(arr)}")
+print(f"Mean: {np.mean(arr)}")
+print(f"Median: {np.median(arr)}")
+print(f"Std: {np.std(arr)}")
+print(f"Var: {np.var(arr)}")
+print(f"Min: {np.min(arr)}")
+print(f"Max: {np.max(arr)}")
+
+# Index of min/max
+print(f"Argmin: {np.argmin(arr)}")  # Index of minimum
+print(f"Argmax: {np.argmax(arr)}")  # Index of maximum
+```
+
+## 9.2 Aggregations Along Axes
+
+For multi-dimensional arrays, specify which axis to aggregate along:
+
+```{python}
+import numpy as np
+
+arr = np.array([[1, 2, 3, 4],
+                [5, 6, 7, 8],
+                [9, 10, 11, 12]])
+
+print(f"Array:\n{arr}")
+print(f"Shape: {arr.shape}")  # (3, 4)
+
+# Aggregate over all elements
+total = np.sum(arr)
+print(f"Total sum: {total}")
+
+# Aggregate along axis 0 (down columns)
+col_sums = np.sum(arr, axis=0)
+print(f"Column sums: {col_sums}")  # Shape: (4,)
+
+# Aggregate along axis 1 (across rows)
+row_sums = np.sum(arr, axis=1)
+print(f"Row sums: {row_sums}")  # Shape: (3,)
+
+# Multiple axes
+arr3d = np.ones((2, 3, 4))
+result = np.sum(arr3d, axis=(0, 1))
+print(f"Sum over first two axes: {result}")  # Shape: (4,)
+```
+
+**Mnemonic:** `axis=0` goes "down" (aggregates rows), `axis=1` goes "across" (aggregates columns).
+
+## 9.3 Cumulative Aggregations
+
+```{python}
+import numpy as np
+
+arr = np.array([1, 2, 3, 4, 5])
+
+# Cumulative sum
+cumsum = np.cumsum(arr)
+print(f"Cumulative sum: {cumsum}")
+
+# Cumulative product
+cumprod = np.cumprod(arr)
+print(f"Cumulative product: {cumprod}")
+
+# For 2D arrays
+arr2d = np.array([[1, 2, 3],
+                  [4, 5, 6]])
+
+cumsum_rows = np.cumsum(arr2d, axis=1)
+print(f"Cumulative sum across rows:\n{cumsum_rows}")
+```
+
+## 9.4 Percentiles and Quantiles
+
+```{python}
+import numpy as np
+
+np.random.seed(42)
+data = np.random.randn(1000)
+
+# Percentiles
+p25 = np.percentile(data, 25)
+p50 = np.percentile(data, 50)  # Median
+p75 = np.percentile(data, 75)
+
+print(f"25th percentile: {p25:.3f}")
+print(f"50th percentile (median): {p50:.3f}")
+print(f"75th percentile: {p75:.3f}")
+
+# Multiple percentiles at once
+percentiles = np.percentile(data, [10, 25, 50, 75, 90])
+print(f"Deciles/quartiles: {percentiles}")
+
+# Quantiles (0 to 1 scale)
+quartiles = np.quantile(data, [0.25, 0.5, 0.75])
+print(f"Quartiles: {quartiles}")
+```
+
+## 9.5 Unique Values and Counting
+
+```{python}
+import numpy as np
+
+arr = np.array([1, 2, 2, 3, 3, 3, 4, 4, 4, 4])
+
+# Unique values
+unique = np.unique(arr)
+print(f"Unique values: {unique}")
+
+# Unique with counts
+unique, counts = np.unique(arr, return_counts=True)
+print(f"Values: {unique}")
+print(f"Counts: {counts}")
+
+# Bincount (for non-negative integers)
+counts2 = np.bincount(arr)
+print(f"Bincount: {counts2}")  # counts2[i] = count of value i
+```
+
+---
+
+# 10. Linear Algebra
+
+## 10.1 Matrix Multiplication
+
+```{python}
+import numpy as np
+
+# Matrix multiplication: A @ B or np.matmul(A, B)
+A = np.array([[1, 2],
+              [3, 4]])
+
+B = np.array([[5, 6],
+              [7, 8]])
+
+# Matrix multiplication (NOT elementwise!)
+C = A @ B
+print(f"A @ B:\n{C}")
+
+# Verify dimensions: (m×n) @ (n×p) → (m×p)
+print(f"A shape: {A.shape}, B shape: {B.shape}, C shape: {C.shape}")
+
+# Element-wise multiplication (for comparison)
+elementwise = A * B
+print(f"A * B (elementwise):\n{elementwise}")
+```
+
+**Matrix-vector multiplication:**
+
+```{python}
+import numpy as np
+
+A = np.array([[1, 2, 3],
+              [4, 5, 6]])
+
+v = np.array([10, 20, 30])
+
+result = A @ v  # (2×3) @ (3,) → (2,)
+print(f"A @ v: {result}")
+```
+
+## 10.2 Dot Product
+
+```{python}
+import numpy as np
+
+a = np.array([1, 2, 3])
+b = np.array([4, 5, 6])
+
+# Dot product: sum of elementwise products
+dot = np.dot(a, b)
+print(f"Dot product: {dot}")  # 1*4 + 2*5 + 3*6 = 32
+
+# Alternative notation
+dot2 = a @ b
+print(f"Using @: {dot2}")
+
+# Also works as method
+dot3 = a.dot(b)
+print(f"Using .dot(): {dot3}")
+```
+
+## 10.3 Matrix Transpose
+
+```{python}
+import numpy as np
+
+A = np.array([[1, 2, 3],
+              [4, 5, 6]])
+
+A_T = A.T
+print(f"A:\n{A}")
+print(f"A transpose:\n{A_T}")
+
+# For 1D arrays, transpose has no effect
+v = np.array([1, 2, 3])
+v_T = v.T
+print(f"v: {v}")
+print(f"v.T: {v_T}")  # Still 1D!
+
+# To create column vector:
+v_col = v[:, np.newaxis]
+print(f"v as column:\n{v_col}")
+```
+
+## 10.4 Matrix Inverse
+
+```{python}
+import numpy as np
+
+A = np.array([[1, 2],
+              [3, 4]], dtype=float)
+
+A_inv = np.linalg.inv(A)
+print(f"A:\n{A}")
+print(f"A inverse:\n{A_inv}")
+
+# Verify: A @ A_inv should be identity
+identity = A @ A_inv
+print(f"A @ A_inv:\n{identity}")
+print(f"Close to identity? {np.allclose(identity, np.eye(2))}")
+
+# Determinant
+det = np.linalg.det(A)
+print(f"Determinant: {det}")
+```
+
+**Singular matrices (non-invertible):**
+
+```{python}
+#| error: true
+import numpy as np
+
+singular = np.array([[1, 2],
+                     [2, 4]], dtype=float)
+
+det = np.linalg.det(singular)
+print(f"Determinant: {det}")  # Very close to 0
+
+# This will raise an error
+try:
+    inv = np.linalg.inv(singular)
+except np.linalg.LinAlgError as e:
+    print(f"Error: {e}")
+```
+
+## 10.5 Solving Linear Systems
+
+For $Ax = b$, use `np.linalg.solve` (more accurate than computing $A^{-1}b$):
+
+```{python}
+import numpy as np
+
+# System: 2x + y = 8
+#         x + 3y = 13
+A = np.array([[2, 1],
+              [1, 3]], dtype=float)
+b = np.array([8, 13], dtype=float)
+
+x = np.linalg.solve(A, b)
+print(f"Solution: {x}")
+
+# Verify
+print(f"A @ x: {A @ x}")
+print(f"Expected b: {b}")
+print(f"Close? {np.allclose(A @ x, b)}")
+```
+
+## 10.6 Eigenvalues and Eigenvectors
+
+```{python}
+import numpy as np
+
+A = np.array([[1, 2],
+              [2, 1]], dtype=float)
+
+eigenvalues, eigenvectors = np.linalg.eig(A)
+
+print(f"Matrix A:\n{A}")
+print(f"Eigenvalues: {eigenvalues}")
+print(f"Eigenvectors:\n{eigenvectors}")
+
+# Verify: A @ v = λv for each eigenvector v
+for i, (lam, v) in enumerate(zip(eigenvalues, eigenvectors.T)):
+    Av = A @ v
+    lam_v = lam * v
+    print(f"\nEigenvector {i}: {v}")
+    print(f"A @ v: {Av}")
+    print(f"λv: {lam_v}")
+    print(f"Close? {np.allclose(Av, lam_v)}")
+```
+
+**Application: Stability of dynamical systems**
+
+```{python}
+import numpy as np
+
+# Next-generation matrix for disease model
+# (Expected secondary infections from each group)
+NGM = np.array([[1.5, 0.3],
+                [0.3, 1.2]])
+
+eigenvalues, _ = np.linalg.eig(NGM)
+R0 = np.max(eigenvalues)
+
+print(f"Eigenvalues: {eigenvalues}")
+print(f"Basic reproduction number R₀: {R0:.3f}")
+print(f"Disease will {'spread (epidemic)' if R0 > 1 else 'die out'}")
+```
+
+## 10.7 Matrix Norms
+
+```{python}
+import numpy as np
+
+A = np.array([[1, 2],
+              [3, 4]])
+
+# Frobenius norm (default for matrices)
+norm_fro = np.linalg.norm(A)
+print(f"Frobenius norm: {norm_fro:.3f}")
+
+# Specific norms
+norm_1 = np.linalg.norm(A, ord=1)      # Max column sum
+norm_inf = np.linalg.norm(A, ord=np.inf)  # Max row sum
+norm_2 = np.linalg.norm(A, ord=2)      # Spectral norm (largest singular value)
+
+print(f"1-norm: {norm_1:.3f}")
+print(f"inf-norm: {norm_inf:.3f}")
+print(f"2-norm: {norm_2:.3f}")
+
+# Vector norms
+v = np.array([3, 4])
+print(f"Vector 2-norm: {np.linalg.norm(v)}")  # Euclidean: sqrt(3²+4²) = 5
+```
+
+## 10.8 Matrix Rank
+
+```{python}
+import numpy as np
+
+# Full rank matrix
+A = np.array([[1, 2],
+              [3, 4]])
+rank_A = np.linalg.matrix_rank(A)
+print(f"Rank of A: {rank_A}")  # 2 (full rank for 2×2)
+
+# Rank-deficient matrix
+B = np.array([[1, 2, 3],
+              [2, 4, 6],
+              [3, 6, 9]])
+rank_B = np.linalg.matrix_rank(B)
+print(f"Rank of B: {rank_B}")  # 1 (all rows are multiples of first)
+```
+
+---
+
+# 11. Vectorization and Performance
+
+## 11.1 Why Vectorization Matters
+
+Vectorization is the process of expressing operations on entire arrays rather than looping over individual elements.
+
+**Performance comparison:**
+
+```{python}
+import numpy as np
+import time
+
+n = 1000000
+
+# Method 1: Python loop
+data_list = list(range(n))
+start = time.time()
+result_loop = []
+for x in data_list:
+    result_loop.append(x ** 2 + 2 * x + 1)
+loop_time = time.time() - start
+
+# Method 2: List comprehension
+start = time.time()
+result_comp = [x ** 2 + 2 * x + 1 for x in data_list]
+comp_time = time.time() - start
+
+# Method 3: NumPy vectorized
+data_array = np.arange(n)
+start = time.time()
+result_numpy = data_array ** 2 + 2 * data_array + 1
+numpy_time = time.time() - start
+
+print(f"Loop time: {loop_time:.4f}s")
+print(f"List comp time: {comp_time:.4f}s")
+print(f"NumPy time: {numpy_time:.4f}s")
+print(f"\nSpeedup vs loop: {loop_time / numpy_time:.1f}x")
+print(f"Speedup vs list comp: {comp_time / numpy_time:.1f}x")
+```
+
+## 11.2 How Vectorization Works
+
+**Key mechanisms:**
+
+1. **SIMD (Single Instruction, Multiple Data)**: Modern CPUs can perform the same operation on multiple data elements simultaneously
+2. **Cache efficiency**: Contiguous memory access patterns maximize cache hits
+3. **Compiled code**: NumPy operations run in C/Fortran, avoiding Python interpreter overhead
+4. **Loop fusion**: Multiple operations can be combined into single passes
+
+```{python}
+import numpy as np
+
+# Example: Normalize data
+data = np.random.randn(1000000)
+
+# Non-vectorized equivalent (slow):
+# mean = sum(data) / len(data)
+# std = sqrt(sum((x - mean)**2 for x in data) / len(data))
+# normalized = [(x - mean) / std for x in data]
+
+# Vectorized (fast):
+mean = data.mean()
+std = data.std()
+normalized = (data - mean) / std
+
+# This single expression efficiently:
+# 1. Broadcasts mean and std
+# 2. Performs subtraction and division elementwise
+# 3. Runs in compiled code with optimal memory access
+```
+
+## 11.3 When to Vectorize
+
+**Good candidates for vectorization:**
+- Mathematical operations on arrays
+- Statistical computations
+- Linear algebra
+- Element-wise transformations
+- Boolean operations and filtering
+
+**Cases where loops might be necessary:**
+- Sequential dependencies (each iteration depends on previous)
+- Complex conditional logic that doesn't vectorize cleanly
+- Very small arrays (overhead might dominate)
+- Operations not expressible in terms of array operations
+
+**Example with sequential dependency:**
+
+```{python}
+import numpy as np
+
+# Random walk: each step depends on previous
+n_steps = 1000
+steps = np.random.choice([-1, 1], size=n_steps)
+
+# Can't vectorize this directly (cumsum helps though!)
+position = np.cumsum(steps)
+
+print(f"Final position: {position[-1]}")
+print(f"Trajectory (first 10): {position[:10]}")
+```
+
+## 11.4 Vectorization Patterns
+
+**Pattern 1: Replace explicit loops with array operations**
+
+```{python}
+import numpy as np
+
+# Before
+data = [1, 2, 3, 4, 5]
+result = []
+for x in data:
+    result.append(x ** 2)
+
+# After
+data = np.array([1, 2, 3, 4, 5])
+result = data ** 2
+```
+
+**Pattern 2: Use boolean indexing instead of filtering loops**
+
+```{python}
+import numpy as np
+
+data = np.array([1, 5, 3, 8, 2, 9, 4])
+
+# Before
+result = []
+for x in data:
+    if x > 4:
+        result.append(x ** 2)
+
+# After
+result = data[data > 4] ** 2
+```
+
+**Pattern 3: Use broadcasting instead of nested loops**
+
+```{python}
+import numpy as np
+
+# Compute pairwise differences
+x = np.array([1, 2, 3, 4, 5])
+
+# Before (nested loop)
+n = len(x)
+diffs = np.zeros((n, n))
+for i in range(n):
+    for j in range(n):
+        diffs[i, j] = x[i] - x[j]
+
+# After (broadcasting)
+diffs = x[:, np.newaxis] - x[np.newaxis, :]
+print(f"Pairwise differences:\n{diffs}")
+```
+
+## 11.5 Memory Layout and Cache Efficiency
+
+NumPy arrays can be stored in row-major (C-style) or column-major (Fortran-style) order:
+
+```{python}
+import numpy as np
+
+# C-contiguous (row-major): default
+arr_c = np.array([[1, 2, 3],
+                  [4, 5, 6]], order='C')
+
+# Fortran-contiguous (column-major)
+arr_f = np.array([[1, 2, 3],
+                  [4, 5, 6]], order='F')
+
+print(f"C-contiguous: {arr_c.flags['C_CONTIGUOUS']}")
+print(f"F-contiguous: {arr_c.flags['F_CONTIGUOUS']}")
+
+print(f"C-contiguous: {arr_f.flags['C_CONTIGUOUS']}")
+print(f"F-contiguous: {arr_f.flags['F_CONTIGUOUS']}")
+```
+
+**Why it matters:**
+
+- Accessing elements in memory order is much faster (cache-friendly)
+- For row-major arrays, iterate over rows
+- For column-major arrays, iterate over columns
+
+```{python}
+import numpy as np
+import time
+
+arr = np.random.rand(5000, 5000)
+
+# Sum over rows (cache-friendly for C-order)
+start = time.time()
+row_sums = arr.sum(axis=1)
+row_time = time.time() - start
+
+# Sum over columns (less cache-friendly)
+start = time.time()
+col_sums = arr.sum(axis=0)
+col_time = time.time() - start
+
+print(f"Row sum time: {row_time:.4f}s")
+print(f"Col sum time: {col_time:.4f}s")
+print(f"Ratio: {col_time / row_time:.2f}")
+```
+
+---
+
+# 12. Numerical Integration
+
+## 12.1 The Integration Problem
+
+Many mathematical models involve differential equations that describe how quantities change over time:
+
+$$\frac{dy}{dt} = f(t, y)$$
+
+Given an initial condition $y(t_0) = y_0$, we want to find $y(t)$ for $t > t_0$.
+
+**Example:** Exponential growth
+$$\frac{dy}{dt} = ky, \quad y(0) = y_0$$
+
+Analytical solution: $y(t) = y_0 e^{kt}$
+
+But most differential equations don't have closed-form solutions!
+
+## 12.2 Euler's Method
+
+The simplest numerical integration method approximates the derivative:
+
+$$\frac{dy}{dt} \approx \frac{y(t + \Delta t) - y(t)}{\Delta t}$$
+
+Rearranging:
+$$y(t + \Delta t) \approx y(t) + f(t, y) \cdot \Delta t$$
+
+**Algorithm:**
+1. Start with $y_0$ at $t_0$
+2. For each time step:
+   - Compute derivative: $f(t_i, y_i)$
+   - Update: $y_{i+1} = y_i + f(t_i, y_i) \cdot \Delta t$
+   - Advance time: $t_{i+1} = t_i + \Delta t$
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Solve dy/dt = k*y, y(0) = 1
+def exponential_growth(t, y, k=0.5):
+    """Derivative function"""
+    return k * y
+
+# Euler's method
+def euler_method(f, y0, t_span, dt, args=()):
+    """
+    Solve dy/dt = f(t, y) using Euler's method.
+    
+    Parameters:
+    -----------
+    f : callable
+        Derivative function f(t, y, *args)
+    y0 : float
+        Initial condition
+    t_span : tuple
+        (t_start, t_end)
+    dt : float
+        Time step
+    args : tuple
+        Additional arguments for f
+    
+    Returns:
+    --------
+    t, y : arrays
+        Time points and solution
+    """
+    t_start, t_end = t_span
+    n_steps = int((t_end - t_start) / dt)
+    
+    t = np.zeros(n_steps)
+    y = np.zeros(n_steps)
+    
+    t[0] = t_start
+    y[0] = y0
+    
+    for i in range(1, n_steps):
+        t[i] = t[i-1] + dt
+        dy_dt = f(t[i-1], y[i-1], *args)
+        y[i] = y[i-1] + dy_dt * dt
+    
+    return t, y
+
+# Test
+y0 = 1.0
+k = 0.5
+t_span = (0, 10)
+dt = 0.1
+
+t_euler, y_euler = euler_method(exponential_growth, y0, t_span, dt, args=(k,))
+
+# Analytical solution for comparison
+y_exact = y0 * np.exp(k * t_euler)
+
+# Plot
+plt.figure(figsize=(10, 6))
+plt.plot(t_euler, y_euler, 'o-', label='Euler method', alpha=0.7)
+plt.plot(t_euler, y_exact, 'r-', label='Exact solution', linewidth=2)
+plt.xlabel('Time')
+plt.ylabel('y(t)')
+plt.title('Euler Method vs. Exact Solution')
+plt.legend()
+plt.grid(True, alpha=0.3)
+plt.show()
+
+# Error analysis
+error = np.abs(y_euler - y_exact)
+max_error = np.max(error)
+print(f"Maximum error: {max_error:.6f}")
+```
+
+## 12.3 Error in Euler's Method
+
+Euler's method has **local truncation error** of $O(\Delta t^2)$ and **global error** of $O(\Delta t)$.
+
+**Demonstration:**
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+
+def test_euler_convergence():
+    """Show how error decreases as dt decreases"""
+    y0 = 1.0
+    k = 0.5
+    t_end = 5.0
+    
+    dt_values = [0.5, 0.1, 0.05, 0.01, 0.005]
+    errors = []
+    
+    for dt in dt_values:
+        t, y = euler_method(exponential_growth, y0, (0, t_end), dt, args=(k,))
+        y_exact = y0 * np.exp(k * t)
+        max_error = np.max(np.abs(y - y_exact))
+        errors.append(max_error)
+    
+    # Plot log-log
+    plt.figure(figsize=(8, 6))
+    plt.loglog(dt_values, errors, 'o-', linewidth=2, markersize=8)
+    plt.loglog(dt_values, dt_values, '--', label='O(dt)', alpha=0.5)
+    plt.xlabel('Time step (dt)')
+    plt.ylabel('Maximum error')
+    plt.title('Convergence of Euler Method')
+    plt.legend()
+    plt.grid(True, alpha=0.3)
+    plt.show()
+    
+    # Print results
+    print("dt         Error")
+    print("-" * 20)
+    for dt, err in zip(dt_values, errors):
+        print(f"{dt:<10.4f} {err:.6e}")
+
+test_euler_convergence()
+```
+
+## 12.4 Higher-Order Methods
+
+More accurate methods exist:
+
+**Runge-Kutta 2nd order (RK2):**
+```{python}
+import numpy as np
+
+def rk2_method(f, y0, t_span, dt, args=()):
+    """Second-order Runge-Kutta (midpoint method)"""
+    t_start, t_end = t_span
+    n_steps = int((t_end - t_start) / dt)
+    
+    t = np.zeros(n_steps)
+    y = np.zeros(n_steps)
+    
+    t[0] = t_start
+    y[0] = y0
+    
+    for i in range(1, n_steps):
+        t[i] = t[i-1] + dt
+        
+        # Estimate slope at midpoint
+        k1 = f(t[i-1], y[i-1], *args)
+        k2 = f(t[i-1] + dt/2, y[i-1] + k1*dt/2, *args)
+        
+        y[i] = y[i-1] + k2 * dt
+    
+    return t, y
+
+# Compare RK2 with Euler
+t_euler, y_euler = euler_method(exponential_growth, 1.0, (0, 10), 0.5, args=(0.5,))
+t_rk2, y_rk2 = rk2_method(exponential_growth, 1.0, (0, 10), 0.5, args=(0.5,))
+y_exact = np.exp(0.5 * t_euler)
+
+print(f"Euler max error: {np.max(np.abs(y_euler - y_exact)):.6f}")
+print(f"RK2 max error: {np.max(np.abs(y_rk2 - y_exact)):.6f}")
+```
+
+**Runge-Kutta 4th order (RK4):** The industry standard for manual implementation.
+
+---
+
+# 13. The SIR Epidemic Model
+
+## 13.1 Model Formulation
+
+The SIR model divides a population into three compartments:
+
+- $S(t)$: Susceptible individuals
+- $I(t)$: Infectious individuals
+- $R(t)$: Recovered individuals
+
+**Assumptions:**
+1. Closed population: $N = S + I + R$ (constant)
+2. Homogeneous mixing: everyone equally likely to contact anyone
+3. Permanent immunity after recovery
+
+**Governing equations:**
+
+$$
+\begin{align}
+\frac{dS}{dt} &= -\frac{\beta SI}{N} \\[10pt]
+\frac{dI}{dt} &= \frac{\beta SI}{N} - \gamma I \\[10pt]
+\frac{dR}{dt} &= \gamma I
+\end{align}
+$$
+
+**Parameters:**
+- $\beta$: transmission rate (contacts per day × probability per contact)
+- $\gamma$: recovery rate (= 1 / infectious period)
+- $R_0 = \beta / \gamma$: basic reproduction number
+
+## 13.2 Mathematical Properties
+
+**Conservation of population:**
+$$\frac{d(S + I + R)}{dt} = 0$$
+
+**Phase space analysis:**
+
+The $I$ equation can be written:
+$$\frac{dI}{dt} = I\left(\frac{\beta S}{N} - \gamma\right) = \gamma I\left(\frac{S}{S^*} - 1\right)$$
+
+where $S^* = N\gamma/\beta = N/R_0$.
+
+- If $S > S^*$ (equivalently $R_0 > 1$): $I$ increases (epidemic)
+- If $S < S^*$ (equivalently $R_0 < 1$): $I$ decreases (no epidemic)
+
+**Final size relation:**
+
+At equilibrium, $I_\infty = 0$ and:
+$$R_\infty = N - S_\infty$$
+
+where $S_\infty$ satisfies:
+$$\log\left(\frac{S_\infty}{S_0}\right) = -R_0\frac{R_\infty}{N}$$
+
+This is a transcendental equation (no closed form), but shows that not everyone gets infected even in an epidemic.
+
+## 13.3 Implementation
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+
+def sir_derivatives(t, state, beta, gamma, N):
+    """
+    Compute derivatives for SIR model.
+    
+    Parameters:
+    -----------
+    t : float
+        Time (not used, but required for ODE solver interface)
+    state : array
+        [S, I, R] populations
+    beta, gamma : float
+        Model parameters
+    N : float
+        Total population
+    
+    Returns:
+    --------
+    derivatives : array
+        [dS/dt, dI/dt, dR/dt]
+    """
+    S, I, R = state
+    
+    infection_rate = beta * S * I / N
+    recovery_rate = gamma * I
+    
+    dS_dt = -infection_rate
+    dI_dt = infection_rate - recovery_rate
+    dR_dt = recovery_rate
+    
+    return np.array([dS_dt, dI_dt, dR_dt])
+
+def simulate_sir(S0, I0, R0, beta, gamma, t_max, dt):
+    """Simulate SIR model using Euler's method"""
+    N = S0 + I0 + R0
+    n_steps = int(t_max / dt)
+    
+    # Initialize arrays
+    t = np.arange(n_steps) * dt
+    S = np.zeros(n_steps)
+    I = np.zeros(n_steps)
+    R = np.zeros(n_steps)
+    
+    # Initial conditions
+    S[0], I[0], R[0] = S0, I0, R0
+    
+    # Euler integration
+    for step in range(1, n_steps):
+        state = np.array([S[step-1], I[step-1], R[step-1]])
+        derivatives = sir_derivatives(t[step-1], state, beta, gamma, N)
+        
+        S[step] = S[step-1] + derivatives[0] * dt
+        I[step] = I[step-1] + derivatives[1] * dt
+        R[step] = R[step-1] + derivatives[2] * dt
+    
+    return t, S, I, R
+
+# Simulate
+N = 1000
+S0, I0, R0 = 990, 10, 0
+beta, gamma = 0.5, 0.1
+t_max = 160
+dt = 1
+
+t, S, I, R = simulate_sir(S0, I0, R0, beta, gamma, t_max, dt)
+
+# Plot
+plt.figure(figsize=(10, 6))
+plt.plot(t, S, label='Susceptible', linewidth=2)
+plt.plot(t, I, label='Infectious', linewidth=2)
+plt.plot(t, R, label='Recovered', linewidth=2)
+plt.xlabel('Time (days)')
+plt.ylabel('Population')
+plt.title(f'SIR Model (R₀ = {beta/gamma:.2f})')
+plt.legend()
+plt.grid(True, alpha=0.3)
+plt.show()
+
+# Key statistics
+peak_day = np.argmax(I)
+peak_infections = I[peak_day]
+total_infected = R[-1]
+attack_rate = (total_infected / N) * 100
+
+print(f"R₀ = {beta/gamma:.2f}")
+print(f"Peak: {peak_infections:.0f} on day {peak_day}")
+print(f"Attack rate: {attack_rate:.1f}%")
+```
+
+## 13.4 Interventions and Parameter Exploration
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Explore effect of R₀
+R0_values = [0.8, 1.2, 1.5, 2.0, 3.0]
+N = 1000
+S0, I0, R0_initial = 990, 10, 0
+gamma = 0.1
+
+plt.figure(figsize=(12, 8))
+
+for R0 in R0_values:
+    beta = R0 * gamma
+    t, S, I, R = simulate_sir(S0, I0, R0_initial, beta, gamma, 200, 1)
+    plt.plot(t, I, label=f'R₀ = {R0:.1f}', linewidth=2)
+
+plt.xlabel('Time (days)', fontsize=12)
+plt.ylabel('Infectious individuals', fontsize=12)
+plt.title('Effect of R₀ on Epidemic Dynamics', fontsize=14)
+plt.legend(fontsize=11)
+plt.grid(True, alpha=0.3)
+plt.show()
+
+# Intervention: reducing contacts
+plt.figure(figsize=(12, 6))
+
+# Baseline
+beta_baseline = 0.5
+gamma = 0.1
+t, S, I, R = simulate_sir(990, 10, 0, beta_baseline, gamma, 160, 1)
+plt.plot(t, I, label='Baseline', linewidth=2)
+
+# Intervention at day 30: reduce contacts by 50%
+# (This requires modifying simulation to have time-varying beta)
+
+plt.xlabel('Time (days)')
+plt.ylabel('Infectious individuals')
+plt.title('Effect of Intervention')
+plt.legend()
+plt.grid(True, alpha=0.3)
+plt.show()
+```
+
+---
+
+# 14. Numerical Stability and Best Practices
+
+## 14.1 Step Size Selection
+
+Choosing the right time step `dt` is crucial:
+
+**Too large:**
+- Inaccurate results
+- May violate constraints (e.g., negative populations)
+- Numerical instability
+
+**Too small:**
+- Slow computation
+- Accumulated rounding errors
+
+**Rule of thumb:** For Euler's method, `dt` should be much smaller than the characteristic time scale of the system.
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Demonstrate instability
+def sir_with_checks(S0, I0, R0, beta, gamma, t_max, dt):
+    """SIR with checks for negative values"""
+    N = S0 + I0 + R0
+    n_steps = int(t_max / dt)
+    
+    t = np.arange(n_steps) * dt
+    S = np.zeros(n_steps)
+    I = np.zeros(n_steps)
+    R = np.zeros(n_steps)
+    
+    S[0], I[0], R[0] = S0, I0, R0
+    
+    for step in range(1, n_steps):
+        state = np.array([S[step-1], I[step-1], R[step-1]])
+        derivs = sir_derivatives(t[step-1], state, beta, gamma, N)
+        
+        S[step] = S[step-1] + derivs[0] * dt
+        I[step] = I[step-1] + derivs[1] * dt
+        R[step] = R[step-1] + derivs[2] * dt
+        
+        # Check for violations
+        if S[step] < 0 or I[step] < 0 or R[step] < 0:
+            print(f"Warning: Negative population at step {step} (t={t[step]:.1f})")
+            print(f"S={S[step]:.2f}, I={I[step]:.2f}, R={R[step]:.2f}")
+            break
+    
+    return t, S, I, R
+
+# Test with large dt
+print("Testing with dt=5:")
+t, S, I, R = sir_with_checks(990, 10, 0, 0.5, 0.1, 100, 5)
+
+print("\nTesting with dt=1:")
+t, S, I, R = sir_with_checks(990, 10, 0, 0.5, 0.1, 100, 1)
+```
+
+## 14.2 Conservation Laws
+
+For the SIR model, $N = S + I + R$ should be constant. Check this!
+
+```{python}
+import numpy as np
+
+def sir_with_conservation_check(S0, I0, R0, beta, gamma, t_max, dt):
+    """SIR with conservation checking"""
+    N = S0 + I0 + R0
+    t, S, I, R = simulate_sir(S0, I0, R0, beta, gamma, t_max, dt)
+    
+    # Check conservation
+    total = S + I + R
+    conservation_error = np.abs(total - N)
+    
+    max_error = np.max(conservation_error)
+    mean_error = np.mean(conservation_error)
+    
+    print(f"Conservation check:")
+    print(f"Max error: {max_error:.6e}")
+    print(f"Mean error: {mean_error:.6e}")
+    print(f"Relative error: {max_error/N:.6e}")
+    
+    return t, S, I, R
+
+t, S, I, R = sir_with_conservation_check(990, 10, 0, 0.5, 0.1, 160, 1)
+```
+
+## 14.3 Using Professional Solvers
+
+For production code, use scipy's ODE solvers:
+
+```{python}
+import numpy as np
+from scipy.integrate import solve_ivp
+import matplotlib.pyplot as plt
+
+def sir_system(t, state, beta, gamma, N):
+    """SIR system for scipy"""
+    S, I, R = state
+    infection_rate = beta * S * I / N
+    recovery_rate = gamma * I
+    
+    dS = -infection_rate
+    dI = infection_rate - recovery_rate
+    dR = recovery_rate
+    
+    return [dS, dI, dR]
+
+# Initial conditions
+N = 1000
+state0 = [990, 10, 0]  # [S0, I0, R0]
+beta, gamma = 0.5, 0.1
+t_span = (0, 160)
+
+# Solve using adaptive solver
+solution = solve_ivp(
+    sir_system,
+    t_span,
+    state0,
+    args=(beta, gamma, N),
+    dense_output=True,
+    method='RK45'  # 4th/5th order Runge-Kutta
+)
+
+# Evaluate at specific times
+t = np.linspace(0, 160, 161)
+S, I, R = solution.sol(t)
+
+# Plot
+plt.figure(figsize=(10, 6))
+plt.plot(t, S, label='Susceptible', linewidth=2)
+plt.plot(t, I, label='Infectious', linewidth=2)
+plt.plot(t, R, label='Recovered', linewidth=2)
+plt.xlabel('Time (days)')
+plt.ylabel('Population')
+plt.title('SIR Model (using scipy.integrate.solve_ivp)')
+plt.legend()
+plt.grid(True, alpha=0.3)
+plt.show()
+
+print(f"Solution successful: {solution.success}")
+print(f"Number of evaluations: {solution.nfev}")
+```
+
+---
+
+# 15. Development Environments
+
+## 15.1 Spyder
+
+Spyder (Scientific Python Development Environment) is designed for scientific computing:
+
+**Strengths:**
+- Variable Explorer: See all variables and their values
+- IPython console: Interactive REPL built in
+- Integrated help and documentation
+- MATLAB-like interface (familiar to many scientists)
+- Great for exploratory data analysis
+
+**When to use:**
+- Interactive scientific computing
+- Exploratory data analysis
+- Quick prototyping
+- When you need to inspect many variables
+
+## 15.2 VSCode
+
+Visual Studio Code is a general-purpose code editor:
+
+**Strengths:**
+- Superior Git integration (visual diffs, staging, history)
+- Works with any language (Python, R, markdown, etc.)
+- Massive extension ecosystem
+- Industry-standard tool
+- Excellent for large projects
+
+**When to use:**
+- Version-controlled projects
+- Multi-language workflows
+- When you need excellent Git integration
+- Professional software development
+
+**Setting up Python in VSCode:**
+1. Install Python extension (Microsoft)
+2. Select interpreter (Cmd/Ctrl+Shift+P → "Python: Select Interpreter")
+3. Use interactive window (Shift+Enter on code selection)
+
+## 15.3 Jupyter Notebooks
+
+Jupyter notebooks mix code, output, and narrative text:
+
+**Strengths:**
+- Excellent for teaching and communication
+- Inline plots and rich output
+- Can export to HTML, PDF
+- Good for reproducible research
+
+**When to use:**
+- Exploratory analysis
+- Creating reports that mix code and narrative
+- Teaching and presentations
+- Quick experiments
+
+**Weaknesses:**
+- Hard to version control (JSON format)
+- Encourages non-linear execution
+- Not ideal for large codebases
+
+---
+
+# 16. Common Pitfalls and Debugging
+
+## 16.1 Array Shape Mismatches
+
+```{python}
+#| error: true
+import numpy as np
+
+# Common error: shape mismatch
+A = np.array([[1, 2, 3]])  # Shape (1, 3) - row vector
+b = np.array([4, 5, 6])    # Shape (3,) - 1D array
+
+try:
+    result = A @ b  # Works!
+    print(f"A @ b: {result}")
+except ValueError as e:
+    print(f"Error: {e}")
+
+# But this fails:
+C = np.array([[1, 2],
+              [3, 4]])     # Shape (2, 2)
+d = np.array([[5], [6]])   # Shape (2, 1)
+
+try:
+    result = C + d  # Works via broadcasting
+    print(f"C + d:\n{result}")
+except ValueError as e:
+    print(f"Error: {e}")
+```
+
+**Debugging strategy:**
+```python
+print(f"A shape: {A.shape}")
+print(f"b shape: {b.shape}")
+```
+
+## 16.2 Integer Division Gotchas
+
+```{python}
+import numpy as np
+
+a = np.array([1, 2, 3])
+b = np.array([2, 3, 4])
+
+# Integer division with integer arrays
+result = a / b
+print(f"a / b: {result}")
+print(f"dtype: {result.dtype}")  # float64, as expected
+
+# But watch out for integer arrays:
+c = np.array([1, 2, 3], dtype=np.int32)
+d = np.array([2, 3, 4], dtype=np.int32)
+result_int = c / d
+print(f"c / d: {result_int}")
+print(f"dtype: {result_int.dtype}")  # Still float64 in Python 3
+```
+
+## 16.3 Copy vs. View Issues
+
+```{python}
+import numpy as np
+
+# Surprising behavior
+arr = np.array([1, 2, 3, 4, 5])
+slice1 = arr[1:4]
+slice2 = arr[1:4]
+
+slice1[0] = 999
+
+print(f"arr: {arr}")        # Changed!
+print(f"slice1: {slice1}")
+print(f"slice2: {slice2}")  # Also changed!
+
+# Solution: explicit copy
+arr2 = np.array([1, 2, 3, 4, 5])
+slice_copy = arr2[1:4].copy()
+slice_copy[0] = 999
+
+print(f"\narr2: {arr2}")           # Unchanged
+print(f"slice_copy: {slice_copy}")
+```
+
+## 16.4 Boolean Array Pitfalls
+
+```{python}
+#| error: true
+import numpy as np
+
+arr = np.array([1, 2, 3, 4, 5])
+
+# Wrong: using 'and' instead of '&'
+try:
+    result = arr[(arr > 2) and (arr < 5)]
+except ValueError as e:
+    print(f"Error: {e}")
+
+# Correct: use '&'
+result = arr[(arr > 2) & (arr < 5)]
+print(f"Correct result: {result}")
+
+# Also need parentheses because of operator precedence!
+# This is wrong:
+# result = arr[arr > 2 & arr < 5]  # Doesn't work as expected
+```
+
+## 16.5 NaN and Inf Handling
+
+```{python}
+import numpy as np
+
+# NaN propagates
+arr = np.array([1, 2, np.nan, 4, 5])
+print(f"Sum: {np.sum(arr)}")        # nan
+print(f"Mean: {np.mean(arr)}")      # nan
+
+# Use nan-safe functions
+print(f"nansum: {np.nansum(arr)}")
+print(f"nanmean: {np.nanmean(arr)}")
+
+# Check for NaN/Inf
+print(f"isnan: {np.isnan(arr)}")
+print(f"Any nan: {np.any(np.isnan(arr))}")
+
+# Remove NaN
+arr_clean = arr[~np.isnan(arr)]
+print(f"Clean array: {arr_clean}")
+```
+
+---
+
+# 17. Key Takeaways
+
+1. **NumPy provides efficient arrays** that are the foundation for scientific Python. Arrays are homogeneous, contiguous in memory, and support vectorized operations.
+
+2. **Vectorization eliminates explicit loops** by expressing operations on entire arrays. This is 10-100x faster than Python loops and often more readable.
+
+3. **Broadcasting automatically handles shape mismatches** by "stretching" arrays to compatible shapes, enabling concise mathematical expressions.
+
+4. **Array indexing is powerful and flexible**: basic indexing (slicing), boolean indexing (masks), and fancy indexing (integer arrays) each serve different purposes.
+
+5. **Slicing creates views, not copies** for memory efficiency. Use `.copy()` when you need an independent array.
+
+6. **Universal functions (ufuncs)** are vectorized operations implemented in compiled code: trigonometric, exponential, logarithmic, etc.
+
+7. **Aggregations reduce array dimensions**: `sum`, `mean`, `std`, etc. can operate over all elements or along specific axes.
+
+8. **Linear algebra operations** (`@` for matrix multiplication, `np.linalg` module) are essential for many scientific applications.
+
+9. **NumPy dtypes determine precision and memory**: choose `int32/int64` for integers, `float32/float64` for floating-point, balancing precision against memory.
+
+10. **Numerical integration approximates solutions** to differential equations. Euler's method is simple but low-order; use professional solvers (scipy) for production code.
+
+11. **The SIR model** demonstrates how differential equations describe real-world dynamics. NumPy makes simulation straightforward and efficient.
+
+12. **Step size selection matters** for accuracy and stability. Too large causes errors; too small wastes computation.
+
+13. **Check conservation laws and constraints** (e.g., non-negative populations) to validate numerical solutions.
+
+14. **Development environments have different strengths**: Spyder for interactive scientific computing, VSCode for version-controlled projects, Jupyter for exploratory work.
+
+15. **Common pitfalls**: shape mismatches, copy vs. view confusion, using `and`/`or` instead of `&`/`|` on boolean arrays, NaN propagation.
+
+16. **Performance considerations**: contiguous memory layout, cache efficiency, SIMD vectorization, avoiding Python loops in inner computational kernels.
+
+17. **Memory layout matters**: C-contiguous (row-major) vs. Fortran-contiguous (column-major) affects cache performance for large arrays.
+
+18. **Random number generation** has improved: prefer `np.random.default_rng()` over legacy `np.random` functions for new code.
+
+---
+
+# 18. Further Questions to Think About
+
+1. **Why does NumPy require homogeneous types?** What would be the performance implications of allowing mixed types like Python lists?
+
+2. **When would you choose `np.linspace` over `np.arange`?** Give an example where each is more appropriate.
+
+3. **How does broadcasting enable writing code that looks like mathematical notation?** Find an example in scientific computing where broadcasting makes code much clearer.
+
+4. **Why is `np.linalg.solve(A, b)` better than `np.linalg.inv(A) @ b`?** Consider both computational efficiency and numerical accuracy.
+
+5. **What determines whether a differential equation needs numerical solution?** Can you give examples of equations that do and don't have closed-form solutions?
+
+6. **How would you modify the SIR model** to account for:
+   - Vaccination?
+   - Births and deaths?
+   - Multiple age groups with different contact rates?
+   - Loss of immunity over time?
+
+7. **What's the relationship between $R_0$ and epidemic dynamics?** Why is $R_0 = 1$ a critical threshold?
+
+8. **How would you validate an epidemic model?** What data would you need, and how would you assess if the model fits reality?
+
+9. **When should you use Euler's method vs. a higher-order method?** What factors determine the appropriate numerical method?
+
+10. **How do vectorization and broadcasting relate to GPU computing?** Why is NumPy's design well-suited for acceleration?
+
+11. **What are the trade-offs between different IDEs** (Spyder, VSCode, Jupyter)? When would you choose each for real projects?
+
+12. **How does NumPy's memory layout affect performance** for very large arrays? When would you consider using memory-mapped arrays?
+
+---
+
+# 19. Looking Ahead
+
+Next lecture, we transition from **homogeneous numerical arrays to structured, heterogeneous data** with **pandas**.
+
+While NumPy excels at mathematical computation, real-world data is messier:
+- **Mixed types**: Numbers, strings, dates all in one dataset
+- **Missing values**: How do we handle incomplete data?
+- **Labels**: Rows and columns have meaningful names
+- **Relationships**: Data often comes from multiple sources that need joining
+
+**Pandas provides DataFrames** — think of them as supercharged spreadsheets:
+- Built on NumPy arrays (so we keep the speed)
+- Column-oriented: each column is a NumPy array
+- Labeled indices: refer to data by name, not just position
+- Rich functionality: filtering, grouping, aggregating, merging
+
+**We'll learn to:**
+- Read data from CSV, Excel, databases
+- Inspect and clean messy data
+- Filter rows and select columns
+- Transform variables
+- Group and aggregate
+- Merge datasets from multiple sources
+- Handle missing data properly
+
+**The SIR model connection:** Instead of simulating one outbreak, we might analyze real epidemic data: daily case counts, deaths, vaccinations, by region, over time. Pandas makes this kind of structured data analysis natural.
+
+**The progression:**
+- **Lecture 1-3**: Python fundamentals, control flow, functions
+- **Lecture 4 (today)**: NumPy for numerical computing
+- **Lecture 5 (next)**: Pandas for structured data
+- **Future**: Visualization (matplotlib), statistical modeling, machine learning
+
+Everything we learned about NumPy—vectorization, broadcasting, indexing—carries forward. Pandas uses these concepts but adds structure and labels that make real data analysis much more intuitive.
+
+See you next time!
