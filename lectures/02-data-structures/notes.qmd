@@ -877,11 +877,13 @@ The important conceptual distinction is:
 | `tuple` | Yes | No |
 
 Use a list when:
+
 * the collection will grow or shrink;
 * elements will be modified;
 * order matters but the collection is not conceptually "fixed."
 
 Use a tuple when:
+
 * the collection represents a fixed structure;
 * immutability is desirable (e.g., for use as a dictionary key);
 * the collection represents heterogeneous data that belongs together.
@@ -1449,6 +1451,7 @@ But remember that a Boolean expression is evaluated by the program and produces 
 Python considers some values "truthy" and others "falsy" in Boolean contexts.
 
 **Falsy values:**
+
 - `False`
 - `None`
 - `0` (and `0.0`)
@@ -1456,6 +1459,7 @@ Python considers some values "truthy" and others "falsy" in Boolean contexts.
 - Empty mappings: `{}`
 
 **Everything else is truthy**, including:
+
 - `True`
 - Non-zero numbers
 - Non-empty sequences and mappings
@@ -1914,11 +1918,13 @@ This is an example of a programming error that is logically different from a syn
 ## 15.3 When to use `while` vs `for`
 
 Use `for` when:
+
 - Iterating over a known collection
 - Number of iterations is predetermined
 - Iterating through a sequence
 
 Use `while` when:
+
 - Condition-based termination
 - Number of iterations unknown in advance
 - Implementing algorithms like binary search, convergence tests, user input validation
@@ -1961,6 +1967,7 @@ for i in range(10):
 ```
 
 This is useful for:
+
 - Early termination when a condition is met
 - Search algorithms that stop when a match is found
 - Error conditions
@@ -1989,6 +1996,7 @@ for i in range(5):
 ```
 
 This is useful for:
+
 - Skipping invalid data
 - Filtering during iteration
 - Avoiding nested conditionals
@@ -2707,6 +2715,7 @@ We will build on today's control flow and data structures to learn how to:
 The goal is to move from writing individual pieces of code to **building reliable computational tools**.
 
 Functions will allow us to:
+
 - encapsulate algorithms;
 - create abstractions;
 - reuse code;
@@ -2714,6 +2723,7 @@ Functions will allow us to:
 - build larger programs from smaller components.
 
 Version control (Git) will allow us to:
+
 - track changes over time;
 - collaborate effectively;
 - maintain project history;

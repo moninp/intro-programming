@@ -368,6 +368,7 @@ print(f"Average temperature: {average:.1f}°C")
 ### Multiple Accumulators
 
 Notice we're maintaining **two** pieces of state:
+
 - `total` - the running sum
 - `count` - the number of observations
 
@@ -413,6 +414,7 @@ else:
 ## Always Consider Edge Cases
 
 When designing an algorithm, ask:
+
 - What if the input is empty?
 - What if all values are the same?
 - What if there's only one value?
@@ -984,6 +986,7 @@ encoded.decode("utf-8")
 ## Encoding Matters
 
 Different encoding schemes (UTF-8, ASCII, etc.) represent characters differently. This becomes important when:
+
 - Reading files from different sources
 - Working with web data
 - Handling international text
@@ -1058,11 +1061,13 @@ This uses a **single loop** and a set to track what we've seen.
 Let's think about the computational work:
 
 **Algorithm 1:**
+
 - For each of n values, check against up to n other values
 - Total comparisons: roughly n²/2
 - As n grows, work grows **quadratically**: O(n²)
 
 **Algorithm 2:**
+
 - For each of n values, check set membership (fast) and add to set
 - Total operations: roughly n
 - As n grows, work grows **linearly**: O(n)
@@ -1112,6 +1117,7 @@ Notice how Algorithm 1's time grows rapidly while Algorithm 2 remains fast.
 ## Algorithm and Data Structure Matter
 
 The choice of algorithm and data structure can determine whether a problem is:
+
 - Easy or difficult
 - Fast or slow
 - Practical or impractical
