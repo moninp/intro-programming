@@ -26,6 +26,23 @@ It contains instructions for:
 - running the course's Quarto examples.
 :::
 
+## Instructor
+
+**Phillip Monin, PhD, CFA, FRM**
+
+[pm1091@georgetown.edu](mailto:pm1091@georgetown.edu)
+
+Office hours: Mondays, 4:30-5:30 PM, or by appointment. Scheduled office hours are held by request over Zoom. Please email me by noon if you would like to attend the scheduled office hours. If no student requests to meet, then the scheduled office hours will not be held.
+
+## Course Information
+
+- **Course:** MATH 5200
+- **Semester:** Fall 2026
+- **Meeting time:** Wednesdays, 6:30-9:00 PM
+- **Location:** Reiss 152
+
+For complete course policies, grading information, and the course schedule, see the [syllabus](syllabus.qmd).
+
 ## Course Materials
 
 ### Lectures
@@ -39,36 +56,13 @@ Lecture materials are organized by week. Each lecture generally has two componen
 
 ### Homework
 
-Homework assignments are designed to give you practice applying the ideas introduced in class.
-
-[View the homework assignments](homework/)
-
-### Quizzes
-
-Short quizzes will be used to reinforce important concepts and provide regular feedback on your progress.
-
-[View the quizzes](quizzes/)
+Homework assignments are posted on and submitted through [Canvas](https://canvas.georgetown.edu/). Each assignment includes a description of the problems, instructions for submission, and a link to the assignment repository.
 
 ### Semester Project
 
 The semester project is an extended computational project in which you will apply the tools and ideas from the course to a problem of your choosing.
 
 [Project description and instructions](project.qmd)
-
-## Software and Tools
-
-The course uses:
-
-- **Python 3**
-- **R**
-- **Visual Studio Code**
-- **Quarto**
-- **Git**
-- **GitHub**
-
-You do not need to be an expert with any of these tools at the beginning of the course. We will learn the relevant parts as we go.
-
-The course repository itself is part of the course. You will use Git and GitHub to obtain course materials and will learn how version control fits into a reproducible computational workflow.
 
 ## Repository
 
@@ -94,20 +88,3 @@ When asking for help with programming, it is particularly useful to provide:
 4. what you have already tried.
 
 Learning to describe a computational problem clearly is itself an important programming skill.
-
-## Instructor
-
-**Phillip Monin, PhD, CFA, FRM**
-
-[pm1091@georgetown.edu](mailto:pm1091@georgetown.edu)
-
-Office hours: Mondays, 4:30-5:30 PM, or by appointment. Scheduled office hours are held by request over Zoom. Please email me by noon if you would like to attend the scheduled office hours. If no student requests to meet, then the scheduled office hours will not be held.
-
-## Course Information
-
-- **Course:** MATH 5200
-- **Semester:** Fall 2026
-- **Meeting time:** Wednesdays, 6:30-9:00 PM
-- **Location:** Reiss 152
-
-For complete course policies, grading information, and the course schedule, see the [syllabus](syllabus.qmd).

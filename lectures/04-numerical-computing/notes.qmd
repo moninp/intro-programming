@@ -149,7 +149,7 @@ numpy_time = time.time() - start
 
 print(f"Python list: {python_time:.4f} seconds")
 print(f"NumPy array: {numpy_time:.4f} seconds")
-print(f"Speedup: {python_time / numpy_time:.1f}x")
+print(f"Speedup: {python_time / numpy_time if numpy_time > 0 else float('inf'):.1f}x")
 ```
 
 NumPy is typically 10-100x faster due to:
@@ -1311,8 +1311,8 @@ numpy_time = time.time() - start
 print(f"Loop time: {loop_time:.4f}s")
 print(f"List comp time: {comp_time:.4f}s")
 print(f"NumPy time: {numpy_time:.4f}s")
-print(f"\nSpeedup vs loop: {loop_time / numpy_time:.1f}x")
-print(f"Speedup vs list comp: {comp_time / numpy_time:.1f}x")
+print(f"\nSpeedup vs loop: {loop_time / numpy_time if numpy_time > 0 else float('inf'):.1f}x")
+print(f"Speedup vs list comp: {comp_time / numpy_time if numpy_time > 0 else float('inf'):.1f}x")
 ```
 
 ## 11.2 How Vectorization Works

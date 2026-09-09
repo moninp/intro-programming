@@ -1184,10 +1184,10 @@ numpy_time = time.time() - start
 
 print(f"NumPy result: {total_numpy}")
 print(f"NumPy time: {numpy_time:.4f} seconds")
-print(f"Speedup: {loop_time / numpy_time:.1f}x faster")
+print(f"Speedup: {loop_time / numpy_time if numpy_time > 0 else float('inf'):.1f}x faster")
 ```
 
-You should see NumPy is 10-100x faster!
+You should see NumPy is 10-100 times faster!
 
 ::: {.callout-important}
 ## Why Is NumPy So Much Faster?
@@ -1196,7 +1196,7 @@ You should see NumPy is 10-100x faster!
 3. **Memory locality:** Data is contiguous in memory, enabling fast access
 4. **No Python overhead:** No per-element type checking or function calls
 
-For scientific computing, this performance difference is crucial. Imagine simulating a million-person epidemic over 365 days—vectorization can mean the difference between minutes and hours!
+For scientific computing, this performance difference is crucial. Imagine simulating a million-person epidemic over 365 days. Vectorization can mean the difference between minutes and hours!
 :::
 
 ### Your Turn: Compare Performance on a More Complex Operation
@@ -1230,7 +1230,7 @@ numpy_time = time.time() - start
 print(f"Results match: {np.allclose(results_loop, results_numpy)}")
 print(f"Loop time: {loop_time:.4f}s")
 print(f"NumPy time: {numpy_time:.4f}s")
-print(f"Speedup: {loop_time / numpy_time:.1f}x")
+print(f"Speedup: {loop_time / numpy_time if numpy_time > 0 else float('inf'):.1f}x")
 
 # Task: Now try with even more complex calculations
 # Calculate: (x^2 + 2x + 1) * sin(x) * e^(-x/100) for all x
