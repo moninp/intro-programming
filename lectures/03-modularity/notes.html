@@ -293,7 +293,7 @@ window.Quarto = {
 <h1>1. Introduction</h1>
 <p>In Lecture 2, we learned to write programs that process data using control flow and data structures. Those programs worked, but they had significant limitations for real-world software development.</p>
 <p>Consider a typical procedural script:</p>
-<div id="e05506d7" class="cell" data-execution_count="1">
+<div id="ded1a166" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Analyze stock data</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>prices <span class="op">=</span> [<span class="fl">150.0</span>, <span class="fl">152.5</span>, <span class="fl">148.0</span>, <span class="fl">153.0</span>, <span class="fl">155.5</span>]</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -364,7 +364,7 @@ f(x) = x^2
 <li>Can be called multiple times with different arguments</li>
 </ol>
 <p><strong>Example:</strong></p>
-<div id="6c166d5f" class="cell" data-execution_count="2">
+<div id="bc8770c3" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> square(x):</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Return the square of x."""</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x <span class="op">**</span> <span class="dv">2</span></span>
@@ -380,7 +380,7 @@ f(x) = x^2
 <h2 class="anchored" data-anchor-id="why-functions-matter">2.2 Why functions matter</h2>
 <p>Functions provide several essential benefits:</p>
 <p><strong>Abstraction</strong>: Hide implementation details behind a clear interface</p>
-<div id="564abeaa" class="cell" data-execution_count="3">
+<div id="53820ce9" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define function first</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_mean(data):</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Calculate arithmetic mean."""</span></span>
@@ -406,7 +406,7 @@ Using function: 3.0</code></pre>
 </div>
 </div>
 <p><strong>Reusability</strong>: Write once, use many times</p>
-<div id="d957c75b" class="cell" data-execution_count="4">
+<div id="3f5d2cdc" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Same function works on different data</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>temperatures <span class="op">=</span> [<span class="dv">72</span>, <span class="dv">75</span>, <span class="dv">68</span>, <span class="dv">71</span>, <span class="dv">73</span>]</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>stock_returns <span class="op">=</span> [<span class="fl">0.01</span>, <span class="fl">0.02</span>, <span class="op">-</span><span class="fl">0.01</span>, <span class="fl">0.03</span>, <span class="fl">0.015</span>]</span>
@@ -426,7 +426,7 @@ Mean grade: 86.6</code></pre>
 </div>
 </div>
 <p><strong>Testability</strong>: Verify correctness independently</p>
-<div id="dba164ab" class="cell" data-execution_count="5">
+<div id="6a4b0eae" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Test the function</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> calculate_mean([<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>]) <span class="op">==</span> <span class="fl">3.0</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> calculate_mean([<span class="dv">10</span>, <span class="dv">20</span>]) <span class="op">==</span> <span class="fl">15.0</span></span>
@@ -436,7 +436,7 @@ Mean grade: 86.6</code></pre>
 </div>
 </div>
 <p><strong>Decomposition</strong>: Break complex problems into smaller pieces</p>
-<div id="41352b13" class="cell" data-execution_count="6">
+<div id="40afbc66" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Pseudocode showing decomposition</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> analyze_portfolio(prices):</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Complete portfolio analysis."""</span></span>
@@ -450,7 +450,7 @@ Mean grade: 86.6</code></pre>
 <section id="function-anatomy" class="level2">
 <h2 class="anchored" data-anchor-id="function-anatomy">2.3 Function anatomy</h2>
 <p>A Python function definition has several parts:</p>
-<div id="d3c72b9a" class="cell" data-execution_count="7">
+<div id="0566ed54" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> function_name(parameter1, parameter2, parameter3<span class="op">=</span>default_value):</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Docstring: describes what the function does.</span></span>
@@ -481,7 +481,7 @@ Mean grade: 86.6</code></pre>
 <section id="calling-functions" class="level2">
 <h2 class="anchored" data-anchor-id="calling-functions">2.4 Calling functions</h2>
 <p>To <strong>call</strong> (invoke, execute) a function, use its name followed by arguments in parentheses:</p>
-<div id="0faa9c60" class="cell" data-execution_count="8">
+<div id="b340f3f2" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> greet(name):</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Return a greeting message."""</span></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="ss">f"Hello, </span><span class="sc">{</span>name<span class="sc">}</span><span class="ss">!"</span></span>
@@ -504,7 +504,7 @@ Hello, Bob!</code></pre>
 <li><code>return</code> sends value back to caller</li>
 <li>Execution continues after the function call</li>
 </ol>
-<div id="a1f53d76" class="cell" data-execution_count="9">
+<div id="cad7f2ec" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> add(a, b):</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Add two numbers."""</span></span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    result <span class="op">=</span> a <span class="op">+</span> b</span>
@@ -523,7 +523,7 @@ Hello, Bob!</code></pre>
 <h2 class="anchored" data-anchor-id="return-values">2.5 Return values</h2>
 <p>Functions can return:</p>
 <p><strong>Single value:</strong></p>
-<div id="3c68171d" class="cell" data-execution_count="10">
+<div id="2a270759" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> square(x):</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x <span class="op">**</span> <span class="dv">2</span></span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -534,7 +534,7 @@ Hello, Bob!</code></pre>
 </div>
 </div>
 <p><strong>Multiple values (as a tuple):</strong></p>
-<div id="85f9cb5f" class="cell" data-execution_count="11">
+<div id="f3de08d3" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> min_max(values):</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Return both minimum and maximum."""</span></span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">min</span>(values), <span class="bu">max</span>(values)</span>
@@ -547,7 +547,7 @@ Hello, Bob!</code></pre>
 </div>
 </div>
 <p><strong>Nothing (implicitly returns <code>None</code>):</strong></p>
-<div id="76af8437" class="cell" data-execution_count="12">
+<div id="36ceb232" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> print_summary(data):</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Print data summary (no return value)."""</span></span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Length: </span><span class="sc">{</span><span class="bu">len</span>(data)<span class="sc">}</span><span class="ss">"</span>)</span>
@@ -562,7 +562,7 @@ Result: None</code></pre>
 </div>
 </div>
 <p><strong>Early return:</strong></p>
-<div id="b42f1663" class="cell" data-execution_count="13">
+<div id="6591f17d" class="cell" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> find_first_positive(values):</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Return first positive value, or None if none exist."""</span></span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> value <span class="kw">in</span> values:</span>
@@ -582,7 +582,7 @@ Result: None</code></pre>
 <h2 class="anchored" data-anchor-id="functions-are-objects">2.6 Functions are objects</h2>
 <p>In Python, functions are <strong>first-class objects</strong>. They can be:</p>
 <p><strong>Assigned to variables:</strong></p>
-<div id="21b8e53d" class="cell" data-execution_count="14">
+<div id="877bd05b" class="cell" data-execution_count="14">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> square(x):</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x <span class="op">**</span> <span class="dv">2</span></span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -593,7 +593,7 @@ Result: None</code></pre>
 </div>
 </div>
 <p><strong>Passed as arguments:</strong></p>
-<div id="96a22d5b" class="cell" data-execution_count="15">
+<div id="ac067c81" class="cell" data-execution_count="15">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> apply_operation(values, operation):</span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Apply operation to each value."""</span></span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [operation(v) <span class="cf">for</span> v <span class="kw">in</span> values]</span>
@@ -613,7 +613,7 @@ Result: None</code></pre>
 </div>
 </div>
 <p><strong>Returned from other functions:</strong></p>
-<div id="35e3b8aa" class="cell" data-execution_count="16">
+<div id="d55ecc14" class="cell" data-execution_count="16">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> make_multiplier(n):</span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Return a function that multiplies by n."""</span></span>
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> multiplier(x):</span>
@@ -639,12 +639,12 @@ Result: None</code></pre>
 <section id="terminology" class="level2">
 <h2 class="anchored" data-anchor-id="terminology">3.1 Terminology</h2>
 <p><strong>Parameters</strong> are variables in the function definition:</p>
-<div id="48f37912" class="cell" data-execution_count="17">
+<div id="edc1d5e5" class="cell" data-execution_count="17">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_return(initial, final):  <span class="co"># initial, final are parameters</span></span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (final <span class="op">-</span> initial) <span class="op">/</span> initial</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p><strong>Arguments</strong> are values passed when calling the function:</p>
-<div id="63c130b3" class="cell" data-execution_count="18">
+<div id="f2b96af5" class="cell" data-execution_count="18">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_return(initial, final):</span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (final <span class="op">-</span> initial) <span class="op">/</span> initial</span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -658,7 +658,7 @@ Result: None</code></pre>
 <section id="positional-parameters" class="level2">
 <h2 class="anchored" data-anchor-id="positional-parameters">3.2 Positional parameters</h2>
 <p>The most common parameter type. Arguments are matched to parameters by position:</p>
-<div id="72e9fb49" class="cell" data-execution_count="19">
+<div id="1eed6a28" class="cell" data-execution_count="19">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_growth(initial, final, periods):</span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Calculate annualized growth rate."""</span></span>
 <span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>    growth <span class="op">=</span> (final <span class="op">/</span> initial) <span class="op">**</span> (<span class="dv">1</span> <span class="op">/</span> periods) <span class="op">-</span> <span class="dv">1</span></span>
@@ -675,7 +675,7 @@ Result: None</code></pre>
 <section id="keyword-arguments" class="level2">
 <h2 class="anchored" data-anchor-id="keyword-arguments">3.3 Keyword arguments</h2>
 <p>Arguments can be passed by name:</p>
-<div id="e2bedfd9" class="cell" data-execution_count="20">
+<div id="9f449816" class="cell" data-execution_count="20">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_growth(initial, final, periods):</span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Calculate annualized growth rate."""</span></span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>    growth <span class="op">=</span> (final <span class="op">/</span> initial) <span class="op">**</span> (<span class="dv">1</span> <span class="op">/</span> periods) <span class="op">-</span> <span class="dv">1</span></span>
@@ -707,7 +707,7 @@ Growth (mixed): 8.45%</code></pre>
 <section id="default-parameter-values" class="level2">
 <h2 class="anchored" data-anchor-id="default-parameter-values">3.4 Default parameter values</h2>
 <p>Parameters can have default values:</p>
-<div id="b68cf0de" class="cell" data-execution_count="21">
+<div id="0e227f6a" class="cell" data-execution_count="21">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_sharpe_ratio(returns, risk_free_rate<span class="op">=</span><span class="fl">0.02</span>, periods_per_year<span class="op">=</span><span class="dv">252</span>):</span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Calculate annualized Sharpe ratio.</span></span>
@@ -756,7 +756,7 @@ Sharpe (3% rf, monthly): 2.452</code></pre>
 <h2 class="anchored" data-anchor-id="variable-number-of-arguments">3.5 Variable number of arguments</h2>
 <p>Sometimes the number of arguments is not known in advance.</p>
 <p><strong><code>*args</code> for variable positional arguments:</strong></p>
-<div id="8437bff6" class="cell" data-execution_count="22">
+<div id="c4241641" class="cell" data-execution_count="22">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_sum(<span class="op">*</span>args):</span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Sum any number of arguments."""</span></span>
 <span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>    total <span class="op">=</span> <span class="dv">0</span></span>
@@ -774,7 +774,7 @@ Sharpe (3% rf, monthly): 2.452</code></pre>
 </div>
 </div>
 <p><strong><code>**kwargs</code> for variable keyword arguments:</strong></p>
-<div id="72ccbb65" class="cell" data-execution_count="23">
+<div id="f1bb303d" class="cell" data-execution_count="23">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> print_portfolio(<span class="op">**</span>kwargs):</span>
 <span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Print portfolio holdings."""</span></span>
 <span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> ticker, shares <span class="kw">in</span> kwargs.items():</span>
@@ -788,7 +788,7 @@ MSFT: 75 shares</code></pre>
 </div>
 </div>
 <p><strong>Combining different parameter types:</strong></p>
-<div id="97a9a785" class="cell" data-execution_count="24">
+<div id="a2e553d6" class="cell" data-execution_count="24">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> complex_function(required, <span class="op">*</span>args, keyword_only, default_param<span class="op">=</span><span class="dv">10</span>, <span class="op">**</span>kwargs):</span>
 <span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Demonstrate parameter types."""</span></span>
 <span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Required: </span><span class="sc">{</span>required<span class="sc">}</span><span class="ss">"</span>)</span>
@@ -808,7 +808,7 @@ MSFT: 75 shares</code></pre>
 <section id="mutable-default-arguments-common-pitfall" class="level2">
 <h2 class="anchored" data-anchor-id="mutable-default-arguments-common-pitfall">3.6 Mutable default arguments (common pitfall)</h2>
 <p><strong>Dangerous pattern:</strong></p>
-<div id="42bc055e" class="cell" data-execution_count="25">
+<div id="a3a27617" class="cell" data-execution_count="25">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> add_to_list(item, items<span class="op">=</span>[]):  <span class="co"># BAD!</span></span>
 <span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Add item to list."""</span></span>
 <span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>    items.append(item)</span>
@@ -830,7 +830,7 @@ MSFT: 75 shares</code></pre>
 </div>
 <p><strong>Why this happens</strong>: The default list is created once when the function is defined, not each time it’s called.</p>
 <p><strong>Correct pattern:</strong></p>
-<div id="3e86cc0e" class="cell" data-execution_count="26">
+<div id="7c64ed00" class="cell" data-execution_count="26">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> add_to_list_correct(item, items<span class="op">=</span><span class="va">None</span>):  <span class="co"># GOOD</span></span>
 <span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Add item to list."""</span></span>
 <span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> items <span class="kw">is</span> <span class="va">None</span>:</span>
@@ -880,7 +880,7 @@ MSFT: 75 shares</code></pre>
 <section id="local-scope" class="level2">
 <h2 class="anchored" data-anchor-id="local-scope">4.2 Local scope</h2>
 <p>Variables created inside a function are <strong>local</strong> to that function:</p>
-<div id="e1592ec4" class="cell" data-execution_count="27">
+<div id="bcdda4cf" class="cell" data-execution_count="27">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_total(values):</span>
 <span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>    total <span class="op">=</span> <span class="dv">0</span>  <span class="co"># Local variable</span></span>
 <span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> value <span class="kw">in</span> values:</span>
@@ -905,7 +905,7 @@ MSFT: 75 shares</code></pre>
 <section id="global-scope" class="level2">
 <h2 class="anchored" data-anchor-id="global-scope">4.3 Global scope</h2>
 <p>Variables created outside functions are <strong>global</strong>:</p>
-<div id="29ad03e2" class="cell" data-execution_count="28">
+<div id="8a849eab" class="cell" data-execution_count="28">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>pi <span class="op">=</span> <span class="fl">3.14159</span>  <span class="co"># Global variable</span></span>
 <span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_circle_area(radius):</span>
@@ -922,7 +922,7 @@ MSFT: 75 shares</code></pre>
 <section id="the-global-keyword" class="level2">
 <h2 class="anchored" data-anchor-id="the-global-keyword">4.4 The <code>global</code> keyword</h2>
 <p>To modify a global variable inside a function, use <code>global</code>:</p>
-<div id="74cf856f" class="cell" data-execution_count="29">
+<div id="092e1fa7" class="cell" data-execution_count="29">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>counter <span class="op">=</span> <span class="dv">0</span>  <span class="co"># Global</span></span>
 <span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> increment():</span>
@@ -937,7 +937,7 @@ MSFT: 75 shares</code></pre>
 </div>
 </div>
 <p><strong>Without <code>global</code>:</strong></p>
-<div id="e084e1f0" class="cell" data-execution_count="30">
+<div id="7d4670b0" class="cell" data-execution_count="30">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>counter_test <span class="op">=</span> <span class="dv">0</span></span>
 <span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> increment_bad():</span>
@@ -980,7 +980,7 @@ MSFT: 75 shares</code></pre>
 <section id="enclosing-scope-nested-functions" class="level2">
 <h2 class="anchored" data-anchor-id="enclosing-scope-nested-functions">4.5 Enclosing scope (nested functions)</h2>
 <p>Functions can be defined inside other functions:</p>
-<div id="02adb97b" class="cell" data-execution_count="31">
+<div id="3403fc9d" class="cell" data-execution_count="31">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> make_multiplier(factor):</span>
 <span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Return a function that multiplies by factor."""</span></span>
 <span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>    </span>
@@ -1010,7 +1010,7 @@ MSFT: 75 shares</code></pre>
 <li>Return values rather than modifying global state</li>
 <li>Use descriptive names to avoid confusion</li>
 </ul>
-<div id="73a349d8" class="cell" data-execution_count="32">
+<div id="96b9191c" class="cell" data-execution_count="32">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Good: self-contained</span></span>
 <span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_tax(income, tax_rate):</span>
 <span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Calculate tax based on income and rate."""</span></span>
@@ -1023,7 +1023,7 @@ MSFT: 75 shares</code></pre>
 </div>
 </div>
 <p><strong>Avoid:</strong></p>
-<div id="e0b1f749" class="cell" data-execution_count="33">
+<div id="c2488359" class="cell" data-execution_count="33">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb60"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Bad: relies on global state</span></span>
 <span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>income_global <span class="op">=</span> <span class="dv">50000</span></span>
 <span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a>tax_rate_global <span class="op">=</span> <span class="fl">0.25</span></span>
@@ -1055,7 +1055,7 @@ MSFT: 75 shares</code></pre>
 <li>Makes code maintainable over time</li>
 </ul>
 <p><strong>Without documentation:</strong></p>
-<div id="6f8d921b" class="cell" data-execution_count="34">
+<div id="4f9c5ae0" class="cell" data-execution_count="34">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb62"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calc(x, y, z<span class="op">=</span><span class="fl">0.02</span>):</span>
 <span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>    a <span class="op">=</span> <span class="bu">sum</span>(x) <span class="op">/</span> <span class="bu">len</span>(x)</span>
 <span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>    b <span class="op">=</span> (<span class="bu">sum</span>((v <span class="op">-</span> a)<span class="op">**</span><span class="dv">2</span> <span class="cf">for</span> v <span class="kw">in</span> x) <span class="op">/</span> (<span class="bu">len</span>(x)<span class="op">-</span><span class="dv">1</span>))<span class="op">**</span><span class="fl">0.5</span></span>
@@ -1063,7 +1063,7 @@ MSFT: 75 shares</code></pre>
 </div>
 <p>What does this do? What are x, y, z? What units? What happens if x is empty?</p>
 <p><strong>With documentation:</strong></p>
-<div id="b6220f6d" class="cell" data-execution_count="35">
+<div id="46db41b8" class="cell" data-execution_count="35">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb63"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_sharpe_ratio_documented(returns, benchmark_returns<span class="op">=</span><span class="va">None</span>, risk_free_rate<span class="op">=</span><span class="fl">0.02</span>):</span>
 <span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Calculate Sharpe ratio for investment returns.</span></span>
@@ -1110,7 +1110,7 @@ MSFT: 75 shares</code></pre>
 <section id="docstring-format" class="level2">
 <h2 class="anchored" data-anchor-id="docstring-format">5.2 Docstring format</h2>
 <p>Python uses <strong>docstrings</strong> - string literals immediately following the function definition:</p>
-<div id="a7a225c1" class="cell" data-execution_count="36">
+<div id="54299dfc" class="cell" data-execution_count="36">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb65"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> function_name(parameters):</span>
 <span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a><span class="co">    One-line summary.</span></span>
@@ -1129,7 +1129,7 @@ MSFT: 75 shares</code></pre>
 <span id="cb65-16"><a href="#cb65-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">pass</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p><strong>Accessing docstrings:</strong></p>
-<div id="788423fc" class="cell" data-execution_count="37">
+<div id="9e569d33" class="cell" data-execution_count="37">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb66"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> example():</span>
 <span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""This is an example function."""</span></span>
 <span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">pass</span></span>
@@ -1167,7 +1167,7 @@ example()
 <li>Performance considerations for complex functions</li>
 </ul>
 <p><strong>Example combining several elements:</strong></p>
-<div id="f1b812f6" class="cell" data-execution_count="38">
+<div id="43845802" class="cell" data-execution_count="38">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb68"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_compound_interest(principal, rate, periods, compounds_per_period<span class="op">=</span><span class="dv">1</span>):</span>
 <span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Calculate compound interest using the standard formula.</span></span>
@@ -1216,7 +1216,7 @@ example()
 <section id="type-hints-optional-but-recommended" class="level2">
 <h2 class="anchored" data-anchor-id="type-hints-optional-but-recommended">5.4 Type hints (optional but recommended)</h2>
 <p>Python 3.5+ supports <strong>type hints</strong> - annotations that document expected types:</p>
-<div id="882186a1" class="cell" data-execution_count="39">
+<div id="9e0e617b" class="cell" data-execution_count="39">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb70"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> List, Tuple</span>
 <span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_statistics(values: List[<span class="bu">float</span>]) <span class="op">-&gt;</span> Tuple[<span class="bu">float</span>, <span class="bu">float</span>, <span class="bu">float</span>]:</span>
@@ -1242,7 +1242,7 @@ example()
 </div>
 </div>
 <p><strong>Common type hints:</strong></p>
-<div id="69c8677c" class="cell" data-execution_count="40">
+<div id="5bff461b" class="cell" data-execution_count="40">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb72"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> List, Dict, Tuple, Optional, Union, Any</span>
 <span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> example(</span>
@@ -1271,7 +1271,7 @@ example()
 <section id="why-validate-inputs" class="level2">
 <h2 class="anchored" data-anchor-id="why-validate-inputs">6.1 Why validate inputs?</h2>
 <p>Functions should handle invalid inputs gracefully:</p>
-<div id="5055fc0b" class="cell" data-execution_count="41">
+<div id="93e6e880" class="cell" data-execution_count="41">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb73"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_mean_unsafe(values):</span>
 <span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Calculate arithmetic mean."""</span></span>
 <span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">sum</span>(values) <span class="op">/</span> <span class="bu">len</span>(values)</span>
@@ -1299,7 +1299,7 @@ example()
 </div>
 </div>
 <p>Better:</p>
-<div id="a1c93f5d" class="cell" data-execution_count="42">
+<div id="02824a0c" class="cell" data-execution_count="42">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb74"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_mean_safe(values):</span>
 <span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Calculate arithmetic mean.</span></span>
@@ -1332,7 +1332,7 @@ Mean: 3.0</code></pre>
 <section id="assertions" class="level2">
 <h2 class="anchored" data-anchor-id="assertions">6.2 Assertions</h2>
 <p><strong>Assertions</strong> check that a condition is true, raising <code>AssertionError</code> if not:</p>
-<div id="ce0250f8" class="cell" data-execution_count="43">
+<div id="7cbc67e7" class="cell" data-execution_count="43">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb76"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_interest(principal, rate, years):</span>
 <span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Calculate simple interest."""</span></span>
 <span id="cb76-3"><a href="#cb76-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> principal <span class="op">&gt;</span> <span class="dv">0</span>, <span class="st">"Principal must be positive"</span></span>
@@ -1387,7 +1387,7 @@ Mean: 3.0</code></pre>
 </section>
 <section id="assertions-vs-exceptions" class="level2">
 <h2 class="anchored" data-anchor-id="assertions-vs-exceptions">6.3 Assertions vs exceptions</h2>
-<div id="910f68e3" class="cell" data-execution_count="44">
+<div id="b4f3680a" class="cell" data-execution_count="44">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb78"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Assertion: programming error (should never happen)</span></span>
 <span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_return(initial, final):</span>
 <span id="cb78-3"><a href="#cb78-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> initial <span class="op">&gt;</span> <span class="dv">0</span>, <span class="st">"Initial value must be positive (programming error)"</span></span>
@@ -1405,7 +1405,7 @@ Mean: 3.0</code></pre>
 <section id="preconditions-and-postconditions" class="level2">
 <h2 class="anchored" data-anchor-id="preconditions-and-postconditions">6.4 Preconditions and postconditions</h2>
 <p><strong>Preconditions</strong> are conditions that must be true before a function executes:</p>
-<div id="39bf243a" class="cell" data-execution_count="45">
+<div id="77840947" class="cell" data-execution_count="45">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb79"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_sharpe_ratio_with_checks(returns, risk_free_rate<span class="op">=</span><span class="fl">0.02</span>):</span>
 <span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb79-3"><a href="#cb79-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Calculate Sharpe ratio.</span></span>
@@ -1422,7 +1422,7 @@ Mean: 3.0</code></pre>
 <span id="cb79-14"><a href="#cb79-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">pass</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p><strong>Postconditions</strong> are conditions that must be true after a function executes:</p>
-<div id="e51859d6" class="cell" data-execution_count="46">
+<div id="b22db66b" class="cell" data-execution_count="46">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb80"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_probability(successes, trials):</span>
 <span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb80-3"><a href="#cb80-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Calculate probability.</span></span>
@@ -1443,7 +1443,7 @@ Mean: 3.0</code></pre>
 </div>
 </div>
 <p>Postconditions are useful for catching computational errors:</p>
-<div id="da88ba09" class="cell" data-execution_count="47">
+<div id="fa5dbd22" class="cell" data-execution_count="47">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb82"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Bug: swapped arguments</span></span>
 <span id="cb82-2"><a href="#cb82-2" aria-hidden="true" tabindex="-1"></a>calculate_probability(<span class="dv">100</span>, <span class="dv">75</span>)  <span class="co"># AssertionError: Invalid probability</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-error">
@@ -1478,7 +1478,7 @@ Mean: 3.0</code></pre>
 <li>Always returns the same output for the same input</li>
 <li>Has no side effects (doesn’t modify anything outside itself)</li>
 </ol>
-<div id="8a2c36bd" class="cell" data-execution_count="48">
+<div id="a22b7b9f" class="cell" data-execution_count="48">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb83"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Pure function</span></span>
 <span id="cb83-2"><a href="#cb83-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_total(values):</span>
 <span id="cb83-3"><a href="#cb83-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Sum values and return total."""</span></span>
@@ -1505,7 +1505,7 @@ Mean: 3.0</code></pre>
 <section id="stateful-functions" class="level2">
 <h2 class="anchored" data-anchor-id="stateful-functions">7.2 Stateful functions</h2>
 <p>A <strong>stateful function</strong> modifies state outside itself:</p>
-<div id="2835dacf" class="cell" data-execution_count="49">
+<div id="62f8dc57" class="cell" data-execution_count="49">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb85"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Stateful function - modifies global</span></span>
 <span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a>total_global <span class="op">=</span> <span class="dv">0</span></span>
 <span id="cb85-3"><a href="#cb85-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1533,7 +1533,7 @@ Mean: 3.0</code></pre>
 <section id="refactoring-stateful-to-pure" class="level2">
 <h2 class="anchored" data-anchor-id="refactoring-stateful-to-pure">7.3 Refactoring stateful to pure</h2>
 <p><strong>Stateful version:</strong></p>
-<div id="37b9f91f" class="cell" data-execution_count="50">
+<div id="7974e065" class="cell" data-execution_count="50">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb87"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a>portfolio_global <span class="op">=</span> {<span class="st">"cash"</span>: <span class="dv">10000</span>, <span class="st">"stocks"</span>: <span class="dv">0</span>}</span>
 <span id="cb87-2"><a href="#cb87-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb87-3"><a href="#cb87-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> buy_stocks_stateful(shares, price):</span>
@@ -1550,7 +1550,7 @@ Mean: 3.0</code></pre>
 </div>
 </div>
 <p><strong>Pure version:</strong></p>
-<div id="6c0491f2" class="cell" data-execution_count="51">
+<div id="45f3c1c1" class="cell" data-execution_count="51">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb89"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> buy_stocks_pure(portfolio, shares, price):</span>
 <span id="cb89-2"><a href="#cb89-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb89-3"><a href="#cb89-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Buy stocks, returning new portfolio.</span></span>
@@ -1623,7 +1623,7 @@ After (pure): {'cash': 9000, 'stocks': 10}</code></pre>
 <section id="organizing-within-a-single-file" class="level2">
 <h2 class="anchored" data-anchor-id="organizing-within-a-single-file">8.1 Organizing within a single file</h2>
 <p>Even in a single file, use structure:</p>
-<div id="9c593f50" class="cell" data-execution_count="52">
+<div id="67f118ea" class="cell" data-execution_count="52">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb91"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a><span class="co">"""</span></span>
 <span id="cb91-2"><a href="#cb91-2" aria-hidden="true" tabindex="-1"></a><span class="co">Portfolio analysis module.</span></span>
 <span id="cb91-3"><a href="#cb91-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1692,7 +1692,7 @@ After (pure): {'cash': 9000, 'stocks': 10}</code></pre>
 <li>Run directly as a script</li>
 <li>Imported as a module</li>
 </ul>
-<div id="c4a4a6f5" class="cell" data-execution_count="53">
+<div id="79584e24" class="cell" data-execution_count="53">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb92"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Demonstration of __name__</span></span>
 <span id="cb92-2"><a href="#cb92-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> useful_function():</span>
 <span id="cb92-3"><a href="#cb92-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""This can be imported."""</span></span>
@@ -1800,7 +1800,7 @@ git push (upload to remote, optional)</code></pre>
 <li>Edge cases are handled properly</li>
 <li>Code behaves as documented</li>
 </ul>
-<div id="e736ecce" class="cell" data-execution_count="54">
+<div id="9c25b401" class="cell" data-execution_count="54">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb96"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_mean_test(values):</span>
 <span id="cb96-2"><a href="#cb96-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Calculate arithmetic mean."""</span></span>
 <span id="cb96-3"><a href="#cb96-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">sum</span>(values) <span class="op">/</span> <span class="bu">len</span>(values)</span>
@@ -1819,7 +1819,7 @@ git push (upload to remote, optional)</code></pre>
 <section id="types-of-tests" class="level2">
 <h2 class="anchored" data-anchor-id="types-of-tests">10.2 Types of tests</h2>
 <p><strong>Unit tests</strong>: Test individual functions in isolation</p>
-<div id="d882d3d4" class="cell" data-execution_count="55">
+<div id="bab3d3d7" class="cell" data-execution_count="55">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb98"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb98-1"><a href="#cb98-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_return_func(initial, final):</span>
 <span id="cb98-2"><a href="#cb98-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Calculate simple return."""</span></span>
 <span id="cb98-3"><a href="#cb98-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (final <span class="op">-</span> initial) <span class="op">/</span> initial</span>
@@ -1843,7 +1843,7 @@ git push (upload to remote, optional)</code></pre>
 </div>
 </div>
 <p><strong>Edge case tests</strong>: Test boundary conditions</p>
-<div id="178b8ea2" class="cell" data-execution_count="56">
+<div id="d1fd3412" class="cell" data-execution_count="56">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb100"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb100-1"><a href="#cb100-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_edge_cases():</span>
 <span id="cb100-2"><a href="#cb100-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Test edge cases for mean calculation."""</span></span>
 <span id="cb100-3"><a href="#cb100-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Single value</span></span>
@@ -1871,7 +1871,7 @@ git push (upload to remote, optional)</code></pre>
 <h2 class="anchored" data-anchor-id="single-responsibility-principle">11.1 Single Responsibility Principle</h2>
 <p>Each function should do one thing well:</p>
 <p><strong>Bad:</strong></p>
-<div id="6405e9cf" class="cell" data-execution_count="57">
+<div id="731ce583" class="cell" data-execution_count="57">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb102"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb102-1"><a href="#cb102-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> analyze_data(data):</span>
 <span id="cb102-2"><a href="#cb102-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Do everything (too much!)."""</span></span>
 <span id="cb102-3"><a href="#cb102-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Clean data</span></span>
@@ -1892,7 +1892,7 @@ git push (upload to remote, optional)</code></pre>
 <span id="cb102-18"><a href="#cb102-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> mean, variance</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p><strong>Good:</strong></p>
-<div id="c9a7abf3" class="cell" data-execution_count="58">
+<div id="b7e310be" class="cell" data-execution_count="58">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb103"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb103-1"><a href="#cb103-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> clean_data(data):</span>
 <span id="cb103-2"><a href="#cb103-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Remove None values."""</span></span>
 <span id="cb103-3"><a href="#cb103-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [x <span class="cf">for</span> x <span class="kw">in</span> data <span class="cf">if</span> x <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>]</span>
@@ -1944,7 +1944,7 @@ Variance: 1.25</code></pre>
 <p>In Lecture 4, we’ll apply these organizational principles to numerical computing with NumPy.</p>
 <p>The functions you’ve learned to write will form the foundation for:</p>
 <p><strong>NumPy arrays</strong> instead of Python lists:</p>
-<div id="5a3e693b" class="cell" data-execution_count="59">
+<div id="8c744ece" class="cell" data-execution_count="59">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb105"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb105-1"><a href="#cb105-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb105-2"><a href="#cb105-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb105-3"><a href="#cb105-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_returns_vectorized(prices):</span>
@@ -1954,7 +1954,7 @@ Variance: 1.25</code></pre>
 <span id="cb105-7"><a href="#cb105-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> returns</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p><strong>Vectorized operations</strong> for efficiency:</p>
-<div id="4232a450" class="cell" data-execution_count="60">
+<div id="f85b2228" class="cell" data-execution_count="60">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb106"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Python loops (slow for large data)</span></span>
 <span id="cb106-2"><a href="#cb106-2" aria-hidden="true" tabindex="-1"></a>returns <span class="op">=</span> []</span>
 <span id="cb106-3"><a href="#cb106-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="bu">len</span>(prices)):</span>
