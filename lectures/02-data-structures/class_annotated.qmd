@@ -5,6 +5,7 @@ format:
   html:
     code-fold: false
     toc: true
+	code-annotations: hover
 jupyter: python3
 ---
 
@@ -96,6 +97,42 @@ All control flow structures in Python follow the same pattern:
 - **Colon** (`:`) signals the start of the code block
 - **Indentation** (4 spaces) defines what's inside the block
 - **Unindenting** ends the block
+
+### The Three Main Control Structures
+
+```python
+# FOR LOOP: Iterate through a collection
+for item in collection:                          # <1>
+    # Do something with item                     # <2>
+    print(item)                                  # <2>
+
+# WHILE LOOP: Repeat while condition is true  
+while condition_is_true:                         # <3>
+    # Do something                               # <4>
+    # Update something to eventually make        # <4>
+    # condition false                            # <4>
+    
+# IF/ELIF/ELSE: Conditional execution
+if condition1:                                   # <5>
+    # Do this if condition1 is true             # <6>
+elif condition2:                                 # <7>
+    # Do this if condition1 false but            # <8>
+    # condition2 is true                         # <8>
+else:                                            # <9>
+    # Do this if all conditions false           # <10>
+```
+1. **Keyword** `for`, **iteration variable** `item`, **collection**, **colon**
+2. **Indented block**: executes once for each item
+3. **Keyword** `while`, **condition**, **colon**
+4. **Indented block**: executes repeatedly while condition is true
+5. **Keyword** `if`, **condition**, **colon**
+6. **Indented block**: executes only if condition1 is true
+7. **Keyword** `elif` (else-if), **condition**, **colon**
+8. **Indented block**: executes only if condition1 false but condition2 true
+9. **Keyword** `else`, **colon** (no condition!)
+10. **Indented block**: executes only if all previous conditions were false
+
+**Notice:** Same pattern every time—keyword, condition/variable, colon, indent!
 
 ### The Three Main Control Structures
 
@@ -309,6 +346,26 @@ To "look at each remaining temperature," we need **iteration**. Python's `for` l
 ```{python}
 temperatures = [15.2, 17.1, 14.8, 19.3, 16.5, 18.2, 14.1, 20.5]
 
+current_max = temperatures[0]                    # <1>
+
+for temp in temperatures[1:]:                    # <2>
+    if temp > current_max:                       # <3>
+        current_max = temp                       # <3>
+
+print(f"Maximum temperature: {current_max}°C")   # <4>
+```
+1. Initialize our "best so far" with the first temperature
+2. Loop through remaining temperatures (indices 1 through end)
+3. Update our maximum only when we find a larger value
+4. After examining all values, report the result
+
+### Implementation: The `for` Loop
+
+To "look at each remaining temperature," we need **iteration**. Python's `for` loop does exactly this:
+
+```{python}
+temperatures = [15.2, 17.1, 14.8, 19.3, 16.5, 18.2, 14.1, 20.5]
+
 current_max = temperatures[0]
 
 for temp in temperatures[1:]:
@@ -387,6 +444,25 @@ temperatures = [15.2, 17.1, 14.8, 19.3, 16.5, 18.2, 14.1, 20.5]
 2. Examine each temperature
 3. If the temperature exceeds the threshold, increase the count
 4. Return the final count
+
+### Implementation
+
+```{python}
+temperatures = [15.2, 17.1, 14.8, 19.3, 16.5, 18.2, 14.1, 20.5]
+threshold = 17.0
+
+count = 0                                        # <1>
+
+for temp in temperatures:                        # <2>
+    if temp > threshold:                         # <3>
+        count += 1                               # <4>
+
+print(f"Days above {threshold}°C: {count}")
+```
+1. Initialize accumulator at zero
+2. Examine each temperature in order
+3. Check if current temperature exceeds threshold
+4. Increment counter only when condition is true
 
 ### Implementation
 
@@ -914,6 +990,38 @@ counts
 ```{python}
 text = "banana"
 
+counts = {}                                      # <1>
+
+for char in text:                                # <2>
+    if char not in counts:                       # <3>
+        counts[char] = 0                         # <3>
+    counts[char] += 1                            # <4>
+
+counts
+```
+1. Start with empty dictionary to store character → count mappings
+2. Process each character in the string
+3. First time seeing a character? Initialize its count to 0
+4. Increment the count for this character (works whether first time or not)
+
+Let's trace through this:
+
+```text
+Initial: counts = {}
+
+char = 'b': counts = {'b': 1}
+char = 'a': counts = {'b': 1, 'a': 1}
+char = 'n': counts = {'b': 1, 'a': 1, 'n': 1}
+char = 'a': counts = {'b': 1, 'a': 2, 'n': 1}
+char = 'n': counts = {'b': 1, 'a': 2, 'n': 2}
+char = 'a': counts = {'b': 1, 'a': 3, 'n': 2}
+```
+
+### Counting Algorithm
+
+```{python}
+text = "banana"
+
 counts = {}
 
 for char in text:
@@ -1113,6 +1221,56 @@ We've learned several data structures. Does it matter which one we use?
 ## Exercise: Detect Duplicates
 
 **Question:** Does a list contain any duplicate values?
+
+### Algorithm 1: Compare All Pairs
+
+```{python}
+values = [1, 2, 3, 4, 5, 3, 6]
+
+has_duplicate = False
+
+for i in range(len(values)):                     # <1>
+    for j in range(i + 1, len(values)):          # <2>
+        if values[i] == values[j]:               # <3>
+            has_duplicate = True                 # <4>
+            break                                # <5>
+    if has_duplicate:
+        break
+
+has_duplicate
+```
+1. Outer loop: select each value as a reference point
+2. Inner loop: compare reference against all subsequent values
+3. Check if we found a match
+4. Record that we found a duplicate
+5. Exit both loops early (optimization)
+
+This uses **nested loops**: for each value, check it against every other value.
+
+### Algorithm 2: Use a Set
+
+```{python}
+values = [1, 2, 3, 4, 5, 3, 6]
+
+seen = set()                                     # <1>
+has_duplicate = False
+
+for value in values:                             # <2>
+    if value in seen:                            # <3>
+        has_duplicate = True                     # <4>
+        break                                    # <5>
+    seen.add(value)                              # <6>
+
+has_duplicate
+```
+1. Track values we've already encountered (initially empty)
+2. Process values one at a time, in order
+3. Check if current value is already in our "seen" set (fast!)
+4. If yes, we found a duplicate
+5. Exit loop early—no need to continue
+6. If not a duplicate, add to our tracking set for future comparisons
+
+This uses a **single loop** and a set to track what we've seen.
 
 ### Algorithm 1: Compare All Pairs
 
