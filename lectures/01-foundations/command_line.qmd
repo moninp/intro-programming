@@ -1,0 +1,1228 @@
+---
+title: "Command Line Survival Guide"
+subtitle: "A Practical Reference for MATH 5200"
+format:
+  html:
+    toc: true
+  pdf:
+    toc: true
+    number-sections: true
+---
+
+# Command Line in One Minute
+
+The **command line** is a way to interact with your computer by typing commands rather than clicking through graphical interfaces.
+
+Three ideas are enough to get started:
+
+1. A **terminal** is the application in which you type commands.
+2. A **shell** is the program that reads those commands and executes them.
+3. The shell always has a **current working directory**: the folder in which it is currently operating.
+
+A typical workflow looks like this:
+
+```text
+computer / operating system
+          |
+        shell
+          |
+    +-----+-----+---------+
+    |           |         |
+  Python      Git       Quarto
+    |
+ Python program
+```
+
+The shell is not Python. When you type
+
+```text
+python
+```
+
+the shell starts Python.
+
+When you type
+
+```text
+git status
+```
+
+the shell starts Git.
+
+When you type
+
+```python
+print("hello")
+```
+
+you are writing Python code, not a shell command.
+
+# Where Am I?
+
+Your shell always has a **current working directory**.
+
+On macOS and Linux:
+
+```bash
+pwd
+```
+
+On Windows PowerShell:
+
+```powershell
+Get-Location
+```
+
+PowerShell also accepts `pwd` as an alias.
+
+The current directory matters because many commands interpret filenames and paths relative to it.
+
+If your current directory is
+
+```text
+C:\Users\Alex\MATH_5200
+```
+
+then
+
+```text
+data\returns.csv
+```
+
+refers to the file
+
+```text
+C:\Users\Alex\MATH_5200\data\returns.csv
+```
+
+The same idea on macOS/Linux might look like:
+
+```text
+/Users/alex/MATH_5200/data/returns.csv
+```
+
+## `.` and `..`
+
+Two special path names are worth knowing:
+
+- `.` means **the current directory**
+- `..` means **the parent directory**
+
+For example:
+
+```bash
+cd ..
+```
+
+moves up one level.
+
+You can also refer explicitly to the current directory:
+
+```bash
+ls .
+```
+
+or:
+
+```bash
+python ./analysis.py
+```
+
+# Listing Files
+
+The standard command on macOS/Linux is:
+
+```bash
+ls
+```
+
+It lists the contents of the current directory.
+
+In Windows PowerShell, the native command is:
+
+```powershell
+Get-ChildItem
+```
+
+but `ls` is also available as a PowerShell alias.
+
+You can list another directory without moving into it:
+
+```bash
+ls data
+```
+
+The exact options vary by shell. The important habit is:
+
+> **List the contents of a directory before you start guessing what is there.**
+
+# Moving Around
+
+The basic command for changing directories is:
+
+```bash
+cd
+```
+
+For example:
+
+```bash
+cd data
+```
+
+moves into a directory named `data`.
+
+Move back to the parent directory:
+
+```bash
+cd ..
+```
+
+You can move through several levels at once:
+
+```bash
+cd projects/MATH_5200/data
+```
+
+A path such as
+
+```text
+projects/MATH_5200/data
+```
+
+is a **relative path**: it is interpreted starting from the current directory.
+
+# Relative and Absolute Paths
+
+A **relative path** tells the computer where something is relative to the current directory.
+
+An **absolute path** specifies the complete location.
+
+Windows:
+
+```text
+C:\Users\Alex\MATH_5200\data\returns.csv
+```
+
+macOS/Linux:
+
+```text
+/Users/alex/MATH_5200/data/returns.csv
+```
+
+A relative path might instead be:
+
+```text
+data/returns.csv
+```
+
+These can refer to the same file if the current directory is the `MATH_5200` directory.
+
+## Why this matters in Python
+
+Suppose your Python program contains:
+
+```python
+import pandas as pd
+
+df = pd.read_csv("data/returns.csv")
+```
+
+The path is interpreted relative to the **Python process's current working directory**.
+
+You can inspect that directory from Python:
+
+```python
+from pathlib import Path
+
+Path.cwd()
+```
+
+This is one of the first things to check when Python says it cannot find a file.
+
+> A file's location and your program's current working directory are not the same thing.
+
+# Creating and Managing Directories and Files
+
+These commands are enough for most routine coursework.
+
+| Task | macOS/Linux | Windows PowerShell |
+|---|---|---|
+| Show current directory | `pwd` | `Get-Location` / `pwd` |
+| List files | `ls` | `Get-ChildItem` / `ls` |
+| Change directory | `cd` | `cd` |
+| Create directory | `mkdir` | `mkdir` |
+| Copy | `cp` | `Copy-Item` / `cp` |
+| Move/rename | `mv` | `Move-Item` / `mv` |
+| Remove | `rm` | `Remove-Item` / `rm` |
+
+## `mkdir`
+
+Create a directory:
+
+```bash
+mkdir data
+```
+
+Then:
+
+```bash
+cd data
+```
+
+## `cp`
+
+Copy a file:
+
+```bash
+cp original.csv backup.csv
+```
+
+## `mv`
+
+Move or rename a file:
+
+```bash
+mv old_name.csv new_name.csv
+```
+
+Renaming is conceptually just a move within the same directory.
+
+## `rm`
+
+Remove a file:
+
+```bash
+rm old_name.csv
+```
+
+**Be careful with `rm` and recursive deletion.** Command-line deletion generally bypasses the graphical recycle-bin/trash workflow. Do not use recursive deletion commands unless you understand exactly what they will remove.
+
+# The File System as a Tree
+
+It helps to imagine your computer's file system as a tree:
+
+```text
+MATH_5200/
+├── notes/
+│   ├── python_objects.qmd
+│   └── command_line.qmd
+├── data/
+│   ├── prices.csv
+│   └── returns.csv
+├── src/
+│   └── analysis.py
+└── README.md
+```
+
+If your current directory is `MATH_5200/`, then:
+
+```text
+data/returns.csv
+```
+
+means "go into `data`, then find `returns.csv`."
+
+If your current directory is `MATH_5200/data/`, then:
+
+```text
+../README.md
+```
+
+means "go up one level, then find `README.md`."
+
+Thinking in terms of this tree makes `cd`, relative paths, Git repositories, and Python file paths much easier to understand.
+
+# Spaces and Quoting
+
+Spaces normally separate arguments to a shell command.
+
+Suppose a directory is named:
+
+```text
+My Project
+```
+
+This may not work as intended:
+
+```bash
+cd My Project
+```
+
+Quote the path instead:
+
+```bash
+cd "My Project"
+```
+
+As a practical rule:
+
+> If a path contains spaces, quote it.
+
+# Programs Are Commands Too
+
+The command line is also a way to **launch programs**.
+
+For example:
+
+```bash
+python
+```
+
+starts Python.
+
+```bash
+git
+```
+
+starts Git.
+
+```bash
+quarto
+```
+
+starts Quarto.
+
+And:
+
+```bash
+python analysis.py
+```
+
+asks Python to execute `analysis.py`.
+
+The shell therefore acts as a coordinator:
+
+```text
+shell
+ |
+ +-- create directories
+ +-- move files
+ +-- start Python
+ +-- start Git
+ +-- start Quarto
+ +-- run other tools
+```
+
+# PATH: How Does the Shell Find a Program?
+
+When you type:
+
+```bash
+python
+```
+
+you usually do not provide the full path to the Python executable.
+
+One important mechanism is the **PATH environment variable**.
+
+`PATH` is essentially a list of directories that the operating system searches for executable programs.
+
+Conceptually:
+
+```text
+PATH =
+    directory A
+    directory B
+    directory C
+    ...
+```
+
+When you type `python`, the shell searches those locations until it finds an appropriate executable.
+
+## Inspecting PATH
+
+macOS/Linux:
+
+```bash
+echo $PATH
+```
+
+PowerShell:
+
+```powershell
+$env:PATH
+```
+
+## Finding an executable
+
+Windows:
+
+```powershell
+where.exe python
+```
+
+macOS/Linux:
+
+```bash
+which python
+```
+
+These commands can help diagnose situations in which the wrong Python installation is being used.
+
+# Environment Variables
+
+An **environment variable** is a named piece of information made available to processes launched by the operating system or shell.
+
+Common examples include:
+
+```text
+PATH
+HOME
+USER
+```
+
+The exact set differs across operating systems.
+
+Programs launched by the shell can generally read the environment. Python can inspect it:
+
+```python
+import os
+
+os.environ["PATH"]
+```
+
+You can also inspect the entire environment:
+
+```python
+os.environ
+```
+
+The relationship is:
+
+```text
+shell environment
+       |
+       | launches
+       v
+     Python
+       |
+       | inherits environment
+       v
+ Python program
+```
+
+Environment variables are useful for configuration and other information that should not necessarily be hard-coded into a program.
+
+# Running Python from the Command Line
+
+The simplest command is:
+
+```bash
+python
+```
+
+This starts the Python interpreter interactively.
+
+You can also run a Python file:
+
+```bash
+python analysis.py
+```
+
+Or execute a short expression:
+
+```bash
+python -c "print(2 + 3)"
+```
+
+You may encounter:
+
+```bash
+python3
+```
+
+on some macOS/Linux systems. Whether `python` or `python3` is appropriate depends on how Python is installed.
+
+# `python -m`
+
+The `-m` option tells Python to run a **module as a program**.
+
+Two especially important examples are:
+
+```bash
+python -m pip install numpy
+```
+
+and:
+
+```bash
+python -m venv .venv
+```
+
+This is different from:
+
+```bash
+python some_script.py
+```
+
+The latter executes a file; `python -m something` asks the Python interpreter to locate and execute a module named `something`.
+
+## Why `python -m pip`?
+
+You will often see:
+
+```bash
+pip install numpy
+```
+
+But:
+
+```bash
+python -m pip install numpy
+```
+
+explicitly asks **this Python interpreter** to run its associated `pip`.
+
+That helps avoid the common problem:
+
+```text
+"pip installed the package,
+but Python cannot import it."
+```
+
+Often the underlying issue is that `pip` and `python` refer to different installations or environments.
+
+A good default habit is:
+
+```bash
+python -m pip install package_name
+```
+
+# Virtual Environments
+
+A **virtual environment** gives a project its own isolated Python environment and installed packages.
+
+Create one with:
+
+```bash
+python -m venv .venv
+```
+
+This creates a directory named `.venv`.
+
+## Activating the environment
+
+Windows PowerShell:
+
+```powershell
+.venv\Scripts\Activate.ps1
+```
+
+macOS/Linux:
+
+```bash
+source .venv/bin/activate
+```
+
+After activation, commands such as:
+
+```bash
+python
+```
+
+and:
+
+```bash
+python -m pip
+```
+
+should refer to the Python installation in that virtual environment.
+
+The shell prompt often changes to indicate that the environment is active.
+
+## Why use virtual environments?
+
+Suppose Project A requires one version of a package while Project B requires another.
+
+With virtual environments:
+
+```text
+Project A
+   |
+   +-- .venv
+       +-- Python
+       +-- packages
+
+Project B
+   |
+   +-- .venv
+       +-- Python
+       +-- packages
+```
+
+Each project can maintain its own computational environment.
+
+Virtual environments are therefore part of **reproducible computational practice**, not merely a Python trick.
+
+# Do You Have the Right Python?
+
+When something goes wrong, do not guess. Ask Python.
+
+Check the version:
+
+```bash
+python --version
+```
+
+Find the exact Python executable:
+
+```bash
+python -c "import sys; print(sys.executable)"
+```
+
+Find the `pip` associated with that interpreter:
+
+```bash
+python -m pip --version
+```
+
+These answer:
+
+1. What Python version am I running?
+2. Which Python installation am I running?
+3. Which `pip` belongs to that Python?
+
+# Git Lives in the Same World
+
+Git is another command-line program.
+
+Check that it is installed:
+
+```bash
+git --version
+```
+
+Some Git commands you will use in MATH 5200 include:
+
+```bash
+git status
+git init
+git clone
+git add
+git commit
+git pull
+git push
+```
+
+For example:
+
+```text
+git status
+```
+
+means:
+
+1. the shell reads `git status`;
+2. the shell finds the Git executable;
+3. Git starts;
+4. Git interprets `status` as its subcommand;
+5. Git reports the state of the repository.
+
+The same general pattern applies to Python and Quarto.
+
+# Shell vs. Python vs. Git
+
+| What you type | Interpreted by | Meaning |
+|---|---|---|
+| `cd data` | Shell | Change the shell's current directory |
+| `ls` | Shell | List directory contents |
+| `python analysis.py` | Shell → Python | Start Python and run a file |
+| `print(x)` | Python | Execute Python code |
+| `import numpy as np` | Python | Import a Python package |
+| `git status` | Shell → Git | Start Git and run `status` |
+| `quarto render` | Shell → Quarto | Start Quarto and render a document |
+
+For example, this is **not** Python:
+
+```bash
+cd data
+```
+
+And this is **not** a shell command:
+
+```python
+x = [1, 2, 3]
+```
+
+Keeping the two worlds separate prevents many beginner errors.
+
+# Commands, Options, and Arguments
+
+A command often has a structure like:
+
+```text
+program   options   arguments
+```
+
+For example:
+
+```bash
+python -m pip install numpy
+```
+
+can be read conceptually as:
+
+```text
+python       program
+-m           option
+pip          module
+install      pip subcommand
+numpy        argument
+```
+
+Another example:
+
+```bash
+git commit -m "Initial analysis"
+```
+
+contains:
+
+```text
+git                  program
+commit               subcommand
+-m                   option
+"Initial analysis"   argument
+```
+
+Different programs use different conventions. The important idea is:
+
+> A command is an instruction to a program, followed by information that tells the program what to do.
+
+# Getting Help
+
+Many command-line programs provide help:
+
+```bash
+python --help
+```
+
+```bash
+git --help
+```
+
+and often:
+
+```bash
+some_command --help
+```
+
+PowerShell also has:
+
+```powershell
+Get-Help
+```
+
+Python has its own help system once you are inside Python:
+
+```python
+help()
+```
+
+or:
+
+```python
+help(str)
+```
+
+The shell and Python therefore have different documentation and help systems.
+
+# Common Problems and Diagnosis
+
+## "Command not found"
+
+Possible causes include:
+
+- the program is not installed;
+- the executable is not on PATH;
+- a virtual environment is not activated;
+- you are using a different shell/environment than expected.
+
+For Python:
+
+```bash
+python --version
+```
+
+```bash
+python -c "import sys; print(sys.executable)"
+```
+
+For Git:
+
+```bash
+git --version
+```
+
+## "File not found"
+
+First ask:
+
+> Where am I?
+
+In the shell:
+
+```bash
+pwd
+```
+
+or in Python:
+
+```python
+from pathlib import Path
+
+Path.cwd()
+```
+
+Then ask:
+
+> What files are actually here?
+
+Use:
+
+```bash
+ls
+```
+
+or the appropriate PowerShell command.
+
+Do not immediately change the Python code. First verify your assumptions about the file system.
+
+## "Python cannot import my package"
+
+Check:
+
+```bash
+python -m pip --version
+```
+
+and:
+
+```bash
+python -c "import sys; print(sys.executable)"
+```
+
+Then verify that the environment you intend to use is active.
+
+A package installed into one Python environment is not automatically installed into every other environment.
+
+# Minimal Command-Line Reference
+
+## Files and directories
+
+```text
+pwd
+```
+
+Where am I?
+
+```text
+ls
+```
+
+What is here?
+
+```text
+cd DIRECTORY
+```
+
+Move into a directory.
+
+```text
+cd ..
+```
+
+Move to the parent directory.
+
+```text
+mkdir DIRECTORY
+```
+
+Create a directory.
+
+```text
+cp SOURCE DESTINATION
+```
+
+Copy something.
+
+```text
+mv SOURCE DESTINATION
+```
+
+Move or rename something.
+
+```text
+rm FILE
+```
+
+Remove a file.
+
+On Windows PowerShell, the native names are `Get-Location`, `Get-ChildItem`, `Copy-Item`, `Move-Item`, and `Remove-Item`, although common aliases such as `pwd`, `ls`, `cp`, `mv`, and `rm` are available.
+
+## Python
+
+```text
+python
+```
+
+Start Python interactively.
+
+```text
+python SCRIPT.py
+```
+
+Run a Python program.
+
+```text
+python -m MODULE
+```
+
+Run a Python module.
+
+```text
+python -m venv .venv
+```
+
+Create a virtual environment.
+
+```text
+python -m pip install PACKAGE
+```
+
+Install a package using that Python interpreter's `pip`.
+
+```text
+python --version
+```
+
+Check the Python version.
+
+```text
+python -c "import sys; print(sys.executable)"
+```
+
+Find the Python executable.
+
+## Git
+
+```text
+git --version
+```
+
+Check the Git version.
+
+```text
+git status
+```
+
+Check repository status.
+
+```text
+git init
+```
+
+Create a Git repository.
+
+```text
+git clone URL
+```
+
+Copy an existing repository.
+
+```text
+git add FILE
+```
+
+Stage a file.
+
+```text
+git commit
+```
+
+Create a commit.
+
+```text
+git pull
+```
+
+Retrieve and integrate changes.
+
+```text
+git push
+```
+
+Send commits to a remote repository.
+
+# Short Practice Exercise
+
+Open a terminal and work through this sequence.
+
+First:
+
+```bash
+pwd
+```
+
+Then:
+
+```bash
+ls
+```
+
+Create a practice directory:
+
+```bash
+mkdir command_line_practice
+```
+
+Move into it:
+
+```bash
+cd command_line_practice
+```
+
+Confirm your location:
+
+```bash
+pwd
+```
+
+Create a Python virtual environment:
+
+```bash
+python -m venv .venv
+```
+
+Activate it using the instructions for your operating system.
+
+Then check:
+
+```bash
+python --version
+```
+
+and:
+
+```bash
+python -c "import sys; print(sys.executable)"
+```
+
+Finally:
+
+```bash
+ls
+```
+
+You should now be able to see the `.venv` directory.
+
+The point is not to memorize commands. Practice the sequence:
+
+```text
+navigate
+   ↓
+create
+   ↓
+enter
+   ↓
+run a program
+   ↓
+inspect the result
+```
+
+# The Mental Model to Remember
+
+If you remember only five things:
+
+### 1. The shell has a current directory
+
+```bash
+pwd
+cd
+ls
+```
+
+help you understand and change where you are.
+
+### 2. Paths can be relative or absolute
+
+```text
+data/returns.csv
+```
+
+is relative.
+
+```text
+C:\Users\Alex\MATH_5200\data\returns.csv
+```
+
+is absolute on Windows.
+
+### 3. The shell launches programs
+
+```bash
+python
+git
+quarto
+```
+
+are programs that the shell can start.
+
+### 4. Python and the shell are different languages
+
+```bash
+cd data
+```
+
+is a shell command.
+
+```python
+import pandas as pd
+```
+
+is Python.
+
+### 5. Your computational environment matters
+
+These commands tell you what Python you are actually using:
+
+```bash
+python --version
+python -c "import sys; print(sys.executable)"
+python -m pip --version
+```
+
+Understanding this is essential for virtual environments, package management, Git-based projects, and reproducible computational work.
+
+# Command Line, Git, and Reproducible Computing
+
+The command line may initially seem like an alternative to clicking on folders and applications. In computational work, however, it provides something more important:
+
+> **A precise, reproducible way to tell your computer what to do.**
+
+Consider a typical MATH 5200 project:
+
+```text
+terminal
+   |
+   +-- cd project
+   |
+   +-- activate Python environment
+   |
+   +-- git pull
+   |
+   +-- python src/analyze.py
+   |
+   +-- quarto render report.qmd
+   |
+   +-- git add ...
+   |
+   +-- git commit
+   |
+   +-- git push
+```
+
+Each step can be written down, repeated, inspected, and eventually automated.
+
+That is the deeper reason to learn the command line: it is a foundation for moving from **manually operating a computer** toward **building computational workflows**.
