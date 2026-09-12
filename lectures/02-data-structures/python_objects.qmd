@@ -1,0 +1,1683 @@
+---
+title: "Python Objects: Types, Attributes, Methods, and the Dot"
+subtitle: "MATH 5200 — Computing Using R & Python"
+format:
+  html:
+    toc: true
+    number-sections: true
+  pdf:
+    documentclass: article
+    fontsize: 10.5pt
+    geometry:
+      - top=0.7in
+      - bottom=0.7in
+      - left=0.8in
+      - right=0.8in
+    colorlinks: false
+    toc: true
+    number-sections: true
+    pdf-engine: lualatex
+jupyter: python3
+---
+
+# Purpose
+
+Python code can sometimes look like a collection of unrelated rules:
+
+```python
+x.append(4)
+len(x)
+x[0]
+np.linalg.norm(x)
+```
+
+These expressions become much easier to understand once we have a mental model of **objects, names, types, attributes, methods, and protocols**.
+
+The goal of this note is not to teach object-oriented programming. Instead, it explains the computational model underlying ordinary Python code.
+
+By the end, you should be able to answer questions such as:
+
+- What is a Python variable?
+- What is an object?
+- What does the dot (`.`) mean?
+- What is the difference between an attribute, a function, and a method?
+- Why do some operations use functions such as `len(x)` rather than methods such as `x.len()`?
+- What are names such as `__len__` and `__repr__`?
+- What happens when we import a module?
+- How can we investigate an unfamiliar object?
+
+A useful high-level picture is:
+
+```text
+                         Python program
+                               |
+                         names / bindings
+                               |
+                         Python objects
+                         /             \
+                      data          behavior
+                       |                |
+                  attributes         methods
+```
+
+# Names and Objects
+
+Consider:
+
+```python
+x = [1, 2, 3]
+```
+
+It is tempting to imagine that Python creates a box called `x` containing the list. A more useful model is that Python creates a **list object** and binds the name `x` to that object.
+
+We can investigate the object:
+
+```python
+x = [1, 2, 3]
+
+type(x)
+id(x)
+```
+
+`type(x)` tells us what kind of object `x` refers to. `id(x)` gives an identity associated with that particular object during its lifetime.
+
+## Two names can refer to the same object
+
+```python
+x = [1, 2, 3]
+y = x
+
+x is y
+x == y
+```
+
+Both expressions are `True`, but they mean different things:
+
+- `==` asks whether two objects have equal values.
+- `is` asks whether they are the same object.
+
+Now mutate the list:
+
+```python
+y.append(4)
+
+x
+y
+```
+
+Both names see the change because they refer to the same mutable object.
+
+### Names are not boxes
+
+Compare this with:
+
+```python
+x = 10
+y = x
+
+x = 20
+
+x
+y
+```
+
+Here, rebinding `x` does not change the object to which `y` refers.
+
+The useful mental model is therefore:
+
+> **A name refers to an object. Assignment binds or rebinds a name; it does not mean "put a value into a variable box."**
+
+This distinction becomes especially important for mutable objects.
+
+# Every Object Has a Type
+
+Python objects have types:
+
+```python
+type(42)
+type(3.14)
+type("hello")
+type([1, 2, 3])
+type({"a": 1})
+type(None)
+type(True)
+```
+
+Common built-in types include:
+
+- `int`
+- `float`
+- `bool`
+- `str`
+- `list`
+- `tuple`
+- `dict`
+- `set`
+
+We can test whether an object belongs to a type:
+
+```python
+x = [1, 2, 3]
+
+isinstance(x, list)
+isinstance(x, int)
+```
+
+An individual object is often called an **instance** of its type. Thus:
+
+```text
+list                    → a type
+[1, 2, 3]               → an instance of list
+```
+
+More precisely, Python's object model is built around classes and instances. A class defines the behavior associated with a type, while an instance is an individual object of that type.
+
+We will use this idea later, but we do not need to study object-oriented programming to benefit from it.
+
+# Attributes and the Dot
+
+Now consider:
+
+```python
+x = [1, 2, 3]
+
+x.append
+```
+
+The expression does not call anything. It **looks up an attribute** named `append` on the object referenced by `x`.
+
+The dot notation
+
+```python
+object.attribute
+```
+
+means, roughly:
+
+> Find the attribute with this name associated with this object.
+
+For example:
+
+```python
+x.append
+x.copy
+x.count
+```
+
+We can discover many available names with:
+
+```python
+dir(x)
+```
+
+A useful way to hide Python's special names is:
+
+```python
+[name for name in dir(x) if not name.startswith("_")]
+```
+
+The important idea is:
+
+> **The dot is attribute access. It is not intrinsically a method operation.**
+
+# Attributes Are Not Necessarily Methods
+
+Consider the `math` module:
+
+```python
+import math
+
+math.pi
+math.sqrt
+```
+
+These are both attributes of the `math` module, but they are different kinds of objects.
+
+```python
+callable(math.pi)
+callable(math.sqrt)
+```
+
+`math.pi` is a value. `math.sqrt` is callable.
+
+Thus:
+
+```python
+math.pi
+```
+
+retrieves an attribute, while:
+
+```python
+math.sqrt(16)
+```
+
+retrieves an attribute and then calls the resulting object.
+
+A useful decomposition is:
+
+```text
+math.sqrt(16)
+|    |     |
+|    |     +-- argument
+|    +-------- attribute lookup
++------------- name lookup
+```
+
+The parentheses `()` are the **call operator**. The dot `.` is the **attribute-access operator**.
+
+These are separate operations.
+
+# Methods
+
+Return to the list:
+
+```python
+x = [1, 2, 3]
+
+x.append
+```
+
+The `append` attribute is a method associated with the list object. Calling it:
+
+```python
+x.append(4)
+```
+
+invokes that method.
+
+A useful first approximation is:
+
+> **A method is callable behavior accessed through an object's attributes.**
+
+This gives us the familiar syntax:
+
+```python
+object.method(arguments)
+```
+
+For example:
+
+```python
+x.append(4)
+x.count(2)
+x.copy()
+```
+
+The object on the left of the dot is the object whose behavior we are using.
+
+# Functions Versus Methods
+
+Python also has ordinary functions:
+
+```python
+len(x)
+sum(x)
+max(x)
+sorted(x)
+```
+
+These are not methods of `x`.
+
+Compare:
+
+```python
+len(x)
+```
+
+with:
+
+```python
+x.append(4)
+```
+
+The first is a function call. The second is attribute lookup followed by a method call.
+
+You can see this directly:
+
+```python
+len
+x.append
+```
+
+Both produce callable objects, but they are obtained differently.
+
+## Why not `x.len()`?
+
+Python uses ordinary functions for many **generic operations** that can work with many different kinds of objects:
+
+```python
+len(x)
+sum(x)
+max(x)
+sorted(x)
+```
+
+For example:
+
+```python
+len([1, 2, 3])
+len("hello")
+len({"a": 1, "b": 2})
+```
+
+This distinction becomes especially important when we look at Python's special methods.
+
+# Special Methods and Dunder Names
+
+Names surrounded by double underscores are commonly called **dunder names**, short for "double underscore."
+
+Examples include:
+
+```python
+__len__
+__getitem__
+__iter__
+__str__
+__repr__
+__add__
+```
+
+These are special methods that participate in Python's object protocols.
+
+For a list:
+
+```python
+x = [10, 20, 30]
+
+x.__len__()
+```
+
+produces the same length as:
+
+```python
+len(x)
+```
+
+Likewise:
+
+```python
+x.__getitem__(0)
+```
+
+corresponds conceptually to:
+
+```python
+x[0]
+```
+
+and:
+
+```python
+x.__add__([40, 50])
+```
+
+corresponds to:
+
+```python
+x + [40, 50]
+```
+
+You normally use the language-level operations:
+
+```python
+len(x)
+x[0]
+x + y
+```
+
+rather than calling these special methods directly.
+
+## Why does Python work this way?
+
+It lets Python provide a common interface for different object types.
+
+For example, many objects can have a length:
+
+```python
+len([1, 2, 3])
+len("hello")
+len((10, 20))
+```
+
+Python does not need to know in advance what `x` is. It uses the appropriate protocol for the object.
+
+A useful conceptual model is:
+
+```text
+len(x)
+   |
+   v
+Python uses the object's length protocol
+   |
+   v
+x.__len__()
+```
+
+Similarly:
+
+```text
+x[0]
+  |
+  v
+Python uses the object's indexing protocol
+  |
+  v
+x.__getitem__(0)
+```
+
+The details of Python's data model are more subtle than these simplified diagrams, but this model is sufficient for most ordinary programming.
+
+# Python Protocols
+
+A **protocol** is a set of operations or methods that allow an object to participate in a particular kind of computation.
+
+Examples include:
+
+| Operation | Related protocol |
+|---|---|
+| `len(x)` | length |
+| `x[i]` | indexing |
+| `for item in x` | iteration |
+| `x + y` | addition |
+| `str(x)` | string representation |
+| `repr(x)` | developer representation |
+
+This is one of the most important ideas in Python:
+
+> **Python's built-in operations often work by asking objects to provide particular behavior.**
+
+This is why different types can work with the same Python syntax.
+
+For example:
+
+```python
+for x in [1, 2, 3]:
+    print(x)
+
+for x in "hello":
+    print(x)
+```
+
+A list and a string are very different objects, but both support iteration.
+
+# `__str__` and `__repr__`
+
+Two particularly useful special methods control how objects are represented.
+
+```python
+x = [1, 2, 3]
+
+str(x)
+repr(x)
+```
+
+The distinction is subtle but useful:
+
+- `str(x)` aims at a readable representation.
+- `repr(x)` aims at a representation useful for debugging and development.
+
+For many built-in objects, the results look similar:
+
+```python
+str(x)
+repr(x)
+```
+
+`print()` uses string conversion:
+
+```python
+print(x)
+```
+
+while an interactive Python session often displays an object's representation:
+
+```python
+x
+```
+
+The important conceptual point is that an object can define standard ways for Python to represent it.
+
+# Mutation and Method Return Values
+
+Methods can mutate an object, return a new object, or return some other result.
+
+Consider:
+
+```python
+x = [3, 1, 2]
+
+x.sort()
+x
+```
+
+`sort()` changes the list itself.
+
+Now compare:
+
+```python
+x = [3, 1, 2]
+
+y = sorted(x)
+
+x
+y
+```
+
+`sorted()` returns a new sorted object while leaving the original list unchanged.
+
+A common beginner mistake is therefore:
+
+```python
+x = [3, 1, 2]
+y = x.sort()
+
+y
+```
+
+`y` is `None` because `list.sort()` performs the mutation in place rather than returning the sorted list.
+
+This distinction is part of understanding an object's interface:
+
+> **Always ask: Does this operation mutate the object, return a new object, or return some other result?**
+
+# Mutable and Immutable Objects
+
+Some objects can be changed after they are created; others cannot.
+
+Lists are mutable:
+
+```python
+x = [1, 2, 3]
+x.append(4)
+x
+```
+
+Strings are immutable:
+
+```python
+x = "hello"
+
+x.upper()
+x
+```
+
+`upper()` produces a new string; it does not modify the original string.
+
+Similarly:
+
+```python
+x = (1, 2, 3)
+```
+
+cannot be changed in place.
+
+This distinction helps explain the behavior of names that refer to the same object:
+
+```python
+x = [1, 2]
+y = x
+
+y.append(3)
+
+x
+```
+
+versus:
+
+```python
+x = "hello"
+y = x
+
+y = y.upper()
+
+x
+y
+```
+
+The issue is not simply "variables are mutable" or "variables are immutable." **Objects** have these properties.
+
+# Where Do Methods Come From?
+
+Consider:
+
+```python
+x = [1, 2, 3]
+
+type(x)
+list.append
+```
+
+`list` is the type of `x`, and `append` is behavior defined for list objects.
+
+You can inspect the type itself:
+
+```python
+dir(list)
+```
+
+and:
+
+```python
+list.append
+list.count
+list.sort
+```
+
+The same pattern appears for other built-in types:
+
+```python
+str.upper
+dict.keys
+set.add
+```
+
+A useful conceptual picture is:
+
+```text
+                         list
+                          |
+             defines list behavior
+                          |
+             +------------+------------+
+             |            |            |
+          append        sort         count
+             |
+             v
+      [1, 2, 3]      <- an instance of list
+```
+
+This is where the vocabulary of **class** and **instance** becomes useful:
+
+- `list` is a class/type.
+- `[1, 2, 3]` is an instance of `list`.
+- `append` is behavior defined for list objects.
+
+# A Tiny Class Reveals What `self` Means
+
+We do not need to learn object-oriented programming to understand method syntax.
+
+Consider this small class:
+
+```python
+class Counter:
+    def __init__(self, value=0):
+        self.value = value
+
+    def increment(self):
+        self.value += 1
+```
+
+Create an instance:
+
+```python
+c = Counter()
+```
+
+It has an attribute:
+
+```python
+c.value
+```
+
+and a method:
+
+```python
+c.increment
+```
+
+Calling:
+
+```python
+c.increment()
+```
+
+changes:
+
+```python
+c.value
+```
+
+## What is `self`?
+
+When Python evaluates:
+
+```python
+c.increment()
+```
+
+the object `c` is associated with the method call.
+
+Conceptually, this is related to:
+
+```python
+Counter.increment(c)
+```
+
+That is why the method definition has:
+
+```python
+def increment(self):
+```
+
+`self` refers to the instance on which the method is being invoked.
+
+Similarly:
+
+```python
+self.value
+```
+
+means:
+
+> Look up the `value` attribute on this particular instance.
+
+This is the same dot notation we have already been using:
+
+```python
+object.attribute
+```
+
+The class example simply makes the mechanism visible.
+
+# `__init__` and Object Construction
+
+In the previous example:
+
+```python
+c = Counter()
+```
+
+Python creates a `Counter` instance and initializes it.
+
+The method:
+
+```python
+def __init__(self, value=0):
+    self.value = value
+```
+
+specifies initialization behavior.
+
+For example:
+
+```python
+c = Counter(10)
+
+c.value
+```
+
+The key point is not to memorize the mechanics of class construction. Instead, recognize that classes can define objects with:
+
+- attributes containing data;
+- methods providing behavior;
+- special methods that connect objects to Python's language-level protocols.
+
+This is the same object model underlying Python's built-in types.
+
+# Objects Can Contain Other Objects
+
+Real Python programs frequently contain nested objects.
+
+Consider:
+
+```python
+student = {
+    "name": "Alice",
+    "scores": [82, 91, 88]
+}
+```
+
+Now:
+
+```python
+student["scores"]
+```
+
+returns a list object.
+
+That list itself has methods:
+
+```python
+student["scores"].append(95)
+```
+
+We can read this expression from left to right:
+
+```text
+student
+   |
+   v
+dictionary
+   |
+   +-- ["scores"]
+          |
+          v
+        list
+          |
+          +-- append
+                 |
+                 v
+              method call
+```
+
+This is why Python expressions can contain multiple dots, brackets, and calls.
+
+# Modules Are Objects and Namespaces
+
+Now consider:
+
+```python
+import math
+```
+
+The name `math` refers to a module object.
+
+We can inspect it:
+
+```python
+type(math)
+dir(math)
+```
+
+The module contains names such as:
+
+```python
+math.pi
+math.sqrt
+math.sin
+```
+
+Thus:
+
+```python
+math.sqrt(16)
+```
+
+can be understood as:
+
+```text
+math
+  |
+  v
+module object
+  |
+  +-- sqrt
+       |
+       v
+    callable object
+       |
+       v
+      (16)
+```
+
+## Modules provide namespaces
+
+A **namespace** is a mapping between names and objects.
+
+A module therefore gives us a convenient namespace:
+
+```python
+math.pi
+math.sqrt
+```
+
+rather than placing every name from `math` directly into the global namespace.
+
+This is one reason the following is generally preferable:
+
+```python
+import math
+
+math.sqrt(25)
+```
+
+to:
+
+```python
+from math import *
+```
+
+The first makes the origin of `sqrt` explicit.
+
+# Packages and Nested Names
+
+The same idea extends to packages and submodules.
+
+For example:
+
+```python
+import numpy as np
+```
+
+Now:
+
+```python
+np.array
+np.mean
+np.linalg
+```
+
+and potentially:
+
+```python
+np.linalg.norm
+```
+
+The expression
+
+```python
+np.linalg.norm(A)
+```
+
+can be viewed as a sequence of lookups:
+
+```text
+np
+ |
+ v
+NumPy namespace
+ |
+ +-- linalg
+      |
+      v
+   linear-algebra namespace
+      |
+      +-- norm
+           |
+           v
+        callable
+```
+
+Similarly:
+
+```python
+import matplotlib.pyplot as plt
+
+plt.plot(x, y)
+```
+
+uses a module object and attribute access.
+
+This object/namespace model will be especially useful when working with scientific Python libraries.
+
+# Namespaces and Scope
+
+There are several places where Python looks for names.
+
+Consider:
+
+```python
+x = 10
+
+def f():
+    y = 20
+    print(x)
+    print(y)
+```
+
+Here `x` and `y` do not live in the same namespace.
+
+You can inspect the current global namespace with:
+
+```python
+globals()
+```
+
+and the current local namespace inside a function with:
+
+```python
+def f():
+    y = 20
+    print(locals())
+```
+
+At the interactive prompt:
+
+```python
+locals()
+```
+
+will generally show the current local namespace.
+
+The exact rules for name lookup are described by Python's **LEGB** model:
+
+```text
+L — Local
+E — Enclosing
+G — Global
+B — Built-in
+```
+
+When Python encounters a name, it searches these scopes in this order.
+
+For example:
+
+```python
+x = "global"
+
+def f():
+    x = "local"
+    print(x)
+
+f()
+```
+
+prints:
+
+```text
+local
+```
+
+because the local binding is found first.
+
+# Four Things That Look Similar but Are Different
+
+Students often use the word "variable" for several different things.
+
+Compare:
+
+```python
+x
+obj.x
+d["x"]
+```
+
+These represent different mechanisms.
+
+### `x`
+
+A name lookup.
+
+### `obj.x`
+
+An attribute lookup.
+
+### `d["x"]`
+
+An indexing operation on the object `d`, using `"x"` as a key.
+
+This distinction is important.
+
+For example:
+
+```python
+student.name
+```
+
+is not the same operation as:
+
+```python
+student["name"]
+```
+
+The first accesses an attribute. The second performs indexing.
+
+A good rule is:
+
+> **Dot notation means attribute access. Square brackets mean indexing or subscription. Neither is synonymous with "variable lookup."**
+
+# Introspection: Investigating an Object
+
+Python provides powerful tools for discovering what an object is and what it can do.
+
+## `type()`
+
+```python
+type(x)
+```
+
+asks:
+
+> What type of object is this?
+
+## `id()`
+
+```python
+id(x)
+```
+
+asks for the object's identity.
+
+## `dir()`
+
+```python
+dir(x)
+```
+
+asks:
+
+> What names can I potentially access on this object?
+
+## `help()`
+
+```python
+help(x)
+help(str.upper)
+```
+
+provides documentation.
+
+## `callable()`
+
+```python
+callable(x)
+```
+
+asks whether an object can be called with `()`.
+
+These tools are particularly useful when learning a new library.
+
+# Looking at an Object's Attributes
+
+For some objects, `vars()` is useful:
+
+```python
+vars(obj)
+```
+
+It can show an object's attribute dictionary when the object has one.
+
+For example, with our `Counter`:
+
+```python
+c = Counter(10)
+
+vars(c)
+```
+
+may show:
+
+```python
+{'value': 10}
+```
+
+This makes the relationship between:
+
+```python
+c.value
+```
+
+and the object's stored attributes more concrete.
+
+Not every object has a `__dict__`, so `vars()` does not work universally.
+
+# `inspect`: Looking More Closely
+
+The standard-library `inspect` module provides additional tools:
+
+```python
+import inspect
+```
+
+For functions, you can inspect their signatures:
+
+```python
+inspect.signature(sorted)
+```
+
+or:
+
+```python
+inspect.signature(math.sqrt)
+```
+
+When source code is available, you can sometimes inspect it:
+
+```python
+inspect.getsource(function_name)
+```
+
+This is particularly useful when exploring unfamiliar code.
+
+The broader lesson is:
+
+> **Python is unusually introspectable: programs can often examine the objects, functions, and namespaces with which they are working.**
+
+# Reading Python Expressions Through the Object Model
+
+The object model becomes most useful when expressions get complicated.
+
+Consider:
+
+```python
+df["return"].dropna().mean()
+```
+
+A useful way to read this is:
+
+```text
+df
+ ↓
+DataFrame object
+ ↓
+["return"]
+ ↓
+Series object
+ ↓
+.dropna()
+ ↓
+new Series object
+ ↓
+.mean()
+ ↓
+numeric result
+```
+
+Or:
+
+```python
+np.linalg.norm(A)
+```
+
+```text
+np
+ ↓
+NumPy module
+ ↓
+linalg
+ ↓
+norm
+ ↓
+function call with A
+ ↓
+result
+```
+
+The expression is not magic. It is a sequence of ordinary operations:
+
+- name lookup;
+- attribute lookup;
+- indexing;
+- function/method calls;
+- operators.
+
+This is an extremely useful way to approach unfamiliar code.
+
+# A General Strategy for Reading Python
+
+When you encounter an unfamiliar expression, work from the outside and inside as needed.
+
+For:
+
+```python
+object.method(arg1, arg2)
+```
+
+ask:
+
+1. What object does `object` refer to?
+2. What is its type?
+3. What attribute is being requested?
+4. Is that attribute callable?
+5. What arguments are being supplied?
+6. What does the method return?
+7. Does it mutate the original object?
+
+For:
+
+```python
+object.attribute
+```
+
+ask:
+
+1. What is `object`?
+2. What is its type?
+3. What is the attribute?
+4. Is it data or behavior?
+
+For:
+
+```python
+function(object)
+```
+
+ask:
+
+1. What function is being called?
+2. What type of object is being supplied?
+3. What interface or protocol does the function expect?
+4. What does it return?
+
+This method of reading code is often more useful than memorizing syntax.
+
+# Worked Investigation
+
+Suppose you encounter:
+
+```python
+import statistics
+
+data = [2, 4, 5, 7, 10]
+
+statistics.mean(data)
+```
+
+We can investigate systematically.
+
+### What is `statistics`?
+
+```python
+type(statistics)
+```
+
+It is a module object.
+
+### What does it contain?
+
+```python
+dir(statistics)
+```
+
+### What is `mean`?
+
+```python
+statistics.mean
+```
+
+and:
+
+```python
+callable(statistics.mean)
+```
+
+### What arguments does it accept?
+
+```python
+import inspect
+
+inspect.signature(statistics.mean)
+```
+
+### What happens when we call it?
+
+```python
+result = statistics.mean(data)
+
+type(result)
+result
+```
+
+The general strategy is:
+
+```text
+identify → inspect → understand interface → call → inspect result
+```
+
+This is a powerful approach when working with unfamiliar libraries.
+
+# Capstone: What Is Python Doing?
+
+Consider:
+
+```python
+class Portfolio:
+    def __init__(self, values):
+        self.values = values
+
+    def mean(self):
+        return sum(self.values) / len(self.values)
+```
+
+Create an object:
+
+```python
+p = Portfolio([0.01, -0.02, 0.015])
+```
+
+Now investigate:
+
+```python
+type(p)
+dir(p)
+vars(p)
+```
+
+What is:
+
+```python
+p.values
+```
+
+What is:
+
+```python
+p.mean
+```
+
+Is it callable?
+
+```python
+callable(p.mean)
+```
+
+Now evaluate:
+
+```python
+p.mean()
+```
+
+Try to explain the expression without treating it as a single indivisible operation.
+
+A useful conceptual description is:
+
+```text
+p
+ ↓
+Portfolio instance
+ ↓
+look up "mean"
+ ↓
+obtain method associated with p
+ ↓
+call method
+ ↓
+inside mean():
+    look up p.values
+    call sum(...)
+    call len(...)
+    divide
+ ↓
+return result
+```
+
+The purpose of this exercise is not to make you an expert in classes. It is to show that the same object model explains:
+
+```python
+p.mean()
+```
+
+```python
+x.append(4)
+```
+
+```python
+math.sqrt(16)
+```
+
+```python
+np.linalg.norm(A)
+```
+
+and many other expressions you will encounter.
+
+# The Big Picture
+
+We can now assemble the pieces.
+
+## Names refer to objects
+
+```python
+x = [1, 2, 3]
+```
+
+binds the name `x` to a list object.
+
+## Objects have types
+
+```python
+type(x)
+```
+
+tells us what kind of object `x` refers to.
+
+## Objects have attributes
+
+```python
+x.attribute
+```
+
+performs attribute lookup.
+
+## Some attributes are methods
+
+```python
+x.append(4)
+```
+
+looks up `append` and calls the resulting method.
+
+## Functions are callable objects
+
+```python
+len(x)
+```
+
+calls the function `len` with `x` as an argument.
+
+## Special methods implement protocols
+
+```python
+len(x)
+x[0]
+x + y
+```
+
+use standard Python interfaces associated with special methods such as:
+
+```python
+__len__
+__getitem__
+__add__
+```
+
+## Objects can be instances of classes
+
+```python
+c = Counter()
+```
+
+creates an instance whose attributes and methods are defined by `Counter`.
+
+## Modules provide namespaces
+
+```python
+import math
+
+math.sqrt(16)
+```
+
+binds `math` to a module object and accesses an attribute within that namespace.
+
+## Python can inspect itself
+
+```python
+type()
+dir()
+help()
+globals()
+locals()
+vars()
+inspect
+```
+
+provide ways to investigate objects, names, and code.
+
+# The Most Useful Mental Model
+
+When reading Python, think in terms of:
+
+```text
+                    NAME
+                     |
+                     v
+                   OBJECT
+                     |
+              +------+------+
+              |             |
+            TYPE          ATTRIBUTES
+                            |
+                       +----+----+
+                       |         |
+                      DATA     METHODS
+                                  |
+                                  v
+                               CALL
+```
+
+And remember the distinction between:
+
+```python
+x
+```
+
+**name lookup**
+
+```python
+x.value
+```
+
+**attribute lookup**
+
+```python
+x[0]
+```
+
+**indexing/subscription**
+
+```python
+x.method()
+```
+
+**attribute lookup + call**
+
+```python
+f(x)
+```
+
+**function call**
+
+```python
+x + y
+```
+
+**language-level operation using an appropriate protocol**
+
+Once these distinctions become natural, much of Python's syntax stops looking arbitrary.
+
+# What You Should Take Away
+
+You do not need to memorize every dunder method, every attribute, or every detail of Python's object model.
+
+You should instead be comfortable with these ideas:
+
+1. **Names refer to objects.**
+2. **Every ordinary Python value is an object with a type.**
+3. **The dot performs attribute lookup.**
+4. **Attributes can contain data or callable behavior.**
+5. **Methods are callable behavior accessed through objects.**
+6. **Functions are callable objects that can be used independently of a particular object.**
+7. **Python's special methods connect objects to language-level operations and protocols.**
+8. **Objects can be mutable or immutable.**
+9. **Classes define types and the behavior of their instances.**
+10. **`self` refers to the instance on which a method operates.**
+11. **Modules are objects that provide useful namespaces.**
+12. **`dir()`, `type()`, `help()`, `vars()`, and `inspect` let you investigate unfamiliar code.**
+13. **Complicated Python expressions can be understood as sequences of lookups, operations, and calls.**
+
+The overarching lesson is:
+
+> **Python syntax is not a collection of arbitrary rules. It is a language for interacting with objects through names, attributes, functions, methods, operators, and protocols.**
+
+Once you have this model, encountering an unfamiliar Python object becomes much less intimidating: **identify it, inspect it, discover its interface, and then use that interface.**

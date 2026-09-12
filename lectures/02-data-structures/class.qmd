@@ -91,6 +91,7 @@ All control flow structures in Python follow the same pattern:
 ```
 
 **Key elements:**
+
 - **Keyword** tells Python what kind of control structure
 - **Condition** (or iteration variable) determines when/how it executes
 - **Colon** (`:`) signals the start of the code block
@@ -715,8 +716,8 @@ The loop automatically stops when the condition is no longer true.
 # 3. Modify the code to count how many iterations the loop performs
 #    (Add a counter that increments each time through the loop)
 
-# 4. Find N where the partial sum reaches 100
-#    You might be surprised how large N needs to be!
+# 4. Find N where the partial sum reaches 25
+#    You might be surprised how large N needs to be. You might also be surprised how long the program runs before you get an answer.
 
 # Your code here
 ```
