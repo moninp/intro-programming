@@ -100,7 +100,7 @@ Let's start by extracting the return calculation into a function.
 - **Parameters** (inputs) it needs
 - A **return value** (output) it produces
 
-### Just-in-Time Concept: Function Definition
+### Function Definition
 
 ```python
 def function_name(parameter1, parameter2):
@@ -197,7 +197,7 @@ print(f"Result: {result}")
 print(f"Total: {total}")  # What happens here?
 ```
 
-### Just-in-Time Concept: Scope
+### Scope
 
 **Scope** determines where variables are accessible:
 
@@ -251,7 +251,7 @@ Explain in a comment: Why are `count` inside and outside the function different?
 
 Functions can accept multiple parameters and have default values.
 
-### Just-in-Time Concept: Parameters and Arguments
+### Parameters and Arguments
 
 ```{python}
 # Positional parameters
@@ -458,7 +458,7 @@ Use it frequently to understand your repository's state.
 
 Functions need documentation. Python uses **docstrings**—multi-line strings at the start of a function.
 
-### Just-in-Time Concept: Docstrings
+### Docstrings
 
 ```{python}
 def calculate_return(initial, final):
@@ -525,7 +525,7 @@ def calculate_volatility(returns):
 
 Python 3.5+ supports **type hints**—annotations that document expected types.
 
-### Just-in-Time Concept: Type Hints
+### Type Hints
 
 ```{python}
 def calculate_return(initial: float, final: float) -> float:
@@ -566,7 +566,7 @@ Type hints are considered a professional practice but are optional for this cour
 
 Functions should check their inputs to fail gracefully.
 
-### Just-in-Time Concept: Assertions
+### Assertions
 
 ```{python}
 #| error: true
@@ -632,7 +632,7 @@ def calculate_volatility(returns: List[float]) -> float:
 
 Some functions modify state; others just compute and return values.
 
-### Just-in-Time Concept: Pure Functions
+### Pure Functions
 
 A **pure function**:
 
@@ -840,7 +840,7 @@ if __name__ == "__main__":
     print(f"Returns: {returns}")
 ```
 
-### Just-in-Time Concept: `if __name__ == "__main__"`
+### `if __name__ == "__main__"`
 
 This special block runs only when you execute the file directly:
 
@@ -887,7 +887,7 @@ result = calculate_return(200, 220)
 
 As projects grow, split code into multiple files.
 
-### Just-in-Time Concept: Imports
+### Imports
 
 **Project structure:**
 ```text
@@ -1020,6 +1020,37 @@ from portfolio_package import calculate_returns, calculate_volatility
 
 returns = calculate_returns(prices)
 vol = calculate_volatility(returns)
+```
+
+### What Happens Under the Hood
+
+**Scenario A: With the relative imports (The current way)**
+
+The __init__.py file acts as a gatekeeper. It proactively reaches into returns.py and risk.py, pulls the functions out, and holds them at the front gate.
+
+The Result: Anyone importing from the package can grab them instantly:
+
+```python
+from portfolio import calculate_returns
+```
+
+**Scenario B: Without the relative imports**
+
+If you delete those lines, the __init__.py file is empty (or only contains __all__). The gatekeeper is standing there, but it hasn't pulled the functions from the other files.
+
+The Result: The primary import fails:
+
+```python
+from portfolio import calculate_returns  #  ImportError!
+```
+
+**The Workaround**
+
+If you removed those lines from __init__.py, you could still access the functions, but you would have to bypass the package gatekeeper and import directly from the sub-files instead:
+
+```python
+from portfolio.returns import calculate_returns
+from portfolio.risk import calculate_volatility
 ```
 
 ::: {.callout-note}

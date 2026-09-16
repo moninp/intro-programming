@@ -12,9 +12,16 @@ jupyter: python3
 
 > **Can we use computers to simulate the spread of infectious diseases and predict epidemic outcomes?**
 
-In March 2020, public health officials worldwide faced urgent questions: How fast will COVID-19 spread? When will hospitals be overwhelmed? What impact will social distancing have? These questions require **mathematical models** that track how diseases spread through populations.
+In March 2020, public health officials worldwide faced urgent questions: 
+
+- How fast will COVID-19 spread? 
+- When will hospitals be overwhelmed? 
+- What impact will social distancing have? 
+
+These questions require **mathematical models** that track how diseases spread through populations.
 
 The classic **SIR model** divides a population into three groups:
+
 - **S**usceptible: people who could catch the disease
 - **I**nfectious: people currently infected who can spread it
 - **R**ecovered: people who've recovered (or died) and are no longer infectious
@@ -22,6 +29,7 @@ The classic **SIR model** divides a population into three groups:
 The model uses differential equations to describe how people move between these states over time. But these equations rarely have closed-form solutions—we need **numerical methods** to approximate them.
 
 Today, we'll learn to:
+
 1. Work with **NumPy arrays**, Python's fundamental tool for numerical computing
 2. Understand **vectorization**—expressing operations on entire arrays efficiently
 3. Implement **numerical integration** to solve differential equations
@@ -48,6 +56,7 @@ The quiz should take approximately 10 minutes. Once everyone has finished, we'll
 Python lists are flexible and convenient, but they're inefficient for numerical work. When we need to perform millions of arithmetic operations on large datasets, we need something better.
 
 **NumPy** (Numerical Python) provides:
+
 - Efficient arrays that store homogeneous data compactly in memory
 - Vectorized operations that work on entire arrays without explicit loops
 - A vast library of mathematical functions
@@ -115,7 +124,7 @@ pip show numpy
 ```
 :::
 
-### Just-in-Time Concept: Why Virtual Environments?
+### Why Virtual Environments?
 
 Recall from Lecture 0 that virtual environments isolate project dependencies. This is crucial because:
 
@@ -191,9 +200,10 @@ print(f"Shape of all_weeks: {all_weeks.shape}")  # Should be (3, 7)
 print(f"2D array:\n{all_weeks}")
 ```
 
-### Just-in-Time Concept: NumPy Arrays
+### NumPy Arrays
 
 **Key properties:**
+
 1. **Homogeneous:** All elements have the same type (unlike lists)
 2. **Fixed size:** Once created, size doesn't change (unlike lists that can grow)
 3. **Efficient:** Stored contiguously in memory, enabling fast operations
@@ -206,6 +216,7 @@ When you write:
 total = sum(daily_cases_list)  # Python list
 ```
 Python must:
+
 1. Loop through each element
 2. Check its type
 3. Call the appropriate addition operation
@@ -216,6 +227,7 @@ With NumPy:
 total = daily_cases.sum()  # NumPy array
 ```
 NumPy:
+
 1. Knows all elements are the same type
 2. Uses optimized C code to sum them in one pass
 3. Operates directly on contiguous memory
@@ -400,6 +412,7 @@ print(f"Sines: {sines}")
 ```
 
 Common ufuncs:
+
 - **Arithmetic:** `np.add`, `np.subtract`, `np.multiply`, `np.divide`
 - **Exponents:** `np.exp`, `np.log`, `np.log10`, `np.power`, `np.sqrt`
 - **Trigonometry:** `np.sin`, `np.cos`, `np.tan`
@@ -720,6 +733,7 @@ print(f"Epidemic will {'grow' if R0 > 1 else 'die out'} (R₀ {'>' if R0 > 1 els
 ::: {.callout-important}
 ## Why Eigenvalues Matter in Epidemiology
 The **dominant eigenvalue** of a disease transmission matrix is the **basic reproduction number** (R₀):
+
 - **R₀ > 1**: Disease spreads (epidemic)
 - **R₀ < 1**: Disease dies out
 - **R₀ = 1**: Endemic equilibrium
@@ -785,6 +799,7 @@ print(f"\nEquilibrium populations: {equilibrium}")
 
 ::: {.callout-tip}
 ## Key Linear Algebra Functions
+
 - **Matrix operations:** `@` (matmul), `np.dot()`
 - **Linear systems:** `np.linalg.solve(A, b)`
 - **Matrix properties:** `np.linalg.inv()`, `np.linalg.det()`
@@ -797,6 +812,7 @@ print(f"\nEquilibrium populations: {equilibrium}")
 ## Break (10 minutes)
 
 Good work so far! You've learned the fundamentals of NumPy:
+
 - Creating and inspecting arrays
 - Indexing and slicing
 - Vectorized operations
@@ -816,6 +832,7 @@ Stretch, grab water, and we'll reconvene to see how professionals work with code
 ::: {.callout-note}
 ## Why Are We Showing This?
 VSCode (Visual Studio Code) is the most popular code editor in professional data science and software development. While Spyder is purpose-built for scientific Python, VSCode offers:
+
 - Superior Git integration (our focus today)
 - Support for any programming language (Python, R, JavaScript, etc.)
 - Massive ecosystem of extensions
@@ -829,6 +846,7 @@ You'll see both Spyder and VSCode used in real-world data science. I want you to
 **Visual Studio Code** is a free, open-source code editor developed by Microsoft. Don't confuse it with "Visual Studio" (a different, heavier IDE for C++/C#/.NET).
 
 **Key features:**
+
 - Lightweight but powerful
 - Works on Windows, Mac, and Linux
 - Extensive extension marketplace
@@ -838,6 +856,7 @@ You'll see both Spyder and VSCode used in real-world data science. I want you to
 - IntelliSense (smart code completion)
 
 **Who uses it?**
+
 - Data scientists at tech companies
 - Software engineers
 - Web developers
@@ -871,6 +890,7 @@ That's it! It's simpler than Spyder because it doesn't include Python—you conn
 3. Install the official **Python** extension by Microsoft (it has 80+ million downloads)
 
 This extension provides:
+
 - Python syntax highlighting
 - Code completion and IntelliSense
 - Linting (error detection)
@@ -899,6 +919,7 @@ Once selected, you'll see the Python version in the **bottom-left corner** of VS
 ::: {.callout-tip}
 ## Can't Find Your Environment?
 If `env1` doesn't appear in the list:
+
 1. Click "Enter interpreter path..."
 2. Browse to your `env1` folder
 3. Windows: Select `env1/Scripts/python.exe`
@@ -921,6 +942,7 @@ print(f"Mean: {arr.mean()}")
 ```
 
 **Run it:**
+
 - Click the **play button** (▶️) in the top-right corner
 - Or right-click in the editor and choose "Run Python File in Terminal"
 
@@ -975,6 +997,7 @@ When running interactively, click the **Variables** button in the interactive wi
 
 ::: {.callout-tip}
 ## Spyder vs. VSCode for Interactive Work
+
 - **Spyder:** Variable explorer is always visible, more MATLAB-like, designed for scientific workflows
 - **VSCode:** More flexible, better for mixed workflows (scripts + interactive), preferred in industry
 
@@ -990,10 +1013,12 @@ This is where VSCode truly shines. After learning Git commands in Lecture 3, see
 ### Visual Git Status
 
 Look at the left sidebar. The **Source Control** icon (looks like a branch) shows:
+
 - How many files have changed
 - Which files are modified, added, or deleted
 
 **Modified files appear with colors:**
+
 - **M** (Modified): Orange/yellow
 - **U** (Untracked): Green
 - **D** (Deleted): Red
@@ -1005,14 +1030,17 @@ This is like `git status` but visual!
 Click the Source Control icon (or press `Ctrl+Shift+G` / `Cmd+Shift+G`).
 
 You'll see:
+
 - **Changes:** Files that have been modified
 - **Staged Changes:** Files ready to commit
 
 **To stage a file:**
+
 - Hover over it and click the **+** icon
 - Or right-click and choose "Stage Changes"
 
 **To unstage:**
+
 - Click the **−** icon
 
 This is `git add` through a GUI!
@@ -1020,6 +1048,7 @@ This is `git add` through a GUI!
 ### Viewing Differences (Diffs)
 
 Click on any modified file in the Source Control panel. VSCode shows:
+
 - **Left side:** Original version
 - **Right side:** Your changes
 - **Highlighted:** Exactly what changed
@@ -1053,6 +1082,7 @@ If you've set up a GitHub remote repository (which we covered in Lecture 3), you
 :::
 
 After committing locally:
+
 1. Click the **...** menu in Source Control panel
 2. Choose **Push** to send commits to GitHub
 3. Choose **Pull** to get updates from GitHub
@@ -1094,6 +1124,7 @@ Let's be practical. Here's my recommendation:
 
 ### The Truth:
 Most data scientists use **both**:
+
 - Spyder for interactive analysis and exploring data
 - VSCode for version-controlled projects and writing production code
 
@@ -1124,6 +1155,7 @@ That's it! 5-10 minutes of work to verify you can use professional tools.
 Before we move on to applying NumPy to epidemic modeling, any questions about VSCode?
 
 Remember:
+
 - **Optional for coursework** (except one homework question)
 - **Worth learning** for your career
 - **Not a replacement** for Spyder (it's a complement)
@@ -1191,6 +1223,7 @@ You should see NumPy is 10-100 times faster!
 
 ::: {.callout-important}
 ## Why Is NumPy So Much Faster?
+
 1. **Compiled C code:** NumPy operations run in optimized C/Fortran libraries
 2. **Vectorization:** CPU can perform multiple operations simultaneously (SIMD - Single Instruction Multiple Data)
 3. **Memory locality:** Data is contiguous in memory, enabling fast access
@@ -1267,12 +1300,14 @@ $$
 $$
 
 Where:
+
 - $N = S + I + R$ is the total population (constant)
 - $\beta$ is the **transmission rate** (contacts per day × probability of transmission per contact)
 - $\gamma$ is the **recovery rate** (1/infectious period)
 - $R_0 = \beta / \gamma$ is the **basic reproduction number**
 
 **Interpretation:**
+
 - $\frac{dS}{dt}$: Susceptible people become infected at rate $\beta S I / N$
 - $\frac{dI}{dt}$: New infections minus recoveries
 - $\frac{dR}{dt}$: Infected people recover at rate $\gamma$
@@ -1375,6 +1410,7 @@ print(f"R₀ = β/γ = {beta/gamma:.2f}")
 ```
 
 **Questions to consider:**
+
 1. What happens at the peak of the epidemic?
 2. Why do susceptibles decrease even after infections peak?
 3. What's the relationship between R₀ and total attack rate?
@@ -1386,6 +1422,7 @@ print(f"R₀ = β/γ = {beta/gamma:.2f}")
 The loop-based implementation works, but for more complex models (e.g., age-structured populations, spatial models), we need vectorization.
 
 Let's create a vectorized version that:
+
 1. Is more concise
 2. Runs faster
 3. Is easier to extend
@@ -1657,6 +1694,7 @@ for name, _, R_data in scenarios_data[1:]:
 ```
 
 **Discussion questions:**
+
 1. Which intervention is most effective at reducing peak infections?
 2. Which reduces total infections most?
 3. Why might "flattening the curve" (reducing peak) be important even if total cases are similar?
@@ -1764,6 +1802,7 @@ print(f"Attack rate: {worst_attack:.1f}%")
 We just simulated **400 different epidemic scenarios** (20 × 20 grid). With our vectorized NumPy implementation, this takes seconds. With pure Python loops, it would take minutes!
 
 This kind of parameter exploration is crucial for:
+
 - Understanding model behavior
 - Fitting models to data
 - Uncertainty quantification
@@ -1771,6 +1810,7 @@ This kind of parameter exploration is crucial for:
 :::
 
 **Extension challenge:** Modify the code to also show:
+
 1. Time to peak as a function of parameters
 2. Duration of epidemic (time until I < 1)
 3. Hospital capacity threshold (assuming 5% of infections need hospitalization)
@@ -1788,22 +1828,26 @@ Let's return to our **central question**:
 ## What We've Accomplished Today
 
 **NumPy Fundamentals:**
+
 - Created and manipulated arrays efficiently
 - Understood vectorization and its performance benefits
 - Performed aggregations and linear algebra operations
 
 **Numerical Computing:**
+
 - Implemented Euler's method for numerical integration
 - Solved differential equations computationally
 - Compared loop-based and vectorized implementations
 
 **Epidemiological Modeling:**
+
 - Built a working SIR model from scratch
 - Simulated disease outbreaks
 - Evaluated public health interventions
 - Explored parameter space systematically
 
 **Professional Tools:**
+
 - Saw VSCode and its Git integration (optional but valuable)
 
 ## The Bigger Picture
@@ -1811,12 +1855,14 @@ Let's return to our **central question**:
 The SIR model is just the beginning. The same computational approach extends to:
 
 **More complex epidemic models:**
+
 - SEIR (with Exposed state for incubation period)
 - Age-structured models (different contact rates by age)
 - Spatial models (disease spreading geographically)
 - Stochastic models (accounting for randomness)
 
 **Other differential equations:**
+
 - Climate models (temperature, precipitation dynamics)
 - Economic models (supply and demand, growth)
 - Chemical reactions (reaction kinetics)
@@ -1824,6 +1870,7 @@ The SIR model is just the beginning. The same computational approach extends to:
 - Physics simulations (projectile motion, circuits)
 
 **The workflow stays the same:**
+
 1. Express the problem mathematically (differential equations)
 2. Choose a numerical method (Euler, Runge-Kutta, etc.)
 3. Implement using NumPy arrays
@@ -1835,21 +1882,25 @@ The SIR model is just the beginning. The same computational approach extends to:
 ## Key Lessons
 
 **NumPy is the foundation:**
+
 - Almost all scientific Python builds on NumPy
 - pandas, matplotlib, scipy, scikit-learn all use NumPy arrays
 - Learn NumPy well, and you can use them all
 
 **Vectorization is essential:**
+
 - Think in terms of operations on entire arrays
 - Avoid explicit Python loops when possible
 - 10-100x speedups are common
 
 **Numerical methods are approximations:**
+
 - Euler's method is simple but not the most accurate
 - For serious work, use scipy.integrate.odeint or solve_ivp
 - Always validate your results
 
 **Models inform decisions:**
+
 - The SIR model guided COVID-19 policy worldwide
 - "Flatten the curve" came from models like ours
 - Computational tools help us think about complex systems
@@ -1857,6 +1908,7 @@ The SIR model is just the beginning. The same computational approach extends to:
 ## Reflecting on VSCode
 
 We also saw VSCode today. Remember:
+
 - It's **optional** but **professionally valuable**
 - Excellent Git integration makes version control easier
 - Works with any language (you'll use R later in this course)
@@ -1871,6 +1923,7 @@ For homework, you'll install it and verify it works. After that, use whatever to
 **Next lecture: Pandas - From Raw Data to Analysis**
 
 Today we worked with arrays: homogeneous numerical data. But real-world datasets are messier:
+
 - Mixed types (numbers, text, dates)
 - Missing values
 - Complex structures
@@ -1880,6 +1933,7 @@ Today we worked with arrays: homogeneous numerical data. But real-world datasets
 **Pandas** gives us **DataFrames**—structured tables like Excel spreadsheets or R data frames, but powered by NumPy under the hood.
 
 We'll learn to:
+
 - Read CSV files and other formats
 - Inspect and clean messy data
 - Filter, sort, and transform
@@ -1888,47 +1942,4 @@ We'll learn to:
 - Handle missing values
 - Prepare data for analysis
 
-Everything we learned about NumPy today will carry over—pandas is built on top of NumPy!
-
----
-
-## Homework 4 Preview
-
-**Question 1 (VSCode):**
-- Install VSCode and Python extension
-- Connect to env1
-- Run a simple NumPy script
-- Submit screenshot
-
-**Questions 2-6 (NumPy & Numerical Computing):**
-- Array operations and indexing
-- Implement numerical algorithms
-- Extend the SIR model (e.g., add vaccination)
-- Performance comparisons
-- Parameter exploration
-
-**Estimated time:** 3-4 hours
-
-All homework questions except #1 are IDE-agnostic—use Spyder, VSCode, or even the terminal. Your choice!
-
----
-
-## Final Thoughts
-
-You've taken a big step today. You can now:
-
-✅ Manipulate arrays efficiently with NumPy  
-✅ Vectorize operations for speed  
-✅ Solve differential equations numerically  
-✅ Simulate complex systems (epidemic dynamics)  
-✅ Explore parameter spaces systematically  
-✅ Use professional development tools (VSCode)  
-
-This is the computational toolkit that powers data science, scientific research, and quantitative analysis across fields.
-
-In the next class, we'll apply these skills to real, messy datasets with pandas. The journey from mathematical abstractions to practical data analysis continues!
-
-**Great work today. See you next time!**
-
----
-
+Everything we learned about NumPy today will carry over—pandas is built on top of NumPy.
