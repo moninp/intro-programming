@@ -1,0 +1,15 @@
+{
+  "dataset": "HURDAT2 Atlantic",
+  "source": "National Hurricane Center",
+  "version": "2023-04-01",
+  "storms": {
+    "total": 2085,
+    "named": 1645,
+    "hurricanes": 935,
+    "major_hurricanes": 306
+  },
+  "time_range": {
+    "start": "1851-06-25",
+    "end": "2023-11-30"
+  }
+}

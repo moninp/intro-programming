@@ -44,8 +44,6 @@ Throughout today's class, we'll work with NOAA's HURDAT2 (Hurricane Database) - 
 Let's look at a small sample of hurricane data in CSV format:
 
 ```{python}
-#| eval: false
-
 # This is what CSV (Comma-Separated Values) looks like:
 # Each line is a row, values are separated by commas
 
@@ -356,7 +354,7 @@ print("\nFill with 0:")
 print(df_filled)
 
 # Strategy 4: Forward fill (use previous value)
-df_ffill = df.fillna(method='ffill')
+df_ffill = df.ffill()
 print("\nForward fill:")
 print(df_ffill)
 
@@ -533,6 +531,8 @@ Scientists often want summaries by category: hurricanes per decade, average inte
 The "split-apply-combine" pattern is fundamental to data analysis:
 
 ```{python}
+#| eval: false
+
 # Example: Analyze by decade
 df = pd.DataFrame({
     'year': [1990, 1991, 1992, 2000, 2001, 2002],
@@ -598,6 +598,8 @@ Often you need to combine information from multiple sources.
 ### Just-in-Time Concept: Merging DataFrames
 
 ```{python}
+#| eval: false
+
 # Example: Merge storm tracks with damage data
 tracks = pd.DataFrame({
     'storm_id': ['AL01', 'AL02', 'AL03'],
@@ -702,6 +704,8 @@ Let's create basic plots to visualize patterns.
 ### Just-in-Time Concept: Basic Plotting with Matplotlib
 
 ```{python}
+#| eval: false
+
 import matplotlib.pyplot as plt
 
 # Example: Plot hurricane counts by year

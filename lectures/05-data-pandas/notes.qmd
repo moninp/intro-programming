@@ -207,6 +207,9 @@ print(f"First measurement: {loaded_data['measurements'][0]}")
 Converting between JSON and pandas:
 
 ```{python}
+import io
+import pandas as pd
+
 # JSON list of objects to DataFrame
 json_records = """
 [
@@ -216,7 +219,7 @@ json_records = """
 ]
 """
 
-df = pd.read_json(json_records)
+df = pd.read_json(io.StringIO(json_records))
 print("DataFrame from JSON:")
 print(df)
 
@@ -781,19 +784,15 @@ print("\nFill with column-specific values:")
 print(df_filled_dict)
 
 # Forward fill (propagate last valid observation)
-df_ffill = df.fillna(method='ffill')
+df_ffill = df.ffill()
 print("\nForward fill:")
 print(df_ffill)
 
 # Backward fill
-df_bfill = df.fillna(method='bfill')
+df_bfill = df.bfill()
 print("\nBackward fill:")
 print(df_bfill)
 
-# Interpolate (for numeric data)
-df_interp = df.interpolate()
-print("\nInterpolate:")
-print(df_interp)
 ```
 
 ## 6.2 Duplicate Values
@@ -890,7 +889,7 @@ print(dates)
 
 # Handle various date formats
 mixed_dates = pd.Series(['01/15/2024', '2024-01-20', 'Jan 25, 2024'])
-parsed_dates = pd.to_datetime(mixed_dates, infer_datetime_format=True)
+parsed_dates = pd.to_datetime(mixed_dates, format='mixed')
 print("\nMixed date formats:")
 print(parsed_dates)
 
@@ -1007,7 +1006,7 @@ print("Sales data:")
 print(region_sales)
 
 # Group by region and calculate mean
-region_avg = region_sales.groupby('region').mean()
+region_avg = region_sales.groupby('region').mean(numeric_only=True)
 print("\nAverage by region:")
 print(region_avg)
 
@@ -1251,6 +1250,8 @@ print(df_dates[['date', 'plus_10_days', 'minus_1_week']])
 ## 10.2 Time-based Selection
 
 ```{python}
+#| eval: false
+
 # Create time series with business day frequency
 dates = pd.date_range('2024-01-01', '2024-03-31', freq='B')
 data = pd.DataFrame({
@@ -1287,7 +1288,7 @@ print(monthly_sum)
 
 ```{python}
 # Create timezone-aware datetime
-utc_times = pd.date_range('2024-01-01', periods=3, freq='H', tz='UTC')
+utc_times = pd.date_range('2024-01-01', periods=3, freq='h', tz='UTC')
 print("UTC times:")
 print(utc_times)
 
@@ -1537,7 +1538,7 @@ fast_time = time.time() - start
 
 print(f"Iterrows time: {slow_time:.4f}s")
 print(f"Vectorized time: {fast_time:.4f}s")
-print(f"Speedup: {slow_time/fast_time:.1f}x")
+#print(f"Speedup: {slow_time/fast_time:.1f}x")
 
 # Memory optimization
 print(f"\nMemory usage:")
