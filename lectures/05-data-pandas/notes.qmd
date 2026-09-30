@@ -1,0 +1,1632 @@
+---
+title: "Lecture 5 — Data, Files, and the Path from Raw Information to Analysis"
+subtitle: "Background Notes"
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    code-fold: false
+jupyter: python3
+---
+
+# 1. Introduction
+
+Data rarely arrives in analysis-ready form. Raw observations sit in files with cryptic encodings, inconsistent formats, missing values, unit errors, and timestamps that span multiple conventions. Before any statistical analysis, visualization, or modeling can occur, you must transform this raw information into structured data that accurately represents the phenomena you're studying.
+
+This transformation process—often called data wrangling, munging, or preprocessing—occupies 50-80% of a data scientist's time. It's not glamorous work, but it's where scientific reasoning begins. Every decision you make about how to handle missing values, which observations to exclude, how to categorize continuous variables, and what derived quantities to compute embodies assumptions about your scientific question. These decisions shape the conclusions you can draw.
+
+The tools you use matter enormously. For decades, scientists cleaned data in spreadsheets, clicking cells one at a time, with no record of what was changed or why. Modern data science demands reproducibility: another scientist should be able to obtain your input data, run your code, and get identical results. This requires treating data processing as programming—writing scripts that transform raw inputs into analysis-ready outputs in a documented, repeatable way.
+
+Python's pandas library has become the standard tool for this work. Built on NumPy's efficient array operations, pandas provides data structures (Series and DataFrames) specifically designed for labeled, heterogeneous tabular data. It combines the statistical data analysis capabilities of R with the general-purpose programming power of Python. Whether you're processing hurricane observations, analyzing gene expression data, or studying financial markets, pandas provides consistent patterns for reading files, inspecting data quality, cleaning inconsistencies, grouping observations, merging datasets, and computing summaries.
+
+But tools alone aren't enough. You must develop habits of skepticism and validation. When you load a dataset, your first questions should be: Where did this come from? How was it collected? What might be wrong with it? What assumptions am I making when I process it? This lecture teaches not just pandas syntax, but a methodology for moving systematically from raw information to trustworthy analysis-ready data, making your assumptions explicit and your process reproducible.
+
+# 2. Files and Data Formats
+
+## 2.1 Text Files and Encodings
+
+At the most fundamental level, data files are sequences of bytes stored on disk. Text files encode these bytes as characters using a character encoding scheme. The most important encoding today is UTF-8, which can represent all Unicode characters while remaining backward-compatible with ASCII.
+
+```{python}
+# Writing text to a file
+text_data = """This is sample text.
+It spans multiple lines.
+UTF-8 handles special characters: é, ñ, 中文"""
+
+# Write to file
+with open('sample.txt', 'w', encoding='utf-8') as f:
+    f.write(text_data)
+
+# Read from file
+with open('sample.txt', 'r', encoding='utf-8') as f:
+    content = f.read()
+    print(content)
+```
+
+The `with` statement ensures files are properly closed even if errors occur. This is Python's context manager syntax—when the indented block ends, the file automatically closes. Without it, you must manually call `f.close()`, which is error-prone because it won't execute if an exception occurs earlier.
+
+File modes:
+- `'r'`: Read (default)
+- `'w'`: Write (overwrites existing file)
+- `'a'`: Append (adds to end of existing file)
+- `'r+'`: Read and write
+- `'b'`: Binary mode (e.g., `'rb'` for reading binary data)
+
+Reading methods:
+- `.read()`: Returns entire file as single string
+- `.readline()`: Returns next line including newline character
+- `.readlines()`: Returns list of all lines
+- Iteration: `for line in f:` reads line by line (memory efficient)
+
+```{python}
+# Writing multiple lines
+lines = ['First line\n', 'Second line\n', 'Third line\n']
+with open('multiline.txt', 'w') as f:
+    f.writelines(lines)
+
+# Reading line by line (memory efficient for large files)
+with open('multiline.txt', 'r') as f:
+    for line_num, line in enumerate(f, start=1):
+        print(f"Line {line_num}: {line.strip()}")  # .strip() removes newline
+```
+
+## 2.2 CSV Format
+
+CSV (Comma-Separated Values) is the most common format for tabular data. Despite its simplicity, CSV has subtle complexities: handling embedded commas, quotes, different delimiters, and missing values.
+
+```{python}
+import pandas as pd
+
+# Simple CSV example
+csv_text = """name,age,city,salary
+Alice,30,New York,75000
+Bob,25,San Francisco,85000
+Charlie,35,Boston,70000
+Diana,28,Seattle,80000"""
+
+with open('people.csv', 'w') as f:
+    f.write(csv_text)
+
+# Read CSV with pandas
+df = pd.read_csv('people.csv')
+print(df)
+print(f"\nData types:\n{df.dtypes}")
+```
+
+CSV with complications:
+
+```{python}
+# CSV with commas in values, quotes, and missing data
+complex_csv = """product,price,description,stock
+"Widget, Blue",19.99,"A useful widget, perfect for tasks",100
+"Gadget",29.99,Simple gadget,
+"Thingamajig, Red",39.99,"Complex thing, requires assembly",50"""
+
+with open('products.csv', 'w') as f:
+    f.write(complex_csv)
+
+products = pd.read_csv('products.csv')
+print(products)
+print(f"\nMissing values:\n{products.isnull().sum()}")
+```
+
+Important `pd.read_csv()` parameters:
+
+```{python}
+# Demonstrate various CSV reading options
+example_csv = """ID|Name|Value
+1|Alpha|10.5
+2|Beta|
+3|Gamma|-999
+4|Delta|15.3"""
+
+with open('example.csv', 'w') as f:
+    f.write(example_csv)
+
+# Custom delimiter
+df1 = pd.read_csv('example.csv', sep='|')
+print("Custom delimiter (|):")
+print(df1)
+
+# Specify missing value codes
+df2 = pd.read_csv('example.csv', sep='|', na_values=['-999'])
+print("\nTreating -999 as missing:")
+print(df2)
+
+# Skip header row and provide column names
+df3 = pd.read_csv('example.csv', sep='|', skiprows=1, 
+                  names=['col1', 'col2', 'col3'])
+print("\nCustom column names:")
+print(df3)
+
+# Read only specific columns
+df4 = pd.read_csv('example.csv', sep='|', usecols=['ID', 'Value'])
+print("\nSelected columns only:")
+print(df4)
+```
+
+Writing CSV:
+
+```{python}
+# Create sample DataFrame
+data = {
+    'student': ['Alice', 'Bob', 'Charlie'],
+    'math': [95, 87, 92],
+    'science': [88, 91, 85]
+}
+grades = pd.DataFrame(data)
+
+# Write to CSV
+grades.to_csv('grades.csv', index=False)
+
+# Verify by reading back
+verify = pd.read_csv('grades.csv')
+print(verify)
+
+# Write with custom settings
+grades.to_csv('grades_custom.csv', index=True, sep='\t', float_format='%.1f')
+```
+
+## 2.3 JSON Format
+
+JSON (JavaScript Object Notation) is ideal for hierarchical or nested data. It's human-readable and widely used for web APIs.
+
+```{python}
+import json
+
+# Python dictionary to JSON
+experiment_data = {
+    "experiment_id": "EXP001",
+    "date": "2024-01-15",
+    "researcher": "Dr. Smith",
+    "conditions": {
+        "temperature_c": 25,
+        "pressure_atm": 1.0,
+        "humidity": 0.45
+    },
+    "measurements": [10.2, 10.5, 10.3, 10.4, 10.6],
+    "notes": "All measurements within tolerance"
+}
+
+# Write JSON
+with open('experiment.json', 'w') as f:
+    json.dump(experiment_data, f, indent=2)
+
+# Read JSON
+with open('experiment.json', 'r') as f:
+    loaded_data = json.load(f)
+
+print("Loaded data:")
+print(json.dumps(loaded_data, indent=2))
+
+# Access nested structure
+print(f"\nTemperature: {loaded_data['conditions']['temperature_c']}°C")
+print(f"First measurement: {loaded_data['measurements'][0]}")
+```
+
+Converting between JSON and pandas:
+
+```{python}
+# JSON list of objects to DataFrame
+json_records = """
+[
+  {"name": "Alice", "age": 30, "city": "NYC"},
+  {"name": "Bob", "age": 25, "city": "SF"},
+  {"name": "Charlie", "age": 35, "city": "Boston"}
+]
+"""
+
+df = pd.read_json(json_records)
+print("DataFrame from JSON:")
+print(df)
+
+# DataFrame to JSON
+json_output = df.to_json(orient='records', indent=2)
+print("\nDataFrame to JSON:")
+print(json_output)
+
+# Different orientations
+print("\n'orient=columns':")
+print(df.to_json(orient='columns', indent=2))
+
+print("\n'orient=index':")
+print(df.to_json(orient='index', indent=2))
+```
+
+## 2.4 File Paths and Navigation
+
+Understanding file paths is essential for reproducible analysis.
+
+```{python}
+import os
+from pathlib import Path
+
+# Current working directory
+cwd = os.getcwd()
+print(f"Current directory: {cwd}")
+
+# Pathlib (modern, recommended approach)
+current = Path.cwd()
+print(f"Current (pathlib): {current}")
+
+# Constructing paths (cross-platform)
+data_dir = Path('data')
+csv_file = data_dir / 'hurricanes.csv'
+print(f"CSV path: {csv_file}")
+
+# Check if path exists
+print(f"Does data dir exist? {data_dir.exists()}")
+
+# Create directory if needed
+data_dir.mkdir(exist_ok=True)  # exist_ok prevents error if already exists
+
+# List files in directory
+if data_dir.exists():
+    files = list(data_dir.glob('*.csv'))
+    print(f"CSV files: {files}")
+
+# Absolute vs relative paths
+absolute = csv_file.absolute()
+print(f"Absolute path: {absolute}")
+
+# Parent directory
+parent = csv_file.parent
+print(f"Parent directory: {parent}")
+
+# File name components
+print(f"File name: {csv_file.name}")
+print(f"Stem (without extension): {csv_file.stem}")
+print(f"Extension: {csv_file.suffix}")
+```
+
+Best practices for paths in analysis scripts:
+
+```{python}
+# Define paths relative to script location
+script_dir = Path(__file__).parent if '__file__' in globals() else Path.cwd()
+data_dir = script_dir / 'data'
+output_dir = script_dir / 'output'
+
+# Create output directory
+output_dir.mkdir(exist_ok=True)
+
+# Construct file paths
+input_file = data_dir / 'raw_data.csv'
+output_file = output_dir / 'cleaned_data.csv'
+
+print(f"Input: {input_file}")
+print(f"Output: {output_file}")
+
+# This structure ensures code works regardless of where it's run from
+```
+
+# 3. Data Structures and Types
+
+## 3.1 Structured vs Unstructured Data
+
+**Structured data** fits into tables with rows and columns. Each column has a consistent type, and rows represent observations. Examples: CSV files, SQL databases, spreadsheets.
+
+**Semi-structured data** has organization but doesn't fit cleanly into tables. Examples: JSON with nested objects, XML, log files with varying formats.
+
+**Unstructured data** lacks predefined organization. Examples: plain text, images, audio, video.
+
+Most scientific data is structured or semi-structured. This course focuses on structured data processed with pandas.
+
+## 3.2 Data Types in pandas
+
+pandas DataFrames can hold heterogeneous types across columns:
+
+```{python}
+import numpy as np
+
+# Create DataFrame with mixed types
+data = {
+    'integer_col': [1, 2, 3, 4],
+    'float_col': [1.5, 2.7, 3.2, 4.8],
+    'string_col': ['a', 'b', 'c', 'd'],
+    'boolean_col': [True, False, True, False],
+    'datetime_col': pd.date_range('2024-01-01', periods=4),
+    'category_col': pd.Categorical(['low', 'high', 'medium', 'high'])
+}
+
+df = pd.DataFrame(data)
+print(df)
+print(f"\nData types:\n{df.dtypes}")
+print(f"\nMemory usage:\n{df.memory_usage(deep=True)}")
+```
+
+Common pandas dtypes:
+
+- `int64`: 64-bit integers
+- `float64`: 64-bit floating point
+- `object`: Python objects (usually strings)
+- `bool`: Boolean
+- `datetime64[ns]`: Datetime with nanosecond precision
+- `category`: Categorical (efficient for repeated values)
+- `string`: String type (newer, more consistent than object)
+
+Type checking and conversion:
+
+```{python}
+# Check specific type
+print(f"Is integer_col numeric? {pd.api.types.is_numeric_dtype(df['integer_col'])}")
+print(f"Is string_col string? {pd.api.types.is_string_dtype(df['string_col'])}")
+
+# Convert types
+df['integer_col_as_float'] = df['integer_col'].astype(float)
+df['float_col_as_int'] = df['float_col'].astype(int)  # Truncates
+
+print(f"\nAfter conversions:")
+print(df[['integer_col', 'integer_col_as_float', 'float_col', 'float_col_as_int']])
+```
+
+## 3.3 Missing Data Representation
+
+Missing data is represented as `NaN` (Not a Number) for numeric types and `None` or `NaN` for objects:
+
+```{python}
+# Create DataFrame with missing values
+data = {
+    'A': [1, 2, np.nan, 4],
+    'B': [5.5, np.nan, 7.3, 8.1],
+    'C': ['x', 'y', None, 'z'],
+    'D': [True, False, None, True]
+}
+df = pd.DataFrame(data)
+
+print("DataFrame with missing values:")
+print(df)
+
+# Detect missing values
+print(f"\nMissing values (boolean):\n{df.isnull()}")
+print(f"\nMissing count per column:\n{df.isnull().sum()}")
+print(f"\nAny missing in each row?\n{df.isnull().any(axis=1)}")
+
+# Missing value patterns
+print(f"\nRows with any missing: {df.isnull().any(axis=1).sum()}")
+print(f"Rows with all missing: {df.isnull().all(axis=1).sum()}")
+print(f"Percentage missing per column:\n{(df.isnull().sum() / len(df) * 100).round(1)}")
+```
+
+# 4. pandas Fundamentals
+
+## 4.1 Series
+
+A Series is a one-dimensional labeled array:
+
+```{python}
+# Create Series from list
+temperatures = pd.Series([22.5, 23.1, 21.8, 24.3, 26.7], 
+                        name='temperature_c')
+print("Series from list:")
+print(temperatures)
+
+# Series with custom index
+days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri']
+temps_indexed = pd.Series([22.5, 23.1, 21.8, 24.3, 26.7], 
+                          index=days, 
+                          name='temperature_c')
+print("\nSeries with custom index:")
+print(temps_indexed)
+
+# Access by position and label
+print(f"\nFirst temperature: {temps_indexed.iloc[0]}")
+print(f"Monday's temperature: {temps_indexed.loc['Mon']}")
+print(f"Using bracket notation: {temps_indexed['Mon']}")
+
+# Series from dictionary
+temp_dict = {'Mon': 22.5, 'Tue': 23.1, 'Wed': 21.8}
+temps_from_dict = pd.Series(temp_dict, name='temperature_c')
+print("\nSeries from dictionary:")
+print(temps_from_dict)
+```
+
+Series operations are vectorized:
+
+```{python}
+# Arithmetic operations
+print("Original temperatures (°C):")
+print(temps_indexed)
+
+# Convert to Fahrenheit
+temps_f = temps_indexed * 9/5 + 32
+temps_f.name = 'temperature_f'
+print("\nConverted to Fahrenheit:")
+print(temps_f)
+
+# Boolean operations
+hot_days = temps_indexed > 23
+print("\nDays above 23°C:")
+print(hot_days)
+
+# Filtering
+print("\nTemperatures on hot days:")
+print(temps_indexed[hot_days])
+
+# Aggregations
+print(f"\nMean: {temps_indexed.mean():.2f}°C")
+print(f"Max: {temps_indexed.max():.2f}°C")
+print(f"Std dev: {temps_indexed.std():.2f}°C")
+```
+
+## 4.2 DataFrames
+
+DataFrames are two-dimensional labeled data structures:
+
+```{python}
+# Create DataFrame from dictionary
+weather_data = {
+    'temperature_c': [22.5, 23.1, 21.8, 24.3, 26.7],
+    'humidity': [0.65, 0.70, 0.60, 0.55, 0.50],
+    'wind_mph': [5.2, 3.1, 8.4, 6.7, 4.3],
+    'condition': ['Sunny', 'Cloudy', 'Sunny', 'Sunny', 'Partly Cloudy']
+}
+weather = pd.DataFrame(weather_data, 
+                       index=['Mon', 'Tue', 'Wed', 'Thu', 'Fri'])
+print("Weather DataFrame:")
+print(weather)
+
+# DataFrame attributes
+print(f"\nShape: {weather.shape}")
+print(f"Size: {weather.size}")
+print(f"Dimensions: {weather.ndim}")
+print(f"Columns: {weather.columns.tolist()}")
+print(f"Index: {weather.index.tolist()}")
+```
+
+Creating DataFrames from various sources:
+
+```{python}
+# From list of lists
+data_lists = [
+    [22.5, 0.65, 5.2],
+    [23.1, 0.70, 3.1],
+    [21.8, 0.60, 8.4]
+]
+df1 = pd.DataFrame(data_lists, 
+                   columns=['temp', 'humidity', 'wind'])
+print("From list of lists:")
+print(df1)
+
+# From list of dictionaries
+data_dicts = [
+    {'temp': 22.5, 'humidity': 0.65, 'wind': 5.2},
+    {'temp': 23.1, 'humidity': 0.70, 'wind': 3.1},
+    {'temp': 21.8, 'humidity': 0.60, 'wind': 8.4}
+]
+df2 = pd.DataFrame(data_dicts)
+print("\nFrom list of dictionaries:")
+print(df2)
+
+# From NumPy array
+arr = np.random.randn(4, 3)
+df3 = pd.DataFrame(arr, 
+                   columns=['A', 'B', 'C'],
+                   index=['row1', 'row2', 'row3', 'row4'])
+print("\nFrom NumPy array:")
+print(df3)
+```
+
+## 4.3 Inspecting DataFrames
+
+Essential methods for understanding your data:
+
+```{python}
+# Create sample dataset for inspection
+np.random.seed(42)
+n = 100
+inspection_data = pd.DataFrame({
+    'id': range(1, n+1),
+    'value': np.random.randn(n) * 10 + 50,
+    'category': np.random.choice(['A', 'B', 'C'], n),
+    'date': pd.date_range('2024-01-01', periods=n, freq='D')
+})
+
+# Basic inspection
+print("First 5 rows:")
+print(inspection_data.head())
+
+print("\nLast 5 rows:")
+print(inspection_data.tail())
+
+print("\nRandom sample (5 rows):")
+print(inspection_data.sample(5))
+
+# Information summary
+print("\nDataFrame info:")
+print(inspection_data.info())
+
+# Statistical summary
+print("\nStatistical summary:")
+print(inspection_data.describe())
+
+# For categorical columns
+print("\nCategory value counts:")
+print(inspection_data['category'].value_counts())
+
+# Unique values
+print(f"\nUnique categories: {inspection_data['category'].nunique()}")
+print(f"Unique category values: {inspection_data['category'].unique()}")
+```
+
+# 5. Data Selection and Indexing
+
+## 5.1 Column Selection
+
+Columns can be accessed multiple ways:
+
+```{python}
+# Create sample DataFrame
+df = pd.DataFrame({
+    'name': ['Alice', 'Bob', 'Charlie', 'Diana'],
+    'age': [25, 30, 35, 28],
+    'city': ['NYC', 'LA', 'Chicago', 'Boston'],
+    'salary': [70000, 80000, 75000, 72000]
+})
+
+print("Original DataFrame:")
+print(df)
+
+# Single column (returns Series)
+ages = df['age']
+print(f"\nSingle column (Series):\n{ages}")
+
+# Dot notation (only works for valid Python identifiers)
+cities = df.city
+print(f"\nDot notation:\n{cities}")
+
+# Multiple columns (returns DataFrame)
+subset = df[['name', 'salary']]
+print(f"\nMultiple columns (DataFrame):\n{subset}")
+
+# Reorder columns
+reordered = df[['salary', 'age', 'name', 'city']]
+print(f"\nReordered columns:\n{reordered}")
+```
+
+## 5.2 Row Selection
+
+Row selection uses `.loc[]` (label-based) and `.iloc[]` (position-based):
+
+```{python}
+# Set index for demonstration
+df_indexed = df.set_index('name')
+print("DataFrame with name as index:")
+print(df_indexed)
+
+# Select by label with .loc
+print("\nBob's data (.loc):")
+print(df_indexed.loc['Bob'])
+
+# Select multiple rows by label
+print("\nAlice and Diana (.loc):")
+print(df_indexed.loc[['Alice', 'Diana']])
+
+# Slice by label (inclusive on both ends!)
+print("\nBob through Diana (.loc):")
+print(df_indexed.loc['Bob':'Diana'])
+
+# Select by position with .iloc
+print("\nFirst row (.iloc):")
+print(df_indexed.iloc[0])
+
+# Multiple rows by position
+print("\nFirst and third rows (.iloc):")
+print(df_indexed.iloc[[0, 2]])
+
+# Slice by position (exclusive end)
+print("\nFirst 2 rows (.iloc):")
+print(df_indexed.iloc[0:2])
+```
+
+Selecting rows and columns together:
+
+```{python}
+# loc[rows, columns]
+print("Bob's age (.loc):")
+print(df_indexed.loc['Bob', 'age'])
+
+# Multiple rows and columns
+print("\nAlice and Bob's age and city:")
+print(df_indexed.loc[['Alice', 'Bob'], ['age', 'city']])
+
+# All rows, specific columns
+print("\nAll ages and cities:")
+print(df_indexed.loc[:, ['age', 'city']])
+
+# iloc[rows, columns]
+print("\nFirst 2 rows, last 2 columns (.iloc):")
+print(df_indexed.iloc[0:2, -2:])
+```
+
+## 5.3 Boolean Indexing
+
+Filter rows based on conditions:
+
+```{python}
+# Simple condition
+high_salary = df[df['salary'] > 72000]
+print("Employees with salary > $72,000:")
+print(high_salary)
+
+# Multiple conditions (use & for and, | for or)
+young_high_earners = df[(df['age'] < 30) & (df['salary'] > 70000)]
+print("\nYoung high earners:")
+print(young_high_earners)
+
+# Using isin() for membership
+coastal_cities = df[df['city'].isin(['NYC', 'LA', 'Boston'])]
+print("\nEmployees in coastal cities:")
+print(coastal_cities)
+
+# String methods
+chicago_employees = df[df['city'].str.contains('Chi')]
+print("\nEmployees in Chicago:")
+print(chicago_employees)
+
+# Negation with ~
+not_nyc = df[~(df['city'] == 'NYC')]
+print("\nEmployees not in NYC:")
+print(not_nyc)
+```
+
+Complex filtering:
+
+```{python}
+# Between values
+mid_career = df[df['age'].between(28, 32)]
+print("Employees aged 28-32:")
+print(mid_career)
+
+# Query method (SQL-like syntax)
+query_result = df.query('age > 28 and salary < 80000')
+print("\nUsing query method:")
+print(query_result)
+
+# Filter with function
+def is_high_earner(row):
+    return row['salary'] > 70000 and row['age'] < 35
+
+high_earners = df[df.apply(is_high_earner, axis=1)]
+print("\nHigh earners under 35:")
+print(high_earners)
+```
+
+## 5.4 Advanced Indexing
+
+```{python}
+# Multi-level indexing
+data = {
+    'city': ['NYC', 'NYC', 'LA', 'LA', 'Chicago', 'Chicago'],
+    'year': [2022, 2023, 2022, 2023, 2022, 2023],
+    'population': [8.3, 8.4, 3.9, 4.0, 2.7, 2.7]
+}
+cities = pd.DataFrame(data)
+
+# Set multi-level index
+cities_indexed = cities.set_index(['city', 'year'])
+print("Multi-level index:")
+print(cities_indexed)
+
+# Select from multi-level index
+print("\nNYC data:")
+print(cities_indexed.loc['NYC'])
+
+print("\nNYC 2023:")
+print(cities_indexed.loc[('NYC', 2023)])
+
+# Cross-section (xs)
+print("\n2023 data across cities:")
+print(cities_indexed.xs(2023, level='year'))
+```
+
+# 6. Data Quality Issues
+
+## 6.1 Missing Values
+
+Comprehensive missing data handling:
+
+```{python}
+# Create data with various missing patterns
+data = {
+    'A': [1, 2, np.nan, 4, 5],
+    'B': [10, np.nan, np.nan, 40, 50],
+    'C': ['x', 'y', 'z', None, 'w'],
+    'D': [1.1, 2.2, 3.3, 4.4, np.nan]
+}
+df = pd.DataFrame(data)
+
+print("Data with missing values:")
+print(df)
+
+# Detect missing
+print("\nMissing value mask:")
+print(df.isnull())
+
+print("\nMissing counts:")
+print(df.isnull().sum())
+
+# Drop missing
+df_dropped_rows = df.dropna()  # Drop rows with any missing
+print("\nAfter dropna():")
+print(df_dropped_rows)
+
+df_dropped_cols = df.dropna(axis=1)  # Drop columns with any missing
+print("\nAfter dropna(axis=1):")
+print(df_dropped_cols)
+
+# Drop only if all values missing
+df_dropped_all = df.dropna(how='all')
+print("\nDrop rows where all values missing:")
+print(df_dropped_all)
+
+# Require minimum non-null values
+df_dropped_thresh = df.dropna(thresh=3)  # Keep rows with ≥3 non-null
+print("\nKeep rows with ≥3 non-null values:")
+print(df_dropped_thresh)
+```
+
+Filling missing values:
+
+```{python}
+# Fill with constant
+df_filled = df.fillna(0)
+print("Fill with 0:")
+print(df_filled)
+
+# Fill with column-specific values
+fill_values = {'A': 0, 'B': df['B'].mean(), 'C': 'unknown'}
+df_filled_dict = df.fillna(fill_values)
+print("\nFill with column-specific values:")
+print(df_filled_dict)
+
+# Forward fill (propagate last valid observation)
+df_ffill = df.fillna(method='ffill')
+print("\nForward fill:")
+print(df_ffill)
+
+# Backward fill
+df_bfill = df.fillna(method='bfill')
+print("\nBackward fill:")
+print(df_bfill)
+
+# Interpolate (for numeric data)
+df_interp = df.interpolate()
+print("\nInterpolate:")
+print(df_interp)
+```
+
+## 6.2 Duplicate Values
+
+```{python}
+# Create data with duplicates
+dup_data = {
+    'id': [1, 2, 2, 3, 4, 4, 5],
+    'value': ['A', 'B', 'B', 'C', 'D', 'D', 'E']
+}
+df_dup = pd.DataFrame(dup_data)
+
+print("Data with duplicates:")
+print(df_dup)
+
+# Detect duplicates
+print("\nDuplicate mask:")
+print(df_dup.duplicated())
+
+print("\nDuplicate rows:")
+print(df_dup[df_dup.duplicated()])
+
+# Drop duplicates
+df_no_dup = df_dup.drop_duplicates()
+print("\nAfter dropping duplicates:")
+print(df_no_dup)
+
+# Keep last occurrence instead of first
+df_keep_last = df_dup.drop_duplicates(keep='last')
+print("\nKeep last occurrence:")
+print(df_keep_last)
+
+# Consider only specific columns for duplicates
+df_subset = df_dup.drop_duplicates(subset=['id'])
+print("\nDrop duplicates based on 'id' only:")
+print(df_subset)
+```
+
+## 6.3 Invalid Values
+
+```{python}
+# Data with invalid values
+invalid_data = {
+    'age': [25, 30, -5, 150, 35],  # Invalid: negative and impossible ages
+    'temperature_c': [20, 25, 30, -300, 35],  # Invalid: below absolute zero
+    'percentage': [0.5, 0.8, 1.2, 0.3, -0.1]  # Invalid: outside [0, 1]
+}
+df_invalid = pd.DataFrame(invalid_data)
+
+print("Data with invalid values:")
+print(df_invalid)
+
+# Detect invalid ages
+valid_age = (df_invalid['age'] >= 0) & (df_invalid['age'] <= 120)
+print("\nInvalid ages:")
+print(df_invalid[~valid_age])
+
+# Detect invalid temperatures (> absolute zero in Celsius)
+valid_temp = df_invalid['temperature_c'] >= -273.15
+print("\nInvalid temperatures:")
+print(df_invalid[~valid_temp])
+
+# Detect invalid percentages
+valid_pct = (df_invalid['percentage'] >= 0) & (df_invalid['percentage'] <= 1)
+print("\nInvalid percentages:")
+print(df_invalid[~valid_pct])
+
+# Replace invalid with NaN
+df_cleaned = df_invalid.copy()
+df_cleaned.loc[~valid_age, 'age'] = np.nan
+df_cleaned.loc[~valid_temp, 'temperature_c'] = np.nan
+df_cleaned.loc[~valid_pct, 'percentage'] = np.nan
+
+print("\nAfter replacing invalid with NaN:")
+print(df_cleaned)
+```
+
+# 7. Data Cleaning and Transformation
+
+## 7.1 Type Conversion
+
+```{python}
+# String to numeric
+string_numbers = pd.Series(['100', '200', '300', 'invalid', '400'])
+numeric = pd.to_numeric(string_numbers, errors='coerce')  # Invalid → NaN
+print("String to numeric:")
+print(numeric)
+
+# String to datetime
+date_strings = pd.Series(['2024-01-01', '2024-01-15', '2024-02-01'])
+dates = pd.to_datetime(date_strings)
+print("\nString to datetime:")
+print(dates)
+
+# Handle various date formats
+mixed_dates = pd.Series(['01/15/2024', '2024-01-20', 'Jan 25, 2024'])
+parsed_dates = pd.to_datetime(mixed_dates, infer_datetime_format=True)
+print("\nMixed date formats:")
+print(parsed_dates)
+
+# Categorical conversion (saves memory for repeated values)
+colors = pd.Series(['red', 'blue', 'red', 'green', 'blue', 'red'])
+colors_cat = colors.astype('category')
+print(f"\nMemory usage - object: {colors.memory_usage(deep=True)} bytes")
+print(f"Memory usage - category: {colors_cat.memory_usage(deep=True)} bytes")
+```
+
+## 7.2 String Operations
+
+```{python}
+# Create data with string issues
+messy_strings = pd.Series([
+    '  Alice  ',
+    'bob',
+    'CHARLIE',
+    'Diana_Smith',
+    'Eve-Johnson'
+])
+
+# Strip whitespace
+cleaned = messy_strings.str.strip()
+print("After strip():")
+print(cleaned)
+
+# Case operations
+print("\nLowercase:")
+print(cleaned.str.lower())
+
+print("\nTitle case:")
+print(cleaned.str.title())
+
+# Replace
+print("\nReplace underscore with space:")
+print(cleaned.str.replace('_', ' '))
+
+# Split
+names_split = cleaned.str.split('-')
+print("\nSplit on hyphen:")
+print(names_split)
+
+# Extract with regex
+phone_numbers = pd.Series(['123-456-7890', '(555) 123-4567', '9876543210'])
+area_codes = phone_numbers.str.extract(r'(\d{3})')
+print("\nExtract area codes:")
+print(area_codes)
+
+# Contains
+print("\nContains 'a' (case-insensitive):")
+print(cleaned.str.contains('a', case=False))
+```
+
+## 7.3 Creating Derived Variables
+
+```{python}
+# Sample sales data
+sales = pd.DataFrame({
+    'product': ['Widget', 'Gadget', 'Widget', 'Gadget', 'Widget'],
+    'quantity': [2, 1, 3, 2, 1],
+    'unit_price': [10.0, 25.0, 10.0, 25.0, 10.0],
+    'discount_pct': [0.1, 0.0, 0.15, 0.05, 0.0]
+})
+
+print("Original sales data:")
+print(sales)
+
+# Calculate revenue before discount
+sales['subtotal'] = sales['quantity'] * sales['unit_price']
+
+# Calculate discount amount
+sales['discount_amount'] = sales['subtotal'] * sales['discount_pct']
+
+# Calculate final revenue
+sales['revenue'] = sales['subtotal'] - sales['discount_amount']
+
+# Create categorical variable
+sales['price_category'] = pd.cut(sales['unit_price'], 
+                                 bins=[0, 15, 100], 
+                                 labels=['Low', 'High'])
+
+print("\nWith derived variables:")
+print(sales)
+
+# Using apply for complex transformations
+def categorize_discount(row):
+    if row['discount_pct'] == 0:
+        return 'No discount'
+    elif row['discount_pct'] < 0.1:
+        return 'Small discount'
+    else:
+        return 'Large discount'
+
+sales['discount_category'] = sales.apply(categorize_discount, axis=1)
+print("\nWith discount categories:")
+print(sales[['product', 'discount_pct', 'discount_category']])
+```
+
+# 8. Grouping and Aggregation
+
+## 8.1 Basic GroupBy
+
+```{python}
+# Sales by region
+region_sales = pd.DataFrame({
+    'region': ['East', 'West', 'East', 'West', 'East', 'West'],
+    'product': ['A', 'A', 'B', 'B', 'A', 'B'],
+    'sales': [100, 150, 200, 175, 120, 190],
+    'units': [10, 15, 20, 18, 12, 19]
+})
+
+print("Sales data:")
+print(region_sales)
+
+# Group by region and calculate mean
+region_avg = region_sales.groupby('region').mean()
+print("\nAverage by region:")
+print(region_avg)
+
+# Multiple aggregations
+region_stats = region_sales.groupby('region').agg({
+    'sales': ['sum', 'mean', 'max'],
+    'units': ['sum', 'mean']
+})
+print("\nMultiple aggregations:")
+print(region_stats)
+
+# Group by multiple columns
+region_product = region_sales.groupby(['region', 'product']).sum()
+print("\nGroup by region and product:")
+print(region_product)
+```
+
+## 8.2 Advanced Aggregation
+
+```{python}
+# Custom aggregation functions
+def range_calc(x):
+    return x.max() - x.min()
+
+def coef_var(x):
+    return x.std() / x.mean()
+
+custom_agg = region_sales.groupby('region').agg({
+    'sales': ['sum', 'mean', range_calc, coef_var]
+})
+print("Custom aggregations:")
+print(custom_agg)
+
+# Named aggregations (pandas 0.25+)
+named_agg = region_sales.groupby('region').agg(
+    total_sales=('sales', 'sum'),
+    avg_sales=('sales', 'mean'),
+    max_units=('units', 'max'),
+    min_units=('units', 'min')
+)
+print("\nNamed aggregations:")
+print(named_agg)
+
+# Transform (maintain original shape)
+region_sales['sales_pct_of_region'] = (
+    region_sales['sales'] / 
+    region_sales.groupby('region')['sales'].transform('sum')
+)
+print("\nWith percentage of region total:")
+print(region_sales[['region', 'sales', 'sales_pct_of_region']])
+
+# Filter groups
+high_volume_regions = region_sales.groupby('region').filter(
+    lambda x: x['units'].sum() > 40
+)
+print("\nHigh-volume regions only:")
+print(high_volume_regions)
+```
+
+## 8.3 GroupBy Patterns
+
+```{python}
+# Apply custom function to each group
+def analyze_region(group):
+    return pd.Series({
+        'total_sales': group['sales'].sum(),
+        'num_products': group['product'].nunique(),
+        'avg_unit_price': (group['sales'] / group['units']).mean()
+    })
+
+region_analysis = region_sales.groupby('region').apply(analyze_region)
+print("Custom group analysis:")
+print(region_analysis)
+
+# Get first/last of each group
+first_in_region = region_sales.groupby('region').first()
+print("\nFirst entry per region:")
+print(first_in_region)
+
+# Nth item in each group
+second_in_region = region_sales.groupby('region').nth(1)
+print("\nSecond entry per region:")
+print(second_in_region)
+
+# Size vs count
+print("\nSize (includes NaN):")
+print(region_sales.groupby('region').size())
+print("\nCount (excludes NaN):")
+print(region_sales.groupby('region').count())
+```
+
+# 9. Merging and Joining
+
+## 9.1 Types of Joins
+
+```{python}
+# Create sample datasets
+employees = pd.DataFrame({
+    'emp_id': [1, 2, 3, 4],
+    'name': ['Alice', 'Bob', 'Charlie', 'Diana'],
+    'dept_id': [101, 102, 101, 103]
+})
+
+departments = pd.DataFrame({
+    'dept_id': [101, 102, 104],
+    'dept_name': ['Sales', 'Engineering', 'HR'],
+    'location': ['NYC', 'SF', 'Boston']
+})
+
+print("Employees:")
+print(employees)
+print("\nDepartments:")
+print(departments)
+
+# Inner join (only matching rows)
+inner = pd.merge(employees, departments, on='dept_id', how='inner')
+print("\nInner join:")
+print(inner)
+
+# Left join (all employees, matched departments)
+left = pd.merge(employees, departments, on='dept_id', how='left')
+print("\nLeft join:")
+print(left)
+
+# Right join (all departments, matched employees)
+right = pd.merge(employees, departments, on='dept_id', how='right')
+print("\nRight join:")
+print(right)
+
+# Outer join (all rows from both)
+outer = pd.merge(employees, departments, on='dept_id', how='outer')
+print("\nOuter join:")
+print(outer)
+```
+
+## 9.2 Merge Variations
+
+```{python}
+# Merge on different column names
+customers = pd.DataFrame({
+    'customer_id': [1, 2, 3],
+    'name': ['Alice', 'Bob', 'Charlie']
+})
+
+orders = pd.DataFrame({
+    'order_id': [101, 102, 103],
+    'cust_id': [1, 2, 1],  # Different column name
+    'amount': [100, 150, 75]
+})
+
+merged = pd.merge(customers, orders, 
+                  left_on='customer_id', 
+                  right_on='cust_id')
+print("Merge on different column names:")
+print(merged)
+
+# Merge on multiple columns
+left_df = pd.DataFrame({
+    'key1': ['A', 'B', 'C'],
+    'key2': [1, 2, 1],
+    'value': [10, 20, 30]
+})
+
+right_df = pd.DataFrame({
+    'key1': ['A', 'B', 'C'],
+    'key2': [1, 2, 2],
+    'value': [100, 200, 300]
+})
+
+multi_merge = pd.merge(left_df, right_df, on=['key1', 'key2'])
+print("\nMerge on multiple columns:")
+print(multi_merge)
+
+# Suffixes for overlapping columns
+result = pd.merge(left_df, right_df, on=['key1', 'key2'], 
+                  suffixes=('_left', '_right'))
+print("\nWith custom suffixes:")
+print(result)
+```
+
+## 9.3 Joining on Index
+
+```{python}
+# DataFrames with meaningful indices
+df1 = pd.DataFrame({'A': [1, 2, 3]}, index=['x', 'y', 'z'])
+df2 = pd.DataFrame({'B': [4, 5, 6]}, index=['x', 'y', 'w'])
+
+print("df1:")
+print(df1)
+print("\ndf2:")
+print(df2)
+
+# Join on index
+joined = df1.join(df2, how='outer')
+print("\nJoined on index (outer):")
+print(joined)
+
+# Concat (stack DataFrames)
+stacked = pd.concat([df1, df2], axis=0)
+print("\nConcatenated vertically:")
+print(stacked)
+
+side_by_side = pd.concat([df1, df2], axis=1)
+print("\nConcatenated horizontally:")
+print(side_by_side)
+```
+
+# 10. Time Series and Dates
+
+## 10.1 Datetime Operations
+
+```{python}
+# Create datetime index
+dates = pd.date_range('2024-01-01', periods=10, freq='D')
+ts = pd.Series(range(10), index=dates)
+print("Time series:")
+print(ts)
+
+# Access datetime components
+df_dates = pd.DataFrame({
+    'date': pd.date_range('2024-01-15', periods=5, freq='W')
+})
+
+df_dates['year'] = df_dates['date'].dt.year
+df_dates['month'] = df_dates['date'].dt.month
+df_dates['day'] = df_dates['date'].dt.day
+df_dates['day_of_week'] = df_dates['date'].dt.day_name()
+df_dates['week_of_year'] = df_dates['date'].dt.isocalendar().week
+
+print("\nDate components:")
+print(df_dates)
+
+# Date arithmetic
+df_dates['plus_10_days'] = df_dates['date'] + pd.Timedelta(days=10)
+df_dates['minus_1_week'] = df_dates['date'] - pd.Timedelta(weeks=1)
+
+print("\nDate arithmetic:")
+print(df_dates[['date', 'plus_10_days', 'minus_1_week']])
+```
+
+## 10.2 Time-based Selection
+
+```{python}
+# Create time series with business day frequency
+dates = pd.date_range('2024-01-01', '2024-03-31', freq='B')
+data = pd.DataFrame({
+    'value': np.random.randn(len(dates)) * 10 + 100
+}, index=dates)
+
+print(f"Time series shape: {data.shape}")
+print("\nFirst few rows:")
+print(data.head())
+
+# Select by date string
+jan_data = data['2024-01']
+print(f"\nJanuary data: {len(jan_data)} rows")
+
+# Select date range
+feb_data = data['2024-02-01':'2024-02-15']
+print(f"First half of Feb: {len(feb_data)} rows")
+
+# Boolean filtering on dates
+recent = data[data.index >= '2024-03-01']
+print(f"\nMarch data: {len(recent)} rows")
+
+# Resample to different frequency
+weekly_mean = data.resample('W').mean()
+print("\nWeekly averages:")
+print(weekly_mean.head())
+
+monthly_sum = data.resample('M').sum()
+print("\nMonthly totals:")
+print(monthly_sum)
+```
+
+## 10.3 Time Zones and Periods
+
+```{python}
+# Create timezone-aware datetime
+utc_times = pd.date_range('2024-01-01', periods=3, freq='H', tz='UTC')
+print("UTC times:")
+print(utc_times)
+
+# Convert timezone
+eastern = utc_times.tz_convert('US/Eastern')
+print("\nEastern times:")
+print(eastern)
+
+# Period (spans of time)
+periods = pd.period_range('2024-01', periods=6, freq='M')
+print("\nMonthly periods:")
+print(periods)
+
+# Convert between timestamp and period
+timestamps = pd.date_range('2024-01-01', periods=5, freq='D')
+as_periods = timestamps.to_period('D')
+print("\nAs periods:")
+print(as_periods)
+
+back_to_timestamps = as_periods.to_timestamp()
+print("\nBack to timestamps:")
+print(back_to_timestamps)
+```
+
+# 11. Data Provenance and Documentation
+
+## 11.1 Documenting Data Sources
+
+Every analysis should document:
+
+1. **Origin**: Where did the data come from?
+2. **Version**: Which version of the dataset?
+3. **Access date**: When was it downloaded?
+4. **License**: Can you legally use it?
+5. **Contact**: Who to ask about issues?
+
+Example metadata structure:
+
+```{python}
+# Document your data sources
+data_provenance = {
+    "dataset_name": "Hurricane HURDAT2",
+    "source": "National Hurricane Center, NOAA",
+    "url": "https://www.nhc.noaa.gov/data/hurdat/",
+    "access_date": "2024-01-15",
+    "version": "2023-04-01 revision",
+    "license": "Public domain (US government data)",
+    "description": "Atlantic hurricane database with track and intensity",
+    "variables": {
+        "storm_id": "Unique identifier",
+        "date": "Observation timestamp",
+        "lat": "Latitude in degrees north",
+        "lon": "Longitude in degrees west (negative)",
+        "wind_mph": "Maximum sustained wind speed",
+        "pressure_mb": "Minimum central pressure"
+    },
+    "known_issues": [
+        "Pre-1950s pressure measurements often missing",
+        "Intensity estimates less reliable before aircraft reconnaissance",
+        "Some early storms may be undetected"
+    ]
+}
+
+import json
+print(json.dumps(data_provenance, indent=2))
+```
+
+## 11.2 Tracking Transformations
+
+Document every transformation applied to data:
+
+```{python}
+# Create transformation log
+transformation_log = []
+
+def log_transform(description, n_before, n_after):
+    """Log a data transformation."""
+    transformation_log.append({
+        'step': len(transformation_log) + 1,
+        'description': description,
+        'rows_before': n_before,
+        'rows_after': n_after,
+        'rows_removed': n_before - n_after
+    })
+
+# Simulate data cleaning pipeline
+raw_data = pd.DataFrame({'value': [1, 2, np.nan, 4, -999, 6]})
+n_initial = len(raw_data)
+
+# Step 1: Replace sentinel values with NaN
+cleaned = raw_data.replace(-999, np.nan)
+log_transform("Replace -999 with NaN", n_initial, len(cleaned))
+
+# Step 2: Drop missing values
+cleaned = cleaned.dropna()
+log_transform("Drop missing values", len(raw_data), len(cleaned))
+
+# Print transformation log
+transform_df = pd.DataFrame(transformation_log)
+print("Transformation log:")
+print(transform_df)
+```
+
+## 11.3 Reproducibility Checklist
+
+For reproducible analysis:
+
+```{python}
+# Record environment information
+import sys
+import pandas as pd
+import numpy as np
+
+reproducibility_info = {
+    "python_version": sys.version,
+    "pandas_version": pd.__version__,
+    "numpy_version": np.__version__,
+    "execution_date": pd.Timestamp.now().isoformat(),
+    "random_seed": 42  # Always set seeds for randomness
+}
+
+print("Reproducibility information:")
+for key, value in reproducibility_info.items():
+    print(f"{key}: {value}")
+
+# Set random seed for reproducibility
+np.random.seed(42)
+```
+
+# 12. Best Practices
+
+## 12.1 Code Organization
+
+```{python}
+# Good: Clear, documented, modular
+
+def load_hurricane_data(filepath):
+    """
+    Load and perform initial cleaning of hurricane data.
+    
+    Parameters:
+        filepath: Path to CSV file
+        
+    Returns:
+        DataFrame with cleaned data
+    """
+    # Load data
+    df = pd.read_csv(filepath)
+    
+    # Convert dates
+    df['date'] = pd.to_datetime(df['date'])
+    
+    # Replace sentinel values
+    df = df.replace(-999, np.nan)
+    
+    return df
+
+def calculate_storm_intensity(df):
+    """
+    Calculate derived intensity metrics.
+    
+    Parameters:
+        df: DataFrame with wind and pressure columns
+        
+    Returns:
+        DataFrame with additional intensity columns
+    """
+    df = df.copy()
+    
+    # Categorize by Saffir-Simpson scale
+    df['category'] = pd.cut(
+        df['wind_mph'],
+        bins=[0, 74, 95, 110, 129, 156, 200],
+        labels=['TS', '1', '2', '3', '4', '5']
+    )
+    
+    # Flag major hurricanes
+    df['is_major'] = df['wind_mph'] >= 111
+    
+    return df
+
+# Usage
+# data = load_hurricane_data('hurricanes.csv')
+# data = calculate_storm_intensity(data)
+```
+
+## 12.2 Defensive Programming
+
+```{python}
+def safe_division(a, b):
+    """Safely divide two numbers, handling division by zero."""
+    if b == 0:
+        return np.nan
+    return a / b
+
+def validate_temperature(temp_c):
+    """
+    Validate temperature measurement.
+    
+    Returns True if valid, False otherwise.
+    """
+    # Must be above absolute zero and below reasonable maximum
+    return (-273.15 <= temp_c <= 100)
+
+def clean_dataframe(df, required_columns):
+    """
+    Validate DataFrame has required columns.
+    
+    Raises ValueError if validation fails.
+    """
+    missing = set(required_columns) - set(df.columns)
+    if missing:
+        raise ValueError(f"Missing required columns: {missing}")
+    
+    return df
+
+# Example usage
+try:
+    test_df = pd.DataFrame({'A': [1, 2, 3]})
+    clean_dataframe(test_df, ['A', 'B'])
+except ValueError as e:
+    print(f"Validation error: {e}")
+```
+
+## 12.3 Performance Considerations
+
+```{python}
+import time
+
+# Create large dataset for timing
+large_df = pd.DataFrame({
+    'A': np.random.randn(100000),
+    'B': np.random.randn(100000)
+})
+
+# Slow: Using iterrows
+start = time.time()
+results_slow = []
+for idx, row in large_df.head(1000).iterrows():
+    results_slow.append(row['A'] * row['B'])
+slow_time = time.time() - start
+
+# Fast: Vectorized operation
+start = time.time()
+results_fast = large_df.head(1000)['A'] * large_df.head(1000)['B']
+fast_time = time.time() - start
+
+print(f"Iterrows time: {slow_time:.4f}s")
+print(f"Vectorized time: {fast_time:.4f}s")
+print(f"Speedup: {slow_time/fast_time:.1f}x")
+
+# Memory optimization
+print(f"\nMemory usage:")
+print(large_df.memory_usage(deep=True).sum() / 1024**2, "MB")
+
+# Use categorical for repeated strings
+repeated = pd.DataFrame({
+    'category': ['A'] * 25000 + ['B'] * 25000 + ['C'] * 25000 + ['D'] * 25000
+})
+print(f"Object dtype: {repeated.memory_usage(deep=True).sum() / 1024**2:.2f} MB")
+
+repeated['category'] = repeated['category'].astype('category')
+print(f"Category dtype: {repeated.memory_usage(deep=True).sum() / 1024**2:.2f} MB")
+```
+
+# 13. Key Takeaways
+
+1. **Data management is scientific reasoning**: Every decision about handling missing values, categorizing variables, or filtering outliers embodies assumptions that affect conclusions.
+
+2. **Reproducibility requires scripting**: Manual data manipulation in spreadsheets is not reproducible. All data processing must be coded so others can reproduce your results.
+
+3. **CSV is simple but has complexities**: Embedded commas, quotes, different delimiters, and missing value codes require careful handling with `pd.read_csv()` parameters.
+
+4. **JSON handles hierarchical data**: Use JSON for nested structures, configurations, and API responses. Convert to DataFrames for analysis.
+
+5. **pandas DataFrames are labeled arrays**: Unlike NumPy arrays, DataFrames have column names and row indices, making data more self-documenting.
+
+6. **Series are 1D, DataFrames are 2D**: A DataFrame column is a Series. Selecting a single column returns a Series; selecting multiple columns returns a DataFrame.
+
+7. **`.loc[]` uses labels, `.iloc[]` uses positions**: Bracket indexing `df[...]` selects columns or rows based on boolean masks. Use `.loc` and `.iloc` for explicit row/column selection.
+
+8. **Boolean indexing filters data**: Create boolean masks with comparisons (`df['col'] > 5`) and filter with `df[mask]`. Combine conditions with `&` (and), `|` (or), `~` (not).
+
+9. **Missing data requires decisions**: Dropping, filling, or flagging missing values each has implications. Document your choice and rationale.
+
+10. **Data types matter**: Check types with `.dtypes`. Convert dates with `pd.to_datetime()`, numbers with `pd.to_numeric()`, and use `category` type for repeated values.
+
+11. **GroupBy implements split-apply-combine**: Group by categorical variables, apply aggregation functions, and combine results. This is fundamental to data analysis.
+
+12. **Merging combines datasets**: Use `pd.merge()` with appropriate join type (`inner`, `left`, `right`, `outer`) to combine data from multiple sources.
+
+13. **Datetime operations extract temporal features**: Use `.dt` accessor for year, month, day, day_of_week, etc. This enables temporal analysis.
+
+14. **Vectorized operations are fast**: Avoid loops when possible. Use pandas/NumPy vectorized operations for speed and readability.
+
+15. **Document data provenance**: Record source, version, access date, and transformations. Future you (and collaborators) will be grateful.
+
+16. **Validate early and often**: Check data quality immediately after loading. Validate assumptions throughout analysis. Test edge cases.
+
+17. **Keep raw data raw**: Never modify original data files. Save cleaned data separately with clear naming (`_cleaned`, `_processed`).
+
+18. **Functions make code reusable**: Wrap common operations in functions with clear names and documentation. This reduces errors and improves maintainability.
+
+# 14. Further Questions to Think About
+
+1. **When should you drop missing data versus impute it?** What are the statistical implications of each approach? How does the pattern of missingness (random vs. systematic) affect your decision?
+
+2. **How do you decide which data quality issues require fixing versus flagging?** When is it appropriate to exclude "bad" data points entirely versus marking them for separate analysis?
+
+3. **What biases might be introduced by data collection methods?** How can you detect whether missing data is random or systematically related to the phenomenon you're studying?
+
+4. **How do you balance data cleaning rigor with analysis speed?** When is "good enough" actually good enough, and when does it compromise scientific validity?
+
+5. **What transformations preserve the scientific meaning of your data?** Is it appropriate to normalize, log-transform, or bin continuous variables? How do these choices affect interpretation?
+
+6. **How do you document data provenance in collaborative projects?** What information is essential for reproducibility, and what format should documentation take?
+
+7. **When should you merge datasets versus analyze them separately?** What assumptions underlie the join keys you choose?
+
+8. **How do you validate that your data processing pipeline is correct?** What tests can you write to ensure transformations don't introduce errors?
+
+9. **What's the relationship between data quality and statistical power?** How much missing or noisy data renders an analysis uninformative?
+
+10. **How do you communicate data quality limitations in results?** What should you disclose about excluded data, imputation methods, or measurement uncertainty?
+
+11. **When should you use pandas versus NumPy versus base Python?** What are the performance and readability tradeoffs of each approach?
+
+12. **How do temporal aggregations affect interpretation?** Does analyzing data by day, week, month, or year change the patterns you see and the conclusions you draw?
+
+# 15. Looking Ahead
+
+Next lecture addresses a crucial question: **How do we know that a computational analysis is correct?** Code that runs without errors isn't necessarily correct—it might implement the wrong algorithm, make invalid assumptions, or contain subtle logical errors that produce plausible but wrong results.
+
+We'll explore **testing and validation** as complementary approaches to computational reliability. Testing verifies that code implements the intended operations correctly. Validation checks whether inputs are reasonable, numerical methods are accurate, statistical conclusions are appropriate, and results make scientific sense.
+
+You'll learn systematic debugging strategies: reading error messages carefully, reproducing problems with minimal examples, inspecting intermediate state, forming hypotheses, and verifying fixes. We'll write unit tests for data processing functions, use assertions to check invariants, and test numerical code with appropriate tolerances.
+
+We'll also introduce **AI-assisted programming** with appropriate skepticism. Generative AI tools like GitHub Copilot can accelerate coding, but they also introduce new risks: hallucinated APIs, subtle logical errors, and security vulnerabilities. You'll learn to verify AI-generated code through testing rather than trusting it blindly.
+
+The homework will extend your hurricane analysis by adding reusable functions, tests, and validation checks. You'll debug intentionally introduced errors and document any AI assistance. This shifts your analysis from a one-off script to reliable, maintainable code that others (including future you) can trust and build upon.
+
+Data cleaning transforms raw information into analysis-ready datasets. But cleaned data is only as trustworthy as the code that produced it. Next lecture ensures your code—and therefore your scientific conclusions—can be trusted.
