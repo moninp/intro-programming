@@ -1,0 +1,1638 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Lecture 5: Data, Files, and the Path from Raw Information to Analysis – Computing Using R &amp; Python</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-55617497126496852ff9f5a59253c640.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Computing Using R &amp; Python</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../syllabus.html"> 
+<span class="menu-text">Syllabus</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../lectures.html"> 
+<span class="menu-text">Lectures</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../project.html"> 
+<span class="menu-text">Project</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#central-question" id="toc-central-question" class="nav-link active" data-scroll-target="#central-question">Central Question</a></li>
+  <li><a href="#quiz" id="toc-quiz" class="nav-link" data-scroll-target="#quiz">1. Quiz</a></li>
+  <li><a href="#exercise-1-files-data-formats-and-reading-data" id="toc-exercise-1-files-data-formats-and-reading-data" class="nav-link" data-scroll-target="#exercise-1-files-data-formats-and-reading-data">Exercise 1: Files, Data Formats, and Reading Data</a>
+  <ul class="collapse">
+  <li><a href="#exercise-1.1-understanding-file-formats" id="toc-exercise-1.1-understanding-file-formats" class="nav-link" data-scroll-target="#exercise-1.1-understanding-file-formats">Exercise 1.1: Understanding File Formats</a>
+  <ul class="collapse">
+  <li><a href="#your-turn-examining-raw-csv-data" id="toc-your-turn-examining-raw-csv-data" class="nav-link" data-scroll-target="#your-turn-examining-raw-csv-data">Your Turn: Examining Raw CSV Data</a></li>
+  <li><a href="#just-in-time-concept-pandas-dataframes" id="toc-just-in-time-concept-pandas-dataframes" class="nav-link" data-scroll-target="#just-in-time-concept-pandas-dataframes">Just-in-Time Concept: pandas DataFrames</a></li>
+  </ul></li>
+  <li><a href="#exercise-1.2-reading-real-hurricane-data" id="toc-exercise-1.2-reading-real-hurricane-data" class="nav-link" data-scroll-target="#exercise-1.2-reading-real-hurricane-data">Exercise 1.2: Reading Real Hurricane Data</a>
+  <ul class="collapse">
+  <li><a href="#your-turn-load-and-inspect-hurricane-data" id="toc-your-turn-load-and-inspect-hurricane-data" class="nav-link" data-scroll-target="#your-turn-load-and-inspect-hurricane-data">Your Turn: Load and Inspect Hurricane Data</a></li>
+  </ul></li>
+  <li><a href="#exercise-1.3-basic-dataframe-operations" id="toc-exercise-1.3-basic-dataframe-operations" class="nav-link" data-scroll-target="#exercise-1.3-basic-dataframe-operations">Exercise 1.3: Basic DataFrame Operations</a>
+  <ul class="collapse">
+  <li><a href="#your-turn-selecting-and-filtering-data" id="toc-your-turn-selecting-and-filtering-data" class="nav-link" data-scroll-target="#your-turn-selecting-and-filtering-data">Your Turn: Selecting and Filtering Data</a></li>
+  </ul></li>
+  <li><a href="#exercise-1.4-json-data-format" id="toc-exercise-1.4-json-data-format" class="nav-link" data-scroll-target="#exercise-1.4-json-data-format">Exercise 1.4: JSON Data Format</a>
+  <ul class="collapse">
+  <li><a href="#just-in-time-concept-json-structure" id="toc-just-in-time-concept-json-structure" class="nav-link" data-scroll-target="#just-in-time-concept-json-structure">Just-in-Time Concept: JSON Structure</a></li>
+  <li><a href="#your-turn-working-with-json" id="toc-your-turn-working-with-json" class="nav-link" data-scroll-target="#your-turn-working-with-json">Your Turn: Working with JSON</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#exercise-2-data-quality-and-cleaning" id="toc-exercise-2-data-quality-and-cleaning" class="nav-link" data-scroll-target="#exercise-2-data-quality-and-cleaning">Exercise 2: Data Quality and Cleaning</a>
+  <ul class="collapse">
+  <li><a href="#exercise-2.1-identifying-data-quality-issues" id="toc-exercise-2.1-identifying-data-quality-issues" class="nav-link" data-scroll-target="#exercise-2.1-identifying-data-quality-issues">Exercise 2.1: Identifying Data Quality Issues</a>
+  <ul class="collapse">
+  <li><a href="#your-turn-data-quality-inspection" id="toc-your-turn-data-quality-inspection" class="nav-link" data-scroll-target="#your-turn-data-quality-inspection">Your Turn: Data Quality Inspection</a></li>
+  </ul></li>
+  <li><a href="#exercise-2.2-handling-missing-data" id="toc-exercise-2.2-handling-missing-data" class="nav-link" data-scroll-target="#exercise-2.2-handling-missing-data">Exercise 2.2: Handling Missing Data</a>
+  <ul class="collapse">
+  <li><a href="#just-in-time-concept-missing-data-strategies" id="toc-just-in-time-concept-missing-data-strategies" class="nav-link" data-scroll-target="#just-in-time-concept-missing-data-strategies">Just-in-Time Concept: Missing Data Strategies</a></li>
+  <li><a href="#your-turn-handle-missing-pressure-data" id="toc-your-turn-handle-missing-pressure-data" class="nav-link" data-scroll-target="#your-turn-handle-missing-pressure-data">Your Turn: Handle Missing Pressure Data</a></li>
+  </ul></li>
+  <li><a href="#exercise-2.3-data-type-conversion-and-validation" id="toc-exercise-2.3-data-type-conversion-and-validation" class="nav-link" data-scroll-target="#exercise-2.3-data-type-conversion-and-validation">Exercise 2.3: Data Type Conversion and Validation</a>
+  <ul class="collapse">
+  <li><a href="#your-turn-fix-data-types" id="toc-your-turn-fix-data-types" class="nav-link" data-scroll-target="#your-turn-fix-data-types">Your Turn: Fix Data Types</a></li>
+  </ul></li>
+  <li><a href="#exercise-2.4-creating-derived-variables" id="toc-exercise-2.4-creating-derived-variables" class="nav-link" data-scroll-target="#exercise-2.4-creating-derived-variables">Exercise 2.4: Creating Derived Variables</a>
+  <ul class="collapse">
+  <li><a href="#your-turn-calculate-hurricane-metrics" id="toc-your-turn-calculate-hurricane-metrics" class="nav-link" data-scroll-target="#your-turn-calculate-hurricane-metrics">Your Turn: Calculate Hurricane Metrics</a></li>
+  </ul></li>
+  <li><a href="#exercise-2.5-writing-clean-data" id="toc-exercise-2.5-writing-clean-data" class="nav-link" data-scroll-target="#exercise-2.5-writing-clean-data">Exercise 2.5: Writing Clean Data</a>
+  <ul class="collapse">
+  <li><a href="#your-turn-save-cleaned-dataset" id="toc-your-turn-save-cleaned-dataset" class="nav-link" data-scroll-target="#your-turn-save-cleaned-dataset">Your Turn: Save Cleaned Dataset</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#exercise-3-analyzing-hurricane-patterns" id="toc-exercise-3-analyzing-hurricane-patterns" class="nav-link" data-scroll-target="#exercise-3-analyzing-hurricane-patterns">Exercise 3: Analyzing Hurricane Patterns</a>
+  <ul class="collapse">
+  <li><a href="#exercise-3.1-grouping-and-aggregation" id="toc-exercise-3.1-grouping-and-aggregation" class="nav-link" data-scroll-target="#exercise-3.1-grouping-and-aggregation">Exercise 3.1: Grouping and Aggregation</a>
+  <ul class="collapse">
+  <li><a href="#just-in-time-concept-groupby-operations" id="toc-just-in-time-concept-groupby-operations" class="nav-link" data-scroll-target="#just-in-time-concept-groupby-operations">Just-in-Time Concept: GroupBy Operations</a></li>
+  <li><a href="#your-turn-analyze-hurricanes-by-decade" id="toc-your-turn-analyze-hurricanes-by-decade" class="nav-link" data-scroll-target="#your-turn-analyze-hurricanes-by-decade">Your Turn: Analyze Hurricanes by Decade</a></li>
+  </ul></li>
+  <li><a href="#exercise-3.2-merging-datasets" id="toc-exercise-3.2-merging-datasets" class="nav-link" data-scroll-target="#exercise-3.2-merging-datasets">Exercise 3.2: Merging Datasets</a>
+  <ul class="collapse">
+  <li><a href="#just-in-time-concept-merging-dataframes" id="toc-just-in-time-concept-merging-dataframes" class="nav-link" data-scroll-target="#just-in-time-concept-merging-dataframes">Just-in-Time Concept: Merging DataFrames</a></li>
+  <li><a href="#your-turn-merge-hurricane-data-with-damage-records" id="toc-your-turn-merge-hurricane-data-with-damage-records" class="nav-link" data-scroll-target="#your-turn-merge-hurricane-data-with-damage-records">Your Turn: Merge Hurricane Data with Damage Records</a></li>
+  </ul></li>
+  <li><a href="#exercise-3.3-finding-geographic-patterns" id="toc-exercise-3.3-finding-geographic-patterns" class="nav-link" data-scroll-target="#exercise-3.3-finding-geographic-patterns">Exercise 3.3: Finding Geographic Patterns</a>
+  <ul class="collapse">
+  <li><a href="#your-turn-analyze-storm-tracks" id="toc-your-turn-analyze-storm-tracks" class="nav-link" data-scroll-target="#your-turn-analyze-storm-tracks">Your Turn: Analyze Storm Tracks</a></li>
+  </ul></li>
+  <li><a href="#exercise-3.4-initial-visualization" id="toc-exercise-3.4-initial-visualization" class="nav-link" data-scroll-target="#exercise-3.4-initial-visualization">Exercise 3.4: Initial Visualization</a>
+  <ul class="collapse">
+  <li><a href="#just-in-time-concept-basic-plotting-with-matplotlib" id="toc-just-in-time-concept-basic-plotting-with-matplotlib" class="nav-link" data-scroll-target="#just-in-time-concept-basic-plotting-with-matplotlib">Just-in-Time Concept: Basic Plotting with Matplotlib</a></li>
+  <li><a href="#your-turn-create-hurricane-visualizations" id="toc-your-turn-create-hurricane-visualizations" class="nav-link" data-scroll-target="#your-turn-create-hurricane-visualizations">Your Turn: Create Hurricane Visualizations</a></li>
+  </ul></li>
+  <li><a href="#exercise-3.5-finding-surprising-patterns" id="toc-exercise-3.5-finding-surprising-patterns" class="nav-link" data-scroll-target="#exercise-3.5-finding-surprising-patterns">Exercise 3.5: Finding Surprising Patterns</a>
+  <ul class="collapse">
+  <li><a href="#your-turn-investigate-the-data" id="toc-your-turn-investigate-the-data" class="nav-link" data-scroll-target="#your-turn-investigate-the-data">Your Turn: Investigate the Data</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#challenge-synthesis" id="toc-challenge-synthesis" class="nav-link" data-scroll-target="#challenge-synthesis">Challenge: Synthesis</a>
+  <ul class="collapse">
+  <li><a href="#returning-to-the-central-question" id="toc-returning-to-the-central-question" class="nav-link" data-scroll-target="#returning-to-the-central-question">Returning to the Central Question</a></li>
+  <li><a href="#looking-beyond" id="toc-looking-beyond" class="nav-link" data-scroll-target="#looking-beyond">Looking Beyond</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Lecture 5: Data, Files, and the Path from Raw Information to Analysis</h1>
+<p class="subtitle lead">From raw hurricane observations to scientific insight</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="central-question" class="level1">
+<h1>Central Question</h1>
+<blockquote class="blockquote">
+<p><strong>How does raw information become a dataset that can support analysis?</strong></p>
+</blockquote>
+<p>Imagine you’re a meteorologist studying Atlantic hurricanes. The National Oceanic and Atmospheric Administration (NOAA) has collected over 170 years of hurricane observations—positions, wind speeds, pressures, and storm classifications. This raw data sits in text files with cryptic codes, missing values, inconsistent formats, and timestamps that span three different centuries of data collection practices.</p>
+<p>Your goal: determine whether hurricanes are becoming more intense, identify the deadliest storms in history, and find geographic patterns in storm tracks. But first, you must transform these raw observations into a structured dataset suitable for analysis. This is not a simple matter of “loading the data”—it requires understanding file formats, inspecting data quality, handling missing values, creating derived variables, merging information from multiple sources, and validating your transformations.</p>
+<p>Today, we’ll follow the complete journey from raw hurricane data files to analysis-ready datasets. You’ll learn to read various file formats, use pandas DataFrames effectively, identify and fix data quality issues, group and aggregate observations, merge datasets, and produce initial visualizations. By the end of class, you’ll understand that data management isn’t just technical bookkeeping—it’s an essential part of scientific reasoning where decisions about data shape the conclusions you can draw.</p>
+</section>
+<section id="quiz" class="level1">
+<h1>1. Quiz</h1>
+<p><strong>Before beginning today’s exercises, complete Quiz 4</strong> on NumPy basics, command line navigation, and Git version control. The quiz should take approximately 10 minutes. Once you’ve finished and submitted your quiz, return here to begin Exercise 1.</p>
+</section>
+<section id="exercise-1-files-data-formats-and-reading-data" class="level1">
+<h1>Exercise 1: Files, Data Formats, and Reading Data</h1>
+<section id="exercise-1.1-understanding-file-formats" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-1.1-understanding-file-formats">Exercise 1.1: Understanding File Formats</h2>
+<p>Real-world data comes in many formats. The most common for tabular data are CSV (Comma-Separated Values) and JSON (JavaScript Object Notation). Let’s start by understanding what these formats look like and when to use each.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Data Provenance
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Throughout today’s class, we’ll work with NOAA’s HURDAT2 (Hurricane Database) - the official Atlantic hurricane track and intensity database. This dataset contains observations of all known tropical cyclones in the Atlantic basin from 1851 to present.</p>
+<p><strong>Source</strong>: National Hurricane Center, NOAA<br>
+<strong>Original format</strong>: Fixed-width text file<br>
+<strong>Documentation</strong>: https://www.nhc.noaa.gov/data/hurdat/<br>
+<strong>Updates</strong>: Continuously revised as historical storms are reanalyzed</p>
+</div>
+</div>
+<section id="your-turn-examining-raw-csv-data" class="level3">
+<h3 class="anchored" data-anchor-id="your-turn-examining-raw-csv-data">Your Turn: Examining Raw CSV Data</h3>
+<p>Let’s look at a small sample of hurricane data in CSV format:</p>
+<div id="d881cef4" class="cell" data-execution_count="1">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This is what CSV (Comma-Separated Values) looks like:</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Each line is a row, values are separated by commas</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>sample_csv <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="st">storm_id,name,date,lat,lon,wind_mph,pressure_mb,category</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="st">AL011851,UNNAMED,1851-06-25,28.0,-94.8,80,None,1</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="st">AL011851,UNNAMED,1851-06-25,28.0,-95.4,80,None,1</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="st">AL011851,UNNAMED,1851-06-26,28.0,-96.0,80,None,1</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="st">AL012005,ARLENE,2005-06-08,13.5,-34.6,35,1010,TS</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="st">AL012005,ARLENE,2005-06-09,15.6,-37.4,45,1009,TS</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Write this to a file so we can practice reading it</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">'sample_hurricanes.csv'</span>, <span class="st">'w'</span>) <span class="im">as</span> f:</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    f.write(sample_csv)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"CSV file created: sample_hurricanes.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>CSV file created: sample_hurricanes.csv</code></pre>
+</div>
+</div>
+<p>Now examine the file structure:</p>
+<ol type="1">
+<li>What separates values in each row?</li>
+<li>What’s in the first line?</li>
+<li>How is missing data represented?</li>
+<li>Can you identify what each column means?</li>
+</ol>
+</section>
+<section id="just-in-time-concept-pandas-dataframes" class="level3">
+<h3 class="anchored" data-anchor-id="just-in-time-concept-pandas-dataframes">Just-in-Time Concept: pandas DataFrames</h3>
+<p>Python’s pandas library is the standard tool for working with tabular data. A DataFrame is a 2-dimensional labeled data structure—think of it as a spreadsheet or SQL table in Python. Each column is a pandas Series (1-dimensional array with labels).</p>
+<div id="2438e9fe" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Read CSV file into a DataFrame</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">'sample_hurricanes.csv'</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the DataFrame</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   storm_id     name        date   lat   lon  wind_mph  pressure_mb category
+0  AL011851  UNNAMED  1851-06-25  28.0 -94.8        80          NaN        1
+1  AL011851  UNNAMED  1851-06-25  28.0 -95.4        80          NaN        1
+2  AL011851  UNNAMED  1851-06-26  28.0 -96.0        80          NaN        1
+3  AL012005   ARLENE  2005-06-08  13.5 -34.6        35       1010.0       TS
+4  AL012005   ARLENE  2005-06-09  15.6 -37.4        45       1009.0       TS</code></pre>
+</div>
+</div>
+<p>Output:</p>
+<pre><code>     storm_id      name        date   lat    lon  wind_mph pressure_mb category
+0  AL011851  UNNAMED  1851-06-25  28.0  -94.8        80        None        1
+1  AL011851  UNNAMED  1851-06-25  28.0  -95.4        80        None        1
+2  AL011851  UNNAMED  1851-06-26  28.0  -96.0        80        None        1
+3  AL012005   ARLENE  2005-06-08  13.5  -34.6        35        1010       TS
+4  AL012005   ARLENE  2005-06-09  15.6  -37.4        45        1009       TS</code></pre>
+<p>Key DataFrame methods for inspection:</p>
+<div id="20d0a20a" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get basic information about the DataFrame</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df.info())</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># See first few rows</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df.head())</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Get summary statistics for numeric columns</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df.describe())</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Check shape (rows, columns)</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Shape: </span><span class="sc">{</span>df<span class="sc">.</span>shape<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Get column names</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Columns: </span><span class="sc">{</span>df<span class="sc">.</span>columns<span class="sc">.</span>tolist()<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Check data types</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df.dtypes)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;class 'pandas.DataFrame'&gt;
+RangeIndex: 5 entries, 0 to 4
+Data columns (total 8 columns):
+ #   Column       Non-Null Count  Dtype  
+---  ------       --------------  -----  
+ 0   storm_id     5 non-null      str    
+ 1   name         5 non-null      str    
+ 2   date         5 non-null      str    
+ 3   lat          5 non-null      float64
+ 4   lon          5 non-null      float64
+ 5   wind_mph     5 non-null      int64  
+ 6   pressure_mb  2 non-null      float64
+ 7   category     5 non-null      str    
+dtypes: float64(3), int64(1), str(4)
+memory usage: 452.0 bytes
+None
+   storm_id     name        date   lat   lon  wind_mph  pressure_mb category
+0  AL011851  UNNAMED  1851-06-25  28.0 -94.8        80          NaN        1
+1  AL011851  UNNAMED  1851-06-25  28.0 -95.4        80          NaN        1
+2  AL011851  UNNAMED  1851-06-26  28.0 -96.0        80          NaN        1
+3  AL012005   ARLENE  2005-06-08  13.5 -34.6        35       1010.0       TS
+4  AL012005   ARLENE  2005-06-09  15.6 -37.4        45       1009.0       TS
+             lat        lon   wind_mph  pressure_mb
+count   5.000000   5.000000   5.000000     2.000000
+mean   22.620000 -71.640000  64.000000  1009.500000
+std     7.404188  32.552542  22.192341     0.707107
+min    13.500000 -96.000000  35.000000  1009.000000
+25%    15.600000 -95.400000  45.000000  1009.250000
+50%    28.000000 -94.800000  80.000000  1009.500000
+75%    28.000000 -37.400000  80.000000  1009.750000
+max    28.000000 -34.600000  80.000000  1010.000000
+Shape: (5, 8)
+Columns: ['storm_id', 'name', 'date', 'lat', 'lon', 'wind_mph', 'pressure_mb', 'category']
+storm_id           str
+name               str
+date               str
+lat            float64
+lon            float64
+wind_mph         int64
+pressure_mb    float64
+category           str
+dtype: object</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-1.2-reading-real-hurricane-data" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-1.2-reading-real-hurricane-data">Exercise 1.2: Reading Real Hurricane Data</h2>
+<p>Now let’s read actual hurricane data from NOAA. We’ll start with a simplified version that’s already been converted to CSV format.</p>
+<section id="your-turn-load-and-inspect-hurricane-data" class="level3">
+<h3 class="anchored" data-anchor-id="your-turn-load-and-inspect-hurricane-data">Your Turn: Load and Inspect Hurricane Data</h3>
+<div id="80187f84" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Read hurricane data from URL (first time)</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/your-repo/data/hurricanes_atlantic.csv"</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>hurricanes <span class="op">=</span> pd.read_csv(url)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Save it locally for future use</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>hurricanes.to_csv(<span class="st">'hurricanes_atlantic.csv'</span>, index<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Now read from local file</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>hurricanes <span class="op">=</span> pd.read_csv(<span class="st">'hurricanes_atlantic.csv'</span>)</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Inspect the data:</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. How many observations (rows) are there?</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. How many variables (columns)?</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. What time period does the data cover?</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. Print the first 10 rows</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="co"># 5. Print column names and data types</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Expected tasks:</p>
+<div id="ec5ea1ce" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Your code here:</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>num_observations <span class="op">=</span> <span class="va">None</span>  <span class="co"># Use .shape</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>num_variables <span class="op">=</span> <span class="va">None</span>     <span class="co"># Use .shape</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>first_year <span class="op">=</span> <span class="va">None</span>        <span class="co"># Use min() on date column</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>last_year <span class="op">=</span> <span class="va">None</span>         <span class="co"># Use max() on date column</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Reading Files from Different Locations
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong>URL</strong>: <code>pd.read_csv('https://...')</code></li>
+<li><strong>Local file</strong>: <code>pd.read_csv('filename.csv')</code></li>
+<li><strong>Relative path</strong>: <code>pd.read_csv('../data/file.csv')</code></li>
+<li><strong>Absolute path</strong>: <code>pd.read_csv('/Users/name/data/file.csv')</code></li>
+</ul>
+<p>For reproducibility, store data locally and use relative paths so others can run your code.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-1.3-basic-dataframe-operations" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-1.3-basic-dataframe-operations">Exercise 1.3: Basic DataFrame Operations</h2>
+<p>Once you’ve loaded data, you need to select specific columns and rows for analysis.</p>
+<section id="your-turn-selecting-and-filtering-data" class="level3">
+<h3 class="anchored" data-anchor-id="your-turn-selecting-and-filtering-data">Your Turn: Selecting and Filtering Data</h3>
+<div id="d64bdc2f" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Select a single column (returns a Series)</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>wind_speeds <span class="op">=</span> hurricanes[<span class="st">'wind_mph'</span>]</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Select multiple columns (returns a DataFrame)</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>location_data <span class="op">=</span> hurricanes[[<span class="st">'name'</span>, <span class="st">'date'</span>, <span class="st">'lat'</span>, <span class="st">'lon'</span>]]</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Select rows by index position</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>first_five <span class="op">=</span> hurricanes.head(<span class="dv">5</span>)</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>last_three <span class="op">=</span> hurricanes.tail(<span class="dv">3</span>)</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Select rows by boolean condition (filtering)</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>major_hurricanes <span class="op">=</span> hurricanes[hurricanes[<span class="st">'category'</span>] <span class="op">&gt;=</span> <span class="dv">3</span>]</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine conditions with &amp; (and) and | (or)</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Note: Each condition must be in parentheses!</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>cat5_recent <span class="op">=</span> hurricanes[(hurricanes[<span class="st">'category'</span>] <span class="op">==</span> <span class="dv">5</span>) <span class="op">&amp;</span> </span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>                         (hurricanes[<span class="st">'date'</span>] <span class="op">&gt;=</span> <span class="st">'2000-01-01'</span>)]</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Tasks:</span></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Create a DataFrame with only storm name, date, and wind speed</span></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Find all observations where wind speed exceeds 150 mph</span></span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Find hurricanes from the 1990s (1990-1999)</span></span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. Count how many Category 5 hurricanes are in the dataset</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Common Mistake: Logical Operators
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>When combining conditions in pandas, you must: - Use <code>&amp;</code> for “and” (not <code>and</code>) - Use <code>|</code> for “or” (not <code>or</code>)<br>
+- Put each condition in parentheses - Use <code>~</code> for “not”</p>
+<p>Example: <code>df[(df['col1'] &gt; 5) &amp; (df['col2'] == 'value')]</code></p>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-1.4-json-data-format" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-1.4-json-data-format">Exercise 1.4: JSON Data Format</h2>
+<p>While CSV works well for tabular data, JSON (JavaScript Object Notation) is better for nested or hierarchical data.</p>
+<section id="just-in-time-concept-json-structure" class="level3">
+<h3 class="anchored" data-anchor-id="just-in-time-concept-json-structure">Just-in-Time Concept: JSON Structure</h3>
+<p>JSON represents data as key-value pairs and can contain nested structures:</p>
+<div id="e1507dd7" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> json</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Example: Hurricane metadata in JSON format</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>metadata <span class="op">=</span> {</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"dataset"</span>: <span class="st">"HURDAT2 Atlantic"</span>,</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"source"</span>: <span class="st">"National Hurricane Center"</span>,</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"version"</span>: <span class="st">"2023-04-01"</span>,</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"storms"</span>: {</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>        <span class="st">"total"</span>: <span class="dv">2085</span>,</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>        <span class="st">"named"</span>: <span class="dv">1645</span>,</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>        <span class="st">"hurricanes"</span>: <span class="dv">935</span>,</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>        <span class="st">"major_hurricanes"</span>: <span class="dv">306</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>    },</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"time_range"</span>: {</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>        <span class="st">"start"</span>: <span class="st">"1851-06-25"</span>,</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>        <span class="st">"end"</span>: <span class="st">"2023-11-30"</span></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Write JSON to file</span></span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">'hurricane_metadata.json'</span>, <span class="st">'w'</span>) <span class="im">as</span> f:</span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>    json.dump(metadata, f, indent<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Read JSON from file</span></span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">'hurricane_metadata.json'</span>, <span class="st">'r'</span>) <span class="im">as</span> f:</span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>    loaded_metadata <span class="op">=</span> json.load(f)</span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(json.dumps(loaded_metadata, indent<span class="op">=</span><span class="dv">2</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>{
+  "dataset": "HURDAT2 Atlantic",
+  "source": "National Hurricane Center",
+  "version": "2023-04-01",
+  "storms": {
+    "total": 2085,
+    "named": 1645,
+    "hurricanes": 935,
+    "major_hurricanes": 306
+  },
+  "time_range": {
+    "start": "1851-06-25",
+    "end": "2023-11-30"
+  }
+}</code></pre>
+</div>
+</div>
+</section>
+<section id="your-turn-working-with-json" class="level3">
+<h3 class="anchored" data-anchor-id="your-turn-working-with-json">Your Turn: Working with JSON</h3>
+<div id="b6e0f040" class="cell" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Task: Extract information from the metadata</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. How many total storms are in the dataset?</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. What's the start date of the dataset?</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Calculate what percentage of storms became hurricanes</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. Create a pandas DataFrame from the 'storms' dictionary</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>When to use CSV vs JSON: - <strong>CSV</strong>: Tabular data, simple structure, needs to open in Excel - <strong>JSON</strong>: Nested data, configurations, API responses, complex hierarchies</p>
+<hr>
+</section>
+</section>
+</section>
+<section id="exercise-2-data-quality-and-cleaning" class="level1">
+<h1>Exercise 2: Data Quality and Cleaning</h1>
+<section id="exercise-2.1-identifying-data-quality-issues" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-2.1-identifying-data-quality-issues">Exercise 2.1: Identifying Data Quality Issues</h2>
+<p>Real data is messy. Let’s systematically identify problems in our hurricane dataset.</p>
+<section id="your-turn-data-quality-inspection" class="level3">
+<h3 class="anchored" data-anchor-id="your-turn-data-quality-inspection">Your Turn: Data Quality Inspection</h3>
+<div id="c0d4edda" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Reload the data to start fresh</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>hurricanes <span class="op">=</span> pd.read_csv(<span class="st">'hurricanes_atlantic.csv'</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Check for missing values</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Missing values per column:"</span>)</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(hurricanes.isnull().<span class="bu">sum</span>())</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Check data types</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Data types:"</span>)</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(hurricanes.dtypes)</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Look for unusual values</span></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Unique categories:"</span>)</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(hurricanes[<span class="st">'category'</span>].unique())</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Wind speed range:"</span>)</span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Min: </span><span class="sc">{</span>hurricanes[<span class="st">'wind_mph'</span>]<span class="sc">.</span><span class="bu">min</span>()<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Max: </span><span class="sc">{</span>hurricanes[<span class="st">'wind_mph'</span>]<span class="sc">.</span><span class="bu">max</span>()<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Check for duplicates</span></span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Duplicate rows: </span><span class="sc">{</span>hurricanes<span class="sc">.</span>duplicated()<span class="sc">.</span><span class="bu">sum</span>()<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Tasks:</span></span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Which columns have missing data?</span></span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Is the 'date' column stored as datetime or string?</span></span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. What values appear in 'category'? (Should be -1, 0, 1, 2, 3, 4, 5, TS, TD)</span></span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. Are there any negative wind speeds? (Would indicate data errors)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Common Data Quality Issues
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li><strong>Missing values</strong>: Represented as <code>NaN</code>, <code>None</code>, empty strings, or special codes</li>
+<li><strong>Wrong data types</strong>: Numbers stored as strings, dates as text</li>
+<li><strong>Invalid values</strong>: Impossible measurements (negative wind speeds, dates in future)</li>
+<li><strong>Duplicates</strong>: Same observation recorded multiple times</li>
+<li><strong>Inconsistent units</strong>: Mixing mph and km/h, Fahrenheit and Celsius</li>
+<li><strong>Inconsistent categories</strong>: “Category 5”, “Cat5”, “5”, “five” all meaning the same thing</li>
+</ol>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-2.2-handling-missing-data" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-2.2-handling-missing-data">Exercise 2.2: Handling Missing Data</h2>
+<p>Missing data is common in historical records. We need to decide: drop it, fill it, or flag it?</p>
+<section id="just-in-time-concept-missing-data-strategies" class="level3">
+<h3 class="anchored" data-anchor-id="just-in-time-concept-missing-data-strategies">Just-in-Time Concept: Missing Data Strategies</h3>
+<div id="5f40b679" class="cell" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Create example data with missing values</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> {</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'storm'</span>: [<span class="st">'AL01'</span>, <span class="st">'AL02'</span>, <span class="st">'AL03'</span>, <span class="st">'AL04'</span>, <span class="st">'AL05'</span>],</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">'wind'</span>: [<span class="dv">80</span>, np.nan, <span class="dv">120</span>, <span class="dv">95</span>, np.nan],</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">'pressure'</span>: [<span class="dv">990</span>, <span class="dv">985</span>, np.nan, <span class="dv">992</span>, <span class="dv">988</span>]</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(data)</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Original data:"</span>)</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df)</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Strategy 1: Drop rows with ANY missing values</span></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>df_dropped <span class="op">=</span> df.dropna()</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Drop any missing:"</span>)</span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df_dropped)</span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Strategy 2: Drop rows missing SPECIFIC columns</span></span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>df_dropped_wind <span class="op">=</span> df.dropna(subset<span class="op">=</span>[<span class="st">'wind'</span>])</span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Drop missing wind only:"</span>)</span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df_dropped_wind)</span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Strategy 3: Fill with a value</span></span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>df_filled <span class="op">=</span> df.fillna(<span class="dv">0</span>)</span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Fill with 0:"</span>)</span>
+<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df_filled)</span>
+<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Strategy 4: Forward fill (use previous value)</span></span>
+<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a>df_ffill <span class="op">=</span> df.ffill()</span>
+<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Forward fill:"</span>)</span>
+<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df_ffill)</span>
+<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a><span class="co"># Strategy 5: Fill with column mean</span></span>
+<span id="cb15-36"><a href="#cb15-36" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'wind_filled'</span>] <span class="op">=</span> df[<span class="st">'wind'</span>].fillna(df[<span class="st">'wind'</span>].mean())</span>
+<span id="cb15-37"><a href="#cb15-37" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Fill with mean:"</span>)</span>
+<span id="cb15-38"><a href="#cb15-38" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Original data:
+  storm   wind  pressure
+0  AL01   80.0     990.0
+1  AL02    NaN     985.0
+2  AL03  120.0       NaN
+3  AL04   95.0     992.0
+4  AL05    NaN     988.0
+
+Drop any missing:
+  storm  wind  pressure
+0  AL01  80.0     990.0
+3  AL04  95.0     992.0
+
+Drop missing wind only:
+  storm   wind  pressure
+0  AL01   80.0     990.0
+2  AL03  120.0       NaN
+3  AL04   95.0     992.0
+
+Fill with 0:
+  storm   wind  pressure
+0  AL01   80.0     990.0
+1  AL02    0.0     985.0
+2  AL03  120.0       0.0
+3  AL04   95.0     992.0
+4  AL05    0.0     988.0
+
+Forward fill:
+  storm   wind  pressure
+0  AL01   80.0     990.0
+1  AL02   80.0     985.0
+2  AL03  120.0     985.0
+3  AL04   95.0     992.0
+4  AL05   95.0     988.0
+
+Fill with mean:
+  storm   wind  pressure  wind_filled
+0  AL01   80.0     990.0    80.000000
+1  AL02    NaN     985.0    98.333333
+2  AL03  120.0       NaN   120.000000
+3  AL04   95.0     992.0    95.000000
+4  AL05    NaN     988.0    98.333333</code></pre>
+</div>
+</div>
+</section>
+<section id="your-turn-handle-missing-pressure-data" class="level3">
+<h3 class="anchored" data-anchor-id="your-turn-handle-missing-pressure-data">Your Turn: Handle Missing Pressure Data</h3>
+<div id="11cf3d73" class="cell" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># In early hurricane records (pre-1950s), pressure measurements are often missing</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="co"># but wind speed was usually recorded</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Tasks:</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. How many observations are missing pressure data?</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. What percentage of the total dataset is this?</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Create a new column 'has_pressure' that is True if pressure exists</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. Filter the dataset to only observations with complete pressure data</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="co"># 5. For your analysis, would you drop these rows or fill them? Why?</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+</section>
+<section id="exercise-2.3-data-type-conversion-and-validation" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-2.3-data-type-conversion-and-validation">Exercise 2.3: Data Type Conversion and Validation</h2>
+<p>Columns must have appropriate data types for analysis.</p>
+<section id="your-turn-fix-data-types" class="level3">
+<h3 class="anchored" data-anchor-id="your-turn-fix-data-types">Your Turn: Fix Data Types</h3>
+<div id="6f70ab23" class="cell" data-execution_count="12">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check current data types</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(hurricanes.dtypes)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert 'date' from string to datetime</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>hurricanes[<span class="st">'date'</span>] <span class="op">=</span> pd.to_datetime(hurricanes[<span class="st">'date'</span>])</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Create new date-based columns</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>hurricanes[<span class="st">'year'</span>] <span class="op">=</span> hurricanes[<span class="st">'date'</span>].dt.year</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>hurricanes[<span class="st">'month'</span>] <span class="op">=</span> hurricanes[<span class="st">'date'</span>].dt.month</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>hurricanes[<span class="st">'day_of_year'</span>] <span class="op">=</span> hurricanes[<span class="st">'date'</span>].dt.dayofyear</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert 'category' - but it has mixed types (numbers and strings like 'TS', 'TD')</span></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Let's create a numeric category where TS=0, TD=-1</span></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> categorize_storm(cat):</span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> cat <span class="op">==</span> <span class="st">'TS'</span>:</span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="dv">0</span></span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> cat <span class="op">==</span> <span class="st">'TD'</span>:</span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="op">-</span><span class="dv">1</span></span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="bu">int</span>(cat)</span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a>hurricanes[<span class="st">'category_numeric'</span>] <span class="op">=</span> hurricanes[<span class="st">'category'</span>].<span class="bu">apply</span>(categorize_storm)</span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Validate: Check that wind speeds make sense</span></span>
+<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Hurricane categories are based on wind speed:</span></span>
+<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Cat 1: 74-95 mph, Cat 2: 96-110, Cat 3: 111-129, Cat 4: 130-156, Cat 5: 157+</span></span>
+<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Tasks:</span></span>
+<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Extract the decade from the year (e.g., 1990 → 1990s)</span></span>
+<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Create a binary column 'is_major' (True if category &gt;= 3)</span></span>
+<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Find observations where category doesn't match wind speed</span></span>
+<span id="cb18-32"><a href="#cb18-32" aria-hidden="true" tabindex="-1"></a><span class="co">#    (e.g., labeled Cat 5 but wind &lt; 157 mph)</span></span>
+<span id="cb18-33"><a href="#cb18-33" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. Calculate how many days of hurricane season (June 1 - Nov 30) each storm lasted</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Working with Datetime Data
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert to datetime</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'date'</span>] <span class="op">=</span> pd.to_datetime(df[<span class="st">'date'</span>])</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract components</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'year'</span>] <span class="op">=</span> df[<span class="st">'date'</span>].dt.year</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'month'</span>] <span class="op">=</span> df[<span class="st">'date'</span>].dt.month</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'day'</span>] <span class="op">=</span> df[<span class="st">'date'</span>].dt.day</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'day_name'</span>] <span class="op">=</span> df[<span class="st">'date'</span>].dt.day_name()</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute differences</span></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'days_since_start'</span>] <span class="op">=</span> (df[<span class="st">'date'</span>] <span class="op">-</span> df[<span class="st">'date'</span>].<span class="bu">min</span>()).dt.days</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter by date range</span></span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>df_2000s <span class="op">=</span> df[df[<span class="st">'date'</span>].between(<span class="st">'2000-01-01'</span>, <span class="st">'2009-12-31'</span>)]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-2.4-creating-derived-variables" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-2.4-creating-derived-variables">Exercise 2.4: Creating Derived Variables</h2>
+<p>Analysis often requires calculating new variables from existing ones.</p>
+<section id="your-turn-calculate-hurricane-metrics" class="level3">
+<h3 class="anchored" data-anchor-id="your-turn-calculate-hurricane-metrics">Your Turn: Calculate Hurricane Metrics</h3>
+<div id="04aee91f" class="cell" data-execution_count="13">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Task 1: Calculate storm duration</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Hint: Group by storm_id, find min and max date, calculate difference</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>storm_duration <span class="op">=</span> hurricanes.groupby(<span class="st">'storm_id'</span>).agg({</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'date'</span>: [<span class="st">'min'</span>, <span class="st">'max'</span>]</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Then calculate the difference...</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Task 2: Calculate maximum wind speed reached by each storm</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>max_wind_by_storm <span class="op">=</span> <span class="va">None</span>  <span class="co"># Use groupby and max()</span></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Task 3: Calculate the distance traveled between consecutive observations</span></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a><span class="co"># This requires the Haversine formula for geographic distance</span></span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a><span class="co"># For simplicity, you can approximate: distance ≈ √((Δlat)² + (Δlon)²) * 69 miles</span></span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a><span class="co"># (This is rough but works for demonstration)</span></span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_distance(group):</span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Calculate distance traveled by storm"""</span></span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>    group <span class="op">=</span> group.sort_values(<span class="st">'date'</span>)</span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>    lat_diff <span class="op">=</span> group[<span class="st">'lat'</span>].diff()</span>
+<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a>    lon_diff <span class="op">=</span> group[<span class="st">'lon'</span>].diff()</span>
+<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a>    distance <span class="op">=</span> np.sqrt(lat_diff<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> lon_diff<span class="op">**</span><span class="dv">2</span>) <span class="op">*</span> <span class="dv">69</span></span>
+<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> distance.<span class="bu">sum</span>()</span>
+<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply this function to each storm</span></span>
+<span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-27"><a href="#cb20-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Task 4: Create a column 'wind_change' showing change in wind speed</span></span>
+<span id="cb20-28"><a href="#cb20-28" aria-hidden="true" tabindex="-1"></a><span class="co"># from previous observation (within same storm)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+</section>
+<section id="exercise-2.5-writing-clean-data" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-2.5-writing-clean-data">Exercise 2.5: Writing Clean Data</h2>
+<p>After cleaning, save your work so others (or future you) can use it.</p>
+<section id="your-turn-save-cleaned-dataset" class="level3">
+<h3 class="anchored" data-anchor-id="your-turn-save-cleaned-dataset">Your Turn: Save Cleaned Dataset</h3>
+<div id="7ddc1291" class="cell" data-execution_count="14">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Select the columns you want to keep</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>columns_to_keep <span class="op">=</span> [<span class="st">'storm_id'</span>, <span class="st">'name'</span>, <span class="st">'date'</span>, <span class="st">'year'</span>, <span class="st">'month'</span>, </span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>                   <span class="st">'lat'</span>, <span class="st">'lon'</span>, <span class="st">'wind_mph'</span>, <span class="st">'pressure_mb'</span>, </span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>                   <span class="st">'category'</span>, <span class="st">'category_numeric'</span>, <span class="st">'is_major'</span>]</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>hurricanes_clean <span class="op">=</span> hurricanes[columns_to_keep]</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Write to CSV</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>hurricanes_clean.to_csv(<span class="st">'hurricanes_clean.csv'</span>, index<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Write a subset to JSON (e.g., just Category 5 hurricanes)</span></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>cat5 <span class="op">=</span> hurricanes_clean[hurricanes_clean[<span class="st">'category_numeric'</span>] <span class="op">==</span> <span class="dv">5</span>]</span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>cat5.to_json(<span class="st">'category5_hurricanes.json'</span>, orient<span class="op">=</span><span class="st">'records'</span>, indent<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Verify by reading it back</span></span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>verify <span class="op">=</span> pd.read_csv(<span class="st">'hurricanes_clean.csv'</span>)</span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Saved </span><span class="sc">{</span><span class="bu">len</span>(verify)<span class="sc">}</span><span class="ss"> observations to hurricanes_clean.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<hr>
+<p><strong>BREAK</strong> (10 minutes)</p>
+<hr>
+</section>
+</section>
+</section>
+<section id="exercise-3-analyzing-hurricane-patterns" class="level1">
+<h1>Exercise 3: Analyzing Hurricane Patterns</h1>
+<p>Now that we have clean data, let’s answer real scientific questions about hurricanes.</p>
+<section id="exercise-3.1-grouping-and-aggregation" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-3.1-grouping-and-aggregation">Exercise 3.1: Grouping and Aggregation</h2>
+<p>Scientists often want summaries by category: hurricanes per decade, average intensity per storm, etc.</p>
+<section id="just-in-time-concept-groupby-operations" class="level3">
+<h3 class="anchored" data-anchor-id="just-in-time-concept-groupby-operations">Just-in-Time Concept: GroupBy Operations</h3>
+<p>The “split-apply-combine” pattern is fundamental to data analysis:</p>
+<div id="d8a7aaf0" class="cell" data-execution_count="15">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example: Analyze by decade</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'year'</span>: [<span class="dv">1990</span>, <span class="dv">1991</span>, <span class="dv">1992</span>, <span class="dv">2000</span>, <span class="dv">2001</span>, <span class="dv">2002</span>],</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'storms'</span>: [<span class="dv">8</span>, <span class="dv">12</span>, <span class="dv">7</span>, <span class="dv">15</span>, <span class="dv">15</span>, <span class="dv">12</span>],</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'major'</span>: [<span class="dv">1</span>, <span class="dv">4</span>, <span class="dv">2</span>, <span class="dv">8</span>, <span class="dv">9</span>, <span class="dv">4</span>]</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Create decade column</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'decade'</span>] <span class="op">=</span> (df[<span class="st">'year'</span>] <span class="op">//</span> <span class="dv">10</span>) <span class="op">*</span> <span class="dv">10</span></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Group by decade and calculate means</span></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>decade_summary <span class="op">=</span> df.groupby(<span class="st">'decade'</span>).mean()</span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(decade_summary)</span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Multiple aggregations</span></span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>decade_summary2 <span class="op">=</span> df.groupby(<span class="st">'decade'</span>).agg({</span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">'storms'</span>: [<span class="st">'sum'</span>, <span class="st">'mean'</span>, <span class="st">'max'</span>],</span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">'major'</span>: [<span class="st">'sum'</span>, <span class="st">'mean'</span>]</span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(decade_summary2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="your-turn-analyze-hurricanes-by-decade" class="level3">
+<h3 class="anchored" data-anchor-id="your-turn-analyze-hurricanes-by-decade">Your Turn: Analyze Hurricanes by Decade</h3>
+<div id="d99e13a1" class="cell" data-execution_count="16">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create decade column</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>hurricanes_clean[<span class="st">'decade'</span>] <span class="op">=</span> (hurricanes_clean[<span class="st">'year'</span>] <span class="op">//</span> <span class="dv">10</span>) <span class="op">*</span> <span class="dv">10</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Task 1: Count number of observations per decade</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>obs_per_decade <span class="op">=</span> <span class="va">None</span>  <span class="co"># Use groupby and count()</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Task 2: Calculate average wind speed per decade</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>avg_wind_by_decade <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Task 3: Count number of major hurricanes (category &gt;= 3) per decade</span></span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>major_by_decade <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Task 4: Find the strongest hurricane in each decade</span></span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Hint: Use groupby().apply() with idxmax()</span></span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Task 5: Are hurricanes getting stronger over time?</span></span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the percentage of major hurricanes by decade</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Interpreting Trends Carefully
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If you find that hurricanes are getting stronger, consider: - <strong>Data quality changes</strong>: Better observation technology over time - <strong>Missing data</strong>: Early records are less complete - <strong>Natural cycles</strong>: Atlantic hurricanes have multi-decadal oscillations - <strong>Sample size</strong>: Earlier decades have fewer observations</p>
+<p>Always question whether patterns reflect real phenomena or data collection practices.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-3.2-merging-datasets" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-3.2-merging-datasets">Exercise 3.2: Merging Datasets</h2>
+<p>Often you need to combine information from multiple sources.</p>
+<section id="just-in-time-concept-merging-dataframes" class="level3">
+<h3 class="anchored" data-anchor-id="just-in-time-concept-merging-dataframes">Just-in-Time Concept: Merging DataFrames</h3>
+<div id="71043c00" class="cell" data-execution_count="17">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example: Merge storm tracks with damage data</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>tracks <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'storm_id'</span>: [<span class="st">'AL01'</span>, <span class="st">'AL02'</span>, <span class="st">'AL03'</span>],</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'name'</span>: [<span class="st">'Alpha'</span>, <span class="st">'Beta'</span>, <span class="st">'Gamma'</span>],</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'max_wind'</span>: [<span class="dv">90</span>, <span class="dv">120</span>, <span class="dv">80</span>]</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>damage <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">'storm_id'</span>: [<span class="st">'AL01'</span>, <span class="st">'AL02'</span>, <span class="st">'AL04'</span>],</span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">'damage_billions'</span>: [<span class="fl">2.5</span>, <span class="fl">15.0</span>, <span class="fl">0.8</span>],</span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">'deaths'</span>: [<span class="dv">12</span>, <span class="dv">158</span>, <span class="dv">3</span>]</span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Inner merge: only storms in both datasets</span></span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>merged_inner <span class="op">=</span> pd.merge(tracks, damage, on<span class="op">=</span><span class="st">'storm_id'</span>, how<span class="op">=</span><span class="st">'inner'</span>)</span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Inner merge:"</span>)</span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(merged_inner)</span>
+<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Left merge: keep all storms from tracks</span></span>
+<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a>merged_left <span class="op">=</span> pd.merge(tracks, damage, on<span class="op">=</span><span class="st">'storm_id'</span>, how<span class="op">=</span><span class="st">'left'</span>)</span>
+<span id="cb24-21"><a href="#cb24-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Left merge:"</span>)</span>
+<span id="cb24-22"><a href="#cb24-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(merged_left)</span>
+<span id="cb24-23"><a href="#cb24-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-24"><a href="#cb24-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Outer merge: keep all storms from both</span></span>
+<span id="cb24-25"><a href="#cb24-25" aria-hidden="true" tabindex="-1"></a>merged_outer <span class="op">=</span> pd.merge(tracks, damage, on<span class="op">=</span><span class="st">'storm_id'</span>, how<span class="op">=</span><span class="st">'outer'</span>)</span>
+<span id="cb24-26"><a href="#cb24-26" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Outer merge:"</span>)</span>
+<span id="cb24-27"><a href="#cb24-27" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(merged_outer)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="your-turn-merge-hurricane-data-with-damage-records" class="level3">
+<h3 class="anchored" data-anchor-id="your-turn-merge-hurricane-data-with-damage-records">Your Turn: Merge Hurricane Data with Damage Records</h3>
+<div id="4237fbbf" class="cell" data-execution_count="18">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load damage data (simplified example)</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>damage_data <span class="op">=</span> {</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'name'</span>: [<span class="st">'KATRINA'</span>, <span class="st">'ANDREW'</span>, <span class="st">'MARIA'</span>, <span class="st">'IKE'</span>, <span class="st">'SANDY'</span>, <span class="st">'HARVEY'</span>],</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'year'</span>: [<span class="dv">2005</span>, <span class="dv">1992</span>, <span class="dv">2017</span>, <span class="dv">2008</span>, <span class="dv">2012</span>, <span class="dv">2017</span>],</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'damage_billions'</span>: [<span class="fl">125.0</span>, <span class="fl">27.3</span>, <span class="fl">90.0</span>, <span class="fl">38.0</span>, <span class="fl">65.0</span>, <span class="fl">125.0</span>],</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'deaths'</span>: [<span class="dv">1833</span>, <span class="dv">65</span>, <span class="dv">2975</span>, <span class="dv">195</span>, <span class="dv">233</span>, <span class="dv">107</span>]</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>damages <span class="op">=</span> pd.DataFrame(damage_data)</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Task 1: Merge hurricanes_clean with damages</span></span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Hint: You'll need to merge on both 'name' and 'year' since some names repeat</span></span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>merged <span class="op">=</span> pd.merge(hurricanes_clean, damages, on<span class="op">=</span>[<span class="st">'name'</span>, <span class="st">'year'</span>], how<span class="op">=</span><span class="st">'left'</span>)</span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Task 2: Which hurricane caused the most damage?</span></span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>most_damaging <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Task 3: Is there a relationship between max wind speed and damage?</span></span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Hint: Group merged data by storm, get max wind and sum damage</span></span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Task 4: Some hurricanes in your data won't have damage info (missing values)</span></span>
+<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a><span class="co"># How many? Why might this be?</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+</section>
+<section id="exercise-3.3-finding-geographic-patterns" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-3.3-finding-geographic-patterns">Exercise 3.3: Finding Geographic Patterns</h2>
+<p>Hurricanes follow geographic patterns. Let’s identify them.</p>
+<section id="your-turn-analyze-storm-tracks" class="level3">
+<h3 class="anchored" data-anchor-id="your-turn-analyze-storm-tracks">Your Turn: Analyze Storm Tracks</h3>
+<div id="b394c646" class="cell" data-execution_count="19">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Task 1: Find the average latitude and longitude for each storm</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>storm_centers <span class="op">=</span> hurricanes_clean.groupby([<span class="st">'storm_id'</span>, <span class="st">'name'</span>]).agg({</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'lat'</span>: <span class="st">'mean'</span>,</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'lon'</span>: <span class="st">'mean'</span>,</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'wind_mph'</span>: <span class="st">'max'</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Task 2: Which region has the most hurricane activity?</span></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Divide Atlantic into quadrants:</span></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Northwest: lat &gt; 25, lon &gt; -80</span></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Northeast: lat &gt; 25, lon &lt;= -80</span></span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Southwest: lat &lt;= 25, lon &gt; -80  </span></span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Southeast: lat &lt;= 25, lon &lt;= -80</span></span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> assign_quadrant(lat, lon):</span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> lat <span class="op">&gt;</span> <span class="dv">25</span>:</span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">'North'</span> <span class="cf">if</span> lon <span class="op">&gt;</span> <span class="op">-</span><span class="dv">80</span> <span class="cf">else</span> <span class="st">'Northeast Atlantic'</span></span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">'Caribbean'</span> <span class="cf">if</span> lon <span class="op">&gt;</span> <span class="op">-</span><span class="dv">80</span> <span class="cf">else</span> <span class="st">'East Atlantic'</span></span>
+<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a>hurricanes_clean[<span class="st">'region'</span>] <span class="op">=</span> hurricanes_clean.<span class="bu">apply</span>(</span>
+<span id="cb26-22"><a href="#cb26-22" aria-hidden="true" tabindex="-1"></a>    <span class="kw">lambda</span> row: assign_quadrant(row[<span class="st">'lat'</span>], row[<span class="st">'lon'</span>]), axis<span class="op">=</span><span class="dv">1</span></span>
+<span id="cb26-23"><a href="#cb26-23" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb26-24"><a href="#cb26-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-25"><a href="#cb26-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Count observations by region</span></span>
+<span id="cb26-26"><a href="#cb26-26" aria-hidden="true" tabindex="-1"></a>region_counts <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb26-27"><a href="#cb26-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-28"><a href="#cb26-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Task 3: Do certain regions produce stronger hurricanes?</span></span>
+<span id="cb26-29"><a href="#cb26-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate average max wind by region</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+</section>
+<section id="exercise-3.4-initial-visualization" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-3.4-initial-visualization">Exercise 3.4: Initial Visualization</h2>
+<p>Let’s create basic plots to visualize patterns.</p>
+<section id="just-in-time-concept-basic-plotting-with-matplotlib" class="level3">
+<h3 class="anchored" data-anchor-id="just-in-time-concept-basic-plotting-with-matplotlib">Just-in-Time Concept: Basic Plotting with Matplotlib</h3>
+<div id="0c7b3345" class="cell" data-execution_count="20">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Example: Plot hurricane counts by year</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>yearly_counts <span class="op">=</span> hurricanes_clean.groupby(<span class="st">'year'</span>).size()</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">4</span>))</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>plt.plot(yearly_counts.index, yearly_counts.values)</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Year'</span>)</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Number of Observations'</span>)</span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Hurricane Activity Over Time'</span>)</span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>plt.grid(<span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.3</span>)</span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Basic Matplotlib Commands
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create figure</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(width, height))</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot types</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>plt.plot(x, y)           <span class="co"># Line plot</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>plt.scatter(x, y)        <span class="co"># Scatter plot</span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>plt.bar(x, y)            <span class="co"># Bar plot</span></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>plt.hist(data)           <span class="co"># Histogram</span></span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Labels</span></span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'X label'</span>)</span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Y label'</span>)</span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Title'</span>)</span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Display</span></span>
+<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</section>
+<section id="your-turn-create-hurricane-visualizations" class="level3">
+<h3 class="anchored" data-anchor-id="your-turn-create-hurricane-visualizations">Your Turn: Create Hurricane Visualizations</h3>
+<div id="21f022a7" class="cell" data-execution_count="21">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Task 1: Plot the number of major hurricanes per decade</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>major_per_decade <span class="op">=</span> hurricanes_clean[hurricanes_clean[<span class="st">'is_major'</span>]].groupby(<span class="st">'decade'</span>).size()</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a bar plot</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Task 2: Create a histogram of maximum wind speeds</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Hint: Use plt.hist()</span></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Task 3: Scatter plot of wind speed vs pressure</span></span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a><span class="co"># For a subset of data (e.g., Category 3+)</span></span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Hint: There should be an inverse relationship (higher wind = lower pressure)</span></span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Task 4: Plot a hurricane track</span></span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Choose one famous hurricane (e.g., KATRINA 2005)</span></span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot latitude vs longitude to show its path</span></span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>katrina <span class="op">=</span> hurricanes_clean[(hurricanes_clean[<span class="st">'name'</span>] <span class="op">==</span> <span class="st">'KATRINA'</span>) <span class="op">&amp;</span> </span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>                           (hurricanes_clean[<span class="st">'year'</span>] <span class="op">==</span> <span class="dv">2005</span>)]</span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the plot</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+</section>
+<section id="exercise-3.5-finding-surprising-patterns" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-3.5-finding-surprising-patterns">Exercise 3.5: Finding Surprising Patterns</h2>
+<p>The most interesting part of data analysis: discovering something unexpected.</p>
+<section id="your-turn-investigate-the-data" class="level3">
+<h3 class="anchored" data-anchor-id="your-turn-investigate-the-data">Your Turn: Investigate the Data</h3>
+<div id="253948e5" class="cell" data-execution_count="22">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Your task: Find at least ONE surprising or interesting pattern in the data</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Some questions to explore:</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Are there more hurricanes in certain months? (Expected: peak in September)</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Has the hurricane season gotten longer? (Earlier starts, later ends)</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Are there storms that intensified unusually rapidly?</span></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. Do hurricanes from certain regions tend to be stronger?</span></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 5. Is there a relationship between latitude and intensity?</span></span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a><span class="co"># 6. How many hurricanes have occurred in December? (Very rare)</span></span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 7. What's the strongest storm to make it far north?</span></span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Example investigation:</span></span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>monthly_major <span class="op">=</span> hurricanes_clean[hurricanes_clean[<span class="st">'is_major'</span>]].groupby(<span class="st">'month'</span>).size()</span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Major hurricanes by month:"</span>)</span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(monthly_major)</span>
+<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Document your findings:</span></span>
+<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a><span class="co"># What did you find?</span></span>
+<span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Why is it surprising?</span></span>
+<span id="cb30-20"><a href="#cb30-20" aria-hidden="true" tabindex="-1"></a><span class="co"># What might explain it?</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Exploratory Data Analysis
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Good exploration involves: 1. <strong>Ask questions</strong> about patterns you expect to see 2. <strong>Visualize</strong> the data to see actual patterns 3. <strong>Compare</strong> expectations vs reality 4. <strong>Investigate</strong> surprising discrepancies 5. <strong>Validate</strong> findings (are they real or artifacts?) 6. <strong>Iterate</strong> with new questions based on what you found</p>
+</div>
+</div>
+<hr>
+</section>
+</section>
+</section>
+<section id="challenge-synthesis" class="level1">
+<h1>Challenge: Synthesis</h1>
+<section id="returning-to-the-central-question" class="level2">
+<h2 class="anchored" data-anchor-id="returning-to-the-central-question">Returning to the Central Question</h2>
+<p>We started by asking: <strong>How does raw information become a dataset that can support analysis?</strong></p>
+<p>You’ve now experienced the complete workflow:</p>
+<ol type="1">
+<li><strong>Files and formats</strong>: Read CSV and JSON data from URLs and local files</li>
+<li><strong>Initial inspection</strong>: Examine shape, columns, types, and summary statistics</li>
+<li><strong>Data quality</strong>: Identify missing values, wrong types, and invalid entries</li>
+<li><strong>Cleaning</strong>: Handle missing data, convert types, validate values</li>
+<li><strong>Transformation</strong>: Create derived variables, extract date components, categorize</li>
+<li><strong>Persistence</strong>: Save cleaned data for future use</li>
+<li><strong>Grouping</strong>: Aggregate by categories to find patterns</li>
+<li><strong>Merging</strong>: Combine data from multiple sources</li>
+<li><strong>Visualization</strong>: Create plots to see patterns</li>
+<li><strong>Discovery</strong>: Find unexpected features in the data</li>
+</ol>
+</section>
+<section id="looking-beyond" class="level2">
+<h2 class="anchored" data-anchor-id="looking-beyond">Looking Beyond</h2>
+<p>Today we worked with a single data file that was already mostly structured. Real projects often involve:</p>
+<ul>
+<li>Multiple data sources that must be aligned</li>
+<li>Inconsistent formats and schemas</li>
+<li>Larger datasets requiring different tools</li>
+<li>Streaming data that arrives continuously</li>
+<li>Missing documentation about what variables mean</li>
+<li>Legacy systems with cryptic codes</li>
+</ul>
+<p>The principles you learned today—inspect, validate, transform, document—apply regardless of scale.</p>
+<hr>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Additional Resources
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>pandas Documentation</strong>: - Official documentation: https://pandas.pydata.org/docs/ - 10 minutes to pandas: https://pandas.pydata.org/docs/user_guide/10min.html - Cheat sheet: https://pandas.pydata.org/Pandas_Cheat_Sheet.pdf</p>
+<p><strong>Data Quality</strong>: - “Data Cleaning” chapter in Python for Data Analysis (McKinney) - Quartz guide to bad data: https://github.com/Quartz/bad-data-guide</p>
+<p><strong>Hurricane Data</strong>: - NOAA HURDAT2: https://www.nhc.noaa.gov/data/hurdat/ - Atlantic Hurricane Database Uncertainty: Landsea et al.&nbsp;(2012) - Historical Hurricane Tracks: https://coast.noaa.gov/hurricanes/</p>
+<p>Remember: Clean code and clean data require the same discipline. Comment your transformations, validate your assumptions, and document your decisions!</p>
+</div>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/moninp\.github\.io\/intro-programming\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
