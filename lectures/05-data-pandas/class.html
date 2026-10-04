@@ -303,7 +303,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="your-turn-examining-raw-csv-data" class="level3">
 <h3 class="anchored" data-anchor-id="your-turn-examining-raw-csv-data">Your Turn: Examining Raw CSV Data</h3>
 <p>Let’s look at a small sample of hurricane data in CSV format:</p>
-<div id="d881cef4" class="cell" data-execution_count="1">
+<div id="3cff9074" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This is what CSV (Comma-Separated Values) looks like:</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Each line is a row, values are separated by commas</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -336,7 +336,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="just-in-time-concept-pandas-dataframes" class="level3">
 <h3 class="anchored" data-anchor-id="just-in-time-concept-pandas-dataframes">Just-in-Time Concept: pandas DataFrames</h3>
 <p>Python’s pandas library is the standard tool for working with tabular data. A DataFrame is a 2-dimensional labeled data structure—think of it as a spreadsheet or SQL table in Python. Each column is a pandas Series (1-dimensional array with labels).</p>
-<div id="2438e9fe" class="cell" data-execution_count="2">
+<div id="df60bc93" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Read CSV file into a DataFrame</span></span>
@@ -361,7 +361,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 3  AL012005   ARLENE  2005-06-08  13.5  -34.6        35        1010       TS
 4  AL012005   ARLENE  2005-06-09  15.6  -37.4        45        1009       TS</code></pre>
 <p>Key DataFrame methods for inspection:</p>
-<div id="20d0a20a" class="cell" data-execution_count="3">
+<div id="2cd9230a" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get basic information about the DataFrame</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df.info())</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -431,7 +431,7 @@ dtype: object</code></pre>
 <p>Now let’s read actual hurricane data from NOAA. We’ll start with a simplified version that’s already been converted to CSV format.</p>
 <section id="your-turn-load-and-inspect-hurricane-data" class="level3">
 <h3 class="anchored" data-anchor-id="your-turn-load-and-inspect-hurricane-data">Your Turn: Load and Inspect Hurricane Data</h3>
-<div id="80187f84" class="cell" data-execution_count="4">
+<div id="72e27cfc" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Read hurricane data from URL (first time)</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/your-repo/data/hurricanes_atlantic.csv"</span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>hurricanes <span class="op">=</span> pd.read_csv(url)</span>
@@ -450,7 +450,7 @@ dtype: object</code></pre>
 <span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="co"># 5. Print column names and data types</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Expected tasks:</p>
-<div id="ec5ea1ce" class="cell" data-execution_count="5">
+<div id="45c2fec4" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Your code here:</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>num_observations <span class="op">=</span> <span class="va">None</span>  <span class="co"># Use .shape</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>num_variables <span class="op">=</span> <span class="va">None</span>     <span class="co"># Use .shape</span></span>
@@ -483,7 +483,7 @@ dtype: object</code></pre>
 <p>Once you’ve loaded data, you need to select specific columns and rows for analysis.</p>
 <section id="your-turn-selecting-and-filtering-data" class="level3">
 <h3 class="anchored" data-anchor-id="your-turn-selecting-and-filtering-data">Your Turn: Selecting and Filtering Data</h3>
-<div id="d64bdc2f" class="cell" data-execution_count="6">
+<div id="955dacfb" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Select a single column (returns a Series)</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>wind_speeds <span class="op">=</span> hurricanes[<span class="st">'wind_mph'</span>]</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -531,7 +531,7 @@ dtype: object</code></pre>
 <section id="just-in-time-concept-json-structure" class="level3">
 <h3 class="anchored" data-anchor-id="just-in-time-concept-json-structure">Just-in-Time Concept: JSON Structure</h3>
 <p>JSON represents data as key-value pairs and can contain nested structures:</p>
-<div id="e1507dd7" class="cell" data-execution_count="7">
+<div id="b3fbe0a1" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> json</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Example: Hurricane metadata in JSON format</span></span>
@@ -581,7 +581,7 @@ dtype: object</code></pre>
 </section>
 <section id="your-turn-working-with-json" class="level3">
 <h3 class="anchored" data-anchor-id="your-turn-working-with-json">Your Turn: Working with JSON</h3>
-<div id="b6e0f040" class="cell" data-execution_count="8">
+<div id="d2d61406" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Task: Extract information from the metadata</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. How many total storms are in the dataset?</span></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. What's the start date of the dataset?</span></span>
@@ -600,7 +600,7 @@ dtype: object</code></pre>
 <p>Real data is messy. Let’s systematically identify problems in our hurricane dataset.</p>
 <section id="your-turn-data-quality-inspection" class="level3">
 <h3 class="anchored" data-anchor-id="your-turn-data-quality-inspection">Your Turn: Data Quality Inspection</h3>
-<div id="c0d4edda" class="cell" data-execution_count="9">
+<div id="d7c77fef" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Reload the data to start fresh</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>hurricanes <span class="op">=</span> pd.read_csv(<span class="st">'hurricanes_atlantic.csv'</span>)</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -656,7 +656,7 @@ dtype: object</code></pre>
 <p>Missing data is common in historical records. We need to decide: drop it, fill it, or flag it?</p>
 <section id="just-in-time-concept-missing-data-strategies" class="level3">
 <h3 class="anchored" data-anchor-id="just-in-time-concept-missing-data-strategies">Just-in-Time Concept: Missing Data Strategies</h3>
-<div id="5f40b679" class="cell" data-execution_count="10">
+<div id="29238fd7" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -743,7 +743,7 @@ Fill with mean:
 </section>
 <section id="your-turn-handle-missing-pressure-data" class="level3">
 <h3 class="anchored" data-anchor-id="your-turn-handle-missing-pressure-data">Your Turn: Handle Missing Pressure Data</h3>
-<div id="11cf3d73" class="cell" data-execution_count="11">
+<div id="340bdd80" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># In early hurricane records (pre-1950s), pressure measurements are often missing</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="co"># but wind speed was usually recorded</span></span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -761,7 +761,7 @@ Fill with mean:
 <p>Columns must have appropriate data types for analysis.</p>
 <section id="your-turn-fix-data-types" class="level3">
 <h3 class="anchored" data-anchor-id="your-turn-fix-data-types">Your Turn: Fix Data Types</h3>
-<div id="6f70ab23" class="cell" data-execution_count="12">
+<div id="951c05c2" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check current data types</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(hurricanes.dtypes)</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -829,7 +829,7 @@ Fill with mean:
 <p>Analysis often requires calculating new variables from existing ones.</p>
 <section id="your-turn-calculate-hurricane-metrics" class="level3">
 <h3 class="anchored" data-anchor-id="your-turn-calculate-hurricane-metrics">Your Turn: Calculate Hurricane Metrics</h3>
-<div id="04aee91f" class="cell" data-execution_count="13">
+<div id="35ede7f5" class="cell" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Task 1: Calculate storm duration</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Hint: Group by storm_id, find min and max date, calculate difference</span></span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -866,7 +866,7 @@ Fill with mean:
 <p>After cleaning, save your work so others (or future you) can use it.</p>
 <section id="your-turn-save-cleaned-dataset" class="level3">
 <h3 class="anchored" data-anchor-id="your-turn-save-cleaned-dataset">Your Turn: Save Cleaned Dataset</h3>
-<div id="7ddc1291" class="cell" data-execution_count="14">
+<div id="2bfce080" class="cell" data-execution_count="14">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Select the columns you want to keep</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>columns_to_keep <span class="op">=</span> [<span class="st">'storm_id'</span>, <span class="st">'name'</span>, <span class="st">'date'</span>, <span class="st">'year'</span>, <span class="st">'month'</span>, </span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>                   <span class="st">'lat'</span>, <span class="st">'lon'</span>, <span class="st">'wind_mph'</span>, <span class="st">'pressure_mb'</span>, </span>
@@ -900,7 +900,7 @@ Fill with mean:
 <section id="just-in-time-concept-groupby-operations" class="level3">
 <h3 class="anchored" data-anchor-id="just-in-time-concept-groupby-operations">Just-in-Time Concept: GroupBy Operations</h3>
 <p>The “split-apply-combine” pattern is fundamental to data analysis:</p>
-<div id="d8a7aaf0" class="cell" data-execution_count="15">
+<div id="b1c68bff" class="cell" data-execution_count="15">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example: Analyze by decade</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame({</span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'year'</span>: [<span class="dv">1990</span>, <span class="dv">1991</span>, <span class="dv">1992</span>, <span class="dv">2000</span>, <span class="dv">2001</span>, <span class="dv">2002</span>],</span>
@@ -925,7 +925,7 @@ Fill with mean:
 </section>
 <section id="your-turn-analyze-hurricanes-by-decade" class="level3">
 <h3 class="anchored" data-anchor-id="your-turn-analyze-hurricanes-by-decade">Your Turn: Analyze Hurricanes by Decade</h3>
-<div id="d99e13a1" class="cell" data-execution_count="16">
+<div id="0ff97e76" class="cell" data-execution_count="16">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create decade column</span></span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>hurricanes_clean[<span class="st">'decade'</span>] <span class="op">=</span> (hurricanes_clean[<span class="st">'year'</span>] <span class="op">//</span> <span class="dv">10</span>) <span class="op">*</span> <span class="dv">10</span></span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -965,7 +965,7 @@ Fill with mean:
 <p>Often you need to combine information from multiple sources.</p>
 <section id="just-in-time-concept-merging-dataframes" class="level3">
 <h3 class="anchored" data-anchor-id="just-in-time-concept-merging-dataframes">Just-in-Time Concept: Merging DataFrames</h3>
-<div id="71043c00" class="cell" data-execution_count="17">
+<div id="0a35e400" class="cell" data-execution_count="17">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example: Merge storm tracks with damage data</span></span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>tracks <span class="op">=</span> pd.DataFrame({</span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'storm_id'</span>: [<span class="st">'AL01'</span>, <span class="st">'AL02'</span>, <span class="st">'AL03'</span>],</span>
@@ -997,7 +997,7 @@ Fill with mean:
 </section>
 <section id="your-turn-merge-hurricane-data-with-damage-records" class="level3">
 <h3 class="anchored" data-anchor-id="your-turn-merge-hurricane-data-with-damage-records">Your Turn: Merge Hurricane Data with Damage Records</h3>
-<div id="4237fbbf" class="cell" data-execution_count="18">
+<div id="3ab8a55a" class="cell" data-execution_count="18">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load damage data (simplified example)</span></span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>damage_data <span class="op">=</span> {</span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'name'</span>: [<span class="st">'KATRINA'</span>, <span class="st">'ANDREW'</span>, <span class="st">'MARIA'</span>, <span class="st">'IKE'</span>, <span class="st">'SANDY'</span>, <span class="st">'HARVEY'</span>],</span>
@@ -1027,7 +1027,7 @@ Fill with mean:
 <p>Hurricanes follow geographic patterns. Let’s identify them.</p>
 <section id="your-turn-analyze-storm-tracks" class="level3">
 <h3 class="anchored" data-anchor-id="your-turn-analyze-storm-tracks">Your Turn: Analyze Storm Tracks</h3>
-<div id="b394c646" class="cell" data-execution_count="19">
+<div id="74442a26" class="cell" data-execution_count="19">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Task 1: Find the average latitude and longitude for each storm</span></span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>storm_centers <span class="op">=</span> hurricanes_clean.groupby([<span class="st">'storm_id'</span>, <span class="st">'name'</span>]).agg({</span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'lat'</span>: <span class="st">'mean'</span>,</span>
@@ -1065,7 +1065,7 @@ Fill with mean:
 <p>Let’s create basic plots to visualize patterns.</p>
 <section id="just-in-time-concept-basic-plotting-with-matplotlib" class="level3">
 <h3 class="anchored" data-anchor-id="just-in-time-concept-basic-plotting-with-matplotlib">Just-in-Time Concept: Basic Plotting with Matplotlib</h3>
-<div id="0c7b3345" class="cell" data-execution_count="20">
+<div id="3503a362" class="cell" data-execution_count="20">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Example: Plot hurricane counts by year</span></span>
@@ -1111,7 +1111,7 @@ Fill with mean:
 </section>
 <section id="your-turn-create-hurricane-visualizations" class="level3">
 <h3 class="anchored" data-anchor-id="your-turn-create-hurricane-visualizations">Your Turn: Create Hurricane Visualizations</h3>
-<div id="21f022a7" class="cell" data-execution_count="21">
+<div id="7e668087" class="cell" data-execution_count="21">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Task 1: Plot the number of major hurricanes per decade</span></span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>major_per_decade <span class="op">=</span> hurricanes_clean[hurricanes_clean[<span class="st">'is_major'</span>]].groupby(<span class="st">'decade'</span>).size()</span>
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a bar plot</span></span>
@@ -1137,7 +1137,7 @@ Fill with mean:
 <p>The most interesting part of data analysis: discovering something unexpected.</p>
 <section id="your-turn-investigate-the-data" class="level3">
 <h3 class="anchored" data-anchor-id="your-turn-investigate-the-data">Your Turn: Investigate the Data</h3>
-<div id="253948e5" class="cell" data-execution_count="22">
+<div id="42758c2b" class="cell" data-execution_count="22">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Your task: Find at least ONE surprising or interesting pattern in the data</span></span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Some questions to explore:</span></span>
