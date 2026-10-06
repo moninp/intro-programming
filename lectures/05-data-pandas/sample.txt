@@ -1,3 +1,0 @@
-This is sample text.
-It spans multiple lines.
-UTF-8 handles special characters: é, ñ, 中文

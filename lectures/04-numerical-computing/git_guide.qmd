@@ -1,0 +1,2505 @@
+ ---
+title: "Git Version Control"
+subtitle: "From basics to fluency in data analysis and scientific computing"
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    code-fold: false
+---
+
+# 1. Introduction
+
+## 1.1 What is Git and Why Use It?
+
+Git is a distributed version control system that tracks changes to files over time. For data analysts and scientists, it's essential for:
+
+- **Reproducibility**: Document exactly what code produced which results
+- **Experiment tracking**: Try different models/parameters without losing previous versions
+- **Analysis evolution**: See how your understanding changed as you explored data
+- **Collaboration**: Share analysis code with colleagues without email chains
+- **Publication**: Provide exact code that generated figures/tables in papers
+- **Backup**: Never lose working analysis code to accidental deletions
+
+Unlike saving files with names like `analysis_final_v3_REALLY_FINAL.R`, Git tracks *why* changes were made, making it possible to understand your own work months later.
+
+## 1.2 Git vs GitHub
+
+**Git** is the version control software that runs on your computer. **GitHub** is a website that hosts Git repositories online. Think of Git as email software and GitHub as Gmail—you can use Git without GitHub, but GitHub makes sharing and collaboration easier.
+
+This guide focuses on Git itself. Once you understand Git, GitHub is just a remote repository location.
+
+## 1.3 Installation and Setup
+
+**Windows**: Download Git Bash from https://git-scm.com/downloads  
+**Mac**: Git is pre-installed, or install via `brew install git`  
+**Linux**: Install via package manager: `sudo apt-get install git`
+
+After installation, configure your identity (required for commits):
+
+```bash
+git config --global user.name "Your Name"
+git config --global user.email "your.email@example.com"
+```
+
+Check configuration:
+```bash
+git config --list
+```
+
+Verify Git is installed:
+```bash
+git --version
+# Should show: git version 2.x.x
+```
+
+# 2. Basic Workflow: Status, Add, Commit
+
+## 2.1 Creating a Repository
+
+A Git repository is a folder that Git tracks. Create one:
+
+```bash
+# Create a project folder
+mkdir my_project
+cd my_project
+
+# Initialize Git repository
+git init
+```
+
+This creates a hidden `.git` folder containing all version control data. The current folder is now a Git repository.
+
+**What just happened?** Git created a database in `.git/` to track changes. Your files aren't tracked yet—they're just in a folder that *can* be tracked.
+
+## 2.2 Understanding Status
+
+`git status` is your most-used command—it shows what's happening in your repository.
+
+```bash
+# Check status
+git status
+```
+
+Output:
+```
+On branch main
+
+No commits yet
+
+nothing to commit (create/copy files and use "git add" to track)
+```
+
+This tells you:
+
+- Which branch you're on (`main`)
+- You haven't made any commits yet
+- There are no files to track
+
+## 2.3 Adding Files
+
+Create a file:
+
+```bash
+echo "# My Project" > README.md
+echo "print('Hello, Git!')" > script.py
+```
+
+Check status again:
+```bash
+git status
+```
+
+Output:
+```
+On branch main
+
+No commits yet
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        README.md
+        script.py
+
+nothing added to commit but untracked files present (use "git add" to track)
+```
+
+Git sees the files but isn't tracking them. Files go through stages:
+
+1. **Untracked**: Git sees the file but ignores it
+2. **Staged**: File is marked to be included in next commit
+3. **Committed**: File is saved in Git's history
+
+Stage files:
+```bash
+# Stage specific file
+git add README.md
+
+# Stage all files
+git add .
+
+# Stage all Python files
+git add *.py
+```
+
+Check status:
+```bash
+git status
+```
+
+Output:
+```
+On branch main
+
+No commits yet
+
+Changes to be committed:
+  (use "git rm --cached <file>..." to unstage)
+        new file:   README.md
+        new file:   script.py
+```
+
+Files are now staged (green in Git Bash output), ready to commit.
+
+For data analysis projects, typical files to track:
+
+```bash
+# Analysis scripts
+git add analysis.R
+git add clean_data.py
+git add model_fitting.ipynb
+
+# Configuration
+git add config.yaml
+git add requirements.txt
+
+# Documentation
+git add README.md
+git add methodology_notes.md
+```
+
+**Important for data analysts**: Don't commit large data files! We'll discuss this in Section 8.3.
+
+## 2.4 Making Commits
+
+A commit is a snapshot of your project at a point in time. Each commit has:
+
+- A unique ID (hash)
+- Author and timestamp
+- A message describing the changes
+- A pointer to parent commit(s)
+
+Make your first commit:
+
+```bash
+git commit -m "Initial commit: add README and script"
+```
+
+Output:
+```
+[main (root-commit) a1b2c3d] Initial commit: add README and script
+ 2 files changed, 2 insertions(+)
+ create mode 100644 README.md
+ create mode 100644 script.py
+```
+
+**Anatomy of a commit message**:
+
+- First line: Brief summary (50 chars or less)
+- Optional: Blank line, then detailed explanation
+
+Good commit messages for analysis:
+
+- "Add initial data cleaning script"
+- "Fix outlier detection threshold (5 SD → 3 SD)"
+- "Update model: add interaction term for age×treatment"
+- "Generate Figure 2 for manuscript"
+
+Poor commit messages:
+
+- "update analysis" (what did you update?)
+- "fixes" (what did you fix?)
+- "final version" (won't be final)
+
+Check status now:
+```bash
+git status
+```
+
+Output:
+```
+On branch main
+nothing to commit, working tree clean
+```
+
+Your working directory matches the last commit—no pending changes.
+
+## 2.5 The Basic Workflow
+
+The fundamental Git workflow for data analysis:
+
+```bash
+# 1. Make changes (analyze data, update model)
+# Edit analysis.R or notebook
+
+# 2. Check what changed
+git status
+
+# 3. Stage changes (your new analysis)
+git add analysis.R
+
+# 4. Commit with description of what and why
+git commit -m "Change regression model: use log(income) instead of income"
+
+# 5. Continue analyzing
+```
+
+**Best practices for analysis work**:
+
+- Commit after completing each analysis step (not mid-calculation)
+- Commit when something works (before trying variations)
+- One idea per commit ("try new variable" not "update everything")
+- Commit before long computations (so you can revert if needed)
+
+## 2.6 Staging Area Deep Dive
+
+The staging area (also called index) is Git's unique feature. Why stage instead of committing directly?
+
+**Selective commits**: You edited 5 files but only 2 changes are ready. Stage just those 2.
+
+Example:
+```bash
+# Edit multiple files
+echo "Bug fix" >> script.py
+echo "Work in progress" >> experiment.py
+
+# Stage only the ready file
+git add script.py
+
+# Commit just the bug fix
+git commit -m "Fix bug in script.py"
+
+# experiment.py remains unstaged for later
+```
+
+**Reviewing before committing**: Staging is a checkpoint to review changes before permanently committing.
+
+**Partial file staging**: Stage only *some* changes from a file:
+```bash
+git add -p script.py
+# Interactive mode: review each change (hunk) and decide to stage or not
+```
+
+# 3. Viewing History: Log and Diff
+
+## 3.1 Viewing Commit History
+
+The commit log shows your project's history:
+
+```bash
+# Basic log
+git log
+```
+
+Output:
+```
+commit a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0
+Author: Your Name <your.email@example.com>
+Date:   Mon Dec 16 10:30:00 2024 -0500
+
+    Add new line to README
+
+commit 9z8y7x6w5v4u3t2s1r0q9p8o7n6m5l4k3j2i1h0
+Author: Your Name <your.email@example.com>
+Date:   Mon Dec 16 10:00:00 2024 -0500
+
+    Initial commit: add README and script
+```
+
+**Useful log variations**:
+
+```bash
+# One line per commit (concise)
+git log --oneline
+
+# Shows which files changed
+git log --stat
+
+# Shows actual code changes
+git log -p
+
+# Graphical view (useful with branches)
+git log --oneline --graph --all
+
+# Last N commits
+git log -n 5
+
+# Commits by specific author
+git log --author="Your Name"
+
+# Commits in date range
+git log --since="2 weeks ago"
+
+# Search commit messages
+git log --grep="bug fix"
+```
+
+Most useful combo:
+```bash
+git log --oneline --graph --all --decorate
+```
+
+This shows:
+
+- One line per commit
+- Branch structure graphically
+- All branches (not just current)
+- Branch and tag names
+
+**Understanding commit hashes**: Each commit has a unique identifier (SHA-1 hash) like `a1b2c3d...`. You only need the first 7 characters: `a1b2c3d`. These are used to refer to commits in many Git commands.
+
+## 3.2 Viewing Differences
+
+`git diff` shows what changed. Several variants:
+
+**Unstaged changes** (what's different from last commit):
+```bash
+git diff
+```
+
+Example: You edited `script.py`:
+```bash
+echo "# New comment" >> script.py
+git diff
+```
+
+Output:
+```diff
+diff --git a/script.py b/script.py
+index 1234567..abcdefg 100644
+--- a/script.py
++++ b/script.py
+@@ -1 +1,2 @@
+ print('Hello, Git!')
++# New comment
+```
+
+Lines with `-` were removed, lines with `+` were added.
+
+**Staged changes** (what's in staging area):
+```bash
+git add script.py
+git diff --staged
+```
+
+**Between commits**:
+```bash
+# Changes between two commits
+git diff abc123 def456
+
+# Changes in last commit
+git diff HEAD~1 HEAD
+
+# Changes since 3 commits ago
+git diff HEAD~3
+```
+
+**Specific file**:
+```bash
+git diff script.py
+git diff HEAD~2 HEAD script.py
+```
+
+**Between branches**:
+```bash
+git diff main feature-branch
+```
+
+**Summary only** (which files changed, not content):
+```bash
+git diff --stat
+```
+
+## 3.3 Viewing Specific Commits
+
+See details of a specific commit:
+
+```bash
+# Full details
+git show abc123
+
+# Just the diff
+git show abc123 --stat
+
+# Specific file in specific commit
+git show abc123:script.py
+```
+
+# 4. Branching and Merging
+
+## 4.1 Understanding Branches
+
+Branches let you try different analysis approaches without losing your working version:
+
+```
+main:           A --- B --- C --- D (working analysis)
+                     \
+exploration:          E --- F (trying new method)
+```
+
+**When to use branches in data analysis**:
+
+- Testing a different statistical model
+- Trying alternative data cleaning approaches
+- Exploratory analysis that might not pan out
+- Generating figures for different audiences (manuscript vs. presentation)
+- Running sensitivity analyses with different parameters
+
+## 4.2 Creating and Switching Branches
+
+**Create a branch**:
+```bash
+# Create branch called "feature"
+git branch feature
+
+# List branches (* shows current)
+git branch
+```
+
+Output:
+```
+  feature
+* main
+```
+
+**Switch to a branch**:
+```bash
+# Old way
+git checkout feature
+
+# New way (Git 2.23+)
+git switch feature
+```
+
+**Create and switch in one command**:
+```bash
+git checkout -b new-feature
+# or
+git switch -c new-feature
+```
+
+**Current branch**:
+```bash
+git branch --show-current
+```
+
+## 4.3 Working on Branches
+
+Example workflow for trying a new analysis approach:
+
+```bash
+# Start on main (your working analysis)
+git switch main
+
+# Create branch for exploration
+git switch -c try-random-forest
+
+# Modify your analysis script
+echo "# Fit random forest model" >> analysis.R
+echo "rf_model <- randomForest(y ~ ., data = train_data)" >> analysis.R
+
+# Commit the experiment
+git add analysis.R
+git commit -m "Try random forest instead of linear regression"
+
+# Test it, see if it improves results...
+
+# If it works, merge back to main
+# If it doesn't work, abandon and return to main
+git switch main
+# The random forest code isn't here—linear regression still intact
+```
+
+Branches let you safely explore without breaking your working analysis.
+
+## 4.4 Merging Branches
+
+Combining changes from one branch into another:
+
+```bash
+# Switch to branch you want to merge INTO
+git switch main
+
+# Merge feature branch INTO main
+git merge add-analysis
+```
+
+**Fast-forward merge** (if main hasn't changed):
+```
+Before:
+main:    A --- B
+              \
+feature:       C --- D
+
+After:
+main:    A --- B --- C --- D
+```
+
+Main just moves forward to catch up with feature.
+
+**Three-way merge** (if both branches changed):
+```
+Before:
+main:    A --- B --- C
+              \
+feature:       D --- E
+
+After:
+main:    A --- B --- C --- F (merge commit)
+                   \       /
+feature:            D --- E
+```
+
+Git creates a merge commit F that combines changes.
+
+## 4.5 Merge Conflicts
+
+Conflicts occur when the same lines in the same file were changed differently in both branches.
+
+Example conflict:
+```bash
+# On main branch
+echo "version = 1.0" > config.py
+git add config.py
+git commit -m "Set version 1.0"
+
+# Create and switch to feature branch
+git switch -c update-version
+
+# Change same line
+echo "version = 2.0" > config.py
+git add config.py
+git commit -m "Update to version 2.0"
+
+# Switch back and also change it
+git switch main
+echo "version = 1.5" > config.py
+git add config.py
+git commit -m "Update to version 1.5"
+
+# Try to merge—CONFLICT!
+git merge update-version
+```
+
+Output:
+```
+Auto-merging config.py
+CONFLICT (content): Merge conflict in config.py
+Automatic merge failed; fix conflicts and then commit the result.
+```
+
+**Resolving conflicts**:
+
+1. Check which files have conflicts:
+```bash
+git status
+```
+
+2. Open the file—Git marks conflicts:
+```python
+<<<<<<< HEAD
+version = 1.5
+=======
+version = 2.0
+>>>>>>> update-version
+```
+
+- `<<<<<<< HEAD`: Current branch's version
+- `=======`: Separator
+- `>>>>>>> update-version`: Incoming branch's version
+
+3. Edit to resolve (remove markers, keep what you want):
+```python
+version = 2.0
+```
+
+4. Stage and commit:
+```bash
+git add config.py
+git commit -m "Merge update-version: resolve conflict, keep version 2.0"
+```
+
+**Aborting a merge**:
+```bash
+git merge --abort
+# Returns to pre-merge state
+```
+
+## 4.6 Deleting Branches
+
+After merging, the feature branch is often deleted:
+
+```bash
+# Delete branch (safe—won't delete if not merged)
+git branch -d feature-name
+
+# Force delete (even if not merged)
+git branch -D feature-name
+```
+
+## 4.7 Branch Naming Conventions
+
+Common patterns for analysis projects:
+
+- `explore-age-effects` - Exploratory analysis
+- `sensitivity-analysis` - Robustness checks
+- `alternative-model-glm` - Different modeling approach
+- `manuscript-figures` - Code specifically for publication figures
+- `reviewer-response` - Analysis addressing reviewer comments
+- `imputation-method-2` - Testing different data handling
+
+# 5. Advanced Operations
+
+## 5.1 Rebasing
+
+Rebasing is an alternative to merging that creates a cleaner history.
+
+**Merge** creates a merge commit:
+```
+main:    A --- B --- C
+              \       \
+feature:       D --- E --- F (merge commit)
+```
+
+**Rebase** moves your branch to start from the latest main:
+```
+Before:
+main:    A --- B --- C
+              \
+feature:       D --- E
+
+After rebase:
+main:    A --- B --- C
+                      \
+feature:               D' --- E'
+```
+
+D and E are *replayed* on top of C, creating D' and E' (new commits).
+
+**How to rebase**:
+```bash
+# On feature branch
+git switch feature
+
+# Rebase onto main
+git rebase main
+```
+
+**When to use rebase vs merge**:
+
+- **Rebase**: Clean linear history, but rewrites commit history
+- **Merge**: Preserves all history, but can get messy with many branches
+
+**Golden rule**: Never rebase commits that have been pushed to a shared repository (others may have based work on those commits).
+
+::: {.callout-note}
+## Rebasing in Solo Analysis Work
+
+For data analysts working alone, rebasing is less critical. Merging works fine and preserves the true history of your exploration. Rebase mainly matters in software teams with complex collaboration.
+
+Most data analysts can stick with merging and have a perfectly good experience with Git.
+:::
+
+**Interactive rebase** (edit history):
+```bash
+# Rebase last 3 commits
+git rebase -i HEAD~3
+```
+
+Opens editor:
+```
+pick abc1234 First commit
+pick def5678 Second commit  
+pick ghi9012 Third commit
+
+# Commands:
+# p, pick = use commit
+# r, reword = use commit, but edit message
+# e, edit = use commit, but stop for amending
+# s, squash = combine with previous commit
+# f, fixup = like squash, but discard message
+# d, drop = remove commit
+```
+
+Use cases:
+
+- **Squash** commits: Combine "Work in progress" commits into one clean commit
+- **Reword**: Fix typos in commit messages
+- **Reorder**: Change commit order
+- **Drop**: Remove commits
+
+## 5.2 Viewing and Checking Out Previous Commits
+
+**Detached HEAD state** - viewing an old commit:
+
+```bash
+# View specific commit
+git checkout abc1234
+
+# Warning message:
+# You are in 'detached HEAD' state...
+```
+
+You're now viewing the repository as it was at that commit. Files show old versions.
+
+**Return to present**:
+```bash
+git switch main
+```
+
+**Create a branch from old commit**:
+```bash
+git checkout abc1234
+git switch -c restore-old-version
+# Now you can work from this point
+```
+
+## 5.3 Undoing Changes
+
+**Before staging**:
+```bash
+# Discard changes to file
+git restore script.py
+
+# Discard all changes
+git restore .
+```
+
+**After staging, before committing**:
+```bash
+# Unstage file (keep changes)
+git restore --staged script.py
+
+# Unstage all
+git restore --staged .
+```
+
+**After committing**:
+
+**Option 1: Amend last commit** (if you haven't pushed):
+```bash
+# Fix file
+echo "Fixed content" >> script.py
+git add script.py
+
+# Replace last commit
+git commit --amend -m "New message"
+```
+
+**Option 2: Create new commit that undoes**:
+```bash
+# Revert a specific commit (creates inverse commit)
+git revert abc1234
+
+# This is safe for shared repositories
+```
+
+**Option 3: Reset** (dangerous—rewrites history):
+```bash
+# Move branch pointer back, keep changes
+git reset --soft HEAD~1
+
+# Move back, unstage changes
+git reset --mixed HEAD~1
+
+# Move back, discard changes (DESTRUCTIVE)
+git reset --hard HEAD~1
+```
+
+**Recovering from mistakes**:
+```bash
+# View history of HEAD movements
+git reflog
+
+# Restore to previous state
+git reset --hard HEAD@{3}
+```
+
+## 5.4 Stashing
+
+Save changes temporarily without committing:
+
+```bash
+# Save current changes
+git stash
+
+# Or with a message
+git stash push -m "Work in progress on feature"
+
+# List stashes
+git stash list
+
+# Apply most recent stash (keep in stash list)
+git stash apply
+
+# Apply and remove from list
+git stash pop
+
+# Apply specific stash
+git stash apply stash@{2}
+
+# Delete a stash
+git stash drop stash@{0}
+
+# Delete all stashes
+git stash clear
+```
+
+**Use case**: You're working on a feature but need to quickly fix a bug on main:
+```bash
+# On feature branch with uncommitted changes
+git stash
+
+# Switch to main and fix bug
+git switch main
+# ... make fix ...
+git commit -m "Fix bug"
+
+# Return to feature and restore changes
+git switch feature
+git stash pop
+```
+
+## 5.5 Cherry-Picking
+
+Apply a specific commit from another branch:
+
+```bash
+# On feature branch, you made a great commit
+git switch feature
+git commit -m "Amazing bug fix" # abc1234
+
+# Switch to main and apply just that commit
+git switch main
+git cherry-pick abc1234
+```
+
+Creates a new commit on main with the same changes as abc1234.
+
+## 5.6 Tags
+
+Mark specific commits (usually releases):
+
+```bash
+# Create a tag
+git tag v1.0.0
+
+# Create annotated tag (with message)
+git tag -a v1.0.0 -m "Version 1.0 release"
+
+# List tags
+git tag
+
+# Show tag details
+git show v1.0.0
+
+# Checkout a tag
+git checkout v1.0.0
+
+# Delete tag
+git tag -d v1.0.0
+```
+
+# 6. Remote Repositories
+
+## 6.1 Understanding Remotes
+
+Remote repositories are versions of your project hosted elsewhere (GitHub, GitLab, a server). They enable:
+
+- Backup
+- Collaboration
+- Sharing
+
+## 6.2 Cloning a Repository
+
+Download a repository:
+
+```bash
+# Clone from URL
+git clone https://github.com/username/repo.git
+
+# Clone to specific folder
+git clone https://github.com/username/repo.git my-folder
+
+# Clone specific branch
+git clone -b branch-name https://github.com/username/repo.git
+```
+
+## 6.3 Viewing Remotes
+
+```bash
+# List remotes
+git remote
+
+# List with URLs
+git remote -v
+
+# Show remote details
+git remote show origin
+```
+
+`origin` is the default name for the remote you cloned from.
+
+## 6.4 Fetching and Pulling
+
+**Fetch** downloads changes but doesn't merge:
+```bash
+# Fetch from all remotes
+git fetch
+
+# Fetch from specific remote
+git fetch origin
+
+# Fetch specific branch
+git fetch origin main
+```
+
+After fetching, remote branches are updated (e.g., `origin/main`) but your local branch (`main`) is unchanged.
+
+**Pull** fetches and merges in one step:
+```bash
+# Pull from current branch's remote
+git pull
+
+# Pull from specific remote and branch
+git pull origin main
+
+# Pull with rebase instead of merge
+git pull --rebase
+```
+
+`git pull` = `git fetch` + `git merge`
+
+## 6.5 Pushing
+
+Send your commits to remote:
+
+```bash
+# Push current branch to its remote
+git push
+
+# Push to specific remote and branch
+git push origin main
+
+# Push new branch to remote
+git push -u origin feature-branch
+# -u sets up tracking (future pushes just need 'git push')
+
+# Push all branches
+git push --all
+
+# Push tags
+git push --tags
+```
+
+**Common scenario**:
+```bash
+# Someone else pushed changes
+git push
+# Error: remote has changes you don't have
+
+# Pull first
+git pull
+# Merge happens
+
+# Push again
+git push
+# Success
+```
+
+## 6.6 Remote Branches
+
+Working with branches that exist on remote:
+
+```bash
+# List all branches (local and remote)
+git branch -a
+
+# Checkout remote branch
+git checkout origin/feature
+# Creates local tracking branch
+
+# Or more explicitly
+git checkout -b feature origin/feature
+
+# Delete remote branch
+git push origin --delete feature-branch
+```
+
+## 6.7 Setting Up a Remote
+
+If you created a repository locally and want to push to remote:
+
+```bash
+# Add remote
+git remote add origin https://github.com/username/repo.git
+
+# Push to remote (first time)
+git push -u origin main
+```
+
+
+
+## 6.8 Forking Repositories and Working with Upstream
+
+So far, we've discussed cloning repositories—downloading a copy to work with locally. But there's another important workflow for collaborative work and learning: **forking**.
+ 
+### 6.8.1 Clone vs Fork: What's the Difference?
+
+**Cloning** creates a local copy of a repository on your computer:
+ 
+```bash
+git clone https://github.com/Professor/course-repo.git
+```
+
+Result:
+```
+GitHub (Professor's repo)
+
+         |
+
+         | clone
+
+         ↓
+
+Your computer (local copy)
+
+```
+ 
+You can pull updates from the professor's repository, but you can't push changes back (unless given permission).
+
+**Forking** creates your own copy of the repository on GitHub first:
+
+1. Go to `https://github.com/Professor/course-repo`
+2. Click "Fork" button
+3. GitHub creates `https://github.com/YourUsername/course-repo`
+4. Now clone **your fork**:
+
+```bash
+git clone https://github.com/YourUsername/course-repo.git
+```
+
+Result:
+
+```
+GitHub (Professor's repo)
+
+         |
+
+         | fork
+
+         ↓
+
+GitHub (Your fork)
+
+         |
+
+         | clone
+
+         ↓
+
+Your computer (local copy)
+```
+
+**Key difference**: With a fork, you own your own GitHub repository. You can push changes freely to your fork.
+ 
+### 6.8.2 Why Fork for Data Analysis Courses?
+
+Forking is valuable when:
+
+- Following along with course materials
+- Learning from shared analysis code
+- Contributing to open-source data science projects
+- Experimenting with others' analysis methods
+
+**Example scenario**: You're taking a data analysis course. The professor shares analysis code weekly. You want to:
+
+- Get the professor's updates
+- Make your own modifications
+- Keep your work organized
+- Potentially share your improvements
+ 
+Forking enables all of this.
+ 
+### 6.8.3 Setting Up Upstream
+ 
+After forking and cloning, your repository knows about your fork but not the original:
+
+```bash
+git remote -v
+```
+
+Shows:
+
+```
+origin  https://github.com/YourUsername/course-repo.git (fetch)
+origin  https://github.com/YourUsername/course-repo.git (push)
+```
+
+`origin` is your fork. To get updates from the professor's repository, add it as `upstream`:
+
+```bash
+git remote add upstream https://github.com/Professor/course-repo.git
+```
+
+Check remotes again:
+
+```bash
+git remote -v
+```
+
+Now shows:
+
+```
+origin    https://github.com/YourUsername/course-repo.git (fetch)
+origin    https://github.com/YourUsername/course-repo.git (push)
+upstream  https://github.com/Professor/course-repo.git (fetch)
+upstream  https://github.com/Professor/course-repo.git (push)
+```
+
+**Mental model**:
+
+- **origin** = my repository (I can push here)
+- **upstream** = original repository (I pull updates from here)
+
+### 6.8.4 The Fork Workflow
+
+Here's the complete workflow for working with a forked repository:
+
+**Initial setup** (one time):
+
+```bash
+# 1. Fork on GitHub (click Fork button)
+
+# 2. Clone your fork
+git clone https://github.com/YourUsername/course-repo.git
+cd course-repo
+
+# 3. Add upstream remote
+git remote add upstream https://github.com/Professor/course-repo.git
+```
+
+**Regular workflow** (ongoing):
+
+```bash
+# Get updates from professor's repository
+git fetch upstream
+
+# Update your main branch with professor's changes
+git switch main
+git merge upstream/main
+
+# Push updates to your fork (optional, for backup)
+git push origin main
+
+# Create a branch for your work
+git switch -c my-analysis
+
+# Work on your analysis
+
+# ... edit files ...
+git add analysis.R
+git commit -m "Add my statistical model"
+
+# Push your work to your fork
+git push -u origin my-analysis
+
+# Switch back to main for next professor update
+git switch main
+```
+
+Visual representation:
+
+```
+
+Professor's Repository (upstream)
+
+         |
+
+         | fetch/pull
+
+         ↓
+
+Your Local Repository (main branch)
+
+         |
+
+         | branch
+
+         ↓
+
+Your Local Repository (my-analysis branch)
+
+         |
+
+         | push
+
+         ↓
+
+Your Fork on GitHub (origin)
+```
+
+### 6.8.5 Practical Example: Following a Data Analysis Course
+ 
+**Week 1**: Professor releases initial setup
+
+```bash
+# Fork on GitHub, then:
+git clone https://github.com/YourUsername/data-analysis-course.git
+cd data-analysis-course
+git remote add upstream https://github.com/Professor/data-analysis-course.git
+
+# Course structure:
+# week01/
+# week02/
+# README.md
+```
+ 
+**Week 2**: Professor adds Week 2 materials
+ 
+```bash
+# Get professor's updates
+git fetch upstream
+git switch main
+git merge upstream/main
+
+# Now you have:
+# week01/
+# week02/  ← NEW
+# README.md
+```
+
+**Your work**: Complete Week 2 homework
+ 
+```bash
+# Create branch for your work
+git switch -c week02-homework
+
+# Work on assignment
+
+# ... edit week02/homework.R ...
+git add week02/homework.R
+git commit -m "Complete Week 2 homework: linear regression"
+
+# Push to your fork
+git push -u origin week02-homework
+```
+
+**Week 3**: Professor adds Week 3 materials
+
+```bash
+# Return to main branch
+git switch main
+
+# Get new materials
+git fetch upstream
+git merge upstream/main
+ 
+# Your previous work is safe in week02-homework branch
+
+# Create new branch for Week 3
+git switch -c week03-homework
+```
+ 
+### 6.8.6 Keeping Your Fork Clean
+
+**Best practice**: Don't make changes directly on `main`.
+
+```bash
+# DON'T do this:
+git switch main
+
+# ... edit files ...
+git commit -m "My changes"
+
+# This makes merging professor's updates complicated
+```
+ 
+**DO this instead**:
+
+```bash
+# Keep main synchronized with professor
+git switch main
+git fetch upstream
+git merge upstream/main
+
+# Make your changes in branches
+git switch -c my-experiments
+
+# ... edit files ..
+git commit -m "My changes"
+```
+
+This keeps `main` as a clean copy of the professor's work, making updates smooth.
+
+### 6.8.7 Fetch vs Pull with Upstream
+
+When working with upstream, you have two options:
+
+**Option 1: Fetch + Merge** (more control):
+
+```bash
+# Download updates without changing files
+git fetch upstream
+
+# Inspect what changed
+git log upstream/main
+
+# Decide to merge
+git switch main
+git merge upstream/main
+```
+
+**Option 2: Pull** (combines fetch + merge):
+
+```bash
+git switch main
+git pull upstream main
+```
+For learning purposes, `fetch` + `merge` is better—you see what's happening in two steps.
+
+### 6.8.8 Syncing Your Fork on GitHub
+
+After pulling from upstream, your local `main` is updated, but your GitHub fork isn't:
+
+```
+Professor's Repo (upstream) ← has Week 3
+
+         ↓ fetch/merge
+
+Your Local Repo (main) ← now has Week 3
+
+         ↓ push
+
+Your GitHub Fork (origin) ← still only has Week 2
+```
+
+Sync your fork:
+
+```bash
+git switch main
+git pull upstream main  # Get professor's updates
+git push origin main     # Send to your fork
+```
+
+Now all three are synchronized.
+
+### 6.8.9 Advanced: Contributing Back with Pull Requests
+
+Sometimes you might improve the professor's code or find a bug. With forks, you can contribute back:
+
+```bash
+# Create branch for your improvement
+git switch -c fix-typo
+ 
+# Make fix
+echo "Fixed" >> README.md
+git add README.md
+git commit -m "Fix typo in README"
+
+# Push to your fork
+git push -u origin fix-typo
+```
+
+Then on GitHub:
+
+1. Go to your fork
+2. Click "Pull Request"
+3. Select: `YourUsername/course-repo (fix-typo)` → `Professor/course-repo (main)`
+4. Describe your change
+5. Submit
+
+The professor can review and merge your improvement. This is how open-source collaboration works!
+ 
+### 6.8.10 When to Clone vs When to Fork
+
+**Clone directly** when:
+
+- You just want to run someone's analysis
+- You won't make your own changes
+- It's a one-time exploration
+- The project doesn't change frequently
+
+**Fork** when:
+
+- Following a course with regular updates
+- Making your own modifications
+- Potentially contributing improvements back
+- Learning Git collaboration workflows
+- Want backup of your work on GitHub
+
+For a data analysis course where the professor regularly adds materials, forking is superior.
+
+### 6.8.11 Troubleshooting Fork Workflows
+
+**Problem**: "I made changes on main and now upstream won't merge cleanly"
+
+```bash
+# Solution 1: Merge with conflicts
+git fetch upstream
+git switch main
+git merge upstream/main
+
+# Resolve conflicts, then:
+git add .
+git commit -m "Merge upstream updates"
+
+# Solution 2: Reset main to upstream (LOSE YOUR CHANGES)
+git fetch upstream
+git switch main
+git reset --hard upstream/main
+```
+
+**Problem**: "I forgot to add upstream"
+
+```bash
+# Add it now
+git remote add upstream https://github.com/Professor/course-repo.git
+
+# Verify
+git remote -v
+```
+
+**Problem**: "I pushed to wrong remote"
+
+```bash
+# If you pushed to upstream (and have permission), that's on upstream
+# Usually you can't push to upstream anyway (permission denied)
+# If you pushed to origin when you meant upstream:
+# That's fine—your fork now has those changes
+```
+
+**Problem**: "My fork is behind upstream by many commits"
+
+```bash
+# This is normal—just update
+git fetch upstream
+git switch main
+git merge upstream/main
+git push origin main
+```
+
+### 6.8.12 Fork Workflow Summary
+
+```bash
+
+# ============================================
+# SETUP (once)
+# ============================================
+
+# 1. Fork on GitHub
+# 2. Clone your fork
+
+git clone https://github.com/YourUsername/repo.git
+cd repo
+
+# 3. Add upstream
+
+git remote add upstream https://github.com/Original/repo.git
+
+# ============================================
+# REGULAR WORKFLOW
+# ============================================
+
+# Get updates from original
+git fetch upstream
+git switch main
+git merge upstream/main
+git push origin main
+
+# Do your work in branches
+
+git switch -c my-work
+
+# ... make changes ...
+
+git add .
+git commit -m "Description"
+git push -u origin my-work
+
+# ============================================
+# CONTRIBUTING BACK (optional)
+# ============================================
+# Your branch is on your fork
+# Create Pull Request on GitHub
+# Original owner reviews and merges
+```
+
+ 
+
+This workflow teaches you distributed version control—the core concept behind Git's power. Each person has their own complete repository, can work independently, and can share changes when ready. This is how large open-source projects (like R packages, Python libraries, and scientific software) are developed by hundreds of contributors worldwide.
+
+ 
+
+For data analysts, this same pattern appears when:
+
+- Multiple researchers work on the same analysis
+- A team maintains shared analysis pipelines
+- You contribute to open-source data science tools
+- You build on others' published analysis code
+
+ 
+
+Understanding forks and upstreams transforms Git from a backup tool into a collaboration system.
+
+
+
+# 7. Practical Workflows for Data Analysis
+
+## 7.1 Analysis Project Workflow
+
+Standard workflow for a data analysis project:
+
+```bash
+# 1. Start your project
+git init
+git add analysis.R README.md
+git commit -m "Initial commit: project setup"
+
+# 2. Work through analysis steps, committing as you go
+# ... clean data ...
+git add clean_data.R
+git commit -m "Add data cleaning: remove outliers, handle missing values"
+
+# ... exploratory analysis ...
+git add exploratory_analysis.R
+git commit -m "Generate summary statistics and distributions"
+
+# ... modeling ...
+git add model.R
+git commit -m "Fit linear mixed model with random effects for subject"
+
+# 3. Try alternative approach in branch
+git switch -c try-gam
+# ... modify model.R to use GAM instead ...
+git add model.R
+git commit -m "Try generalized additive model for nonlinear trends"
+
+# Compare results...
+# If GAM is better, merge to main
+git switch main
+git merge try-gam
+
+# If not, just switch back to main and keep original
+git switch main
+# GAM code is preserved in branch if you want to revisit later
+
+# 4. Generate final outputs
+git add figures.R
+git commit -m "Generate Figure 1 (time series) and Figure 2 (regression)"
+
+# 5. Tag when submitting manuscript
+git tag -a manuscript-v1 -m "Analysis for initial manuscript submission"
+
+# 6. Address reviewer comments
+git switch -c reviewer-revisions
+# ... make requested changes ...
+git commit -m "Add robustness check: exclude year 2020"
+git switch main
+git merge reviewer-revisions
+git tag -a manuscript-v2 -m "Analysis for revised manuscript"
+```
+
+## 7.2 Fixing a Discovered Error
+
+You discovered an error in your analysis after sharing results:
+
+```bash
+# 1. Create branch for the fix
+git switch -c fix-error-in-calculation
+
+# 2. Fix the error
+# Edit analysis script to correct calculation
+git add analysis.R
+git commit -m "Fix error: was using mean instead of median for normalization"
+
+# 3. Re-run analysis and verify results
+# Update results, figures, tables
+git add figures/ tables/
+git commit -m "Regenerate results with corrected calculation"
+
+# 4. Merge fix back
+git switch main
+git merge fix-error-in-calculation
+
+# 5. Tag the corrected version
+git tag -a corrected-v1 -m "Fixed normalization error"
+
+# 6. Document the change
+echo "## Version History" >> README.md
+echo "- v1: Original analysis (error in normalization)" >> README.md
+echo "- v2: Corrected analysis (use median not mean)" >> README.md
+git add README.md
+git commit -m "Document correction in README"
+```
+
+This preserves the full history—you can see both what was wrong and what fixed it.
+
+## 7.3 Collaborative Workflow
+
+Working with teammates:
+
+```bash
+# 1. Always start by pulling
+git pull
+
+# 2. Create your branch
+git switch -c my-feature
+
+# 3. Work and commit frequently
+git add .
+git commit -m "Descriptive message"
+
+# 4. Push regularly (backup + visibility)
+git push -u origin my-feature
+
+# 5. Before requesting review, update from main
+git switch main
+git pull
+git switch my-feature
+git rebase main  # Or merge main
+
+# 6. Force push if you rebased (be careful!)
+git push --force-with-lease
+
+# 7. Create pull request on GitHub
+
+# 8. Address review comments
+# ... make changes ...
+git add .
+git commit -m "Address review comments"
+git push
+
+# 9. After merge, clean up
+git switch main
+git pull
+git branch -d my-feature
+```
+
+## 7.4 Working with Conflicts in Collaborative Settings
+
+```bash
+# Situation: You and teammate edited same file
+
+# You committed and try to push
+git push
+# Error: Updates were rejected
+
+# Pull to get teammate's changes
+git pull
+# CONFLICT in script.py
+
+# Check what's conflicted
+git status
+
+# Open file, see conflict markers
+# <<<<<<< HEAD (your changes)
+# =======
+# >>>>>>> abc1234 (their changes)
+
+# Resolve conflicts
+# Edit file to keep what you want
+# Remove conflict markers
+
+# Stage resolution
+git add script.py
+
+# Complete merge
+git commit -m "Merge main; resolve conflict in script.py"
+
+# Push
+git push
+```
+
+# 8. Best Practices and Tips
+
+## 8.1 Commit Best Practices
+
+**Commit after each analysis step**:
+
+- After data cleaning: "Remove duplicates and standardize date formats"
+- After exploration: "Generate distributions for all variables"
+- After modeling: "Fit logistic regression: accuracy = 0.87"
+- After visualization: "Create Figure 1: survival curves by treatment group"
+
+**Write commit messages for future you**:
+```bash
+# Good - you'll understand this in 6 months
+git commit -m "Exclude participants with missing baseline measurements
+
+Previous analysis (n=250) included participants missing baseline.
+New analysis (n=203) only includes complete baseline data.
+Results now show significant treatment effect (p=0.03 vs p=0.12)"
+
+# Bad - you'll have no idea what this means
+git commit -m "updated analysis"
+git commit -m "changes"
+```
+
+**Commit messages for scientific work**:
+```bash
+# Document decisions
+git commit -m "Use log transformation for income (reduces skewness)"
+
+# Note parameter choices
+git commit -m "Set convergence threshold to 1e-6 (default 1e-4 too loose)"
+
+# Explain model changes
+git commit -m "Add quadratic term for age: AIC improved from 450 to 442"
+
+# Document data issues
+git commit -m "Exclude sensor readings from 2023-03-15 (calibration error)"
+```
+
+**Conventional Commits** format (popular):
+```
+<type>: <description>
+
+[optional body]
+
+[optional footer]
+```
+
+Types: `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`
+
+Examples:
+```bash
+git commit -m "feat: add user authentication"
+git commit -m "fix: prevent crash on empty input"
+git commit -m "docs: update API documentation"
+```
+
+## 8.2 Branching Best Practices
+
+- Keep branches short-lived (days, not months)
+- Name branches descriptively
+- Delete merged branches
+- Don't commit directly to main (use branches)
+- Pull main into your branch regularly
+
+## 8.3 What to Commit in Data Analysis Projects
+
+**DO commit**:
+
+- Analysis scripts (`.R`, `.py`, `.ipynb`, `.sql`)
+- Documentation (`README.md`, `methods.md`)
+- Configuration files (`config.yaml`, `requirements.txt`, `environment.yml`)
+- Metadata about data (`data_dictionary.txt`, `variable_descriptions.csv`)
+- Small reference tables (lookup tables < 1 MB)
+- Results summaries (tables of coefficients, summary statistics)
+
+**DON'T commit**:
+
+- Raw data files (usually too large, store elsewhere)
+- Processed data files (can be regenerated from raw data + scripts)
+- Large output files (`.RData`, large CSVs)
+- Binary files (`.xlsx`, `.docx`, `.pdf`) - convert to text formats
+- Plots/figures (can be regenerated from scripts)
+- Temporary files (`.Rhistory`, `.ipynb_checkpoints/`)
+- Virtual environments (`venv/`, `renv/library/`)
+
+**Special case: Jupyter notebooks**
+
+Notebooks contain both code and output (plots, printed results). Two approaches:
+
+1. **Commit notebooks with output cleared** (recommended for collaboration):
+```bash
+# Clear output before committing
+jupyter nbconvert --clear-output --inplace analysis.ipynb
+git add analysis.ipynb
+git commit -m "Add initial analysis notebook"
+```
+
+2. **Commit notebooks with output** (good for documenting results):
+```bash
+# Keep output for documentation
+git add analysis_with_results.ipynb
+git commit -m "Analysis results for Figure 2 (run on 2024-12-16)"
+```
+
+**Managing large data files**
+
+Create `.gitignore`:
+
+```bash
+cat > .gitignore << EOF
+# Data files
+*.csv
+*.tsv
+*.xlsx
+*.sas7bdat
+*.dta
+data/
+raw_data/
+
+# Output files
+*.RData
+*.rda
+*.rds
+results/
+output/
+figures/
+*.png
+*.jpg
+*.pdf
+
+# R specific
+.Rhistory
+.RData
+.Rproj.user
+renv/library/
+
+# Python specific
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+venv/
+.venv/
+*.egg-info/
+
+# System files
+.DS_Store
+Thumbs.db
+EOF
+
+git add .gitignore
+git commit -m "Add .gitignore for data analysis project"
+```
+
+**Documenting external data sources**
+
+Since you're not committing the data itself, document where to get it:
+
+```bash
+cat > DATA_SOURCES.md << EOF
+# Data Sources
+
+## Raw Data
+- **File**: patient_data.csv
+- **Source**: Hospital database export
+- **Date retrieved**: 2024-12-15
+- **Location**: /shared/hospital_data/ (on server)
+- **Access**: Contact PI for permissions
+
+## Processed Data
+- **File**: cleaned_patient_data.csv
+- **Generated by**: scripts/01_clean_data.R
+- **Last updated**: 2024-12-16
+- **Notes**: Excludes 47 records with missing baseline measurements
+EOF
+
+git add DATA_SOURCES.md
+git commit -m "Document data sources and provenance"
+```
+
+**Managing computational results**
+
+For long-running computations, you might commit key results:
+
+```bash
+# Commit summary of results (small text file)
+git add model_coefficients.csv    # Table of coefficients
+git add performance_metrics.txt   # Model performance summary
+git commit -m "Results: random forest model (accuracy=0.89, AUC=0.92)"
+
+# DON'T commit the full fitted model object (large binary file)
+# Instead, document how to regenerate it
+echo "Run scripts/03_fit_model.R to regenerate fitted model" >> README.md
+```
+
+**Git LFS for larger files**
+
+If you must version control larger files (< 100 MB), use Git LFS (Large File Storage):
+
+```bash
+# Install Git LFS (one-time setup)
+git lfs install
+
+# Track specific file types
+git lfs track "*.csv"
+git lfs track "*.xlsx"
+
+# This creates/updates .gitattributes
+git add .gitattributes
+git commit -m "Configure Git LFS for data files"
+
+# Now files matching these patterns will be stored efficiently
+git add data/large_dataset.csv
+git commit -m "Add large dataset via Git LFS"
+```
+
+## 8.4 Common Aliases
+
+Make Git easier with shortcuts:
+
+```bash
+# Set aliases
+git config --global alias.st status
+git config --global alias.co checkout
+git config --global alias.br branch
+git config --global alias.ci commit
+git config --global alias.unstage 'restore --staged'
+git config --global alias.last 'log -1 HEAD'
+git config --global alias.lg 'log --oneline --graph --all'
+
+# Now use them
+git st      # Instead of git status
+git co main # Instead of git checkout main
+git lg      # Pretty log view
+```
+
+## 8.5 Jupyter Notebooks and Git
+
+Jupyter notebooks are tricky for version control because they mix code, output, and metadata.
+
+**Challenge**: Notebooks save output (plots, printed results) which changes even if code doesn't:
+```bash
+# You run notebook (no code changes), output updates, Git sees "changes"
+git diff
+# Shows lots of changed JSON even though you didn't change code
+```
+
+**Solutions**:
+
+**Option 1: Clear outputs before committing** (best for collaboration)
+```bash
+# Clear all outputs
+jupyter nbconvert --clear-output --inplace analysis.ipynb
+
+# Stage and commit
+git add analysis.ipynb
+git commit -m "Update analysis methodology"
+```
+
+**Option 2: Use nbdime for better notebook diffs**
+```bash
+# Install nbdime
+pip install nbdime
+
+# Configure Git to use nbdime
+nbdime config-git --enable
+
+# Now git diff shows readable notebook changes
+git diff analysis.ipynb
+```
+
+**Option 3: Convert notebooks to scripts for version control**
+```bash
+# Convert notebook to Python script
+jupyter nbconvert --to script analysis.ipynb
+
+# Commit the script instead
+git add analysis.py
+git commit -m "Add analysis script (exported from notebook)"
+
+# .gitignore the notebook
+echo "*.ipynb" >> .gitignore
+```
+
+**Option 4: Use Jupytext** (sync notebooks with plain text)
+```bash
+# Install Jupytext
+pip install jupytext
+
+# Pair notebook with Python script
+jupytext --set-formats ipynb,py analysis.ipynb
+
+# Now you have:
+# analysis.ipynb (for interactive work)
+# analysis.py (clean Python script for Git)
+
+# Only commit the .py file
+git add analysis.py
+git commit -m "Add analysis script"
+
+# Add to .gitignore
+echo "*.ipynb" >> .gitignore
+```
+
+**Workflow recommendation**:
+
+1. Work in Jupyter notebooks (`.ipynb`)
+2. Clear outputs before committing OR use Jupytext to sync with `.py`
+3. Commit only code, not outputs
+4. For "final" results, consider committing one notebook with outputs as documentation
+
+## 8.6 Reproducible Analysis with Git
+
+Git enables reproducibility—others (including future you) can reproduce your analysis exactly.
+
+**Document your computational environment**:
+
+For R:
+```bash
+# Create renv.lock file
+# In R:
+# renv::init()
+# renv::snapshot()
+
+# Commit lockfile
+git add renv.lock
+git commit -m "Add R environment specification"
+
+# Others can restore: renv::restore()
+```
+
+For Python:
+```bash
+# Create requirements.txt
+pip freeze > requirements.txt
+
+# Or use poetry/conda
+conda env export > environment.yml
+
+# Commit
+git add requirements.txt
+git commit -m "Add Python dependencies"
+
+# Others can restore: pip install -r requirements.txt
+```
+
+**Link code versions to results**:
+
+```bash
+# Tag code version that generated paper figures
+git tag -a paper-submission-v1 -m "Code for manuscript submitted 2024-12-15"
+
+# In your paper, cite: "Analysis code version paper-submission-v1"
+```
+
+**Create analysis scripts that document parameters**:
+
+```python
+# analysis.py
+# Don't hardcode parameters
+SIGNIFICANCE_LEVEL = 0.05
+OUTLIER_THRESHOLD = 3  # standard deviations
+TRAIN_TEST_SPLIT = 0.8
+
+# Commit with message explaining choices
+git commit -m "Set significance level to 0.05 (standard for field)"
+```
+
+**Document the analysis pipeline**:
+
+```bash
+cat > RUN_ANALYSIS.md << EOF
+# How to Reproduce This Analysis
+
+## Prerequisites
+- R version 4.3.0
+- Packages: see renv.lock
+
+## Steps
+1. Obtain raw data (see DATA_SOURCES.md)
+2. Run scripts/01_clean_data.R
+3. Run scripts/02_exploratory_analysis.R  
+4. Run scripts/03_fit_models.R
+5. Run scripts/04_generate_figures.R
+
+## Output
+- figures/figure1.png (study design)
+- figures/figure2.png (main results)
+- tables/table1.csv (descriptive statistics)
+- results/model_coefficients.csv (regression output)
+
+## Computational Time
+- Total runtime: ~2 hours on standard laptop
+- Bottleneck: Random forest fitting (~1.5 hours)
+EOF
+
+git add RUN_ANALYSIS.md
+git commit -m "Document analysis pipeline for reproducibility"
+```
+
+# 9. Troubleshooting Common Problems
+
+## 9.1 "I Committed to the Wrong Branch"
+
+```bash
+# You're on main but should've been on feature branch
+
+# 1. Create branch from current state (keeps commit)
+git branch feature-branch
+
+# 2. Reset main to before your commit
+git reset --hard HEAD~1
+
+# 3. Switch to feature branch
+git switch feature-branch
+
+# Your commit is now only on feature-branch
+```
+
+## 9.2 "I Need to Undo My Last Commit"
+
+```bash
+# Keep changes, undo commit
+git reset --soft HEAD~1
+
+# Discard changes entirely (CAREFUL!)
+git reset --hard HEAD~1
+
+# Create a new commit that undoes it (safe for shared repos)
+git revert HEAD
+```
+
+## 9.3 "I Accidentally Deleted Something"
+
+```bash
+# If not committed, may be lost
+# If committed, find it in history
+
+# Find the commit that had the file
+git log -- path/to/file
+
+# Restore from specific commit
+git checkout abc1234 -- path/to/file
+
+# If you just deleted it
+git restore path/to/file
+```
+
+## 9.4 "I Have Merge Conflicts"
+
+```bash
+# See conflicted files
+git status
+
+# For each conflicted file:
+# 1. Open in editor
+# 2. Find conflict markers (<<<<<<<, =======, >>>>>>>)
+# 3. Edit to resolve
+# 4. Remove markers
+# 5. Save
+
+# Stage resolved files
+git add conflicted_file.py
+
+# Complete merge
+git commit
+
+# Or abort and try later
+git merge --abort
+```
+
+## 9.5 "I Pushed Sensitive Information"
+
+```bash
+# Remove file and rewrite history (use with EXTREME caution)
+git filter-branch --tree-filter 'rm -f passwords.txt' HEAD
+
+# Or use BFG Repo-Cleaner (easier)
+# Then force push
+git push --force
+
+# Better: Rotate the sensitive data (change passwords, revoke keys)
+# History on GitHub may still have it
+```
+
+## 9.6 "I Can't Push"
+
+```bash
+# Error: Updates were rejected
+
+# Pull first
+git pull
+
+# If conflicts, resolve them
+# Then push
+git push
+```
+
+## 9.7 "Detached HEAD State"
+
+```bash
+# You see: HEAD detached at abc1234
+
+# If you made changes you want to keep:
+git switch -c new-branch-name
+
+# If you just want to get back to normal:
+git switch main
+```
+
+# 10. Advanced Topics (Brief Overview)
+
+## 10.1 Git Hooks
+
+Scripts that run automatically at certain points:
+
+```bash
+# Hooks live in .git/hooks/
+# Examples:
+# pre-commit: Run tests before allowing commit
+# post-commit: Send notification after commit
+# pre-push: Run full test suite before push
+
+# Enable a hook (remove .sample extension)
+mv .git/hooks/pre-commit.sample .git/hooks/pre-commit
+chmod +x .git/hooks/pre-commit
+```
+
+## 10.2 Submodules
+
+Include another Git repository within yours:
+
+```bash
+# Add submodule
+git submodule add https://github.com/user/repo.git path/to/submodule
+
+# Clone repo with submodules
+git clone --recursive https://github.com/user/repo.git
+
+# Update submodules
+git submodule update --init --recursive
+```
+
+## 10.3 Worktrees
+
+Work on multiple branches simultaneously:
+
+```bash
+# Create worktree
+git worktree add ../project-feature feature-branch
+
+# Now you have two directories:
+# ./project (main)
+# ../project-feature (feature-branch)
+
+# List worktrees
+git worktree list
+
+# Remove worktree
+git worktree remove ../project-feature
+```
+
+## 10.4 Bisect
+
+Binary search through history to find when a bug was introduced:
+
+```bash
+# Start bisect
+git bisect start
+
+# Mark current commit as bad
+git bisect bad
+
+# Mark a known good commit
+git bisect good abc1234
+
+# Git checks out midpoint
+# Test if bug is present
+# Mark result:
+git bisect good  # or git bisect bad
+
+# Git narrows down, repeat
+# Eventually finds first bad commit
+
+# End bisect
+git bisect reset
+```
+
+# 11. Git Cheat Sheet
+
+## 11.1 Essential Commands
+
+```bash
+# Setup
+git config --global user.name "Name"
+git config --global user.email "email"
+git init                          # Create repository
+git clone <url>                   # Download repository
+
+# Basic workflow
+git status                        # Check status
+git add <file>                    # Stage file
+git add .                         # Stage all
+git commit -m "message"           # Commit
+git push                          # Upload commits
+git pull                          # Download and merge
+
+# Branching
+git branch                        # List branches
+git branch <name>                 # Create branch
+git switch <name>                 # Switch branch
+git switch -c <name>              # Create and switch
+git merge <branch>                # Merge branch
+git branch -d <name>              # Delete branch
+
+# History
+git log                           # View commits
+git log --oneline                 # Concise log
+git log --graph --all             # Visual history
+git diff                          # Show changes
+git show <commit>                 # Show commit details
+
+# Undoing
+git restore <file>                # Discard changes
+git restore --staged <file>       # Unstage
+git reset --soft HEAD~1           # Undo commit, keep changes
+git reset --hard HEAD~1           # Undo commit, discard changes
+git revert <commit>               # Create inverse commit
+
+# Remote
+git remote -v                     # List remotes
+git fetch                         # Download changes
+git pull                          # Fetch + merge
+git push                          # Upload commits
+git push -u origin <branch>       # Push new branch
+
+# Other
+git stash                         # Save changes temporarily
+git stash pop                     # Restore stashed changes
+git tag <name>                    # Create tag
+```
+
+## 11.2 Conceptual Model
+
+```
+Working Directory → Staging Area → Repository → Remote Repository
+     (edit)      add     (stage)    commit    push
+     
+     restore           restore --staged     reset
+     <-                    <-                <-
+                                             
+                                            pull/fetch
+                                              <-
+```
+
+## 11.3 Quick Reference for Data Analysts
+
+```bash
+# Starting a new analysis project
+mkdir my_analysis && cd my_analysis
+git init
+git add analysis.R README.md
+git commit -m "Initial commit: project setup"
+
+# Daily workflow
+# ... work on analysis ...
+git status                           # What changed?
+git add analysis.R                   # Stage changes
+git commit -m "Add regression model" # Commit with description
+# ... continue ...
+
+# Before trying something risky
+git commit -m "Working analysis before trying new approach"
+git switch -c try-new-method
+# ... experiment ...
+# If it works: git switch main && git merge try-new-method
+# If not: git switch main (leave experiment in branch)
+
+# View what changed
+git log --oneline                    # History
+git diff                             # Unstaged changes
+git diff analysis.R                  # Changes in specific file
+
+# Undo mistakes
+git restore analysis.R               # Discard changes (before commit)
+git reset --soft HEAD~1              # Undo commit, keep changes
+git revert HEAD                      # Undo commit with new commit
+
+# Find when results changed
+git log --oneline results.csv        # History of specific file
+git show abc123:results.csv          # View file at specific commit
+
+# Tag important milestones
+git tag manuscript-v1                # Mark submission version
+git tag -a published -m "Code for published paper"
+
+# Common .gitignore for data analysis
+*.csv
+*.xlsx
+*.RData
+*.pdf
+*.png
+data/
+results/
+.ipynb_checkpoints/
+__pycache__/
+```
+
+# 12. Resources for Further Learning
+
+**Official Documentation**:
+
+- https://git-scm.com/doc - Complete Git documentation
+- https://git-scm.com/book - Pro Git book (free)
+
+**Interactive Tutorials**:
+
+- https://learngitbranching.js.org/ - Visual Git tutorial
+- https://gitimmersion.com/ - Step-by-step lab
+
+**Visual Tools**:
+
+- GitKraken - GUI for Git
+- SourceTree - Another popular GUI
+- GitHub Desktop - Simple Git GUI
+
+**Practice**:
+
+- Create a test repository and experiment
+- Break things and learn to fix them
+- Use Git for all your projects, even small ones
+
+**GitHub-Specific**:
+
+- Pull requests
+- Issues and project management
+- GitHub Actions (CI/CD)
+- GitHub Pages (hosting)
+
+**For Data Scientists**:
+
+- DVC (Data Version Control) - Git for data files
+- Dolt - Git for databases
+- nbdime - Better notebook diffs
+- Jupytext - Sync notebooks with scripts
+
+# 13. Summary and Next Steps
+
+You now understand:
+
+- Git's core concepts (commits, branches, remotes)
+- The basic workflow (status, add, commit, push, pull)
+- Branching and merging (including conflict resolution)
+- History navigation (log, diff, checkout)
+- Advanced operations (rebase, stash, cherry-pick)
+- Workflows for data analysis projects
+- Troubleshooting common problems
+- Best practices for reproducible research
+
+**To become fluent**:
+
+1. **Use Git daily**: Practice is essential
+2. **Make mistakes**: You'll learn most from recovering from errors
+3. **Read commit messages**: Learn from others' Git habits
+4. **Explore history**: Use `git log` and `git diff` often
+5. **Keep learning**: Git is deep—there's always more to discover
+
+**Next steps for data analysis**:
+
+- Version control all your analysis code
+- Track changes to statistical methods
+- Collaborate on research projects
+- Make your work reproducible
+- Use Git with Jupyter notebooks (with nbdime/jupytext)
+- Integrate with continuous integration (CI)
+- Tag versions that generated published results
+- Document data provenance and processing pipelines
+
+Git is a skill that compounds—the better you get, the more valuable it becomes. It's not just version control; it's a way of thinking about your work: incremental, documented, and reversible. Master Git, and you've mastered one of the most important tools in modern data analysis and scientific computing.
+
+For data analysts specifically, Git transforms your work from a collection of files with confusing names (`analysis_final_REALLY_FINAL_v3.R`) into a documented timeline of scientific decisions. Every model change, every parameter adjustment, every data cleaning step becomes part of a searchable, reversible history. When a reviewer asks "what happens if you exclude 2020?", you can create a branch, make the change, and compare results—without losing your original analysis. When you discover an error, the commit history shows exactly when it was introduced and what code needs fixing. This is the power of version control for science.
