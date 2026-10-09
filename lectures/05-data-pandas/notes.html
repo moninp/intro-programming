@@ -314,7 +314,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>The notes are organized to match the lecture progression but include additional depth on pandas internals, edge cases, and best practices. Code examples use a sample dataset that can be created inline, ensuring all code executes without external dependencies.</p>
 <section id="setup" class="level2">
 <h2 class="anchored" data-anchor-id="setup">1.1 Setup</h2>
-<div id="244aeb21" class="cell" data-execution_count="1">
+<div id="6b0f6a70" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -331,7 +331,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="creating-sample-data" class="level2">
 <h2 class="anchored" data-anchor-id="creating-sample-data">1.2 Creating Sample Data</h2>
 <p>For demonstration purposes, we create a realistic sample of Divvy bike-share data:</p>
-<div id="40a88c64" class="cell" data-execution_count="2">
+<div id="48cb9479" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create sample Divvy bike-share data</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">42</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -426,7 +426,7 @@ First few rows:
 <section id="series-one-dimensional-labeled-arrays" class="level2">
 <h2 class="anchored" data-anchor-id="series-one-dimensional-labeled-arrays">2.1 Series: One-Dimensional Labeled Arrays</h2>
 <p>A pandas Series is a one-dimensional array-like object containing values and an associated index. Think of it as a column from a spreadsheet or database table.</p>
-<div id="ba7230b1" class="cell" data-execution_count="3">
+<div id="62ccac89" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a Series from a list</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>ride_durations <span class="op">=</span> pd.Series([<span class="dv">25</span>, <span class="dv">30</span>, <span class="dv">15</span>, <span class="dv">45</span>, <span class="dv">20</span>], </span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>                           index<span class="op">=</span>[<span class="st">'trip_1'</span>, <span class="st">'trip_2'</span>, <span class="st">'trip_3'</span>, <span class="st">'trip_4'</span>, <span class="st">'trip_5'</span>],</span>
@@ -456,7 +456,7 @@ Data type: int64</code></pre>
 <section id="series-operations" class="level3">
 <h3 class="anchored" data-anchor-id="series-operations">2.1.1 Series Operations</h3>
 <p>Series support vectorized operations similar to NumPy arrays:</p>
-<div id="4eb646fc" class="cell" data-execution_count="4">
+<div id="b288c1b9" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Arithmetic operations</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Original durations:"</span>)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(ride_durations)</span>
@@ -508,7 +508,7 @@ Name: duration_minutes, dtype: float64</code></pre>
 <section id="series-from-dictionary" class="level3">
 <h3 class="anchored" data-anchor-id="series-from-dictionary">2.1.2 Series from Dictionary</h3>
 <p>A common pattern is creating a Series from a dictionary:</p>
-<div id="4d149f3e" class="cell" data-execution_count="5">
+<div id="c6e295c5" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Station trip counts</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>station_counts <span class="op">=</span> {</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Clark St &amp; Elm St'</span>: <span class="dv">45</span>,</span>
@@ -535,7 +535,7 @@ Most popular station: Broadway &amp; Barry Ave with 52 trips</code></pre>
 <section id="dataframe-two-dimensional-labeled-data-structure" class="level2">
 <h2 class="anchored" data-anchor-id="dataframe-two-dimensional-labeled-data-structure">2.2 DataFrame: Two-Dimensional Labeled Data Structure</h2>
 <p>A DataFrame is a two-dimensional labeled data structure with columns that can contain different data types. It’s the primary pandas data structure for data analysis.</p>
-<div id="5e26481d" class="cell" data-execution_count="6">
+<div id="e44db4c8" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Basic DataFrame structure</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"DataFrame shape:"</span>, df_original.shape)</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Column names:"</span>)</span>
@@ -573,7 +573,7 @@ RangeIndex(start=0, stop=100, step=1)</code></pre>
 <section id="dataframe-construction" class="level3">
 <h3 class="anchored" data-anchor-id="dataframe-construction">2.2.1 DataFrame Construction</h3>
 <p>Multiple ways to construct DataFrames:</p>
-<div id="20940c83" class="cell" data-execution_count="7">
+<div id="6104a455" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># From dictionary of lists</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>simple_df <span class="op">=</span> pd.DataFrame({</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'bike_type'</span>: [<span class="st">'classic'</span>, <span class="st">'electric'</span>, <span class="st">'classic'</span>],</span>
@@ -612,7 +612,7 @@ From list of dictionaries:
 <section id="dataframe-attributes" class="level3">
 <h3 class="anchored" data-anchor-id="dataframe-attributes">2.2.2 DataFrame Attributes</h3>
 <p>Important DataFrame attributes:</p>
-<div id="9825e149" class="cell" data-execution_count="8">
+<div id="f6d5d55c" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Number of rows: </span><span class="sc">{</span><span class="bu">len</span>(df_original)<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Number of columns: </span><span class="sc">{</span><span class="bu">len</span>(df_original.columns)<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Shape (rows, cols): </span><span class="sc">{</span>df_original<span class="sc">.</span>shape<span class="sc">}</span><span class="ss">"</span>)</span>
@@ -649,7 +649,7 @@ dtype: int64</code></pre>
 <section id="column-selection" class="level2">
 <h2 class="anchored" data-anchor-id="column-selection">3.1 Column Selection</h2>
 <p>Selecting columns is fundamental to DataFrame operations:</p>
-<div id="c166f46e" class="cell" data-execution_count="9">
+<div id="cdedf59b" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Single column returns a Series</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>ride_types <span class="op">=</span> df_original[<span class="st">'rideable_type'</span>]</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Type:"</span>, <span class="bu">type</span>(ride_types))</span>
@@ -682,7 +682,7 @@ Location data shape: (100, 4)
 </div>
 <section id="column-selection-edge-cases" class="level3">
 <h3 class="anchored" data-anchor-id="column-selection-edge-cases">3.1.1 Column Selection Edge Cases</h3>
-<div id="4adad592" class="cell" data-execution_count="10">
+<div id="e92ed3ba" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Selecting non-existent column raises KeyError</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    df_original[<span class="st">'nonexistent_column'</span>]</span>
@@ -713,7 +713,7 @@ Attribute access works: &lt;class 'pandas.Series'&gt;</code></pre>
 <li><strong>loc</strong>: Label-based indexing</li>
 <li><strong>iloc</strong>: Integer position-based indexing</li>
 </ul>
-<div id="a0c53a65" class="cell" data-execution_count="11">
+<div id="7cabb791" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># iloc: integer position</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"First 3 rows using iloc:"</span>)</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df_original.iloc[<span class="dv">0</span>:<span class="dv">3</span>][[<span class="st">'ride_id'</span>, <span class="st">'rideable_type'</span>, <span class="st">'member_casual'</span>]])</span>
@@ -743,7 +743,7 @@ Note: iloc[0:3] gets 3 rows, loc[0:2] gets 3 rows (0, 1, 2)</code></pre>
 <section id="boolean-indexing" class="level3">
 <h3 class="anchored" data-anchor-id="boolean-indexing">3.2.1 Boolean Indexing</h3>
 <p>Powerful filtering using boolean conditions:</p>
-<div id="07a04727" class="cell" data-execution_count="12">
+<div id="3b08c3f4" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create working copy</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df_original.copy()</span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -771,7 +771,7 @@ Classic or electric bikes: 91</code></pre>
 <section id="advanced-selection" class="level3">
 <h3 class="anchored" data-anchor-id="advanced-selection">3.2.2 Advanced Selection</h3>
 <p>Combining row and column selection:</p>
-<div id="5972fa16" class="cell" data-execution_count="13">
+<div id="f959323f" class="cell" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Select specific rows and columns</span></span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>subset <span class="op">=</span> df.loc[df[<span class="st">'member_casual'</span>] <span class="op">==</span> <span class="st">'member'</span>, </span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>                [<span class="st">'ride_id'</span>, <span class="st">'rideable_type'</span>, <span class="st">'started_at'</span>]]</span>
@@ -806,7 +806,7 @@ Same selection using iloc with boolean array:
 <section id="setting-values" class="level2">
 <h2 class="anchored" data-anchor-id="setting-values">3.3 Setting Values</h2>
 <p>Modifying DataFrame values:</p>
-<div id="466f6141" class="cell" data-execution_count="14">
+<div id="772474d7" class="cell" data-execution_count="14">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a copy to modify</span></span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>df_modified <span class="op">=</span> df.copy()</span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -836,7 +836,7 @@ Name: count, dtype: int64</code></pre>
 <section id="handling-missing-data" class="level2">
 <h2 class="anchored" data-anchor-id="handling-missing-data">4.1 Handling Missing Data</h2>
 <p>Real-world data contains missing values. Pandas represents them as <code>NaN</code> (Not a Number) for numeric data or <code>None</code> for object data.</p>
-<div id="e5c76efd" class="cell" data-execution_count="15">
+<div id="834fab9b" class="cell" data-execution_count="15">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Identify missing values</span></span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Missing values per column:"</span>)</span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df.isnull().<span class="bu">sum</span>())</span>
@@ -886,7 +886,7 @@ Rows with any missing data: 100</code></pre>
 <section id="analyzing-missingness-patterns" class="level3">
 <h3 class="anchored" data-anchor-id="analyzing-missingness-patterns">4.1.1 Analyzing Missingness Patterns</h3>
 <p>Understanding why data is missing is crucial:</p>
-<div id="945418ce" class="cell" data-execution_count="16">
+<div id="ab9a637c" class="cell" data-execution_count="16">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Analyze missingness by bike type</span></span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>missing_by_type <span class="op">=</span> df.groupby(<span class="st">'rideable_type'</span>).agg({</span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'start_station_name'</span>: <span class="kw">lambda</span> x: x.isnull().<span class="bu">sum</span>(),</span>
@@ -918,7 +918,7 @@ Observation: Dockless bikes (electric) have more missing station data</code></pr
 <section id="strategies-for-missing-data" class="level3">
 <h3 class="anchored" data-anchor-id="strategies-for-missing-data">4.1.2 Strategies for Missing Data</h3>
 <p>Different strategies for different contexts:</p>
-<div id="7191a582" class="cell" data-execution_count="17">
+<div id="5eb90cf7" class="cell" data-execution_count="17">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Strategy 1: Drop rows with missing values</span></span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>df_dropped <span class="op">=</span> df.dropna(subset<span class="op">=</span>[<span class="st">'start_station_name'</span>])</span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Original rows: </span><span class="sc">{</span><span class="bu">len</span>(df)<span class="sc">}</span><span class="ss">, After dropping: </span><span class="sc">{</span><span class="bu">len</span>(df_dropped)<span class="sc">}</span><span class="ss">"</span>)</span>
@@ -946,7 +946,7 @@ Rows with 'Unknown' start station: 47</code></pre>
 <section id="intelligent-missing-data-handling" class="level3">
 <h3 class="anchored" data-anchor-id="intelligent-missing-data-handling">4.1.3 Intelligent Missing Data Handling</h3>
 <p>For the Divvy dataset, we recognize that missing station names for electric bikes is meaningful:</p>
-<div id="4959a506" class="cell" data-execution_count="18">
+<div id="33a4de1f" class="cell" data-execution_count="18">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a flag for dockless trips</span></span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'is_dockless'</span>] <span class="op">=</span> df[<span class="st">'start_station_name'</span>].isnull() <span class="op">&amp;</span> df[<span class="st">'end_station_name'</span>].isnull()</span>
 <span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -985,7 +985,7 @@ Name: count, dtype: int64</code></pre>
 <section id="data-type-conversions" class="level2">
 <h2 class="anchored" data-anchor-id="data-type-conversions">4.2 Data Type Conversions</h2>
 <p>Correct data types are essential for proper analysis:</p>
-<div id="74cdeffc" class="cell" data-execution_count="19">
+<div id="a114aaca" class="cell" data-execution_count="19">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check current data types</span></span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Current data types:"</span>)</span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df.dtypes)</span>
@@ -1036,7 +1036,7 @@ dtype: object</code></pre>
 <section id="memory-optimization" class="level3">
 <h3 class="anchored" data-anchor-id="memory-optimization">4.2.1 Memory Optimization</h3>
 <p>Categorical types can significantly reduce memory usage:</p>
-<div id="8dfd336a" class="cell" data-execution_count="20">
+<div id="e0c95a61" class="cell" data-execution_count="20">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare memory usage</span></span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>df_original_memory <span class="op">=</span> df_original.memory_usage(deep<span class="op">=</span><span class="va">True</span>).<span class="bu">sum</span>()</span>
 <span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>df_optimized_memory <span class="op">=</span> df.memory_usage(deep<span class="op">=</span><span class="va">True</span>).<span class="bu">sum</span>()</span>
@@ -1054,7 +1054,7 @@ Reduction: 29.4%</code></pre>
 </section>
 <section id="duplicate-detection-and-removal" class="level2">
 <h2 class="anchored" data-anchor-id="duplicate-detection-and-removal">4.3 Duplicate Detection and Removal</h2>
-<div id="373b8af1" class="cell" data-execution_count="21">
+<div id="6e4e381f" class="cell" data-execution_count="21">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check for duplicate ride IDs</span></span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>duplicate_ids <span class="op">=</span> df[<span class="st">'ride_id'</span>].duplicated().<span class="bu">sum</span>()</span>
 <span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Duplicate ride IDs: </span><span class="sc">{</span>duplicate_ids<span class="sc">}</span><span class="ss">"</span>)</span>
@@ -1085,7 +1085,7 @@ Rows after removing duplicate ride IDs: 100</code></pre>
 <section id="datetime-parsing-and-extraction" class="level2">
 <h2 class="anchored" data-anchor-id="datetime-parsing-and-extraction">5.1 DateTime Parsing and Extraction</h2>
 <p>Working with temporal data is central to time-series analysis:</p>
-<div id="901d4ae6" class="cell" data-execution_count="22">
+<div id="0e4de86e" class="cell" data-execution_count="22">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensure datetime types</span></span>
 <span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'started_at'</span>] <span class="op">=</span> pd.to_datetime(df[<span class="st">'started_at'</span>])</span>
 <span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'ended_at'</span>] <span class="op">=</span> pd.to_datetime(df[<span class="st">'ended_at'</span>])</span>
@@ -1113,7 +1113,7 @@ Rows after removing duplicate ride IDs: 100</code></pre>
 <section id="time-differences" class="level3">
 <h3 class="anchored" data-anchor-id="time-differences">5.1.1 Time Differences</h3>
 <p>Calculate duration and intervals:</p>
-<div id="458bb7e4" class="cell" data-execution_count="23">
+<div id="ca99e6aa" class="cell" data-execution_count="23">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate trip duration</span></span>
 <span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'duration_minutes'</span>] <span class="op">=</span> (df[<span class="st">'ended_at'</span>] <span class="op">-</span> df[<span class="st">'started_at'</span>]).dt.total_seconds() <span class="op">/</span> <span class="dv">60</span></span>
 <span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1153,7 +1153,7 @@ Name: count, dtype: int64</code></pre>
 </section>
 <section id="time-based-filtering" class="level3">
 <h3 class="anchored" data-anchor-id="time-based-filtering">5.1.2 Time-Based Filtering</h3>
-<div id="fcebeab6" class="cell" data-execution_count="24">
+<div id="659955f0" class="cell" data-execution_count="24">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter by time of day</span></span>
 <span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>morning_rush <span class="op">=</span> df[(df[<span class="st">'hour'</span>] <span class="op">&gt;=</span> <span class="dv">7</span>) <span class="op">&amp;</span> (df[<span class="st">'hour'</span>] <span class="op">&lt;=</span> <span class="dv">9</span>)]</span>
 <span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Morning rush hour trips (7-9am): </span><span class="sc">{</span><span class="bu">len</span>(morning_rush)<span class="sc">}</span><span class="ss">"</span>)</span>
@@ -1175,7 +1175,7 @@ First week of May trips: 100</code></pre>
 <section id="time-based-resampling" class="level3">
 <h3 class="anchored" data-anchor-id="time-based-resampling">5.1.3 Time-Based Resampling</h3>
 <p>For time-series analysis:</p>
-<div id="a7e60b3f" class="cell" data-execution_count="25">
+<div id="f9fee2f3" class="cell" data-execution_count="25">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Set datetime as index for resampling</span></span>
 <span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>df_indexed <span class="op">=</span> df.set_index(<span class="st">'started_at'</span>).sort_index()</span>
 <span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1239,7 +1239,7 @@ started_at
 <section id="arithmetic-operations" class="level2">
 <h2 class="anchored" data-anchor-id="arithmetic-operations">6.1 Arithmetic Operations</h2>
 <p>Create new columns through calculations:</p>
-<div id="2d77c933" class="cell" data-execution_count="26">
+<div id="0817752e" class="cell" data-execution_count="26">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate approximate distance (simplified)</span></span>
 <span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'lat_diff'</span>] <span class="op">=</span> <span class="bu">abs</span>(df[<span class="st">'end_lat'</span>] <span class="op">-</span> df[<span class="st">'start_lat'</span>])</span>
 <span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'lng_diff'</span>] <span class="op">=</span> <span class="bu">abs</span>(df[<span class="st">'end_lng'</span>] <span class="op">-</span> df[<span class="st">'start_lng'</span>])</span>
@@ -1282,7 +1282,7 @@ Name: avg_speed, dtype: float64</code></pre>
 <section id="conditional-variables" class="level2">
 <h2 class="anchored" data-anchor-id="conditional-variables">6.2 Conditional Variables</h2>
 <p>Use np.where or pd.cut for conditional logic:</p>
-<div id="c354b8da" class="cell" data-execution_count="27">
+<div id="48067c7d" class="cell" data-execution_count="27">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Binary classification with np.where</span></span>
 <span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'is_long_trip'</span>] <span class="op">=</span> np.where(df[<span class="st">'duration_minutes'</span>] <span class="op">&gt;</span> <span class="dv">30</span>, <span class="va">True</span>, <span class="va">False</span>)</span>
 <span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1320,7 +1320,7 @@ Name: count, dtype: int64</code></pre>
 <section id="string-operations" class="level2">
 <h2 class="anchored" data-anchor-id="string-operations">6.3 String Operations</h2>
 <p>Pandas provides vectorized string operations:</p>
-<div id="c48bd96a" class="cell" data-execution_count="28">
+<div id="7bc217e2" class="cell" data-execution_count="28">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="co"># String methods on Series</span></span>
 <span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'station_clean'</span>] <span class="op">=</span> df[<span class="st">'start_station_name'</span>].<span class="bu">str</span>.replace(<span class="st">' &amp; '</span>, <span class="st">' and '</span>, regex<span class="op">=</span><span class="va">False</span>)</span>
 <span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'station_upper'</span>] <span class="op">=</span> df[<span class="st">'start_station_name'</span>].<span class="bu">str</span>.upper()</span>
@@ -1363,7 +1363,7 @@ Name: count, dtype: int64</code></pre>
 <section id="groupby-basics" class="level2">
 <h2 class="anchored" data-anchor-id="groupby-basics">7.1 GroupBy Basics</h2>
 <p>The split-apply-combine pattern is fundamental to data analysis:</p>
-<div id="0ae7ed47" class="cell" data-execution_count="29">
+<div id="7aa3789c" class="cell" data-execution_count="29">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Group by single column</span></span>
 <span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>by_rider_type <span class="op">=</span> df.groupby(<span class="st">'member_casual'</span>)[<span class="st">'duration_minutes'</span>].mean()</span>
 <span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Average duration by rider type:"</span>)</span>
@@ -1395,7 +1395,7 @@ member             70        33.683865  34.299195  16.315320           40</code>
 </div>
 <section id="groupby-with-multiple-keys" class="level3">
 <h3 class="anchored" data-anchor-id="groupby-with-multiple-keys">7.1.1 GroupBy with Multiple Keys</h3>
-<div id="e8aae5b4" class="cell" data-execution_count="30">
+<div id="91a9e2db" class="cell" data-execution_count="30">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Group by multiple columns</span></span>
 <span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>type_rider_stats <span class="op">=</span> df.groupby([<span class="st">'rideable_type'</span>, <span class="st">'member_casual'</span>]).agg({</span>
 <span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'ride_id'</span>: <span class="st">'count'</span>,</span>
@@ -1431,7 +1431,7 @@ electric_scooter       3      6            24.30  34.44</code></pre>
 </section>
 <section id="custom-aggregation-functions" class="level3">
 <h3 class="anchored" data-anchor-id="custom-aggregation-functions">7.1.2 Custom Aggregation Functions</h3>
-<div id="6bd2aa26" class="cell" data-execution_count="31">
+<div id="33b31a14" class="cell" data-execution_count="31">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb60"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define custom function</span></span>
 <span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> duration_range(series):</span>
 <span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Calculate range of duration values"""</span></span>
@@ -1477,7 +1477,7 @@ electric_scooter           43.891  0.545</code></pre>
 <section id="transform-and-filter" class="level2">
 <h2 class="anchored" data-anchor-id="transform-and-filter">7.2 Transform and Filter</h2>
 <p>Beyond aggregation, groupby supports transform and filter:</p>
-<div id="d9ab4a18" class="cell" data-execution_count="32">
+<div id="293eef38" class="cell" data-execution_count="32">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb62"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Transform: create group-level statistics for each row</span></span>
 <span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'group_mean_duration'</span>] <span class="op">=</span> df.groupby(<span class="st">'member_casual'</span>)[<span class="st">'duration_minutes'</span>].transform(<span class="st">'mean'</span>)</span>
 <span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'duration_vs_group'</span>] <span class="op">=</span> df[<span class="st">'duration_minutes'</span>] <span class="op">-</span> df[<span class="st">'group_mean_duration'</span>]</span>
@@ -1508,7 +1508,7 @@ Stations with average duration &gt; 25 minutes: 4</code></pre>
 <section id="pivot-tables" class="level2">
 <h2 class="anchored" data-anchor-id="pivot-tables">7.3 Pivot Tables</h2>
 <p>Pivot tables provide multi-dimensional aggregation:</p>
-<div id="268e4a2c" class="cell" data-execution_count="33">
+<div id="aa0d6745" class="cell" data-execution_count="33">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb64"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Basic pivot table</span></span>
 <span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a>pivot_duration <span class="op">=</span> df.pivot_table(</span>
 <span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a>    values<span class="op">=</span><span class="st">'duration_minutes'</span>,</span>
@@ -1550,7 +1550,7 @@ electric_scooter            0.04   0.05            24.30  34.44</code></pre>
 </div>
 <section id="advanced-pivot-options" class="level3">
 <h3 class="anchored" data-anchor-id="advanced-pivot-options">7.3.1 Advanced Pivot Options</h3>
-<div id="0475c1f8" class="cell" data-execution_count="34">
+<div id="cacf03ef" class="cell" data-execution_count="34">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb66"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Multiple aggregation functions</span></span>
 <span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a>pivot_agg <span class="op">=</span> df.pivot_table(</span>
 <span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a>    values<span class="op">=</span><span class="st">'duration_minutes'</span>,</span>
@@ -1602,7 +1602,7 @@ Overall         29.34   33.68    32.38</code></pre>
 <section id="concatenation" class="level2">
 <h2 class="anchored" data-anchor-id="concatenation">8.1 Concatenation</h2>
 <p>Combine DataFrames vertically or horizontally:</p>
-<div id="7b84b0cd" class="cell" data-execution_count="35">
+<div id="8ae027b1" class="cell" data-execution_count="35">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb68"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create sample DataFrames</span></span>
 <span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a>df1 <span class="op">=</span> df.iloc[:<span class="dv">30</span>][[<span class="st">'ride_id'</span>, <span class="st">'duration_minutes'</span>, <span class="st">'member_casual'</span>]]</span>
 <span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a>df2 <span class="op">=</span> df.iloc[<span class="dv">30</span>:<span class="dv">60</span>][[<span class="st">'ride_id'</span>, <span class="st">'duration_minutes'</span>, <span class="st">'member_casual'</span>]]</span>
@@ -1634,7 +1634,7 @@ Concatenated horizontally:
 <section id="merge-operations" class="level2">
 <h2 class="anchored" data-anchor-id="merge-operations">8.2 Merge Operations</h2>
 <p>SQL-style joins:</p>
-<div id="e16330e3" class="cell" data-execution_count="36">
+<div id="be0e8524" class="cell" data-execution_count="36">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb70"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create station metadata</span></span>
 <span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>stations <span class="op">=</span> pd.DataFrame({</span>
 <span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'station_name'</span>: [<span class="st">'Clark St &amp; Elm St'</span>, <span class="st">'Broadway &amp; Barry Ave'</span>, </span>
@@ -1681,7 +1681,7 @@ Merged data: 100 rows
 </div>
 <section id="merge-types" class="level3">
 <h3 class="anchored" data-anchor-id="merge-types">8.2.1 Merge Types</h3>
-<div id="100de19b" class="cell" data-execution_count="37">
+<div id="ea3749d1" class="cell" data-execution_count="37">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb72"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create sample data</span></span>
 <span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a>trips_sample <span class="op">=</span> pd.DataFrame({</span>
 <span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'ride_id'</span>: [<span class="st">'R001'</span>, <span class="st">'R002'</span>, <span class="st">'R003'</span>, <span class="st">'R004'</span>],</span>
@@ -1733,7 +1733,7 @@ Outer join (all from both):
 </section>
 <section id="handling-missing-data-after-merge" class="level2">
 <h2 class="anchored" data-anchor-id="handling-missing-data-after-merge">8.3 Handling Missing Data After Merge</h2>
-<div id="31517964" class="cell" data-execution_count="38">
+<div id="d3569ea1" class="cell" data-execution_count="38">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb74"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="co"># After left join, fill missing capacity with default</span></span>
 <span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a>df_merged[<span class="st">'capacity'</span>] <span class="op">=</span> df_merged[<span class="st">'capacity'</span>].fillna(<span class="dv">10</span>)</span>
 <span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1759,7 +1759,7 @@ Trips without station metadata: 47</code></pre>
 <section id="stack-and-unstack" class="level2">
 <h2 class="anchored" data-anchor-id="stack-and-unstack">9.1 Stack and Unstack</h2>
 <p>Transform between wide and long formats:</p>
-<div id="34168928" class="cell" data-execution_count="39">
+<div id="bb6f581b" class="cell" data-execution_count="39">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb76"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create wide format</span></span>
 <span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a>wide_data <span class="op">=</span> df.pivot_table(</span>
 <span id="cb76-3"><a href="#cb76-3" aria-hidden="true" tabindex="-1"></a>    values<span class="op">=</span><span class="st">'duration_minutes'</span>,</span>
@@ -1810,7 +1810,7 @@ electric_scooter   24.30   34.44</code></pre>
 <section id="melt" class="level2">
 <h2 class="anchored" data-anchor-id="melt">9.2 Melt</h2>
 <p>Convert from wide to long format:</p>
-<div id="64d846fa" class="cell" data-execution_count="40">
+<div id="868c7d91" class="cell" data-execution_count="40">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb78"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create wide format data</span></span>
 <span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a>daily_counts <span class="op">=</span> df.groupby([df[<span class="st">'started_at'</span>].dt.date, <span class="st">'member_casual'</span>]).size().unstack(fill_value<span class="op">=</span><span class="dv">0</span>)</span>
 <span id="cb78-3"><a href="#cb78-3" aria-hidden="true" tabindex="-1"></a>daily_counts <span class="op">=</span> daily_counts.reset_index().head()</span>
@@ -1859,7 +1859,7 @@ Long format:
 <section id="range-checks" class="level2">
 <h2 class="anchored" data-anchor-id="range-checks">10.1 Range Checks</h2>
 <p>Validate that values fall within expected ranges:</p>
-<div id="c41a4718" class="cell" data-execution_count="41">
+<div id="6be1135d" class="cell" data-execution_count="41">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb80"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check latitude/longitude ranges for Chicago</span></span>
 <span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a>lat_valid <span class="op">=</span> df[<span class="st">'start_lat'</span>].between(<span class="fl">41.6</span>, <span class="fl">42.1</span>)</span>
 <span id="cb80-3"><a href="#cb80-3" aria-hidden="true" tabindex="-1"></a>lng_valid <span class="op">=</span> df[<span class="st">'start_lng'</span>].between(<span class="op">-</span><span class="fl">87.8</span>, <span class="op">-</span><span class="fl">87.5</span>)</span>
@@ -1887,7 +1887,7 @@ Rows with invalid locations: 0</code></pre>
 <section id="consistency-checks" class="level2">
 <h2 class="anchored" data-anchor-id="consistency-checks">10.2 Consistency Checks</h2>
 <p>Verify logical consistency:</p>
-<div id="c7471cfa" class="cell" data-execution_count="42">
+<div id="2587bdb0" class="cell" data-execution_count="42">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb82"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check that end time is after start time</span></span>
 <span id="cb82-2"><a href="#cb82-2" aria-hidden="true" tabindex="-1"></a>time_consistent <span class="op">=</span> df[<span class="st">'ended_at'</span>] <span class="op">&gt;</span> df[<span class="st">'started_at'</span>]</span>
 <span id="cb82-3"><a href="#cb82-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Trips with end time before start time: </span><span class="sc">{</span>(<span class="op">~</span>time_consistent)<span class="sc">.</span><span class="bu">sum</span>()<span class="sc">}</span><span class="ss">"</span>)</span>
@@ -1910,7 +1910,7 @@ Trips with station but missing coordinates: 0</code></pre>
 <section id="outlier-detection" class="level2">
 <h2 class="anchored" data-anchor-id="outlier-detection">10.3 Outlier Detection</h2>
 <p>Identify unusual values:</p>
-<div id="c371096b" class="cell" data-execution_count="43">
+<div id="f667c0f7" class="cell" data-execution_count="43">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb84"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Using IQR method</span></span>
 <span id="cb84-2"><a href="#cb84-2" aria-hidden="true" tabindex="-1"></a>Q1 <span class="op">=</span> df[<span class="st">'duration_minutes'</span>].quantile(<span class="fl">0.25</span>)</span>
 <span id="cb84-3"><a href="#cb84-3" aria-hidden="true" tabindex="-1"></a>Q3 <span class="op">=</span> df[<span class="st">'duration_minutes'</span>].quantile(<span class="fl">0.75</span>)</span>
@@ -1939,7 +1939,7 @@ Duration outliers (z-score &gt; 3): 0</code></pre>
 </section>
 <section id="sorting-and-ranking" class="level1">
 <h1>11. Sorting and Ranking</h1>
-<div id="db370a67" class="cell" data-execution_count="44">
+<div id="eda3922d" class="cell" data-execution_count="44">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb86"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Sort by single column</span></span>
 <span id="cb86-2"><a href="#cb86-2" aria-hidden="true" tabindex="-1"></a>df_sorted <span class="op">=</span> df.sort_values(<span class="st">'duration_minutes'</span>, ascending<span class="op">=</span><span class="va">False</span>)</span>
 <span id="cb86-3"><a href="#cb86-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Top 5 longest trips:"</span>)</span>
@@ -1987,7 +1987,7 @@ Duration rankings:
 </section>
 <section id="window-functions-and-rolling-calculations" class="level1">
 <h1>12. Window Functions and Rolling Calculations</h1>
-<div id="66c560e0" class="cell" data-execution_count="45">
+<div id="bb5723f3" class="cell" data-execution_count="45">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb88"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Sort by time for time-series operations</span></span>
 <span id="cb88-2"><a href="#cb88-2" aria-hidden="true" tabindex="-1"></a>df_time <span class="op">=</span> df.sort_values(<span class="st">'started_at'</span>).reset_index(drop<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb88-3"><a href="#cb88-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -2038,7 +2038,7 @@ Cumulative average duration:
 </section>
 <section id="working-with-categorical-data" class="level1">
 <h1>13. Working with Categorical Data</h1>
-<div id="9c7078ce" class="cell" data-execution_count="46">
+<div id="547106df" class="cell" data-execution_count="46">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb90"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Benefits of categorical type</span></span>
 <span id="cb90-2"><a href="#cb90-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Memory usage comparison:"</span>)</span>
 <span id="cb90-3"><a href="#cb90-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Object type: </span><span class="sc">{</span>df_original[<span class="st">'member_casual'</span>]<span class="sc">.</span>memory_usage(deep<span class="op">=</span><span class="va">True</span>)<span class="sc">:,}</span><span class="ss"> bytes"</span>)</span>
@@ -2086,7 +2086,7 @@ Index(['member', 'casual', 'guest'], dtype='str')</code></pre>
 <section id="vectorization" class="level2">
 <h2 class="anchored" data-anchor-id="vectorization">14.1 Vectorization</h2>
 <p>Always prefer vectorized operations over loops:</p>
-<div id="f1f29c94" class="cell" data-execution_count="47">
+<div id="863bead9" class="cell" data-execution_count="47">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb92"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
 <span id="cb92-2"><a href="#cb92-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb92-3"><a href="#cb92-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create larger sample</span></span>
@@ -2109,14 +2109,14 @@ Index(['member', 'casual', 'guest'], dtype='str')</code></pre>
 <span id="cb92-20"><a href="#cb92-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Loop time: </span><span class="sc">{</span>loop_time<span class="sc">:.4f}</span><span class="ss"> seconds"</span>)</span>
 <span id="cb92-21"><a href="#cb92-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Vectorized time: </span><span class="sc">{</span>vectorized_time<span class="sc">:.4f}</span><span class="ss"> seconds"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Loop time: 0.0025 seconds
+<pre><code>Loop time: 0.0018 seconds
 Vectorized time: 0.0002 seconds</code></pre>
 </div>
 </div>
 </section>
 <section id="efficient-data-types" class="level2">
 <h2 class="anchored" data-anchor-id="efficient-data-types">14.2 Efficient Data Types</h2>
-<div id="76ba3aeb" class="cell" data-execution_count="48">
+<div id="d2be8014" class="cell" data-execution_count="48">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb94"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Optimize numeric types</span></span>
 <span id="cb94-2"><a href="#cb94-2" aria-hidden="true" tabindex="-1"></a>df_optimized <span class="op">=</span> df_original.copy()</span>
 <span id="cb94-3"><a href="#cb94-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -2146,7 +2146,7 @@ Optimized: 24,978 bytes</code></pre>
 <section id="query-method" class="level2">
 <h2 class="anchored" data-anchor-id="query-method">14.3 Query Method</h2>
 <p>Use query for readable filtering:</p>
-<div id="4ad76792" class="cell" data-execution_count="49">
+<div id="defb658d" class="cell" data-execution_count="49">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb96"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Traditional filtering</span></span>
 <span id="cb96-2"><a href="#cb96-2" aria-hidden="true" tabindex="-1"></a>result1 <span class="op">=</span> df[(df[<span class="st">'member_casual'</span>] <span class="op">==</span> <span class="st">'member'</span>) <span class="op">&amp;</span> (df[<span class="st">'duration_minutes'</span>] <span class="op">&gt;</span> <span class="dv">20</span>)]</span>
 <span id="cb96-3"><a href="#cb96-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -2174,7 +2174,7 @@ Query with variable: 71 rows</code></pre>
 <section id="chunking" class="level2">
 <h2 class="anchored" data-anchor-id="chunking">15.1 Chunking</h2>
 <p>Read large files in chunks:</p>
-<div id="1a729a56" class="cell" data-execution_count="50">
+<div id="a73e7ac1" class="cell" data-execution_count="50">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb98"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb98-1"><a href="#cb98-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example: reading in chunks (not executed)</span></span>
 <span id="cb98-2"><a href="#cb98-2" aria-hidden="true" tabindex="-1"></a>chunk_size <span class="op">=</span> <span class="dv">10000</span></span>
 <span id="cb98-3"><a href="#cb98-3" aria-hidden="true" tabindex="-1"></a>chunks <span class="op">=</span> []</span>
@@ -2191,7 +2191,7 @@ Query with variable: 71 rows</code></pre>
 <section id="sampling" class="level2">
 <h2 class="anchored" data-anchor-id="sampling">15.2 Sampling</h2>
 <p>Work with representative samples:</p>
-<div id="dcfeef03" class="cell" data-execution_count="51">
+<div id="c053c7a8" class="cell" data-execution_count="51">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb99"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Random sample</span></span>
 <span id="cb99-2"><a href="#cb99-2" aria-hidden="true" tabindex="-1"></a>sample_df <span class="op">=</span> df.sample(n<span class="op">=</span><span class="dv">20</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
 <span id="cb99-3"><a href="#cb99-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Random sample of </span><span class="sc">{</span><span class="bu">len</span>(sample_df)<span class="sc">}</span><span class="ss"> rows"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -2204,7 +2204,7 @@ Query with variable: 71 rows</code></pre>
 <section id="visualization-with-pandas" class="level1">
 <h1>16. Visualization with Pandas</h1>
 <p>Pandas provides built-in plotting capabilities:</p>
-<div id="76ba5733" class="cell" data-execution_count="52">
+<div id="a40ad729" class="cell" data-execution_count="52">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb101"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb101-1"><a href="#cb101-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Line plot</span></span>
 <span id="cb101-2"><a href="#cb101-2" aria-hidden="true" tabindex="-1"></a>daily_counts <span class="op">=</span> df.groupby(df[<span class="st">'started_at'</span>].dt.date).size()</span>
 <span id="cb101-3"><a href="#cb101-3" aria-hidden="true" tabindex="-1"></a>daily_counts_series <span class="op">=</span> pd.Series(daily_counts.values, index<span class="op">=</span>pd.to_datetime(daily_counts.index))</span>
@@ -2241,7 +2241,7 @@ Query with variable: 71 rows</code></pre>
 </div>
 </div>
 </div>
-<div id="d9b7944f" class="cell" data-execution_count="53">
+<div id="ab5783f0" class="cell" data-execution_count="53">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb102"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb102-1"><a href="#cb102-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Histogram</span></span>
 <span id="cb102-2"><a href="#cb102-2" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">5</span>))</span>
 <span id="cb102-3"><a href="#cb102-3" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'duration_minutes'</span>].hist(bins<span class="op">=</span><span class="dv">30</span>, ax<span class="op">=</span>ax, edgecolor<span class="op">=</span><span class="st">'black'</span>)</span>
@@ -2278,7 +2278,7 @@ Query with variable: 71 rows</code></pre>
 </section>
 <section id="export-data" class="level1">
 <h1>17. Export Data</h1>
-<div id="17991534" class="cell" data-execution_count="54">
+<div id="257eda33" class="cell" data-execution_count="54">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb103"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb103-1"><a href="#cb103-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Export to CSV</span></span>
 <span id="cb103-2"><a href="#cb103-2" aria-hidden="true" tabindex="-1"></a>df.to_csv(<span class="st">'divvy_processed.csv'</span>, index<span class="op">=</span><span class="va">False</span>)</span>
 <span id="cb103-3"><a href="#cb103-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Exported to CSV"</span>)</span>
