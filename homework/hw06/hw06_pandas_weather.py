@@ -2,8 +2,6 @@
 PANDAS HOMEWORK: A MONTH OF WEATHER ACROSS U.S. CITIES
 =====================================================
 
-Estimated time: 3-5 hours
-Libraries: pandas, NumPy, matplotlib
 Tested with: pandas 3.0.6
 
 Purpose
@@ -12,13 +10,21 @@ Practice the core ideas from the pandas "10 minutes to pandas" guide:
 Series and DataFrames, selection, missing values, new columns, merging,
 groupby, lambda functions, dates, plotting, and CSV import/export.
 
+You may want to refer to the guide throughout the assignment.
+I suggest that you have it open for reference:
+    https://pandas.pydata.org/docs/user_guide/10min.html
+
+
 How to use this file
 --------------------
 1. Read the short explanations before each section.
 2. Fill in every TODO. Do not simply copy outputs from the prompt.
 3. Run the script regularly. Inspect small results with print().
 4. Answer the interpretation questions in comments where indicated.
-5. Keep your code readable; short explanatory comments are welcome.
+5. Keep your code readable; short explanatory comments (using #) are welcome.
+6. Consider using git to track your file. You could, for example, commit changes
+    after every exercise, or you could do so at the end of the day. Regardless of 
+    when you commit, it's good practice to do so regularly.
 
 The data are fictional but designed to look like plausible weather observations.
 The setup section creates two CSV files in the current working directory:
@@ -101,13 +107,13 @@ city_info_seed.to_csv("city_info.csv", index=False)
 
 
 # ---------------------------------------------------------------------------
-# PART 1. LOAD, INSPECT, AND CREATE PANDAS OBJECTS (about 25 minutes)
+# PART 1. LOAD, INSPECT, AND CREATE PANDAS OBJECTS
 # ---------------------------------------------------------------------------
 # A Series is a one-dimensional labeled object. A DataFrame is a two-dimensional
 # labeled table. They resemble NumPy arrays, but carry index/column labels.
 
 # TODO 1A: Read weather_raw.csv into a DataFrame named weather.
-# Hint: pd.read_csv("weather_raw.csv")
+# Hint: pd.read_csv(<filename>)
 weather = None  # replace this line
 
 # TODO 1B: Read city_info.csv into a DataFrame named city_info.
@@ -138,13 +144,16 @@ print("\n--- PART 1: INSPECT THE DATA ---")
 
 
 # ---------------------------------------------------------------------------
-# PART 2. SELECTING DATA: [] AND .loc (about 35 minutes)
+# PART 2. SELECTING DATA: [] AND .loc
 # ---------------------------------------------------------------------------
 # In pandas, [] is an indexing operator. The object inside [] determines what
 # is selected. For example, weather["city"] selects one column as a Series,
 # while weather[["city", "high_temp"]] selects multiple columns as a DataFrame.
+# Note that, in the latter example, the inner brackets [] denote the python list
+# ["city", "high_temp"], while the outer brackets denote the indexing operation.
 #
 # .loc selects by LABEL: weather.loc[row_label, column_label].
+# Just like in linear algebra, rows first and then columns.
 # .iloc selects by INTEGER POSITION. You may use it as a comparison, but focus
 # on [] and .loc in this assignment.
 
@@ -181,7 +190,7 @@ print("\n--- PART 2: SELECTING DATA ---")
 
 
 # ---------------------------------------------------------------------------
-# PART 3. MISSING VALUES AND NEW COLUMNS (about 35 minutes)
+# PART 3. MISSING VALUES AND NEW COLUMNS
 # ---------------------------------------------------------------------------
 # Missing numeric data are commonly represented by NaN. Pandas has methods such
 # as isna(), dropna(), fillna(), and notna(). Choose a missing-data treatment
@@ -224,13 +233,18 @@ print("\n--- PART 3: MISSING VALUES AND NEW COLUMNS ---")
 
 
 # ---------------------------------------------------------------------------
-# PART 4. MERGING TWO DATAFRAMES (about 30 minutes)
+# PART 4. MERGING TWO DATAFRAMES
 # ---------------------------------------------------------------------------
 # We have one row per city-day in weather_work and one row per city in city_info.
 # A merge matches rows whose key columns have the same value. Here, "city" is
 # the shared key. This is similar to looking up each city's region and elevation
 # and attaching those details to every weather observation for that city.
 #
+# A merge command will always involve the merging of two DataFrames, e.g., merge(dfl, dfr)
+# So there will always be a left-hand table/DataFrame and a right-hand table/DataFrame.
+# In my example, 'dfl' is the left-hand frame and 'dfr' is the right-hand frame.
+
+# There are several ways of merging. For now, we just mention a "left" merge:
 # A left merge keeps every row from the left-hand table and adds matching
 # columns from the right-hand table. The "validate" argument checks the expected
 # relationship: many weather rows can match one city_info row ("many_to_one").
@@ -238,7 +252,7 @@ print("\n--- PART 3: MISSING VALUES AND NEW COLUMNS ---")
 print("\n--- PART 4: MERGING ---")
 
 # TODO 4A: Merge weather_work (left) with city_info (right) on "city" using
-# how="left" and validate="many_to_one". Name the result weather_full.
+# how="left" and validate="many_to_one" as function arguments. Name the result weather_full.
 # YOUR CODE HERE
 
 # TODO 4B: Print the first 6 rows of weather_full, its shape, and the columns.
@@ -254,11 +268,16 @@ print("\n--- PART 4: MERGING ---")
 
 
 # ---------------------------------------------------------------------------
-# PART 5. GROUPBY: SUMMARIZE SUBSETS OF THE DATA (about 45 minutes)
+# PART 5. GROUPBY: SUMMARIZE SUBSETS OF THE DATA
 # ---------------------------------------------------------------------------
-# groupby("city") divides the rows into groups with the same city. Selecting
-# ["high_temp"] then chooses the high_temp Series within each group. Calling
-# .mean() calculates a mean separately for each group.
+# We talked in class about how df.groupby('A') partitions the DataFrame df 
+# into a set of sub-DataFrames based on the unique values in the column/Series df['A']
+# One then does some aggregation operation, e.g., mean(), on each of the sub-DataFrames,
+# before combining the results into a single new frame.
+
+# In our example, groupby("city") divides the rows into groups with the same city. 
+# Selecting ["high_temp"] then chooses the high_temp Series within each group. 
+# Calling .mean() calculates a mean separately for each group.
 #
 # Thus: weather_full.groupby("city")["high_temp"].mean()
 # is like calculating high_temp.mean(), but separately for each city.
@@ -296,9 +315,9 @@ print("\n--- PART 5: GROUPBY ---")
 
 
 # ---------------------------------------------------------------------------
-# PART 6. DATES AND A SHORT TIME-SERIES EXERCISE (about 35 minutes)
+# PART 6. DATES AND A SHORT TIME-SERIES EXERCISE
 # ---------------------------------------------------------------------------
-# The CSV stores dates as text by default. Convert the date column to pandas'
+# The CSV stores dates as text by default. Convert the date column to pandas's
 # datetime dtype before doing date-based operations. Dates are not just strings:
 # a datetime dtype makes chronological filtering and plotting easier.
 
@@ -323,10 +342,12 @@ print("\n--- PART 6: DATES ---")
 
 
 # ---------------------------------------------------------------------------
-# PART 7. PLOTS (about 25 minutes)
+# PART 7. PLOTS
 # ---------------------------------------------------------------------------
 # A plot can reveal patterns that are hard to see in a table. Label axes and
-# give each plot a title. These plots need not be fancy.
+# give each plot a title. These plots need not be fancy. We use matplotlib or
+# seaborn or plotly to create fancy plots; pandas plots are usually just used
+# for exploring a new data set.
 
 print("\n--- PART 7: PLOTS ---")
 
@@ -347,7 +368,7 @@ print("\n--- PART 7: PLOTS ---")
 
 
 # ---------------------------------------------------------------------------
-# PART 8. EXPORT, RELOAD, AND WRAP-UP (about 15 minutes)
+# PART 8. EXPORT, RELOAD, AND WRAP-UP
 # ---------------------------------------------------------------------------
 # to_csv() exports a DataFrame. read_csv() imports it again. index=False avoids
 # writing the DataFrame's row labels as an extra column unless you explicitly
@@ -366,11 +387,5 @@ print("\n--- PART 8: EXPORT AND RELOAD ---")
 # TODO 8C: Print reloaded.head(), reloaded.shape, and reloaded.dtypes.
 # Confirm that the shape matches weather_full and that date is a datetime dtype.
 # YOUR CODE HERE
-
-# FINAL CHECK: Write 3–5 sentences in comments:
-#   1. What is one pandas operation you expect to use in another course?
-#   2. What is one distinction you now understand better (e.g., Series vs
-#      DataFrame, .loc vs .iloc, or merge vs groupby)?
-#   3. What is one question about pandas you still have?
 
 print("\nAssignment script reached the end. Review your outputs and written answers.")
