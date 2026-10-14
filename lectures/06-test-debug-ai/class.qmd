@@ -1,20 +1,3 @@
-Perfect! Let me create Lecture 6 materials with those specifications. I'll focus on:
-
-- **Testing**: Simple assertions demonstrating the concept
-- **Domain**: Data cleaning/validation functions (continuing from pandas)
-- **Debugging**: Print debugging and systematic reasoning
-- **AI Tools**: Conceptual discussion, instructor demonstrations
-- **Balance**: 40% testing, 30% debugging, 30% AI tools
-- **Central Question**: Weaving all three themes (B and C emphasized)
-- **ASCII only**: No fancy quotes or special characters
-
-Let me start with **class.qmd**:
-
----
-
-**class.qmd**
-
-```markdown
 ---
 title: "Lecture 6: Testing, Debugging, and AI-Assisted Programming"
 subtitle: "Ensuring Code Correctness in Data Analysis"
@@ -37,7 +20,7 @@ Today we'll learn three essential skills for trustworthy code:
 
 1. **Testing**: Writing simple checks that verify functions work correctly
 2. **Debugging**: Systematically finding and fixing problems when tests fail  
-3. **AI-Assisted Development**: Using ChatGPT and Copilot effectively while maintaining quality
+3. **AI-Assisted Development**: Using LLMs effectively while maintaining quality
 
 By the end of class, you'll be able to write functions with confidence, knowing they'll behave correctly even on edge cases. You'll have strategies for debugging when things go wrong. And you'll understand how to leverage AI tools productively while avoiding their pitfalls.
 
@@ -76,7 +59,7 @@ print(f"Result: {result}")
 
 The function crashes instead of returning `None` as intended. This is a **bug** -- the function doesn't meet its specification.
 
-### Just-in-Time Concept: Assertions and Tests
+### Assertions and Tests
 
 A **test** is code that checks whether a function produces the correct output for a given input. The simplest test uses Python's `assert` statement:
 
@@ -162,7 +145,7 @@ print("Passed: single value")
 
 All tests pass! The function now meets its specification.
 
-### Just-in-Time Concept: Test-Driven Development
+### Test-Driven Development
 
 A powerful approach is to **write tests before writing the function**:
 
@@ -232,7 +215,7 @@ assert result == expected, f"Expected {expected}, got {result}"
 print("Test passed: mixed data")
 ```
 
-### Just-in-Time Concept: Testing Edge Cases
+### Testing Edge Cases
 
 Good tests check **edge cases** -- unusual inputs where bugs often hide:
 
@@ -325,7 +308,7 @@ for i in range(len(expected)):
 print("Passed: known conversions")
 ```
 
-### Just-in-Time Concept: Testing Floating-Point Values
+### Testing Floating-Point Values
 
 Floating-point arithmetic is not exact due to binary representation. Instead of:
 
@@ -455,6 +438,7 @@ test_remove_missing_values()
 You're given a function that's supposed to calculate the median of temperature values, but it's producing wrong results:
 
 ```{python}
+#| error: true
 def calculate_median_buggy(values):
     """Calculate median of values."""
     sorted_values = sorted(values)
@@ -468,7 +452,7 @@ result = calculate_median_buggy(temps)
 print(f"Median: {result}")
 ```
 
-### Just-in-Time Concept: Print Debugging
+### Print Debugging
 
 The simplest debugging technique is strategic `print()` statements to inspect what's happening:
 
@@ -560,7 +544,7 @@ print(f"Range: {result}")
 print(f"Expected: {90 - 68} = 22")
 ```
 
-### Just-in-Time Concept: Loop Bounds Debugging
+### Loop Bounds Debugging
 
 When loops produce wrong results, check:
 
@@ -644,7 +628,7 @@ result = calculate_total_rainfall(rainfall)
 print(f"Total rainfall: {result}")
 ```
 
-### Just-in-Time Concept: Type Checking in Loops
+### Type Checking in Loops
 
 Add type checks to catch problems early:
 
@@ -716,7 +700,7 @@ print(f"Hot days: {result}")
 print(f"Expected: [1, 3, 5] (the indices)")
 ```
 
-### Just-in-Time Concept: Verifying Return Values
+### Verifying Return Values
 
 After computing a result, check:
 
@@ -797,7 +781,7 @@ Note: This requires an interactive Python session and is most useful for complex
 
 AI tools like ChatGPT and GitHub Copilot can accelerate coding, but they require critical evaluation. Let's discuss when they're most helpful:
 
-### Just-in-Time Concept: AI Tool Strengths and Limitations
+### AI Tool Strengths and Limitations
 
 **AI tools are good at:**
 
@@ -975,7 +959,7 @@ ma = moving_average(temps, window_size=3)
 print(f"Moving average: {ma}")
 ```
 
-### Just-in-Time Concept: Spotting Algorithmic Bugs
+### Spotting Algorithmic Bugs
 
 The function runs without error, but let's verify the results:
 
@@ -1118,7 +1102,7 @@ print("Interpolate:", fill_interpolate(temps))
 
 Based on today's exercises, here are principles for using AI tools effectively:
 
-### Just-in-Time Concept: The AI Assistance Workflow
+### The AI Assistance Workflow
 
 **1. Start with requirements**
 - Write clear specifications before asking AI

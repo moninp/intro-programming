@@ -584,6 +584,8 @@ Discuss: Which is clearest? The enumerate version is more Pythonic.
 ## Exercise 3.1: Evaluate AI-Generated Code
 
 ```{python}
+#| error: true
+
 def calculate_std_dev(values):
     """Calculate standard deviation (sample)."""
     if len(values) == 0:
