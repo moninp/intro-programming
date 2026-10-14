@@ -320,7 +320,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="verifying-installation" class="level3">
 <h3 class="anchored" data-anchor-id="verifying-installation">Verifying Installation</h3>
 <p>After installation completes, verify the packages are available:</p>
-<div id="a79ae047" class="cell" data-execution_count="1">
+<div id="04d9483d" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Run this in a Python session or script</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib</span>
@@ -391,7 +391,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="just-in-time-concept-reading-data-from-zip-files" class="level3">
 <h3 class="anchored" data-anchor-id="just-in-time-concept-reading-data-from-zip-files">Just-in-Time Concept: Reading Data from ZIP Files</h3>
 <p>Pandas can read CSV files directly from ZIP archives:</p>
-<div id="6056967f" class="cell" data-execution_count="2">
+<div id="4ebc28c9" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> zipfile</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> io</span>
@@ -447,7 +447,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="your-turn-load-and-inspect-the-data" class="level3">
 <h3 class="anchored" data-anchor-id="your-turn-load-and-inspect-the-data">Your Turn: Load and Inspect the Data</h3>
 <p>For this exercise, we’ll work with a pre-downloaded sample. In practice, you would download the full May 2024 dataset.</p>
-<div id="35df1102" class="cell" data-execution_count="3">
+<div id="1d379c6c" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the data (use your actual file path)</span></span>
@@ -472,7 +472,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="just-in-time-concept-basic-dataframe-inspection" class="level3">
 <h3 class="anchored" data-anchor-id="just-in-time-concept-basic-dataframe-inspection">Just-in-Time Concept: Basic DataFrame Inspection</h3>
 <p>Key methods for understanding a DataFrame:</p>
-<div id="17bac91d" class="cell" data-execution_count="4">
+<div id="eb305cd5" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Display first/last rows</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"First 3 rows:"</span>)</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df_sample.head(<span class="dv">3</span>))</span>
@@ -565,7 +565,7 @@ memory usage: 444.0 bytes</code></pre>
 <section id="initial-exploration" class="level2">
 <h2 class="anchored" data-anchor-id="initial-exploration">1.2: Initial Exploration</h2>
 <p>Let’s explore the categorical variables and understand the dataset structure.</p>
-<div id="976286fa" class="cell" data-execution_count="5">
+<div id="c091f87b" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Unique values in categorical columns</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Bike types:"</span>)</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df_sample[<span class="st">'rideable_type'</span>].value_counts())</span>
@@ -608,7 +608,7 @@ dtype: int64</code></pre>
 </div>
 <section id="your-turn-explore-the-data-structure" class="level3">
 <h3 class="anchored" data-anchor-id="your-turn-explore-the-data-structure">Your Turn: Explore the Data Structure</h3>
-<div id="b9d7f5ca" class="cell" data-execution_count="6">
+<div id="ace08e3d" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># How many unique ride_ids are there?</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Your code here</span></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -629,7 +629,7 @@ dtype: int64</code></pre>
 <section id="just-in-time-concept-understanding-missingness-patterns" class="level3">
 <h3 class="anchored" data-anchor-id="just-in-time-concept-understanding-missingness-patterns">Just-in-Time Concept: Understanding Missingness Patterns</h3>
 <p>Missing data often has structure. In the Divvy dataset, station information is missing more often for electric bikes and scooters because these can be picked up and dropped off anywhere, not just at docking stations.</p>
-<div id="60a4d5fc" class="cell" data-execution_count="7">
+<div id="d27f0dd0" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Analyze missingness by bike type</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Missing start station names by bike type:"</span>)</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df_sample.groupby(<span class="st">'rideable_type'</span>)[<span class="st">'start_station_name'</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> x: x.isnull().<span class="bu">sum</span>()))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -653,7 +653,7 @@ Name: start_station_name, dtype: int64</code></pre>
 <section id="just-in-time-concept-working-with-dates-and-times" class="level3">
 <h3 class="anchored" data-anchor-id="just-in-time-concept-working-with-dates-and-times">Just-in-Time Concept: Working with Dates and Times</h3>
 <p>Pandas has powerful datetime functionality:</p>
-<div id="8fa7795d" class="cell" data-execution_count="8">
+<div id="68ca396d" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert to datetime</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>df_sample[<span class="st">'started_at'</span>] <span class="op">=</span> pd.to_datetime(df_sample[<span class="st">'started_at'</span>])</span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>df_sample[<span class="st">'ended_at'</span>] <span class="op">=</span> pd.to_datetime(df_sample[<span class="st">'ended_at'</span>])</span>
@@ -695,7 +695,7 @@ Datetime components:
 </section>
 <section id="your-turn-datetime-conversions-and-extraction" class="level3">
 <h3 class="anchored" data-anchor-id="your-turn-datetime-conversions-and-extraction">Your Turn: DateTime Conversions and Extraction</h3>
-<div id="0db13fb2" class="cell" data-execution_count="9">
+<div id="9c9b4d9f" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert started_at and ended_at to datetime if not already done</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Your code here</span></span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -717,7 +717,7 @@ Datetime components:
 <section id="data-quality-checks" class="level2">
 <h2 class="anchored" data-anchor-id="data-quality-checks">2.2: Data Quality Checks</h2>
 <p>Real-world data often contains anomalies. Let’s identify potential issues.</p>
-<div id="d816b8ac" class="cell" data-execution_count="10">
+<div id="fdac4f3e" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate duration for quality checks</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>df_sample[<span class="st">'duration_minutes'</span>] <span class="op">=</span> (</span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    (df_sample[<span class="st">'ended_at'</span>] <span class="op">-</span> df_sample[<span class="st">'started_at'</span>]).dt.total_seconds() <span class="op">/</span> <span class="dv">60</span></span>
@@ -751,7 +751,7 @@ Duplicate ride IDs: 0</code></pre>
 </div>
 <section id="your-turn-identify-data-quality-issues" class="level3">
 <h3 class="anchored" data-anchor-id="your-turn-identify-data-quality-issues">Your Turn: Identify Data Quality Issues</h3>
-<div id="e7766328" class="cell" data-execution_count="11">
+<div id="6a2388eb" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Find trips with duration less than 1 minute</span></span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Your code here</span></span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -779,7 +779,7 @@ Duplicate ride IDs: 0</code></pre>
 <p>Many analyses require time-based groupings. Let’s create useful categorical variables.</p>
 <section id="just-in-time-concept-creating-new-columns" class="level3">
 <h3 class="anchored" data-anchor-id="just-in-time-concept-creating-new-columns">Just-in-Time Concept: Creating New Columns</h3>
-<div id="e9ce3d04" class="cell" data-execution_count="12">
+<div id="0a98df1f" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create time of day categories</span></span>
@@ -813,7 +813,7 @@ Duplicate ride IDs: 0</code></pre>
 </section>
 <section id="your-turn-create-additional-variables" class="level3">
 <h3 class="anchored" data-anchor-id="your-turn-create-additional-variables">Your Turn: Create Additional Variables</h3>
-<div id="97df5468" class="cell" data-execution_count="13">
+<div id="a10603cf" class="cell" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a 'month_name' column</span></span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Your code here</span></span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -835,7 +835,7 @@ Duplicate ride IDs: 0</code></pre>
 <p>This is where the Divvy dataset becomes pedagogically interesting. The missing station data isn’t random—it reflects dockless bike usage.</p>
 <section id="just-in-time-concept-understanding-why-data-is-missing" class="level3">
 <h3 class="anchored" data-anchor-id="just-in-time-concept-understanding-why-data-is-missing">Just-in-Time Concept: Understanding Why Data Is Missing</h3>
-<div id="4321853e" class="cell" data-execution_count="14">
+<div id="173aef97" class="cell" data-execution_count="14">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Analyze missingness patterns</span></span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>missing_analysis <span class="op">=</span> df_sample.groupby(<span class="st">'rideable_type'</span>).agg({</span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'start_station_name'</span>: <span class="kw">lambda</span> x: x.isnull().<span class="bu">sum</span>(),</span>
@@ -866,7 +866,7 @@ electric_bike               50.0  </code></pre>
 </section>
 <section id="your-turn-investigate-missing-data-patterns" class="level3">
 <h3 class="anchored" data-anchor-id="your-turn-investigate-missing-data-patterns">Your Turn: Investigate Missing Data Patterns</h3>
-<div id="cddbfc27" class="cell" data-execution_count="15">
+<div id="6c60bc7f" class="cell" data-execution_count="15">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># What percentage of trips have BOTH start and end station info missing?</span></span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Your code here</span></span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -893,7 +893,7 @@ electric_bike               50.0  </code></pre>
 <p>The power of pandas lies in split-apply-combine operations.</p>
 <section id="just-in-time-concept-the-groupby-operation" class="level3">
 <h3 class="anchored" data-anchor-id="just-in-time-concept-the-groupby-operation">Just-in-Time Concept: The GroupBy Operation</h3>
-<div id="1caeab1f" class="cell" data-execution_count="16">
+<div id="cc9e9550" class="cell" data-execution_count="16">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Group by single variable</span></span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>member_stats <span class="op">=</span> df_sample.groupby(<span class="st">'member_casual'</span>).agg({</span>
 <span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'duration_minutes'</span>: [<span class="st">'count'</span>, <span class="st">'mean'</span>, <span class="st">'median'</span>, <span class="st">'std'</span>],</span>
@@ -929,7 +929,7 @@ electric_bike casual                     30.0
 </section>
 <section id="your-turn-perform-grouped-analyses" class="level3">
 <h3 class="anchored" data-anchor-id="your-turn-perform-grouped-analyses">Your Turn: Perform Grouped Analyses</h3>
-<div id="b246e715" class="cell" data-execution_count="17">
+<div id="7043e848" class="cell" data-execution_count="17">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate average duration by time_of_day</span></span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Your code here</span></span>
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -953,7 +953,7 @@ electric_bike casual                     30.0
 <section id="just-in-time-concept-pivot-tables" class="level3">
 <h3 class="anchored" data-anchor-id="just-in-time-concept-pivot-tables">Just-in-Time Concept: Pivot Tables</h3>
 <p>Pivot tables reshape data for cross-tabulation:</p>
-<div id="c11407c1" class="cell" data-execution_count="18">
+<div id="b54c633d" class="cell" data-execution_count="18">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a pivot table: rows=hour, columns=member_casual, values=duration</span></span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>hourly_duration <span class="op">=</span> df_sample.pivot_table(</span>
 <span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>    values<span class="op">=</span><span class="st">'duration_minutes'</span>,</span>
@@ -976,7 +976,7 @@ hour
 </section>
 <section id="your-turn-create-pivot-tables" class="level3">
 <h3 class="anchored" data-anchor-id="your-turn-create-pivot-tables">Your Turn: Create Pivot Tables</h3>
-<div id="db9bd957" class="cell" data-execution_count="19">
+<div id="22851721" class="cell" data-execution_count="19">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a pivot table showing COUNT of trips by:</span></span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="co"># - rows: day_of_week (0=Monday, 6=Sunday)</span></span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="co"># - columns: member_casual</span></span>
@@ -1001,7 +1001,7 @@ hour
 <section id="basic-visualizations" class="level2">
 <h2 class="anchored" data-anchor-id="basic-visualizations">5.1: Basic Visualizations</h2>
 <p>Let’s visualize our findings to answer the central question.</p>
-<div id="55d534b3" class="cell" data-execution_count="20">
+<div id="f0dd03ce" class="cell" data-execution_count="20">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a simple bar plot</span></span>
@@ -1025,7 +1025,7 @@ hour
 </div>
 <section id="your-turn-create-visualizations" class="level3">
 <h3 class="anchored" data-anchor-id="your-turn-create-visualizations">Your Turn: Create Visualizations</h3>
-<div id="75ba7048" class="cell" data-execution_count="21">
+<div id="de2a8033" class="cell" data-execution_count="21">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a bar plot showing trip count by hour of day</span></span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Your code here</span></span>
 <span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1041,7 +1041,7 @@ hour
 <section id="answering-the-central-question" class="level2">
 <h2 class="anchored" data-anchor-id="answering-the-central-question">5.2: Answering the Central Question</h2>
 <p>Let’s synthesize our analysis to answer: <strong>How do members and casual riders use Chicago’s bike-share system differently?</strong></p>
-<div id="b1e97db0" class="cell" data-execution_count="22">
+<div id="bf51d7f7" class="cell" data-execution_count="22">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Comprehensive comparison</span></span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>comparison <span class="op">=</span> df_sample.groupby(<span class="st">'member_casual'</span>).agg({</span>
 <span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'duration_minutes'</span>: [<span class="st">'count'</span>, <span class="st">'mean'</span>, <span class="st">'median'</span>],</span>
