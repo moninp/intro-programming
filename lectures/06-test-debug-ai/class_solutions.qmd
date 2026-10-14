@@ -1,0 +1,1240 @@
+---
+title: "Lecture 6: Testing, Debugging, and AI-Assisted Programming"
+subtitle: "Solutions and Instructor Notes"
+format:
+  html:
+    code-fold: false
+    toc: true
+jupyter: python3
+---
+
+# Solutions to In-Class Exercises
+
+## Exercise 1.1: Write a Test for Single Value Case
+
+```{python}
+def calculate_mean_v1(values):
+    """Calculate mean of values. Return None if empty."""
+    return sum(values) / len(values)
+
+def test_calculate_mean_single_value():
+    """Test mean calculation with one value."""
+    result = calculate_mean_v1([42])
+    expected = 42.0
+    assert result == expected, f"Expected {expected}, got {result}"
+    print("Test passed: single value")
+
+test_calculate_mean_single_value()
+```
+
+**Instructor notes:**
+
+Students should recognize that a single-value list should return that value as the mean. Common mistakes include:
+
+- Forgetting to test edge cases at all
+- Not using descriptive test function names
+- Not including the assertion message for helpful debugging
+
+Teaching tip: Have students predict what should happen before writing the test. Ask: "What *should* the mean of [42] be?" This reinforces thinking about requirements before coding.
+
+---
+
+## Exercise 1.2: Test a Data Validation Function
+
+```{python}
+def is_valid_temperature(temp):
+    """
+    Check if temperature is valid (between -50 and 150 Fahrenheit).
+    
+    Args:
+        temp: numeric temperature value
+        
+    Returns:
+        bool: True if valid, False otherwise
+    """
+    return -50 <= temp <= 150
+
+# Test 1: Valid temperature
+result = is_valid_temperature(72)
+assert result == True, "72 F should be valid"
+print("Test 1 passed: valid temperature")
+
+# Test 2: Too cold
+result = is_valid_temperature(-100)
+assert result == False, "-100 F should be invalid"
+print("Test 2 passed: too cold")
+
+# Test 3: Too hot
+result = is_valid_temperature(200)
+assert result == False, "200 F should be invalid"
+print("Test 3 passed: too hot")
+```
+
+**Instructor notes:**
+
+This exercise reinforces the pattern of writing multiple tests for one function. Watch for:
+
+- Students testing only the "happy path" (valid case)
+- Students not testing both boundaries (too hot AND too cold)
+- Confusion about inclusive vs exclusive boundaries
+
+Teaching tip: Ask "What other cases should we test?" Boundary values are crucial: exactly -50, exactly 150, slightly beyond boundaries.
+
+Alternative implementation that students might write:
+
+```{python}
+# Alternative: More explicit
+def is_valid_temperature_v2(temp):
+    if temp < -50:
+        return False
+    if temp > 150:
+        return False
+    return True
+```
+
+Both are correct. Discuss readability vs conciseness.
+
+---
+
+## Exercise 1.3: Test a Missing Value Handler
+
+```{python}
+def remove_missing_values(values):
+    """
+    Remove None values from list.
+    
+    Args:
+        values: list that may contain None
+        
+    Returns:
+        list: values with None removed
+    """
+    return [v for v in values if v is not None]
+
+# Test 1: Some None values
+result = remove_missing_values([1, None, 3, None, 5])
+expected = [1, 3, 5]
+assert result == expected, f"Expected {expected}, got {result}"
+print("Test 1 passed: some None values")
+
+# Test 2: No None values
+result = remove_missing_values([1, 2, 3])
+expected = [1, 2, 3]
+assert result == expected, f"Expected {expected}, got {result}"
+print("Test 2 passed: no None values")
+
+# Test 3: Only None values
+result = remove_missing_values([None, None])
+expected = []
+assert result == expected, f"Expected {expected}, got {result}"
+print("Test 3 passed: only None values")
+
+# Test 4: Empty list
+result = remove_missing_values([])
+expected = []
+assert result == expected, f"Expected {expected}, got {result}"
+print("Test 4 passed: empty list")
+```
+
+**Instructor notes:**
+
+This is a comprehensive test suite that covers all major scenarios. Students often forget:
+
+- The empty list case (simplest edge case)
+- The "all None" case (extreme edge case)
+- The "no None" case (another happy path)
+
+Common mistake: Using `== None` instead of `is None`. Both work but `is None` is more Pythonic.
+
+Alternative implementation using filter:
+
+```{python}
+def remove_missing_values_v2(values):
+    return list(filter(lambda x: x is not None, values))
+```
+
+Discuss readability: list comprehension is usually clearer.
+
+---
+
+## Exercise 1.4: Test a Scaling Function
+
+```{python}
+def normalize_temperatures(temps):
+    """
+    Normalize temperatures to 0-1 scale using min-max normalization.
+    Formula: (value - min) / (max - min)
+    
+    Args:
+        temps: list of temperature values
+        
+    Returns:
+        list: normalized values (0-1 scale)
+    """
+    if len(temps) == 0:
+        return []
+    
+    min_temp = min(temps)
+    max_temp = max(temps)
+    
+    # Handle case where all values are the same
+    if max_temp == min_temp:
+        return [0.5] * len(temps)  # or could return all 0s or all 1s
+    
+    return [(t - min_temp) / (max_temp - min_temp) for t in temps]
+
+# Test 1: Normal case
+result = normalize_temperatures([0, 50, 100])
+expected = [0.0, 0.5, 1.0]
+for i in range(len(expected)):
+    assert abs(result[i] - expected[i]) < 0.01, \
+        f"At index {i}: expected {expected[i]}, got {result[i]}"
+print("Test 1 passed: normal case")
+
+# Test 2: All same value
+result = normalize_temperatures([10, 10, 10])
+# This is a design decision: what should happen?
+# We chose 0.5 for all values (middle of range)
+assert all(abs(v - 0.5) < 0.01 for v in result), \
+    "All same values should normalize to 0.5"
+print("Test 2 passed: all same value")
+
+# Test 3: Reverse order
+result = normalize_temperatures([100, 50])
+expected = [1.0, 0.0]  # 100 is still max, 50 is still min
+for i in range(len(expected)):
+    assert abs(result[i] - expected[i]) < 0.01, \
+        f"At index {i}: expected {expected[i]}, got {result[i]}"
+print("Test 3 passed: reverse order")
+```
+
+**Instructor notes:**
+
+This exercise introduces an important concept: **design decisions**. When all values are the same, what should normalization return? There are multiple valid answers:
+
+- All 0s (min value)
+- All 0.5s (middle)
+- All 1s (max value)
+- Raise an error
+- Return original values
+
+The key is that students **make a choice and document it**. This is a great discussion point: "There's no single 'right' answer, but you must handle this case somehow."
+
+Common mistakes:
+
+- Not handling the all-same-value case (division by zero)
+- Assuming input is sorted
+- Not using floating-point comparison tolerance
+
+Teaching moment: Ask students to defend their choice for the all-same-value case.
+
+---
+
+## Exercise 1.5: Organize Tests for Your Functions
+
+```{python}
+def is_valid_temperature(temp):
+    """Check if temperature is valid (-50 to 150 F)."""
+    return -50 <= temp <= 150
+
+def remove_missing_values(values):
+    """Remove None values from list."""
+    return [v for v in values if v is not None]
+
+def test_is_valid_temperature():
+    """Run all tests for is_valid_temperature."""
+    # Test valid
+    assert is_valid_temperature(72) == True
+    # Test too cold
+    assert is_valid_temperature(-100) == False
+    # Test too hot
+    assert is_valid_temperature(200) == False
+    # Test boundaries
+    assert is_valid_temperature(-50) == True
+    assert is_valid_temperature(150) == True
+    assert is_valid_temperature(-51) == False
+    assert is_valid_temperature(151) == False
+    
+    print("All is_valid_temperature tests passed!")
+
+def test_remove_missing_values():
+    """Run all tests for remove_missing_values."""
+    # Some None
+    assert remove_missing_values([1, None, 3, None, 5]) == [1, 3, 5]
+    # No None
+    assert remove_missing_values([1, 2, 3]) == [1, 2, 3]
+    # All None
+    assert remove_missing_values([None, None]) == []
+    # Empty
+    assert remove_missing_values([]) == []
+    
+    print("All remove_missing_values tests passed!")
+
+# Run all tests
+test_is_valid_temperature()
+test_remove_missing_values()
+```
+
+**Instructor notes:**
+
+This exercise teaches test organization, which is crucial for larger projects. Benefits of organized test functions:
+
+1. Easy to run all tests with one call
+2. Clear which function is being tested
+3. Can see exactly which test failed
+4. Can add tests incrementally
+
+Teaching tip: Show what happens when a test fails:
+
+```{python}
+#| error: true
+
+def buggy_function(x):
+    return x + 1  # Intentionally wrong
+
+def test_buggy():
+    assert buggy_function(5) == 5, "Should return same value"
+    print("Test passed")
+
+test_buggy()
+```
+
+The error message shows exactly which assertion failed and what the values were.
+
+---
+
+## Exercise 2.1: Fix the Median Function
+
+```{python}
+def calculate_median_fixed(values):
+    """
+    Calculate median of values.
+    
+    Args:
+        values: list of numeric values
+        
+    Returns:
+        float: median value, or None if empty
+    """
+    if len(values) == 0:
+        return None
+    
+    sorted_values = sorted(values)
+    n = len(sorted_values)
+    middle = n // 2  # Integer division!
+    
+    if n % 2 == 1:
+        # Odd length: return middle element
+        return sorted_values[middle]
+    else:
+        # Even length: return average of two middle elements
+        return (sorted_values[middle - 1] + sorted_values[middle]) / 2
+
+# Test cases
+temps = [68, 72, 75, 80, 85]
+result = calculate_median_fixed(temps)
+assert result == 75, f"Expected 75, got {result}"
+print("Test passed: odd length")
+
+temps = [68, 72, 80, 85]
+result = calculate_median_fixed(temps)
+assert result == 76.0, f"Expected 76.0, got {result}"
+print("Test passed: even length")
+
+result = calculate_median_fixed([])
+assert result is None, f"Expected None, got {result}"
+print("Test passed: empty list")
+```
+
+**Instructor notes:**
+
+Key bug fixes:
+
+1. Used `//` (integer division) instead of `/` (float division)
+2. Added empty list check
+3. Handled even-length lists correctly (average of two middle elements)
+
+Students often miss the even-length case because they test only with odd-length lists. This reinforces the importance of testing multiple scenarios.
+
+Common mistakes:
+
+- Forgetting that sorted() returns a new list (doesn't modify original)
+- Not handling even-length lists at all
+- Off-by-one errors in indexing
+
+Teaching moment: Have students trace through execution manually with both odd and even length lists.
+
+---
+
+## Exercise 2.2: Fix the Range Function
+
+```{python}
+def get_temperature_range_fixed(temps):
+    """
+    Get range of temperatures (max - min).
+    
+    Args:
+        temps: list of temperature values
+        
+    Returns:
+        float: max - min, or None if empty
+    """
+    if len(temps) == 0:
+        return None
+    
+    min_temp = temps[0]
+    max_temp = temps[0]
+    
+    # Fix: Check ALL elements
+    for i in range(len(temps)):
+        if temps[i] < min_temp:
+            min_temp = temps[i]
+        if temps[i] > max_temp:
+            max_temp = temps[i]
+    
+    return max_temp - min_temp
+
+# Test with last value being important
+temps = [72, 75, 68, 90]
+result = get_temperature_range_fixed(temps)
+assert result == 22, f"Expected 22, got {result}"
+print("Test passed: last value is max")
+
+# Test with first value being important
+temps = [90, 75, 68, 72]
+result = get_temperature_range_fixed(temps)
+assert result == 22, f"Expected 22, got {result}"
+print("Test passed: first value is max")
+```
+
+**Instructor notes:**
+
+The bug was `range(len(temps) - 1)` which stops one element too early. This is a classic **off-by-one error**.
+
+Alternative (more Pythonic) solutions:
+
+```{python}
+# Using built-in functions
+def get_temperature_range_v2(temps):
+    if len(temps) == 0:
+        return None
+    return max(temps) - min(temps)
+
+# Using direct iteration (no indices)
+def get_temperature_range_v3(temps):
+    if len(temps) == 0:
+        return None
+    min_temp = temps[0]
+    max_temp = temps[0]
+    for temp in temps:  # Simpler!
+        if temp < min_temp:
+            min_temp = temp
+        if temp > max_temp:
+            max_temp = temp
+    return max_temp - min_temp
+```
+
+Discuss: Which is clearest? Most Pythonic? Easiest to debug?
+
+Teaching tip: Off-by-one errors are extremely common. Always check loop bounds carefully.
+
+---
+
+## Exercise 2.3: Add Robust Type Handling
+
+```{python}
+def calculate_total_rainfall_robust(daily_rain):
+    """
+    Sum daily rainfall, handling type mismatches gracefully.
+    
+    Args:
+        daily_rain: list of rainfall measurements (should be numeric)
+        
+    Returns:
+        float: total rainfall, skipping invalid values
+    """
+    total = 0
+    for i, rain in enumerate(daily_rain):
+        # Handle numeric types directly
+        if isinstance(rain, (int, float)):
+            total += rain
+        # Try to convert strings
+        elif isinstance(rain, str):
+            try:
+                converted = float(rain)
+                total += converted
+            except ValueError:
+                print(f"Warning: Skipping invalid string at index {i}: '{rain}'")
+        # Skip None
+        elif rain is None:
+            print(f"Warning: Skipping None at index {i}")
+        # Unknown types
+        else:
+            print(f"Warning: Skipping unknown type at index {i}: {type(rain)}")
+    
+    return total
+
+# Test with messy data
+rainfall = [0.5, 0.0, 1.2, "0.8", 0.3, "invalid", None]
+result = calculate_total_rainfall_robust(rainfall)
+print(f"Total: {result}")
+# Should print warnings for "invalid" and None
+# Should handle string "0.8" successfully
+# Expected: 0.5 + 0.0 + 1.2 + 0.8 + 0.3 = 2.8
+assert abs(result - 2.8) < 0.01, f"Expected 2.8, got {result}"
+print("Test passed!")
+```
+
+**Instructor notes:**
+
+This exercise teaches **defensive programming** -- handling unexpected input gracefully. Key concepts:
+
+1. Type checking with isinstance()
+2. Try-except for conversion
+3. Informative warning messages
+4. Continuing despite errors rather than crashing
+
+Design decisions students must make:
+
+- Should invalid values be skipped or cause an error?
+- Should we log warnings or fail silently?
+- Should we track how many values were skipped?
+
+Alternative approach (fail fast):
+
+```{python}
+def calculate_total_rainfall_strict(daily_rain):
+    """Strict version that raises errors on invalid input."""
+    total = 0
+    for i, rain in enumerate(daily_rain):
+        if not isinstance(rain, (int, float)):
+            raise TypeError(f"Invalid type at index {i}: {type(rain)}")
+        total += rain
+    return total
+```
+
+Discuss: When should we be lenient vs strict? Data cleaning often requires leniency; financial calculations require strictness.
+
+---
+
+## Exercise 2.4: Fix the Return Value
+
+```{python}
+def find_hot_days_fixed(temps, threshold=80):
+    """
+    Find indices of days where temperature exceeded threshold.
+    
+    Args:
+        temps: list of daily temperatures
+        threshold: temperature threshold (default 80)
+        
+    Returns:
+        list of int: indices where temp > threshold
+    """
+    hot_days = []
+    for i in range(len(temps)):
+        if temps[i] > threshold:
+            hot_days.append(i)  # Append index, not value!
+    return hot_days
+
+# Test
+temps = [72, 85, 68, 90, 75, 88]
+result = find_hot_days_fixed(temps)
+assert result == [1, 3, 5], f"Expected [1, 3, 5], got {result}"
+print("Test passed: returns indices")
+
+# Test with different threshold
+result = find_hot_days_fixed(temps, threshold=70)
+assert result == [0, 1, 3, 4, 5], f"Expected [0, 1, 3, 4, 5], got {result}"
+print("Test passed: custom threshold")
+
+# Test with no hot days
+result = find_hot_days_fixed(temps, threshold=100)
+assert result == [], f"Expected [], got {result}"
+print("Test passed: no hot days")
+```
+
+**Instructor notes:**
+
+The bug was appending `temps[i]` (the value) instead of `i` (the index). This is subtle because the code runs without error -- it just returns the wrong thing.
+
+Teaching moment: This is why tests are crucial. The function "works" in the sense that it doesn't crash, but it doesn't meet its specification.
+
+Students should learn to:
+
+1. Read the docstring carefully (what does it say it returns?)
+2. Check return values in tests
+3. Verify not just that code runs, but that it produces correct output
+
+Alternative implementation using list comprehension:
+
+```{python}
+def find_hot_days_v2(temps, threshold=80):
+    return [i for i in range(len(temps)) if temps[i] > threshold]
+
+# Or using enumerate:
+def find_hot_days_v3(temps, threshold=80):
+    return [i for i, temp in enumerate(temps) if temp > threshold]
+```
+
+Discuss: Which is clearest? The enumerate version is more Pythonic.
+
+---
+
+## Exercise 3.1: Evaluate AI-Generated Code
+
+```{python}
+def calculate_std_dev(values):
+    """Calculate standard deviation (sample)."""
+    if len(values) == 0:
+        return None
+    if len(values) == 1:
+        return 0.0  # Single value has no variation
+    
+    n = len(values)
+    mean = sum(values) / n
+    
+    # Use n-1 for sample standard deviation
+    variance = sum((x - mean) ** 2 for x in values) / (n - 1)
+    return variance ** 0.5
+
+def remove_outliers(values, z_threshold=2):
+    """Remove outliers beyond z_threshold standard deviations."""
+    if len(values) < 2:
+        return values  # Can't calculate std dev with < 2 values
+    
+    mean = sum(values) / len(values)
+    std_dev = calculate_std_dev(values)
+    
+    if std_dev == 0:
+        # All values are the same -- no outliers
+        return values
+    
+    return [x for x in values if abs(x - mean) <= z_threshold * std_dev]
+
+# Tests to reveal bugs/edge cases:
+
+# Test 1: Normal case
+data = [10, 12, 11, 13, 50]  # 50 is outlier
+result = remove_outliers(data, z_threshold=2)
+assert 50 not in result, "50 should be removed as outlier"
+print("Test 1 passed: outlier removed")
+
+# Test 2: All values the same
+data = [10, 10, 10, 10]
+result = remove_outliers(data)
+assert result == [10, 10, 10, 10], "All same values should remain"
+print("Test 2 passed: all same values")
+
+# Test 3: Single value
+data = [42]
+result = remove_outliers(data)
+assert result == [42], "Single value should remain"
+print("Test 3 passed: single value")
+
+# Test 4: All values are outliers
+data = [1, 100, 200, 300]
+result = remove_outliers(data, z_threshold=0.5)
+# With strict threshold, might remove everything!
+print(f"Test 4: All outliers case returned {result}")
+# This is actually a valid result -- all were outliers
+```
+
+**Instructor notes:**
+
+Bugs/issues in original AI code:
+
+1. No handling of empty list (would crash)
+2. No handling of single value (division by zero in std dev)
+3. No handling of std_dev == 0 (all same values)
+4. Doesn't specify sample vs population std dev
+5. Could remove ALL values if all are outliers
+
+This demonstrates:
+
+- AI generates plausible code that often has edge case bugs
+- You must think through edge cases AI misses
+- Testing reveals bugs even in reasonable-looking code
+
+Teaching moment: This is why critical evaluation of AI code is essential. The code "looks right" but has multiple bugs.
+
+---
+
+## Exercise 3.2: Improve AI-Generated Tests
+
+```{python}
+def is_valid_temperature_reading(temp, unit):
+    """
+    Validate temperature reading.
+    
+    Args:
+        temp: numeric temperature value
+        unit: string, either "C" or "F"
+        
+    Returns:
+        bool: True if reading is physically plausible
+    """
+    if unit == "C":
+        return -273.15 <= temp <= 100
+    elif unit == "F":
+        return -459.67 <= temp <= 212
+    else:
+        return False
+
+# AI might suggest these basic tests:
+def test_temperature_reading_ai_version():
+    assert is_valid_temperature_reading(25, "C") == True
+    assert is_valid_temperature_reading(75, "F") == True
+    assert is_valid_temperature_reading(-300, "C") == False
+    print("AI tests passed")
+
+# Additional tests that AI missed:
+def test_temperature_reading_comprehensive():
+    # Boundary values (exactly at limits)
+    assert is_valid_temperature_reading(-273.15, "C") == True
+    assert is_valid_temperature_reading(100, "C") == True
+    assert is_valid_temperature_reading(-459.67, "F") == True
+    assert is_valid_temperature_reading(212, "F") == True
+    
+    # Just beyond boundaries
+    assert is_valid_temperature_reading(-273.16, "C") == False
+    assert is_valid_temperature_reading(100.01, "C") == False
+    assert is_valid_temperature_reading(-459.68, "F") == False
+    assert is_valid_temperature_reading(212.01, "F") == False
+    
+    # Invalid units
+    assert is_valid_temperature_reading(25, "K") == False
+    assert is_valid_temperature_reading(25, "celsius") == False
+    assert is_valid_temperature_reading(25, "") == False
+    
+    # Case sensitivity
+    assert is_valid_temperature_reading(25, "c") == False
+    assert is_valid_temperature_reading(75, "f") == False
+    
+    # Extreme but valid values
+    assert is_valid_temperature_reading(0, "C") == True
+    assert is_valid_temperature_reading(32, "F") == True
+    
+    # Type mismatches (if we want to be thorough)
+    # Note: These might raise TypeErrors depending on implementation
+    try:
+        result = is_valid_temperature_reading("25", "C")
+        # If it doesn't raise an error, it should return False
+        assert result == False
+    except TypeError:
+        # Or it might raise an error, which is also acceptable
+        pass
+    
+    print("Comprehensive tests passed!")
+
+test_temperature_reading_ai_version()
+test_temperature_reading_comprehensive()
+```
+
+**Instructor notes:**
+
+This exercise teaches **comprehensive testing**. AI often suggests obvious tests but misses:
+
+- Boundary values (exactly at limits)
+- Just-beyond-boundary values
+- Invalid input types
+- Case sensitivity
+- Edge cases specific to domain
+
+Students should learn to ask:
+
+- What are the boundaries?
+- What happens just inside/outside boundaries?
+- What invalid inputs might occur?
+- What assumptions does the code make?
+
+Teaching tip: Have students brainstorm test cases before looking at solution. List them on the board, then implement.
+
+---
+
+## Exercise 3.3: Fix AI Code with Requirements
+
+```{python}
+def moving_average_corrected(values, window_size):
+    """
+    Calculate moving average, excluding incomplete windows.
+    
+    Args:
+        values: list of numeric values
+        window_size: size of moving window (must be >= 1)
+        
+    Returns:
+        list: moving averages (length may be shorter than input)
+    """
+    # Handle edge cases
+    if window_size < 1:
+        raise ValueError("window_size must be >= 1")
+    
+    if len(values) < window_size:
+        return []
+    
+    # Special case: window_size == 1
+    if window_size == 1:
+        return list(values)  # Return copy
+    
+    # Calculate moving averages for complete windows only
+    result = []
+    for i in range(len(values) - window_size + 1):
+        window = values[i:i+window_size]
+        avg = sum(window) / window_size
+        result.append(avg)
+    
+    return result
+
+# Test cases
+temps = [70, 75, 80, 85, 90]
+
+# Normal case: window_size = 3
+ma = moving_average_corrected(temps, window_size=3)
+expected = [75.0, 80.0, 85.0]
+assert ma == expected, f"Expected {expected}, got {ma}"
+print("Test passed: window_size=3")
+
+# Edge case: window_size > len(values)
+ma = moving_average_corrected([1, 2, 3], 5)
+assert ma == [], "Should return empty list"
+print("Test passed: window too large")
+
+# Edge case: window_size = 1
+ma = moving_average_corrected([1, 2, 3], 1)
+assert ma == [1, 2, 3], "window_size=1 should return original"
+print("Test passed: window_size=1")
+
+# Edge case: window_size = len(values)
+ma = moving_average_corrected([1, 2, 3], 3)
+assert ma == [2.0], "Should return single value"
+print("Test passed: window equals length")
+```
+
+**Instructor notes:**
+
+Key fixes:
+
+1. Only compute averages for complete windows
+2. Handle window_size > len(values)
+3. Handle window_size == 1
+4. Correct loop bounds: `range(len(values) - window_size + 1)`
+
+The loop bound formula is tricky. Have students work it out:
+
+- If values has 5 elements and window_size is 3
+- Valid starting positions: 0, 1, 2 (produces 3 windows)
+- So we need: range(5 - 3 + 1) = range(3) = [0, 1, 2] ✓
+
+Teaching moment: This is mathematical reasoning applied to programming. Drawing diagrams helps:
+
+```
+values:  [70, 75, 80, 85, 90]
+          ↑-window-↑             position 0: [70,75,80] -> 75.0
+             ↑-window-↑          position 1: [75,80,85] -> 80.0
+                ↑-window-↑       position 2: [80,85,90] -> 85.0
+```
+
+---
+
+## Exercise 3.4: Compare Imputation Methods
+
+```{python}
+def fill_with_mean_naive(temps):
+    """Fill missing values with mean of valid values."""
+    valid_temps = [t for t in temps if t is not None]
+    if len(valid_temps) == 0:
+        return temps  # All None, can't compute mean
+    mean_temp = sum(valid_temps) / len(valid_temps)
+    return [t if t is not None else mean_temp for t in temps]
+
+def fill_forward(temps):
+    """Fill missing values by carrying forward last valid value."""
+    filled = []
+    last_valid = None
+    for temp in temps:
+        if temp is not None:
+            filled.append(temp)
+            last_valid = temp
+        else:
+            # Use last valid value, or None if we haven't seen one yet
+            filled.append(last_valid)
+    return filled
+
+def fill_interpolate(temps):
+    """Fill missing values by linear interpolation."""
+    filled = list(temps)  # Copy
+    
+    i = 0
+    while i < len(filled):
+        if filled[i] is None:
+            # Find next non-None value
+            j = i + 1
+            while j < len(filled) and filled[j] is None:
+                j += 1
+            
+            # If we have a previous and next value, interpolate
+            if i > 0 and j < len(filled):
+                prev_val = filled[i-1]
+                next_val = filled[j]
+                gap = j - i + 1
+                
+                # Linear interpolation
+                for k in range(i, j):
+                    fraction = (k - i + 1) / gap
+                    filled[k] = prev_val + fraction * (next_val - prev_val)
+            
+            i = j
+        else:
+            i += 1
+    
+    return filled
+
+# Compare methods on same data
+temps = [70, None, None, 85, None, 90]
+
+print("Original:", temps)
+print("Mean fill:", fill_with_mean_naive(temps))
+print("Forward fill:", fill_forward(temps))
+print("Interpolate:", fill_interpolate(temps))
+
+# Which is most appropriate for temperature data?
+"""
+Analysis:
+
+Mean fill: [70, 81.67, 81.67, 85, 81.67, 90]
+- Pros: Simple, preserves overall average
+- Cons: Ignores temporal patterns, creates flat spots
+
+Forward fill: [70, 70, 70, 85, 85, 90]
+- Pros: Maintains temporal continuity
+- Cons: Can extend incorrect values, not suitable for trends
+
+Interpolate: [70, 75, 80, 85, 87.5, 90]
+- Pros: Smooth, reasonable for gradual changes
+- Cons: Assumes linear change, doesn't capture actual variation
+
+For temperature data, interpolation is often best because:
+1. Temperature changes gradually over time
+2. Interpolation maintains smooth transitions
+3. Doesn't create artificial flat spots
+
+However, for large gaps, forward fill might be more conservative
+(doesn't assume we know the pattern).
+
+The "right" choice depends on:
+- Size of gaps (interpolation unreliable for large gaps)
+- Nature of the data (gradual vs sudden changes)
+- Purpose of analysis (summary stats vs time series)
+"""
+```
+
+**Instructor notes:**
+
+This is an excellent discussion exercise. There is no single "right" answer -- the choice depends on context.
+
+Key teaching points:
+
+1. Different imputation methods make different assumptions
+2. The method should match your data's characteristics
+3. Document which method you chose and why
+4. Consider impact on downstream analysis
+
+Students should understand:
+
+- Mean fill: Good for summary statistics, bad for time series
+- Forward fill: Good for maintaining last known state, bad for trends
+- Interpolation: Good for gradual changes, bad for volatile data
+- In practice, you might use different methods for different variables
+
+Real-world consideration: Sometimes the best choice is to NOT fill missing values and instead do analysis that accounts for missingness.
+
+---
+
+## Exercise 3.5: Apply Full Workflow
+
+```{python}
+# Step 1: Write requirements and tests FIRST
+def test_find_heat_waves():
+    """Test heat wave detection."""
+    
+    # Test 1: Basic heat wave (3 consecutive days)
+    temps = [70, 80, 86, 88, 90, 82, 75]
+    result = find_heat_waves(temps, threshold=85)
+    assert result == [(2, 4, 88.0)], f"Expected [(2, 4, 88.0)], got {result}"
+    
+    # Test 2: No heat wave
+    temps = [70, 75, 80, 82, 84]
+    result = find_heat_waves(temps, threshold=85)
+    assert result == [], "No heat wave should be found"
+    
+    # Test 3: Entire period is heat wave
+    temps = [90, 92, 91, 93]
+    result = find_heat_waves(temps, threshold=85)
+    assert len(result) == 1 and result[0][0] == 0 and result[0][1] == 3
+    
+    # Test 4: Multiple heat waves
+    temps = [86, 88, 90, 70, 75, 87, 89, 91, 93]
+    result = find_heat_waves(temps, threshold=85)
+    assert len(result) == 2, "Should find two separate heat waves"
+    
+    # Test 5: Heat wave exactly 3 days
+    temps = [70, 86, 88, 90, 70]
+    result = find_heat_waves(temps, threshold=85)
+    assert result == [(1, 3, 88.0)], "Should detect 3-day heat wave"
+    
+    print("All heat wave tests passed!")
+
+# Step 2: Implement
+def find_heat_waves(temps, threshold=85):
+    """
+    Find heat waves in temperature data.
+    
+    A heat wave is 3+ consecutive days above threshold.
+    
+    Args:
+        temps: list of daily temperatures
+        threshold: temperature threshold for heat wave
+        
+    Returns:
+        list of tuples: (start_idx, end_idx, avg_temp)
+    """
+    if len(temps) < 3:
+        return []
+    
+    heat_waves = []
+    in_heat_wave = False
+    start_idx = None
+    
+    for i in range(len(temps)):
+        if temps[i] > threshold:
+            if not in_heat_wave:
+                # Potential start of heat wave
+                start_idx = i
+                in_heat_wave = True
+        else:
+            # Below threshold
+            if in_heat_wave:
+                # Heat wave just ended
+                end_idx = i - 1
+                duration = end_idx - start_idx + 1
+                
+                if duration >= 3:
+                    # Valid heat wave (3+ days)
+                    wave_temps = temps[start_idx:end_idx+1]
+                    avg_temp = sum(wave_temps) / len(wave_temps)
+                    heat_waves.append((start_idx, end_idx, avg_temp))
+                
+                in_heat_wave = False
+                start_idx = None
+    
+    # Check if we ended in a heat wave
+    if in_heat_wave:
+        end_idx = len(temps) - 1
+        duration = end_idx - start_idx + 1
+        if duration >= 3:
+            wave_temps = temps[start_idx:end_idx+1]
+            avg_temp = sum(wave_temps) / len(wave_temps)
+            heat_waves.append((start_idx, end_idx, avg_temp))
+    
+    return heat_waves
+
+# Step 3: Run tests
+test_find_heat_waves()
+
+# Additional validation
+temps = [70, 80, 86, 88, 90, 92, 82, 75, 87, 89, 91]
+result = find_heat_waves(temps, threshold=85)
+print(f"\nHeat waves found: {result}")
+# Should find two: days 2-5 and days 8-10
+```
+
+**Instructor notes:**
+
+This is the capstone exercise demonstrating the full workflow:
+
+1. **Requirements first**: Clear specification of what "heat wave" means
+2. **Tests before implementation**: Thought through edge cases
+3. **Implementation**: Careful algorithm with state tracking
+4. **Verification**: Tests pass, validates correctness
+
+Common implementation challenges:
+
+- State management (are we currently in a heat wave?)
+- Ending detection (what if heat wave goes to end of data?)
+- Duration counting (off-by-one errors)
+- Average calculation (need to extract the right slice)
+
+This problem is complex enough to show:
+
+- Why planning is important
+- Why tests catch bugs
+- Why systematic thinking matters
+
+Alternative implementation using a different approach:
+
+```{python}
+def find_heat_waves_v2(temps, threshold=85):
+    """Alternative implementation using boolean mask."""
+    if len(temps) < 3:
+        return []
+    
+    # Create boolean mask of hot days
+    is_hot = [t > threshold for t in temps]
+    
+    heat_waves = []
+    i = 0
+    
+    while i < len(is_hot):
+        if is_hot[i]:
+            # Start of potential heat wave
+            j = i
+            while j < len(is_hot) and is_hot[j]:
+                j += 1
+            
+            # j is now first non-hot day (or end of list)
+            duration = j - i
+            
+            if duration >= 3:
+                wave_temps = temps[i:j]
+                avg_temp = sum(wave_temps) / len(wave_temps)
+                heat_waves.append((i, j-1, avg_temp))
+            
+            i = j
+        else:
+            i += 1
+    
+    return heat_waves
+```
+
+Discuss: Which implementation is clearer? More efficient? Easier to debug?
+
+This demonstrates that there are multiple valid approaches. Tests help verify they all work correctly.
+
+---
+
+# General Instructor Notes
+
+## Common Student Difficulties
+
+1. **Resistance to testing**: Students want to just write code and move on. They don't see value until they experience catching a bug with tests.
+
+   Teaching strategy: Show examples of subtle bugs that tests catch. Emphasize that "it seems to work" ≠ "it works correctly"
+
+2. **Forgetting edge cases**: Students test only the happy path.
+
+   Teaching strategy: Always ask "What could go wrong?" Make edge case thinking a habit.
+
+3. **Not reading error messages carefully**: Students see an error and give up.
+
+   Teaching strategy: Teach systematic error interpretation. Model reading error messages aloud.
+
+4. **Over-trust of AI**: Students assume AI-generated code is correct.
+
+   Teaching strategy: Show examples of plausible but buggy AI code. Emphasize verification.
+
+5. **Print debugging without strategy**: Students add print() randomly instead of systematically.
+
+   Teaching strategy: Teach strategic print placement: inputs, intermediate values, outputs, loop progress.
+
+6. **Not understanding what "correct" means**: Students can't write tests because they don't know what the function should do.
+
+   Teaching strategy: Start by writing specifications in plain English. Then translate to tests.
+
+7. **Comparing floats with ==**: Students don't understand floating-point precision.
+
+   Teaching strategy: Show examples where 0.1 + 0.2 ≠ 0.3 in floating-point. Teach tolerance-based comparison.
+
+8. **Writing tests after code**: Students view testing as verification after completion rather than during development.
+
+   Teaching strategy: Demonstrate test-driven development. Show how tests clarify requirements.
+
+## Teaching Tips
+
+1. **Live debugging**: When teaching debugging, intentionally write buggy code and debug it live in class. Talk through your reasoning process.
+
+2. **Pair testing**: Have students work in pairs -- one writes function, other writes tests. Then switch.
+
+3. **Test coverage game**: Give students a function and challenge them to write tests that cover all branches.
+
+4. **Bug hunt**: Give students intentionally buggy code. First student to find the bug (with a test) wins.
+
+5. **AI code review**: Give students AI-generated code. Have them critique it, find bugs, write tests.
+
+6. **Debugging checklist**: Provide systematic checklist:
+   - What did I expect?
+   - What actually happened?
+   - What are my assumptions?
+   - What does the error message say?
+   - What do intermediate values show?
+
+7. **Test-first challenge**: Require tests before implementation for at least one exercise.
+
+## Timing Suggestions
+
+- **Exercise 1** (Testing): 45-50 minutes
+  - 1.1-1.2: 15 minutes (basics)
+  - 1.3-1.4: 20 minutes (application)
+  - 1.5: 10 minutes (organization)
+
+- **Exercise 2** (Debugging): 30-35 minutes
+  - 2.1-2.2: 15 minutes (systematic approach)
+  - 2.3-2.4: 15 minutes (common bugs)
+  - 2.5: 5 minutes (pdb mention, optional)
+
+- **Exercise 3** (AI Tools): 30-35 minutes
+  - 3.1-3.2: 15 minutes (evaluation)
+  - 3.3-3.4: 10 minutes (verification)
+  - 3.5: 10 minutes (workflow)
+
+- **Synthesis**: 10 minutes
+
+Total: ~120 minutes of material, plus quiz and break = 2.5 hours
+
+## Assessment Opportunities
+
+**During class, watch for:**
+
+- Do students write tests before trying to fix bugs?
+- Do students test edge cases or only happy paths?
+- Do students read error messages or just try random changes?
+- Do students think critically about AI suggestions?
+- Do students use informative assertion messages?
+
+**Good indicators of understanding:**
+
+- Student says "Let me write a test for that"
+- Student identifies an edge case before you mention it
+- Student explains WHY a test failed (not just that it failed)
+- Student questions whether AI code handles edge cases
+- Student systematically narrows down bug location
+
+**Red flags:**
+
+- Student changes code randomly hoping it works
+- Student tests only with one example
+- Student accepts AI code without verification
+- Student says "It works on my example" without broader testing
+- Student can't explain what function should do
+
+## Extension Activities
+
+For faster students:
+
+1. **Testing frameworks**: Introduce pytest briefly
+2. **Code coverage**: Discuss measuring test coverage
+3. **Property-based testing**: Introduce hypothesis library concept
+4. **Continuous integration**: Mention automated testing in practice
+5. **Performance testing**: Time functions with different input sizes
+
+## Connection to Research
+
+Emphasize real-world relevance:
+
+- Published papers with wrong results due to code bugs
+- Reproducibility crisis partly due to untested code
+- Professional scientists increasingly adopt testing practices
+- Funding agencies now require code quality assurance
+- Tests are documentation of how code should behave
+
+Students are preparing for research careers. Testing is now an expected skill, not an optional extra.

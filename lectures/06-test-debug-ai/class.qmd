@@ -1,0 +1,1313 @@
+Perfect! Let me create Lecture 6 materials with those specifications. I'll focus on:
+
+- **Testing**: Simple assertions demonstrating the concept
+- **Domain**: Data cleaning/validation functions (continuing from pandas)
+- **Debugging**: Print debugging and systematic reasoning
+- **AI Tools**: Conceptual discussion, instructor demonstrations
+- **Balance**: 40% testing, 30% debugging, 30% AI tools
+- **Central Question**: Weaving all three themes (B and C emphasized)
+- **ASCII only**: No fancy quotes or special characters
+
+Let me start with **class.qmd**:
+
+---
+
+**class.qmd**
+
+```markdown
+---
+title: "Lecture 6: Testing, Debugging, and AI-Assisted Programming"
+subtitle: "Ensuring Code Correctness in Data Analysis"
+format:
+  html:
+    code-fold: false
+    toc: true
+jupyter: python3
+---
+
+# Central Question
+
+> **How do we know our code actually works -- and keeps working as we modify it? How do we use AI tools effectively while maintaining code quality?**
+
+In Lecture 5, we wrote functions to clean and analyze data. But how do we know those functions work correctly? What happens when our data has unexpected values? How do we find and fix bugs efficiently? And as AI coding assistants become more powerful, how do we verify that AI-generated code is correct?
+
+Consider a data cleaning function that removes outliers from temperature measurements. If the function has a subtle bug, it might silently corrupt your entire analysis. Your published research could be based on incorrect results. Traditional programming focuses on *writing* code; professional programming requires *verifying* code.
+
+Today we'll learn three essential skills for trustworthy code:
+
+1. **Testing**: Writing simple checks that verify functions work correctly
+2. **Debugging**: Systematically finding and fixing problems when tests fail  
+3. **AI-Assisted Development**: Using ChatGPT and Copilot effectively while maintaining quality
+
+By the end of class, you'll be able to write functions with confidence, knowing they'll behave correctly even on edge cases. You'll have strategies for debugging when things go wrong. And you'll understand how to leverage AI tools productively while avoiding their pitfalls.
+
+These skills are fundamental to reproducible research. Untested code is untrustworthy code.
+
+# 1. Quiz
+
+**Before starting today's material**, please complete Quiz 6, which covers pandas fundamentals from Lecture 5. The quiz ensures you have the foundation needed for today's exercises on testing data analysis functions.
+
+# Exercise 1: Writing Tests for Data Cleaning Functions
+
+## Exercise 1.1: Why Testing Matters
+
+Suppose you write a function to calculate the mean of temperature measurements, but it should return `None` if the list is empty:
+
+```{python}
+def calculate_mean_v1(values):
+    """Calculate mean of values. Return None if empty."""
+    return sum(values) / len(values)
+
+# Does this work?
+temps = [72, 75, 68, 80, 77]
+print(f"Mean temperature: {calculate_mean_v1(temps)}")
+```
+
+This seems to work! But watch what happens with edge cases:
+
+```{python}
+#| error: true
+
+# What if the list is empty?
+empty_temps = []
+result = calculate_mean_v1(empty_temps)
+print(f"Result: {result}")
+```
+
+The function crashes instead of returning `None` as intended. This is a **bug** -- the function doesn't meet its specification.
+
+### Just-in-Time Concept: Assertions and Tests
+
+A **test** is code that checks whether a function produces the correct output for a given input. The simplest test uses Python's `assert` statement:
+
+```{python}
+def test_calculate_mean_normal_case():
+    """Test mean calculation with normal data."""
+    result = calculate_mean_v1([10, 20, 30])
+    expected = 20.0
+    assert result == expected, f"Expected {expected}, got {result}"
+    print("Test passed: normal case")
+
+test_calculate_mean_normal_case()
+```
+
+The `assert` statement checks if a condition is true. If false, it raises an `AssertionError` with the optional message. This makes bugs visible immediately.
+
+Let's test the empty list case:
+
+```{python}
+#| error: true
+
+def test_calculate_mean_empty_list():
+    """Test mean calculation with empty list."""
+    result = calculate_mean_v1([])
+    expected = None
+    assert result == expected, f"Expected {expected}, got {result}"
+    print("Test passed: empty list")
+
+test_calculate_mean_empty_list()
+```
+
+The test **fails** because the function crashes before returning anything. This is good! The test revealed the bug.
+
+**Key insight**: Tests make bugs visible. Without tests, bugs hide until they corrupt real data.
+
+### Your Turn: Write a Test for Another Edge Case
+
+```{python}
+#| eval: false
+
+def test_calculate_mean_single_value():
+    """Test mean calculation with one value."""
+    # Write a test that checks if calculate_mean_v1([42]) returns 42.0
+    # Your code here
+    
+test_calculate_mean_single_value()
+```
+
+## Exercise 1.2: Fixing the Function to Pass Tests
+
+Now let's fix the function to handle empty lists correctly:
+
+```{python}
+def calculate_mean_v2(values):
+    """
+    Calculate mean of values. Return None if empty.
+    
+    Args:
+        values: list of numeric values
+        
+    Returns:
+        float: mean value, or None if list is empty
+    """
+    if len(values) == 0:
+        return None
+    return sum(values) / len(values)
+
+# Test normal case
+result = calculate_mean_v2([10, 20, 30])
+assert result == 20.0, f"Expected 20.0, got {result}"
+print("Passed: normal case")
+
+# Test empty list
+result = calculate_mean_v2([])
+assert result is None, f"Expected None, got {result}"
+print("Passed: empty list")
+
+# Test single value
+result = calculate_mean_v2([42])
+assert result == 42.0, f"Expected 42.0, got {result}"
+print("Passed: single value")
+```
+
+All tests pass! The function now meets its specification.
+
+### Just-in-Time Concept: Test-Driven Development
+
+A powerful approach is to **write tests before writing the function**:
+
+1. Write a test that describes desired behavior
+2. Run the test (it will fail initially)
+3. Write code to make the test pass
+4. Refine the code
+5. Run tests again to ensure nothing broke
+
+This is called **test-driven development** (TDD). It forces you to think about requirements and edge cases before coding.
+
+### Your Turn: Test a Data Validation Function
+
+```{python}
+#| eval: false
+
+def is_valid_temperature(temp):
+    """
+    Check if temperature is valid (between -50 and 150 Fahrenheit).
+    
+    Args:
+        temp: numeric temperature value
+        
+    Returns:
+        bool: True if valid, False otherwise
+    """
+    # Your implementation here
+    pass
+
+# Write three tests:
+# 1. Test that 72 is valid
+# Your code here
+
+# 2. Test that -100 is invalid  
+# Your code here
+
+# 3. Test that 200 is invalid
+# Your code here
+```
+
+## Exercise 1.3: Testing Data Cleaning Functions
+
+Let's test a function that removes invalid temperature measurements:
+
+```{python}
+def clean_temperature_data(temps):
+    """
+    Remove invalid temperatures (outside -50 to 150 F range).
+    
+    Args:
+        temps: list of temperature values
+        
+    Returns:
+        list: valid temperatures only
+    """
+    valid_temps = []
+    for temp in temps:
+        if -50 <= temp <= 150:
+            valid_temps.append(temp)
+    return valid_temps
+
+# Test with mixed valid/invalid data
+test_data = [72, -100, 85, 200, 68, -30, 140]
+result = clean_temperature_data(test_data)
+expected = [72, 85, 68, -30, 140]
+assert result == expected, f"Expected {expected}, got {result}"
+print("Test passed: mixed data")
+```
+
+### Just-in-Time Concept: Testing Edge Cases
+
+Good tests check **edge cases** -- unusual inputs where bugs often hide:
+
+- Empty inputs
+- Single element
+- All invalid values
+- Boundary values (exactly -50, exactly 150)
+- None or missing values
+
+```{python}
+# Test empty list
+result = clean_temperature_data([])
+assert result == [], "Empty list should return empty list"
+print("Passed: empty list")
+
+# Test all invalid
+result = clean_temperature_data([-100, -200, 300])
+assert result == [], "All invalid should return empty list"
+print("Passed: all invalid")
+
+# Test boundary values
+result = clean_temperature_data([-50, -49, 150, 151])
+expected = [-50, -49, 150]  # -50 and 150 are valid (inclusive)
+assert result == expected, f"Expected {expected}, got {result}"
+print("Passed: boundary values")
+```
+
+### Your Turn: Test a Missing Value Handler
+
+```{python}
+#| eval: false
+
+def remove_missing_values(values):
+    """
+    Remove None values from list.
+    
+    Args:
+        values: list that may contain None
+        
+    Returns:
+        list: values with None removed
+    """
+    # Your implementation here
+    pass
+
+# Write tests for:
+# 1. List with some None values: [1, None, 3, None, 5]
+# Your code here
+
+# 2. List with no None values: [1, 2, 3]
+# Your code here
+
+# 3. List with only None values: [None, None]
+# Your code here
+
+# 4. Empty list: []
+# Your code here
+```
+
+## Exercise 1.4: Testing Data Transformation Functions
+
+Let's test a function that converts temperatures from Celsius to Fahrenheit:
+
+```{python}
+def celsius_to_fahrenheit(temps_c):
+    """
+    Convert list of Celsius temperatures to Fahrenheit.
+    
+    Args:
+        temps_c: list of temperatures in Celsius
+        
+    Returns:
+        list: temperatures in Fahrenheit
+    """
+    temps_f = []
+    for temp in temps_c:
+        temp_f = (temp * 9/5) + 32
+        temps_f.append(temp_f)
+    return temps_f
+
+# Test with known conversions
+celsius = [0, 100, -40]
+fahrenheit = celsius_to_fahrenheit(celsius)
+expected = [32.0, 212.0, -40.0]
+
+# Check each value (floating point requires care)
+for i in range(len(expected)):
+    assert abs(fahrenheit[i] - expected[i]) < 0.01, \
+        f"At index {i}: expected {expected[i]}, got {fahrenheit[i]}"
+print("Passed: known conversions")
+```
+
+### Just-in-Time Concept: Testing Floating-Point Values
+
+Floating-point arithmetic is not exact due to binary representation. Instead of:
+
+```python
+assert result == 32.0  # Risky!
+```
+
+Use:
+
+```python
+assert abs(result - 32.0) < 0.01  # Better!
+```
+
+This checks if values are "close enough" (within tolerance).
+
+### Your Turn: Test a Scaling Function
+
+```{python}
+#| eval: false
+
+def normalize_temperatures(temps):
+    """
+    Normalize temperatures to 0-1 scale using min-max normalization.
+    Formula: (value - min) / (max - min)
+    
+    Args:
+        temps: list of temperature values
+        
+    Returns:
+        list: normalized values (0-1 scale)
+    """
+    # Your implementation here
+    pass
+
+# Write tests:
+# 1. Test [0, 50, 100] normalizes to [0.0, 0.5, 1.0]
+# Your code here
+
+# 2. Test [10, 10, 10] (all same value) -- what should happen?
+# Your code here
+
+# 3. Test [100, 50] (reverse order)
+# Your code here
+```
+
+## Exercise 1.5: Organizing Tests into Functions
+
+Professional code organizes tests into named functions that can be run together:
+
+```{python}
+def test_calculate_mean():
+    """Run all tests for calculate_mean_v2."""
+    
+    # Test 1: Normal case
+    result = calculate_mean_v2([10, 20, 30])
+    assert result == 20.0
+    
+    # Test 2: Empty list
+    result = calculate_mean_v2([])
+    assert result is None
+    
+    # Test 3: Single value
+    result = calculate_mean_v2([42])
+    assert result == 42.0
+    
+    # Test 4: Negative values
+    result = calculate_mean_v2([-10, -20, -30])
+    assert result == -20.0
+    
+    print("All calculate_mean tests passed!")
+
+def test_clean_temperature_data():
+    """Run all tests for clean_temperature_data."""
+    
+    # Test 1: Mixed data
+    result = clean_temperature_data([72, -100, 85, 200, 68])
+    assert result == [72, 85, 68]
+    
+    # Test 2: Empty list
+    result = clean_temperature_data([])
+    assert result == []
+    
+    # Test 3: All invalid
+    result = clean_temperature_data([200, 300, -100])
+    assert result == []
+    
+    print("All clean_temperature_data tests passed!")
+
+# Run all tests
+test_calculate_mean()
+test_clean_temperature_data()
+```
+
+This structure makes it easy to:
+
+- Run all tests with one command
+- See which specific test failed
+- Add new tests as you add features
+- Re-run tests after changes
+
+### Your Turn: Organize Tests for Your Functions
+
+```{python}
+#| eval: false
+
+def test_is_valid_temperature():
+    """Run all tests for is_valid_temperature."""
+    # Organize your tests from Exercise 1.2 here
+    # Your code here
+    print("All is_valid_temperature tests passed!")
+
+def test_remove_missing_values():
+    """Run all tests for remove_missing_values."""
+    # Organize your tests from Exercise 1.3 here
+    # Your code here
+    print("All remove_missing_values tests passed!")
+
+# Run all your tests
+test_is_valid_temperature()
+test_remove_missing_values()
+```
+
+# Exercise 2: Debugging Broken Data Analysis Code
+
+## Exercise 2.1: Systematic Debugging Approach
+
+You're given a function that's supposed to calculate the median of temperature values, but it's producing wrong results:
+
+```{python}
+def calculate_median_buggy(values):
+    """Calculate median of values."""
+    sorted_values = sorted(values)
+    n = len(sorted_values)
+    middle = n / 2
+    return sorted_values[middle]
+
+# This should return 75, but something is wrong
+temps = [68, 72, 75, 80, 85]
+result = calculate_median_buggy(temps)
+print(f"Median: {result}")
+```
+
+### Just-in-Time Concept: Print Debugging
+
+The simplest debugging technique is strategic `print()` statements to inspect what's happening:
+
+```{python}
+def calculate_median_debug(values):
+    """Calculate median with debug prints."""
+    print(f"Input values: {values}")
+    
+    sorted_values = sorted(values)
+    print(f"After sorting: {sorted_values}")
+    
+    n = len(sorted_values)
+    print(f"Length n: {n}")
+    
+    middle = n / 2
+    print(f"Middle index: {middle}")
+    print(f"Type of middle: {type(middle)}")
+    
+    # This will fail because middle is a float, not an int
+    return sorted_values[middle]
+
+# Run with debugging
+try:
+    result = calculate_median_debug([68, 72, 75, 80, 85])
+    print(f"Result: {result}")
+except Exception as e:
+    print(f"Error: {e}")
+```
+
+The debug output reveals two problems:
+
+1. `middle` is a float (2.5), but list indices must be integers
+2. For odd-length lists, we need the middle element at index `n // 2`
+
+### Your Turn: Fix the Median Function
+
+```{python}
+#| eval: false
+
+def calculate_median_fixed(values):
+    """
+    Calculate median of values.
+    
+    Args:
+        values: list of numeric values
+        
+    Returns:
+        float: median value
+    """
+    # Fix the bugs:
+    # 1. Use integer division // instead of regular division /
+    # 2. Handle empty list case
+    # Your code here
+    pass
+
+# Test your fix
+temps = [68, 72, 75, 80, 85]
+result = calculate_median_fixed(temps)
+assert result == 75, f"Expected 75, got {result}"
+print("Test passed!")
+```
+
+## Exercise 2.2: Debugging Off-by-One Errors
+
+A common bug in data processing is **off-by-one errors** -- being one position too early or too late:
+
+```{python}
+def get_temperature_range_buggy(temps):
+    """Get range of temperatures (max - min)."""
+    if len(temps) == 0:
+        return None
+    
+    min_temp = temps[0]
+    max_temp = temps[0]
+    
+    # BUG: This loop doesn't check the last element!
+    for i in range(len(temps) - 1):
+        if temps[i] < min_temp:
+            min_temp = temps[i]
+        if temps[i] > max_temp:
+            max_temp = temps[i]
+    
+    return max_temp - min_temp
+
+# Test data where last value matters
+temps = [72, 75, 68, 90]  # 90 is the max
+result = get_temperature_range_buggy(temps)
+print(f"Range: {result}")
+print(f"Expected: {90 - 68} = 22")
+```
+
+### Just-in-Time Concept: Loop Bounds Debugging
+
+When loops produce wrong results, check:
+
+1. Does the loop start at the right index?
+2. Does the loop end at the right index?
+3. Are boundary cases handled correctly?
+
+Add debug prints to see what the loop actually processes:
+
+```{python}
+def get_temperature_range_debug(temps):
+    """Get range with debugging."""
+    if len(temps) == 0:
+        return None
+    
+    min_temp = temps[0]
+    max_temp = temps[0]
+    
+    print(f"Starting with min={min_temp}, max={max_temp}")
+    print(f"Loop will check indices 0 to {len(temps) - 2}")
+    
+    for i in range(len(temps) - 1):
+        print(f"  Checking index {i}: value={temps[i]}")
+        if temps[i] < min_temp:
+            min_temp = temps[i]
+        if temps[i] > max_temp:
+            max_temp = temps[i]
+    
+    print(f"Final: min={min_temp}, max={max_temp}")
+    return max_temp - min_temp
+
+result = get_temperature_range_debug([72, 75, 68, 90])
+```
+
+The debug output shows the loop never checks index 3 (value 90)!
+
+### Your Turn: Fix the Range Function
+
+```{python}
+#| eval: false
+
+def get_temperature_range_fixed(temps):
+    """
+    Get range of temperatures (max - min).
+    
+    Args:
+        temps: list of temperature values
+        
+    Returns:
+        float: max - min, or None if empty
+    """
+    # Fix the loop bounds
+    # Hint: range(len(temps)) checks all elements
+    # Your code here
+    pass
+
+# Test your fix
+temps = [72, 75, 68, 90]
+result = get_temperature_range_fixed(temps)
+assert result == 22, f"Expected 22, got {result}"
+print("Test passed!")
+```
+
+## Exercise 2.3: Debugging Data Type Mismatches
+
+Type mismatches cause subtle bugs in data analysis:
+
+```{python}
+#| error: true
+
+def calculate_total_rainfall(daily_rain):
+    """Sum up daily rainfall measurements."""
+    total = 0
+    for rain in daily_rain:
+        total = total + rain
+    return total
+
+# This data has a string mixed in!
+rainfall = [0.5, 0.0, 1.2, "0.8", 0.3]
+result = calculate_total_rainfall(rainfall)
+print(f"Total rainfall: {result}")
+```
+
+### Just-in-Time Concept: Type Checking in Loops
+
+Add type checks to catch problems early:
+
+```{python}
+def calculate_total_rainfall_debug(daily_rain):
+    """Sum rainfall with type checking."""
+    total = 0
+    for i, rain in enumerate(daily_rain):
+        print(f"Index {i}: value={rain}, type={type(rain)}")
+        
+        if not isinstance(rain, (int, float)):
+            print(f"  WARNING: Unexpected type at index {i}")
+        
+        total = total + rain
+    return total
+
+try:
+    result = calculate_total_rainfall_debug([0.5, 0.0, 1.2, "0.8", 0.3])
+except TypeError as e:
+    print(f"Error detected: {e}")
+```
+
+### Your Turn: Add Robust Type Handling
+
+```{python}
+#| eval: false
+
+def calculate_total_rainfall_robust(daily_rain):
+    """
+    Sum daily rainfall, handling type mismatches gracefully.
+    
+    Args:
+        daily_rain: list of rainfall measurements (should be numeric)
+        
+    Returns:
+        float: total rainfall, skipping invalid values
+    """
+    # Your implementation:
+    # 1. Check if each value is numeric (int or float)
+    # 2. If it's a string that looks like a number, convert it
+    # 3. Skip values that can't be converted
+    # 4. Print a warning for skipped values
+    # Your code here
+    pass
+
+# Test with messy data
+rainfall = [0.5, 0.0, 1.2, "0.8", 0.3, "invalid", None]
+result = calculate_total_rainfall_robust(rainfall)
+print(f"Total: {result}")
+# Should handle string "0.8", skip "invalid" and None
+```
+
+## Exercise 2.4: Debugging Function Return Values
+
+Sometimes functions return the wrong type or structure:
+
+```{python}
+def find_hot_days_buggy(temps, threshold=80):
+    """Find indices of days where temperature exceeded threshold."""
+    hot_days = []
+    for i in range(len(temps)):
+        if temps[i] > threshold:
+            hot_days.append(temps[i])  # BUG: Should append index, not value!
+    return hot_days
+
+temps = [72, 85, 68, 90, 75, 88]
+result = find_hot_days_buggy(temps)
+print(f"Hot days: {result}")
+print(f"Expected: [1, 3, 5] (the indices)")
+```
+
+### Just-in-Time Concept: Verifying Return Values
+
+After computing a result, check:
+
+1. Is it the right type? (list vs. single value, int vs. float)
+2. Is it the right size/shape?
+3. Does it contain what you expected?
+
+```{python}
+def find_hot_days_debug(temps, threshold=80):
+    """Find hot days with validation."""
+    hot_days = []
+    for i in range(len(temps)):
+        if temps[i] > threshold:
+            print(f"Day {i}: temp={temps[i]} exceeds {threshold}")
+            hot_days.append(temps[i])
+    
+    print(f"Returning: {hot_days}")
+    print(f"Type: {type(hot_days)}, Length: {len(hot_days)}")
+    return hot_days
+
+result = find_hot_days_debug([72, 85, 68, 90, 75, 88])
+print(f"But we wanted indices, not temperatures!")
+```
+
+### Your Turn: Fix the Return Value
+
+```{python}
+#| eval: false
+
+def find_hot_days_fixed(temps, threshold=80):
+    """
+    Find indices of days where temperature exceeded threshold.
+    
+    Args:
+        temps: list of daily temperatures
+        threshold: temperature threshold (default 80)
+        
+    Returns:
+        list of int: indices where temp > threshold
+    """
+    # Fix: append i (the index), not temps[i] (the value)
+    # Your code here
+    pass
+
+# Test your fix
+temps = [72, 85, 68, 90, 75, 88]
+result = find_hot_days_fixed(temps)
+assert result == [1, 3, 5], f"Expected [1, 3, 5], got {result}"
+print("Test passed!")
+```
+
+## Exercise 2.5: Debugging with the Python Debugger (Optional)
+
+While print debugging is powerful, Python also has a built-in debugger called `pdb`. You can insert a breakpoint to pause execution and inspect variables:
+
+```python
+import pdb
+
+def complex_calculation(data):
+    result = 0
+    for i, value in enumerate(data):
+        pdb.set_trace()  # Execution pauses here
+        # You can now type commands like:
+        # - 'p value' to print value
+        # - 'p i' to print i
+        # - 'n' to go to next line
+        # - 'c' to continue
+        # - 'q' to quit
+        result += value * i
+    return result
+```
+
+Note: This requires an interactive Python session and is most useful for complex bugs that are hard to diagnose with print statements alone.
+
+# Exercise 3: AI-Assisted Development and Code Verification
+
+## Exercise 3.1: When to Use AI Coding Assistants
+
+AI tools like ChatGPT and GitHub Copilot can accelerate coding, but they require critical evaluation. Let's discuss when they're most helpful:
+
+### Just-in-Time Concept: AI Tool Strengths and Limitations
+
+**AI tools are good at:**
+
+- Generating boilerplate code (function templates, common patterns)
+- Explaining unfamiliar code or concepts
+- Suggesting approaches to standard problems
+- Converting between formats (e.g., pseudocode to Python)
+- Finding syntax errors
+
+**AI tools are weak at:**
+
+- Understanding your specific data and requirements
+- Reasoning about edge cases
+- Ensuring algorithmic correctness
+- Maintaining consistency across a large codebase
+- Understanding domain-specific constraints
+
+**Example: AI-generated function**
+
+Suppose you ask ChatGPT: "Write a Python function to calculate standard deviation."
+
+It might produce:
+
+```{python}
+def calculate_std_dev(values):
+    """Calculate standard deviation."""
+    n = len(values)
+    mean = sum(values) / n
+    variance = sum((x - mean) ** 2 for x in values) / n
+    return variance ** 0.5
+
+# This looks reasonable, but is it correct?
+data = [2, 4, 6, 8, 10]
+result = calculate_std_dev(data)
+print(f"Standard deviation: {result}")
+```
+
+**Critical questions to ask:**
+
+1. Should this use `n` or `n-1` in the denominator? (Sample vs. population std dev)
+2. What happens with empty list?
+3. What happens with single value?
+4. Is the algorithm numerically stable for very large or very small values?
+
+Let's test:
+
+```{python}
+#| error: true
+
+# Test edge case: empty list
+result = calculate_std_dev([])
+print(f"Empty list result: {result}")
+```
+
+The AI-generated code crashes! You must test and verify.
+
+### Your Turn: Evaluate AI-Generated Code
+
+```{python}
+#| eval: false
+
+# Suppose AI generates this function:
+def remove_outliers(values, z_threshold=2):
+    """Remove outliers beyond z_threshold standard deviations."""
+    mean = sum(values) / len(values)
+    std_dev = calculate_std_dev(values)
+    return [x for x in values if abs(x - mean) <= z_threshold * std_dev]
+
+# Your task:
+# 1. Identify at least 3 potential bugs or edge cases
+# 2. Write tests that would reveal these issues
+# 3. Fix the function
+
+# Hints:
+# - What if std_dev is 0 (all values the same)?
+# - What if values is empty?
+# - What if there are only outliers?
+
+# Your tests here
+```
+
+## Exercise 3.2: Using AI to Generate Test Cases
+
+AI can help generate test cases, but you must verify they're comprehensive:
+
+### Example: Asking AI for Tests
+
+**Prompt to ChatGPT:**
+"Generate test cases for a function that validates email addresses."
+
+**AI might suggest:**
+
+```{python}
+def test_email_validation():
+    """Tests suggested by AI."""
+    # Test 1: Valid email
+    assert is_valid_email("user@example.com") == True
+    
+    # Test 2: Missing @
+    assert is_valid_email("userexample.com") == False
+    
+    # Test 3: Missing domain
+    assert is_valid_email("user@") == False
+    
+    print("AI-suggested tests passed!")
+```
+
+**What's missing?**
+
+- Edge cases: empty string, very long email, special characters
+- International domains (.co.uk, .gov, etc.)
+- Plus addressing (user+tag@example.com)
+- Case sensitivity
+
+AI gives you a starting point, but **you** must think critically about completeness.
+
+### Your Turn: Improve AI-Generated Tests
+
+```{python}
+#| eval: false
+
+def is_valid_temperature_reading(temp, unit):
+    """
+    Validate temperature reading.
+    
+    Args:
+        temp: numeric temperature value
+        unit: string, either "C" or "F"
+        
+    Returns:
+        bool: True if reading is physically plausible
+    """
+    if unit == "C":
+        return -273.15 <= temp <= 100  # Absolute zero to boiling
+    elif unit == "F":
+        return -459.67 <= temp <= 212  # Absolute zero to boiling
+    else:
+        return False
+
+# AI might suggest these basic tests:
+def test_temperature_reading_ai_version():
+    assert is_valid_temperature_reading(25, "C") == True
+    assert is_valid_temperature_reading(75, "F") == True
+    assert is_valid_temperature_reading(-300, "C") == False
+    print("AI tests passed")
+
+# Your task: Add at least 5 more test cases that AI missed
+# Think about:
+# - Boundary values (exactly absolute zero, exactly boiling)
+# - Invalid units
+# - Extreme but valid values
+# - Type mismatches (what if temp is a string?)
+
+# Your additional tests here
+```
+
+## Exercise 3.3: Debugging AI-Generated Code
+
+AI often generates code with subtle bugs. Let's practice finding them:
+
+```{python}
+# AI-generated function to calculate moving average
+def moving_average(values, window_size):
+    """Calculate moving average with given window size."""
+    result = []
+    for i in range(len(values)):
+        window = values[i:i+window_size]
+        avg = sum(window) / window_size
+        result.append(avg)
+    return result
+
+# Test it
+temps = [70, 75, 80, 85, 90]
+ma = moving_average(temps, window_size=3)
+print(f"Moving average: {ma}")
+```
+
+### Just-in-Time Concept: Spotting Algorithmic Bugs
+
+The function runs without error, but let's verify the results:
+
+```{python}
+# Check the logic carefully
+temps = [70, 75, 80, 85, 90]
+ma = moving_average(temps, window_size=3)
+
+print("Detailed check:")
+for i, avg in enumerate(ma):
+    print(f"Position {i}: {avg}")
+
+# Expected for window_size=3:
+# Position 0: (70+75+80)/3 = 75.0
+# Position 1: (75+80+85)/3 = 80.0
+# Position 2: (80+85+90)/3 = 85.0
+# Position 3: (85+90)/2 = 87.5 ?? Should this even exist?
+# Position 4: (90)/1 = 90.0 ??
+```
+
+**Bugs identified:**
+
+1. Near the end, windows are incomplete (only 2 or 1 values)
+2. Division still uses `window_size` even when window is shorter
+3. Should we even include incomplete windows?
+
+These are design decisions AI can't make -- you must decide based on your requirements.
+
+### Your Turn: Fix AI Code with Requirements
+
+```{python}
+#| eval: false
+
+def moving_average_corrected(values, window_size):
+    """
+    Calculate moving average, excluding incomplete windows.
+    
+    Args:
+        values: list of numeric values
+        window_size: size of moving window (must be >= 1)
+        
+    Returns:
+        list: moving averages (length may be shorter than input)
+    """
+    # Requirements:
+    # 1. Only compute averages where we have full window_size values
+    # 2. If window_size > len(values), return empty list
+    # 3. If window_size == 1, return original values
+    
+    # Your implementation here
+    pass
+
+# Test your corrected version
+temps = [70, 75, 80, 85, 90]
+ma = moving_average_corrected(temps, window_size=3)
+print(f"Result: {ma}")
+# Should be: [75.0, 80.0, 85.0]
+
+# Edge case tests
+assert moving_average_corrected([1, 2, 3], 5) == []
+assert moving_average_corrected([1, 2, 3], 1) == [1, 2, 3]
+print("All tests passed!")
+```
+
+## Exercise 3.4: Validating AI Suggestions for Data Analysis
+
+AI can suggest approaches to data analysis, but you must verify they're appropriate:
+
+### Example: AI Suggests an Approach
+
+**Your question:**
+"How should I handle missing temperature values in my dataset?"
+
+**AI might respond:**
+"Replace all missing values with the mean temperature."
+
+**Critical evaluation:**
+
+```{python}
+import numpy as np
+
+# Sample data with missing values
+temps = [72, None, 85, None, 90, 75, None, 82]
+
+# AI suggested approach: fill with mean
+def fill_with_mean_naive(temps):
+    """Fill missing values with mean (AI suggestion)."""
+    # Calculate mean of non-missing values
+    valid_temps = [t for t in temps if t is not None]
+    mean_temp = sum(valid_temps) / len(valid_temps)
+    
+    # Replace None with mean
+    filled = [t if t is not None else mean_temp for t in temps]
+    return filled
+
+result = fill_with_mean_naive(temps)
+print(f"Original: {temps}")
+print(f"Filled:   {result}")
+```
+
+**Questions to ask:**
+
+1. Is the mean the right choice? (What about seasonal patterns?)
+2. Should I forward-fill instead? (Carry last valid value forward)
+3. Should I interpolate? (Linear between known values)
+4. Should I flag filled values so I know they're imputed?
+
+The "right" answer depends on your data and analysis goals. AI can't know your context.
+
+### Your Turn: Compare Imputation Methods
+
+```{python}
+#| eval: false
+
+def fill_forward(temps):
+    """Fill missing values by carrying forward last valid value."""
+    # Your implementation here
+    pass
+
+def fill_interpolate(temps):
+    """Fill missing values by linear interpolation."""
+    # Your implementation here
+    # Hint: For a gap between temps[i-1] and temps[i+k+1],
+    # fill temps[i:i+k+1] with evenly spaced values
+    pass
+
+# Compare methods on same data
+temps = [70, None, None, 85, None, 90]
+
+print("Original:", temps)
+print("Mean fill:", fill_with_mean_naive(temps))
+print("Forward fill:", fill_forward(temps))
+print("Interpolate:", fill_interpolate(temps))
+
+# Which is most appropriate for temperature data?
+# Write your reasoning in a comment
+```
+
+## Exercise 3.5: Best Practices for AI-Assisted Development
+
+Based on today's exercises, here are principles for using AI tools effectively:
+
+### Just-in-Time Concept: The AI Assistance Workflow
+
+**1. Start with requirements**
+- Write clear specifications before asking AI
+- Define edge cases and constraints
+- Know what "correct" means
+
+**2. Generate with AI**
+- Use AI for boilerplate and standard patterns
+- Ask for multiple approaches to compare
+- Request explanations of generated code
+
+**3. Verify critically**
+- Write tests immediately
+- Check edge cases AI might miss
+- Validate algorithmic correctness
+
+**4. Iterate and refine**
+- Use AI to explain errors
+- Ask for improvements to specific parts
+- Re-test after changes
+
+**5. Document decisions**
+- Explain why you chose one approach
+- Note assumptions and limitations
+- Comment tricky parts for your future self
+
+### Example: Full Workflow
+
+```{python}
+def calculate_correlation_coefficient(x, y):
+    """
+    Calculate Pearson correlation coefficient.
+    
+    This was AI-generated and then verified and refined.
+    
+    Requirements verified:
+    - Handles equal-length lists only
+    - Returns value between -1 and 1
+    - Returns None for insufficient data (n < 2)
+    - Uses sample correlation formula
+    
+    Args:
+        x: list of numeric values
+        y: list of numeric values (same length as x)
+        
+    Returns:
+        float: correlation coefficient, or None if insufficient data
+    """
+    # Validate inputs
+    if len(x) != len(y):
+        raise ValueError("x and y must have same length")
+    
+    if len(x) < 2:
+        return None
+    
+    n = len(x)
+    
+    # Calculate means
+    mean_x = sum(x) / n
+    mean_y = sum(y) / n
+    
+    # Calculate correlation
+    numerator = sum((x[i] - mean_x) * (y[i] - mean_y) for i in range(n))
+    
+    sum_sq_x = sum((x[i] - mean_x) ** 2 for i in range(n))
+    sum_sq_y = sum((y[i] - mean_y) ** 2 for i in range(n))
+    
+    denominator = (sum_sq_x * sum_sq_y) ** 0.5
+    
+    if denominator == 0:
+        return None  # One variable has no variance
+    
+    return numerator / denominator
+
+# Comprehensive tests
+def test_correlation():
+    # Perfect positive correlation
+    result = calculate_correlation_coefficient([1, 2, 3], [2, 4, 6])
+    assert abs(result - 1.0) < 0.01, "Perfect positive correlation"
+    
+    # Perfect negative correlation
+    result = calculate_correlation_coefficient([1, 2, 3], [6, 4, 2])
+    assert abs(result - (-1.0)) < 0.01, "Perfect negative correlation"
+    
+    # No correlation
+    result = calculate_correlation_coefficient([1, 2, 3], [2, 2, 2])
+    assert result is None, "No variance in y"
+    
+    # Insufficient data
+    result = calculate_correlation_coefficient([1], [2])
+    assert result is None, "Single point"
+    
+    print("All correlation tests passed!")
+
+test_correlation()
+```
+
+### Your Turn: Apply Full Workflow
+
+```{python}
+#| eval: false
+
+# Your task: Use AI assistance to create a function that:
+# 1. Takes a list of daily temperatures
+# 2. Identifies "heat waves" (3+ consecutive days above threshold)
+# 3. Returns list of tuples: (start_index, end_index, avg_temp)
+
+# Step 1: Write requirements and test cases FIRST
+def test_find_heat_waves():
+    # Your test cases here
+    pass
+
+# Step 2: Implement (you can ask AI for help, but verify!)
+def find_heat_waves(temps, threshold=85):
+    """
+    Find heat waves in temperature data.
+    
+    A heat wave is 3+ consecutive days above threshold.
+    
+    Args:
+        temps: list of daily temperatures
+        threshold: temperature threshold for heat wave
+        
+    Returns:
+        list of tuples: (start_idx, end_idx, avg_temp)
+    """
+    # Your implementation here (AI-assisted or manual)
+    pass
+
+# Step 3: Run tests and refine
+test_find_heat_waves()
+```
+
+# Synthesis: Building Trustworthy Data Analysis Code
+
+Let's return to our central questions:
+
+**How do we know our code actually works?**
+
+- Write tests that check normal cases and edge cases
+- Use assertions to make requirements explicit
+- Test before you trust
+
+**How do we keep code working as we modify it?**
+
+- Re-run tests after every change
+- Add new tests as you discover bugs
+- Document assumptions in tests
+
+**How do we use AI tools effectively while maintaining quality?**
+
+- Use AI for generation, but verify everything
+- Write requirements and tests first
+- Treat AI suggestions as drafts, not final code
+- Understand the code before you use it
+
+**The workflow for trustworthy code:**
+
+1. **Specify**: Write clear requirements (what should the function do?)
+2. **Test**: Write tests that verify requirements (even before coding)
+3. **Implement**: Write code to meet requirements
+4. **Debug**: When tests fail, use systematic approaches
+5. **Verify**: All tests pass and edge cases handled
+6. **Document**: Explain assumptions and design decisions
+
+**Key insights from today:**
+
+- Untested code is untrustworthy code
+- Edge cases are where bugs hide
+- Print debugging is powerful when used systematically
+- AI tools accelerate coding but don't ensure correctness
+- You are responsible for verifying everything
+
+**Testing mindset:**
+
+- Think about what could go wrong
+- Write tests for those scenarios
+- Make tests part of your development process, not an afterthought
+
+**Debugging mindset:**
+
+- Bugs are puzzles to solve, not failures
+- Use evidence (print statements, tests) rather than guessing
+- Check your assumptions systematically
+
+**AI assistance mindset:**
+
+- AI is a collaborator, not an oracle
+- Verify, don't trust blindly
+- Understand the code you use
+
+Professional programming is not just about writing code that works once. It's about writing code you can trust, verify, and maintain over time. These skills distinguish research code that seems to work from research code that produces reliable results.
