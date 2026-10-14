@@ -2,90 +2,98 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://moninp.github.io/intro-programming/project.html</loc>
-    <lastmod>2026-10-09T03:09:12.112Z</lastmod>
+    <lastmod>2026-10-14T03:53:29.786Z</lastmod>
   </url>
   <url>
     <loc>https://moninp.github.io/intro-programming/lectures.html</loc>
-    <lastmod>2026-10-09T03:09:12.108Z</lastmod>
+    <lastmod>2026-10-14T03:53:29.782Z</lastmod>
   </url>
   <url>
     <loc>https://moninp.github.io/intro-programming/project/project.html</loc>
-    <lastmod>2026-10-09T03:09:12.112Z</lastmod>
+    <lastmod>2026-10-14T03:53:29.786Z</lastmod>
   </url>
   <url>
     <loc>https://moninp.github.io/intro-programming/syllabus.html</loc>
-    <lastmod>2026-10-09T03:09:12.113Z</lastmod>
+    <lastmod>2026-10-14T03:53:29.787Z</lastmod>
   </url>
   <url>
     <loc>https://moninp.github.io/intro-programming/lectures/05-data-pandas/notes.html</loc>
-    <lastmod>2026-10-09T03:09:12.112Z</lastmod>
+    <lastmod>2026-10-14T03:53:29.786Z</lastmod>
   </url>
   <url>
     <loc>https://moninp.github.io/intro-programming/lectures/02-data-structures/class_annotated.html</loc>
-    <lastmod>2026-10-09T03:09:12.110Z</lastmod>
+    <lastmod>2026-10-14T03:53:29.783Z</lastmod>
   </url>
   <url>
     <loc>https://moninp.github.io/intro-programming/lectures/02-data-structures/python_objects.html</loc>
-    <lastmod>2026-10-09T03:09:12.110Z</lastmod>
+    <lastmod>2026-10-14T03:53:29.783Z</lastmod>
+  </url>
+  <url>
+    <loc>https://moninp.github.io/intro-programming/lectures/06-test-debug-ai/class_solutions.html</loc>
+    <lastmod>2026-10-14T03:53:29.786Z</lastmod>
   </url>
   <url>
     <loc>https://moninp.github.io/intro-programming/lectures/01-foundations/class.html</loc>
-    <lastmod>2026-10-09T03:09:12.109Z</lastmod>
+    <lastmod>2026-10-14T03:53:29.782Z</lastmod>
   </url>
   <url>
     <loc>https://moninp.github.io/intro-programming/lectures/01-foundations/command_line.html</loc>
-    <lastmod>2026-10-09T03:09:12.109Z</lastmod>
+    <lastmod>2026-10-14T03:53:29.783Z</lastmod>
   </url>
   <url>
     <loc>https://moninp.github.io/intro-programming/lectures/03-modularity/notes.html</loc>
-    <lastmod>2026-10-09T03:09:12.111Z</lastmod>
+    <lastmod>2026-10-14T03:53:29.784Z</lastmod>
   </url>
   <url>
     <loc>https://moninp.github.io/intro-programming/lectures/04-numerical-computing/git_guide.html</loc>
-    <lastmod>2026-10-09T03:09:12.111Z</lastmod>
+    <lastmod>2026-10-14T03:53:29.785Z</lastmod>
   </url>
   <url>
     <loc>https://moninp.github.io/intro-programming/lectures/04-numerical-computing/notes.html</loc>
-    <lastmod>2026-10-09T03:09:12.111Z</lastmod>
+    <lastmod>2026-10-14T03:53:29.785Z</lastmod>
   </url>
   <url>
     <loc>https://moninp.github.io/intro-programming/lectures/04-numerical-computing/class.html</loc>
-    <lastmod>2026-10-09T03:09:12.111Z</lastmod>
+    <lastmod>2026-10-14T03:53:29.784Z</lastmod>
   </url>
   <url>
     <loc>https://moninp.github.io/intro-programming/lectures/03-modularity/class.html</loc>
-    <lastmod>2026-10-09T03:09:12.110Z</lastmod>
+    <lastmod>2026-10-14T03:53:29.783Z</lastmod>
   </url>
   <url>
     <loc>https://moninp.github.io/intro-programming/lectures/01-foundations/notes.html</loc>
-    <lastmod>2026-10-09T03:09:12.109Z</lastmod>
+    <lastmod>2026-10-14T03:53:29.783Z</lastmod>
   </url>
   <url>
     <loc>https://moninp.github.io/intro-programming/lectures/00-first-python/class.html</loc>
-    <lastmod>2026-10-09T03:09:12.109Z</lastmod>
+    <lastmod>2026-10-14T03:53:29.782Z</lastmod>
+  </url>
+  <url>
+    <loc>https://moninp.github.io/intro-programming/lectures/06-test-debug-ai/class.html</loc>
+    <lastmod>2026-10-14T03:53:29.786Z</lastmod>
   </url>
   <url>
     <loc>https://moninp.github.io/intro-programming/lectures/02-data-structures/notes.html</loc>
-    <lastmod>2026-10-09T03:09:12.110Z</lastmod>
+    <lastmod>2026-10-14T03:53:29.783Z</lastmod>
   </url>
   <url>
     <loc>https://moninp.github.io/intro-programming/lectures/02-data-structures/class.html</loc>
-    <lastmod>2026-10-09T03:09:12.109Z</lastmod>
+    <lastmod>2026-10-14T03:53:29.783Z</lastmod>
   </url>
   <url>
     <loc>https://moninp.github.io/intro-programming/lectures/05-data-pandas/class.html</loc>
-    <lastmod>2026-10-09T03:09:12.111Z</lastmod>
+    <lastmod>2026-10-14T03:53:29.785Z</lastmod>
   </url>
   <url>
     <loc>https://moninp.github.io/intro-programming/index.html</loc>
-    <lastmod>2026-10-09T03:09:12.108Z</lastmod>
+    <lastmod>2026-10-14T03:53:29.782Z</lastmod>
   </url>
   <url>
     <loc>https://moninp.github.io/intro-programming/project/project_ideas.html</loc>
-    <lastmod>2026-10-09T03:09:12.113Z</lastmod>
+    <lastmod>2026-10-14T03:53:29.787Z</lastmod>
   </url>
   <url>
     <loc>https://moninp.github.io/intro-programming/getting-started.html</loc>
-    <lastmod>2026-10-09T03:09:12.106Z</lastmod>
+    <lastmod>2026-10-14T03:53:29.780Z</lastmod>
   </url>
 </urlset>
