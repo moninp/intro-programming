@@ -296,7 +296,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="exercise-1.1-why-testing-matters" class="level2">
 <h2 class="anchored" data-anchor-id="exercise-1.1-why-testing-matters">Exercise 1.1: Why Testing Matters</h2>
 <p>Suppose you write a function to calculate the mean of temperature measurements, but it should return <code>None</code> if the list is empty:</p>
-<div id="19b1ed30" class="cell" data-execution_count="1">
+<div id="d69f1756" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_mean_v1(values):</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Calculate mean of values. Return None if empty."""</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">sum</span>(values) <span class="op">/</span> <span class="bu">len</span>(values)</span>
@@ -309,7 +309,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>This seems to work! But watch what happens with edge cases:</p>
-<div id="3461bbfb" class="cell" data-execution_count="2">
+<div id="cba2278c" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># What if the list is empty?</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>empty_temps <span class="op">=</span> []</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> calculate_mean_v1(empty_temps)</span>
@@ -337,7 +337,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="assertions-and-tests" class="level3">
 <h3 class="anchored" data-anchor-id="assertions-and-tests">Assertions and Tests</h3>
 <p>A <strong>test</strong> is code that checks whether a function produces the correct output for a given input. The simplest test uses Python’s <code>assert</code> statement:</p>
-<div id="855de91c" class="cell" data-execution_count="3">
+<div id="64d32d92" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_calculate_mean_normal_case():</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Test mean calculation with normal data."""</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    result <span class="op">=</span> calculate_mean_v1([<span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>])</span>
@@ -352,7 +352,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>The <code>assert</code> statement checks if a condition is true. If false, it raises an <code>AssertionError</code> with the optional message. This makes bugs visible immediately.</p>
 <p>Let’s test the empty list case:</p>
-<div id="78d92fc9" class="cell" data-execution_count="4">
+<div id="ea19cbe8" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_calculate_mean_empty_list():</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Test mean calculation with empty list."""</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    result <span class="op">=</span> calculate_mean_v1([])</span>
@@ -394,7 +394,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="your-turn-write-a-test-for-another-edge-case" class="level3">
 <h3 class="anchored" data-anchor-id="your-turn-write-a-test-for-another-edge-case">Your Turn: Write a Test for Another Edge Case</h3>
-<div id="8641fd22" class="cell" data-execution_count="5">
+<div id="28a7513b" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_calculate_mean_single_value():</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Test mean calculation with one value."""</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Write a test that checks if calculate_mean_v1([42]) returns 42.0</span></span>
@@ -407,7 +407,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="exercise-1.2-fixing-the-function-to-pass-tests" class="level2">
 <h2 class="anchored" data-anchor-id="exercise-1.2-fixing-the-function-to-pass-tests">Exercise 1.2: Fixing the Function to Pass Tests</h2>
 <p>Now let’s fix the function to handle empty lists correctly:</p>
-<div id="404ac7a8" class="cell" data-execution_count="6">
+<div id="27e63f6d" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_mean_v2(values):</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Calculate mean of values. Return None if empty.</span></span>
@@ -457,7 +457,7 @@ Passed: single value</code></pre>
 </section>
 <section id="your-turn-test-a-data-validation-function" class="level3">
 <h3 class="anchored" data-anchor-id="your-turn-test-a-data-validation-function">Your Turn: Test a Data Validation Function</h3>
-<div id="1ede8bfa" class="cell" data-execution_count="7">
+<div id="5c8e70f7" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> is_valid_temperature(temp):</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Check if temperature is valid (between -50 and 150 Fahrenheit).</span></span>
@@ -486,7 +486,7 @@ Passed: single value</code></pre>
 <section id="exercise-1.3-testing-data-cleaning-functions" class="level2">
 <h2 class="anchored" data-anchor-id="exercise-1.3-testing-data-cleaning-functions">Exercise 1.3: Testing Data Cleaning Functions</h2>
 <p>Let’s test a function that removes invalid temperature measurements:</p>
-<div id="97c37be8" class="cell" data-execution_count="8">
+<div id="10301516" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> clean_temperature_data(temps):</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Remove invalid temperatures (outside -50 to 150 F range).</span></span>
@@ -523,7 +523,7 @@ Passed: single value</code></pre>
 <li>Boundary values (exactly -50, exactly 150)</li>
 <li>None or missing values</li>
 </ul>
-<div id="c529a69f" class="cell" data-execution_count="9">
+<div id="61ca4764" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Test empty list</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> clean_temperature_data([])</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> result <span class="op">==</span> [], <span class="st">"Empty list should return empty list"</span></span>
@@ -548,7 +548,7 @@ Passed: boundary values</code></pre>
 </section>
 <section id="your-turn-test-a-missing-value-handler" class="level3">
 <h3 class="anchored" data-anchor-id="your-turn-test-a-missing-value-handler">Your Turn: Test a Missing Value Handler</h3>
-<div id="dae433db" class="cell" data-execution_count="10">
+<div id="9154e82b" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> remove_missing_values(values):</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Remove None values from list.</span></span>
@@ -580,7 +580,7 @@ Passed: boundary values</code></pre>
 <section id="exercise-1.4-testing-data-transformation-functions" class="level2">
 <h2 class="anchored" data-anchor-id="exercise-1.4-testing-data-transformation-functions">Exercise 1.4: Testing Data Transformation Functions</h2>
 <p>Let’s test a function that converts temperatures from Celsius to Fahrenheit:</p>
-<div id="08b236c4" class="cell" data-execution_count="11">
+<div id="7623398e" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> celsius_to_fahrenheit(temps_c):</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Convert list of Celsius temperatures to Fahrenheit.</span></span>
@@ -621,7 +621,7 @@ Passed: boundary values</code></pre>
 </section>
 <section id="your-turn-test-a-scaling-function" class="level3">
 <h3 class="anchored" data-anchor-id="your-turn-test-a-scaling-function">Your Turn: Test a Scaling Function</h3>
-<div id="4fbbb1d1" class="cell" data-execution_count="12">
+<div id="e5c276cb" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> normalize_temperatures(temps):</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Normalize temperatures to 0-1 scale using min-max normalization.</span></span>
@@ -651,7 +651,7 @@ Passed: boundary values</code></pre>
 <section id="exercise-1.5-organizing-tests-into-functions" class="level2">
 <h2 class="anchored" data-anchor-id="exercise-1.5-organizing-tests-into-functions">Exercise 1.5: Organizing Tests into Functions</h2>
 <p>Professional code organizes tests into named functions that can be run together:</p>
-<div id="da340517" class="cell" data-execution_count="13">
+<div id="f0db5034" class="cell" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_calculate_mean():</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Run all tests for calculate_mean_v2."""</span></span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    </span>
@@ -707,7 +707,7 @@ All clean_temperature_data tests passed!</code></pre>
 </ul>
 <section id="your-turn-organize-tests-for-your-functions" class="level3">
 <h3 class="anchored" data-anchor-id="your-turn-organize-tests-for-your-functions">Your Turn: Organize Tests for Your Functions</h3>
-<div id="74d7c759" class="cell" data-execution_count="14">
+<div id="be01b104" class="cell" data-execution_count="14">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_is_valid_temperature():</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Run all tests for is_valid_temperature."""</span></span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Organize your tests from Exercise 1.2 here</span></span>
@@ -732,7 +732,7 @@ All clean_temperature_data tests passed!</code></pre>
 <section id="exercise-2.1-systematic-debugging-approach" class="level2">
 <h2 class="anchored" data-anchor-id="exercise-2.1-systematic-debugging-approach">Exercise 2.1: Systematic Debugging Approach</h2>
 <p>You’re given a function that’s supposed to calculate the median of temperature values, but it’s producing wrong results:</p>
-<div id="e3f1922c" class="cell" data-execution_count="15">
+<div id="a198c3ff" class="cell" data-execution_count="15">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_median_buggy(values):</span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Calculate median of values."""</span></span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    sorted_values <span class="op">=</span> <span class="bu">sorted</span>(values)</span>
@@ -770,7 +770,7 @@ All clean_temperature_data tests passed!</code></pre>
 <section id="print-debugging" class="level3">
 <h3 class="anchored" data-anchor-id="print-debugging">Print Debugging</h3>
 <p>The simplest debugging technique is strategic <code>print()</code> statements to inspect what’s happening:</p>
-<div id="28ee3293" class="cell" data-execution_count="16">
+<div id="f4535f4b" class="cell" data-execution_count="16">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_median_debug(values):</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Calculate median with debug prints."""</span></span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Input values: </span><span class="sc">{</span>values<span class="sc">}</span><span class="ss">"</span>)</span>
@@ -811,7 +811,7 @@ Error: list indices must be integers or slices, not float</code></pre>
 </section>
 <section id="your-turn-fix-the-median-function" class="level3">
 <h3 class="anchored" data-anchor-id="your-turn-fix-the-median-function">Your Turn: Fix the Median Function</h3>
-<div id="b9aaf5ee" class="cell" data-execution_count="17">
+<div id="c9d42683" class="cell" data-execution_count="17">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_median_fixed(values):</span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Calculate median of values.</span></span>
@@ -839,7 +839,7 @@ Error: list indices must be integers or slices, not float</code></pre>
 <section id="exercise-2.2-debugging-off-by-one-errors" class="level2">
 <h2 class="anchored" data-anchor-id="exercise-2.2-debugging-off-by-one-errors">Exercise 2.2: Debugging Off-by-One Errors</h2>
 <p>A common bug in data processing is <strong>off-by-one errors</strong> – being one position too early or too late:</p>
-<div id="84d8f4c4" class="cell" data-execution_count="18">
+<div id="6d179f37" class="cell" data-execution_count="18">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_temperature_range_buggy(temps):</span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Get range of temperatures (max - min)."""</span></span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">len</span>(temps) <span class="op">==</span> <span class="dv">0</span>:</span>
@@ -876,7 +876,7 @@ Expected: 22 = 22</code></pre>
 <li>Are boundary cases handled correctly?</li>
 </ol>
 <p>Add debug prints to see what the loop actually processes:</p>
-<div id="af802053" class="cell" data-execution_count="19">
+<div id="dbb68e2a" class="cell" data-execution_count="19">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_temperature_range_debug(temps):</span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Get range with debugging."""</span></span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">len</span>(temps) <span class="op">==</span> <span class="dv">0</span>:</span>
@@ -912,7 +912,7 @@ Final: min=68, max=75</code></pre>
 </section>
 <section id="your-turn-fix-the-range-function" class="level3">
 <h3 class="anchored" data-anchor-id="your-turn-fix-the-range-function">Your Turn: Fix the Range Function</h3>
-<div id="142ae869" class="cell" data-execution_count="20">
+<div id="292603e2" class="cell" data-execution_count="20">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_temperature_range_fixed(temps):</span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Get range of temperatures (max - min).</span></span>
@@ -939,7 +939,7 @@ Final: min=68, max=75</code></pre>
 <section id="exercise-2.3-debugging-data-type-mismatches" class="level2">
 <h2 class="anchored" data-anchor-id="exercise-2.3-debugging-data-type-mismatches">Exercise 2.3: Debugging Data Type Mismatches</h2>
 <p>Type mismatches cause subtle bugs in data analysis:</p>
-<div id="348f18ae" class="cell" data-execution_count="21">
+<div id="b42f9d09" class="cell" data-execution_count="21">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_total_rainfall(daily_rain):</span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Sum up daily rainfall measurements."""</span></span>
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>    total <span class="op">=</span> <span class="dv">0</span></span>
@@ -978,7 +978,7 @@ Final: min=68, max=75</code></pre>
 <section id="type-checking-in-loops" class="level3">
 <h3 class="anchored" data-anchor-id="type-checking-in-loops">Type Checking in Loops</h3>
 <p>Add type checks to catch problems early:</p>
-<div id="3ddd1b5f" class="cell" data-execution_count="22">
+<div id="393f053c" class="cell" data-execution_count="22">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_total_rainfall_debug(daily_rain):</span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Sum rainfall with type checking."""</span></span>
 <span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>    total <span class="op">=</span> <span class="dv">0</span></span>
@@ -1007,7 +1007,7 @@ Error detected: unsupported operand type(s) for +: 'float' and 'str'</code></pre
 </section>
 <section id="your-turn-add-robust-type-handling" class="level3">
 <h3 class="anchored" data-anchor-id="your-turn-add-robust-type-handling">Your Turn: Add Robust Type Handling</h3>
-<div id="23d7c59a" class="cell" data-execution_count="23">
+<div id="f46fc0bb" class="cell" data-execution_count="23">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_total_rainfall_robust(daily_rain):</span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Sum daily rainfall, handling type mismatches gracefully.</span></span>
@@ -1037,7 +1037,7 @@ Error detected: unsupported operand type(s) for +: 'float' and 'str'</code></pre
 <section id="exercise-2.4-debugging-function-return-values" class="level2">
 <h2 class="anchored" data-anchor-id="exercise-2.4-debugging-function-return-values">Exercise 2.4: Debugging Function Return Values</h2>
 <p>Sometimes functions return the wrong type or structure:</p>
-<div id="ad6cca03" class="cell" data-execution_count="24">
+<div id="e7e4d134" class="cell" data-execution_count="24">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> find_hot_days_buggy(temps, threshold<span class="op">=</span><span class="dv">80</span>):</span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Find indices of days where temperature exceeded threshold."""</span></span>
 <span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>    hot_days <span class="op">=</span> []</span>
@@ -1063,7 +1063,7 @@ Expected: [1, 3, 5] (the indices)</code></pre>
 <li>Is it the right size/shape?</li>
 <li>Does it contain what you expected?</li>
 </ol>
-<div id="c946c64d" class="cell" data-execution_count="25">
+<div id="152d9005" class="cell" data-execution_count="25">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> find_hot_days_debug(temps, threshold<span class="op">=</span><span class="dv">80</span>):</span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Find hot days with validation."""</span></span>
 <span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>    hot_days <span class="op">=</span> []</span>
@@ -1090,7 +1090,7 @@ But we wanted indices, not temperatures!</code></pre>
 </section>
 <section id="your-turn-fix-the-return-value" class="level3">
 <h3 class="anchored" data-anchor-id="your-turn-fix-the-return-value">Your Turn: Fix the Return Value</h3>
-<div id="c2618ee1" class="cell" data-execution_count="26">
+<div id="3ed075cd" class="cell" data-execution_count="26">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> find_hot_days_fixed(temps, threshold<span class="op">=</span><span class="dv">80</span>):</span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Find indices of days where temperature exceeded threshold.</span></span>
@@ -1160,7 +1160,7 @@ But we wanted indices, not temperatures!</code></pre>
 <p><strong>Example: AI-generated function</strong></p>
 <p>Suppose you ask ChatGPT: “Write a Python function to calculate standard deviation.”</p>
 <p>It might produce:</p>
-<div id="3dcfea2c" class="cell" data-execution_count="27">
+<div id="a42f92f6" class="cell" data-execution_count="27">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_std_dev(values):</span>
 <span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Calculate standard deviation."""</span></span>
 <span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>    n <span class="op">=</span> <span class="bu">len</span>(values)</span>
@@ -1184,7 +1184,7 @@ But we wanted indices, not temperatures!</code></pre>
 <li>Is the algorithm numerically stable for very large or very small values?</li>
 </ol>
 <p>Let’s test:</p>
-<div id="069c746f" class="cell" data-execution_count="28">
+<div id="e463772f" class="cell" data-execution_count="28">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Test edge case: empty list</span></span>
 <span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> calculate_std_dev([])</span>
 <span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Empty list result: </span><span class="sc">{</span>result<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1213,7 +1213,7 @@ But we wanted indices, not temperatures!</code></pre>
 </section>
 <section id="your-turn-evaluate-ai-generated-code" class="level3">
 <h3 class="anchored" data-anchor-id="your-turn-evaluate-ai-generated-code">Your Turn: Evaluate AI-Generated Code</h3>
-<div id="14b1f368" class="cell" data-execution_count="29">
+<div id="9da69f6e" class="cell" data-execution_count="29">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Suppose AI generates this function:</span></span>
 <span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> remove_outliers(values, z_threshold<span class="op">=</span><span class="dv">2</span>):</span>
 <span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Remove outliers beyond z_threshold standard deviations."""</span></span>
@@ -1242,7 +1242,7 @@ But we wanted indices, not temperatures!</code></pre>
 <h3 class="anchored" data-anchor-id="example-asking-ai-for-tests">Example: Asking AI for Tests</h3>
 <p><strong>Prompt to ChatGPT:</strong> “Generate test cases for a function that validates email addresses.”</p>
 <p><strong>AI might suggest:</strong></p>
-<div id="3ffd96e7" class="cell" data-execution_count="30">
+<div id="4bde65fc" class="cell" data-execution_count="30">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_email_validation():</span>
 <span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Tests suggested by AI."""</span></span>
 <span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Test 1: Valid email</span></span>
@@ -1267,7 +1267,7 @@ But we wanted indices, not temperatures!</code></pre>
 </section>
 <section id="your-turn-improve-ai-generated-tests" class="level3">
 <h3 class="anchored" data-anchor-id="your-turn-improve-ai-generated-tests">Your Turn: Improve AI-Generated Tests</h3>
-<div id="de719668" class="cell" data-execution_count="31">
+<div id="f66aecc5" class="cell" data-execution_count="31">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> is_valid_temperature_reading(temp, unit):</span>
 <span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Validate temperature reading.</span></span>
@@ -1307,7 +1307,7 @@ But we wanted indices, not temperatures!</code></pre>
 <section id="exercise-3.3-debugging-ai-generated-code" class="level2">
 <h2 class="anchored" data-anchor-id="exercise-3.3-debugging-ai-generated-code">Exercise 3.3: Debugging AI-Generated Code</h2>
 <p>AI often generates code with subtle bugs. Let’s practice finding them:</p>
-<div id="60b1c242" class="cell" data-execution_count="32">
+<div id="8368c457" class="cell" data-execution_count="32">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="co"># AI-generated function to calculate moving average</span></span>
 <span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> moving_average(values, window_size):</span>
 <span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Calculate moving average with given window size."""</span></span>
@@ -1329,7 +1329,7 @@ But we wanted indices, not temperatures!</code></pre>
 <section id="spotting-algorithmic-bugs" class="level3">
 <h3 class="anchored" data-anchor-id="spotting-algorithmic-bugs">Spotting Algorithmic Bugs</h3>
 <p>The function runs without error, but let’s verify the results:</p>
-<div id="718ebd8d" class="cell" data-execution_count="33">
+<div id="73fc0fda" class="cell" data-execution_count="33">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check the logic carefully</span></span>
 <span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>temps <span class="op">=</span> [<span class="dv">70</span>, <span class="dv">75</span>, <span class="dv">80</span>, <span class="dv">85</span>, <span class="dv">90</span>]</span>
 <span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>ma <span class="op">=</span> moving_average(temps, window_size<span class="op">=</span><span class="dv">3</span>)</span>
@@ -1363,7 +1363,7 @@ Position 4: 30.0</code></pre>
 </section>
 <section id="your-turn-fix-ai-code-with-requirements" class="level3">
 <h3 class="anchored" data-anchor-id="your-turn-fix-ai-code-with-requirements">Your Turn: Fix AI Code with Requirements</h3>
-<div id="4f2fece7" class="cell" data-execution_count="34">
+<div id="46382dc7" class="cell" data-execution_count="34">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> moving_average_corrected(values, window_size):</span>
 <span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Calculate moving average, excluding incomplete windows.</span></span>
@@ -1404,7 +1404,7 @@ Position 4: 30.0</code></pre>
 <p><strong>Your question:</strong> “How should I handle missing temperature values in my dataset?”</p>
 <p><strong>AI might respond:</strong> “Replace all missing values with the mean temperature.”</p>
 <p><strong>Critical evaluation:</strong></p>
-<div id="3dab7684" class="cell" data-execution_count="35">
+<div id="cde76ac4" class="cell" data-execution_count="35">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample data with missing values</span></span>
@@ -1440,7 +1440,7 @@ Filled:   [72, 80.8, 85, 80.8, 90, 75, 80.8, 82]</code></pre>
 </section>
 <section id="your-turn-compare-imputation-methods" class="level3">
 <h3 class="anchored" data-anchor-id="your-turn-compare-imputation-methods">Your Turn: Compare Imputation Methods</h3>
-<div id="85f7edc2" class="cell" data-execution_count="36">
+<div id="bb5b06f2" class="cell" data-execution_count="36">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fill_forward(temps):</span>
 <span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Fill missing values by carrying forward last valid value."""</span></span>
 <span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Your implementation here</span></span>
@@ -1479,7 +1479,7 @@ Filled:   [72, 80.8, 85, 80.8, 90, 75, 80.8, 82]</code></pre>
 </section>
 <section id="example-full-workflow" class="level3">
 <h3 class="anchored" data-anchor-id="example-full-workflow">Example: Full Workflow</h3>
-<div id="6524f741" class="cell" data-execution_count="37">
+<div id="598bff16" class="cell" data-execution_count="37">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_correlation_coefficient(x, y):</span>
 <span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Calculate Pearson correlation coefficient.</span></span>
@@ -1553,7 +1553,7 @@ Filled:   [72, 80.8, 85, 80.8, 90, 75, 80.8, 82]</code></pre>
 </section>
 <section id="your-turn-apply-full-workflow" class="level3">
 <h3 class="anchored" data-anchor-id="your-turn-apply-full-workflow">Your Turn: Apply Full Workflow</h3>
-<div id="3112b2a8" class="cell" data-execution_count="38">
+<div id="cee4f895" class="cell" data-execution_count="38">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb59"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Your task: Use AI assistance to create a function that:</span></span>
 <span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Takes a list of daily temperatures</span></span>
 <span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Identifies "heat waves" (3+ consecutive days above threshold)</span></span>
