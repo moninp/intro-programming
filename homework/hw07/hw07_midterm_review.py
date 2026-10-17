@@ -4,7 +4,7 @@ Homework: Midterm Review
 Submit this file with your solutions filled in below each problem.
 Do not delete the problem statements.
 
-This assignment reviews all topics covered on the midterm:
+This assignment reviews topics covered on the midterm:
 data types, data structures, control flow, functions, NumPy, pandas,
 and Git/version control.
 
@@ -74,7 +74,7 @@ inventory = {
 # Your code here
 
 # 2c. Write a function `total_inventory(inventory_dict)` that returns the
-# total count of all items, using a for loop (do not use the built-in sum()).
+# total count of all items, using a `for` loop (do not use the built-in sum()).
 
 def total_inventory(inventory_dict):
     pass  # Replace with your code
