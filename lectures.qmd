@@ -21,5 +21,6 @@ Lecture materials are organized by week. Each lecture generally has two componen
 | Lecture 4: Numerical Computing with NumPy | [class](lectures/04-numerical-computing/class.qmd) | [notes](lectures/04-numerical-computing/notes.qmd) | [git guide](lectures/04-numerical-computing/git_guide.qmd) |
 | Lecture 5: Data Analysis with Pandas | [class](lectures/05-data-pandas/class.qmd) | [notes](lectures/05-data-pandas/notes.qmd) | -- |
 | Lecture 6: Testing, Debugging, and AI-Assisted Programming | [class](lectures/06-test-debug-ai/class.qmd) | -- | -- |
+| Lecture 7: First Steps with R | [class](lectures/07-first-r/class.qmd) | -- | -- |
 
 The lecture schedule and materials will develop as the semester progresses.
