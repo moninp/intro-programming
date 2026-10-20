@@ -1,0 +1,1056 @@
+---
+title: "First Steps with R"
+format:
+  html:
+    toc: true
+    code-fold: false
+jupyter: r
+---
+
+## Introduction
+
+In this tutorial, we'll guide you through setting up a complete R development environment. By the end of this session, you'll understand:
+
+- **What R is** and how to install it on your system
+- **Running R interactively** from the terminal
+- **Running R scripts** from files
+- **Installing and using RStudio** as your primary R IDE (with a brief look at VS Code as an alternative)
+- **Taking a tour of RStudio** and understanding its key panes
+- **Creating project-local package environments with renv** to manage project dependencies
+- **Connecting renv projects to RStudio** and switching between them
+- **Understanding package isolation** across different environments
+- **Basic troubleshooting** for common issues
+
+This should feel familiar: it is the same journey we took with Python, just with a new language. We installed Python, ran it from the terminal, installed Spyder, and used venv to create isolated environments. Here we will install R, run it from the terminal, install RStudio, and use renv to do the same job that venv did for Python.
+
+::: {.callout-note}
+## Why Project-Local Package Environments?
+Just as with Python, different R projects may need different packages, or different versions of the same package. renv lets you create an isolated package library for each project, so installing or updating a package in one project never breaks another.
+:::
+
+::: {.callout-tip}
+## Reuse Your Existing Folder
+We will keep using the same `src` folder you created for Python. By the end of this course, your `src` folder will contain both `.py` and `.R` files side by side. Getting comfortable with a shared folder for multiple languages is good practice: real projects often mix languages.
+:::
+
+---
+
+## Step 1: Install R and Run from Terminal
+
+### 1.1 Download and Install R
+
+First, we need to install R on your system. We'll install the latest stable version from CRAN (the Comprehensive R Archive Network).
+
+::: {.panel-tabset}
+
+### Windows
+
+1. Visit [CRAN for Windows](https://cran.r-project.org/bin/windows/base/)
+2. Click the link for the latest release (for example, "Download R-4.x.x for Windows")
+3. Run the downloaded installer
+4. Accept the defaults during installation (R does **not** need to be manually added to PATH; the installer handles this)
+5. Wait for installation to complete
+
+<!-- Screenshot placeholder: Windows R installer -->
+
+### Mac
+
+1. Visit [CRAN for macOS](https://cran.r-project.org/bin/macosx/)
+2. Download the latest .pkg installer that matches your Mac (Apple silicon vs. Intel)
+3. Open the downloaded .pkg file
+4. Follow the installation wizard (accept defaults)
+5. R will be automatically added to your PATH
+
+<!-- Screenshot placeholder: macOS R installer -->
+
+### Linux
+
+Most distributions package R, though CRAN's own repositories often have more current versions.
+
+**Ubuntu/Debian:**
+```bash
+sudo apt update
+sudo apt install r-base r-base-dev
+```
+
+**Fedora:**
+```bash
+sudo dnf install R
+```
+
+**Arch Linux:**
+```bash
+sudo pacman -S r
+```
+
+:::
+
+### 1.2 Test Your Installation
+
+Let's verify that R is installed correctly and accessible from your terminal.
+
+::: {.panel-tabset}
+
+### Windows
+
+1. Open **PowerShell** (search for "PowerShell" in the Start menu)
+2. Type the following command and press Enter:
+
+```powershell
+R --version
+```
+
+You should see something like `R version 4.4.0` (version number may vary).
+
+### Mac
+
+1. Open **Terminal** (Applications -> Utilities -> Terminal, or search "Terminal")
+2. Type the following command and press Enter:
+
+```bash
+R --version
+```
+
+You should see something like `R version 4.4.0` (version number may vary).
+
+### Linux
+
+1. Open your terminal application
+2. Type the following command and press Enter:
+
+```bash
+R --version
+```
+
+You should see something like `R version 4.4.0` (version number may vary).
+
+:::
+
+<!-- Screenshot placeholder: Terminal showing successful R --version output -->
+
+### 1.3 Running R Interactively
+
+Just like Python, R has an **interactive interpreter** (sometimes called the R console or R REPL). This lets you type R commands one at a time and see immediate results.
+
+In your terminal (any platform), type:
+
+```bash
+R
+```
+
+You should see something like this:
+
+```
+R version 4.4.0 (2024-04-24) -- "Puppy Cup"
+Copyright (C) 2024 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+>
+```
+
+The `>` is the R prompt, waiting for your input.
+
+### 1.4 Exploring Basic R Concepts
+
+Now let's explore some fundamental R concepts. Type each command after the `>` prompt.
+
+#### Variables and Dynamic Typing
+
+Like Python, R uses **dynamic typing**: variables can hold different types of data at different times. R uses the assignment operator `<-` (though `=` also works at the top level).
+
+```{r}
+#| eval: false
+# Numeric (R does not distinguish int/float by default)
+x <- 10
+class(x)  # Returns: "numeric"
+```
+
+```{r}
+#| eval: false
+# Character (R's name for a string)
+x <- "phil"
+class(x)  # Returns: "character"
+```
+
+```{r}
+#| eval: false
+# Integer (explicit integer type)
+x <- 10L
+class(x)  # Returns: "integer"
+```
+
+```{r}
+#| eval: false
+# Logical (note: must be all capitals, with no quotes!)
+x <- TRUE
+class(x)  # Returns: "logical"
+```
+
+::: {.callout-important}
+## R Is Case-Sensitive, Just Like Python!
+Try typing `x <- true` (lowercase):
+```{r}
+#| eval: false
+x <- true  # This will raise an error!
+```
+This produces an error because R expects `TRUE` (all capitals), not `true` or `True`. R also accepts the shorthand `T` and `F`, but spelling out `TRUE`/`FALSE` is safer and clearer.
+:::
+
+#### Working with Multiple Variables
+
+```{r}
+#| eval: false
+x <- 10
+y <- 20
+```
+
+#### Checking Your Workspace
+
+The `ls()` function shows all variables currently in your workspace, similar to Python's `dir()`:
+
+```{r}
+#| eval: false
+ls()
+```
+
+You'll see a list that includes `x` and `y`.
+
+#### Loading Packages
+
+R's power comes from its enormous ecosystem of packages. Base R already includes many useful functions without loading anything extra:
+
+```{r}
+#| eval: false
+sin(0)  # Returns: 0
+```
+
+Unlike Python, R does not require an `import` statement to use basic math functions like `sin()`, `sqrt()`, or `log()`; these are part of base R. We will see how to load additional packages (like `library(ggplot2)`) once we start installing them.
+
+#### Exiting R
+
+To exit the interactive interpreter:
+
+```{r}
+#| eval: false
+q()
+```
+
+You will be asked whether to save your workspace; type `n` and press Enter to decline.
+
+::: {.callout-tip}
+## What We Just Learned
+- R uses dynamic typing (variables can change types)
+- `class()` tells us what kind of data we have (R's version of Python's `type()`)
+- `ls()` shows what's in our workspace (R's version of Python's `dir()`)
+- Base R includes many functions without needing to load a package
+- R is case-sensitive, and logical values must be `TRUE`/`FALSE` (all capitals)
+:::
+
+<!-- Screenshot placeholder: R interactive session showing the above commands -->
+
+---
+
+## Step 2: Reuse Your Folder Structure and Run an R Script
+
+While the interactive interpreter is great for experimentation, real programming happens in **script files** that we can save, edit, and run repeatedly. We will keep using the same `math5200/src` folder we created for Python.
+
+### 2.1 Confirm Your Existing Folder Structure
+
+::: {.panel-tabset}
+
+### Windows
+
+```powershell
+cd $HOME\Documents\math5200
+ls
+cd src
+ls
+```
+
+### Mac/Linux
+
+```bash
+cd ~/Documents/math5200
+ls
+cd src
+ls
+```
+
+:::
+
+You should still see your Python files (such as `first_script.py` and `spyder_demo.py`) in `src`. We are simply going to add R files alongside them.
+
+::: {.callout-note}
+## One src Folder, Many Languages
+Keeping Python and R files in the same `src` folder mirrors how real projects are often organized: by project, not by language. File extensions (`.py` vs `.R`) tell you and your tools which language a file uses.
+:::
+
+### 2.2 Create Your First R Script
+
+::: {.panel-tabset}
+
+### Windows
+
+You can use any text editor. Let's use Notepad for simplicity:
+
+```powershell
+cd $HOME\Documents\math5200\src
+notepad first_script.R
+```
+
+### Mac
+
+```bash
+cd ~/Documents/math5200/src
+open -a TextEdit first_script.R
+```
+
+Or use a command-line editor:
+```bash
+nano first_script.R
+```
+
+### Linux
+
+```bash
+cd ~/Documents/math5200/src
+nano first_script.R
+```
+
+:::
+
+### 2.3 Write Your First Script
+
+In the text editor, type the following R code:
+
+```{r}
+#| eval: false
+# first_script.R
+# My first R script!
+
+print("Hello, R world!")
+print(strrep("=", 40))  # Print a line of 40 equals signs
+
+# Define some variables
+name <- "Student"
+course <- "Math 5200"
+year <- 2026
+
+# Print formatted information using sprintf (similar to Python's f-strings)
+cat(sprintf("Welcome, %s!\n", name))
+cat(sprintf("Course: %s\n", course))
+cat(sprintf("Year: %d\n", year))
+print(strrep("=", 40))
+
+# Do some calculations
+x <- 10
+y <- 20
+sum_result <- x + y
+product <- x * y
+
+cat(sprintf("%d + %d = %d\n", x, y, sum_result))
+cat(sprintf("%d * %d = %d\n", x, y, product))
+
+# Use a base R math function
+print(strrep("=", 40))
+angle_rad <- pi / 4  # 45 degrees in radians
+sin_value <- sin(angle_rad)
+
+cat(sprintf("sin(pi/4) = %.4f\n", sin_value))
+print("Script complete!")
+```
+
+Save the file and close the editor.
+
+::: {.callout-tip}
+## Understanding the Code
+- `print()` displays an R object to the console, including its structure
+- `cat()` prints text directly, without the quotes and index markers that `print()` adds -- closer to Python's `print()`
+- `sprintf()` builds formatted strings using `%s`, `%d`, `%.4f`, similar to Python's old-style `%` formatting
+- `strrep("=", 40)` repeats the equals sign 40 times (R's version of Python's `"=" * 40`)
+:::
+
+### 2.4 Run Your Script
+
+Now let's run the script from the terminal using `Rscript`, R's command-line script runner (analogous to typing `python script.py`).
+
+::: {.panel-tabset}
+
+### Windows
+
+```powershell
+cd $HOME\Documents\math5200\src
+Rscript first_script.R
+```
+
+### Mac/Linux
+
+```bash
+cd ~/Documents/math5200/src
+Rscript first_script.R
+```
+
+:::
+
+You should see output like:
+
+```
+[1] "Hello, R world!"
+[1] "========================================"
+Welcome, Student!
+Course: Math 5200
+Year: 2026
+========================================
+10 + 20 = 30
+10 * 20 = 200
+========================================
+sin(pi/4) = 0.7071
+[1] "Script complete!"
+```
+
+<!-- Screenshot placeholder: Terminal showing the R script output -->
+
+::: {.callout-note}
+## Why Do Some Lines Start with [1]?
+When R's `print()` displays something, it shows `[1]` before the first element to indicate position in a vector. `cat()` does not add this marker, which is why the `sprintf`/`cat` lines look cleaner. This is a common point of confusion for people coming from Python.
+:::
+
+::: {.callout-tip}
+## What We Just Learned
+- R scripts are text files with a `.R` extension
+- We run scripts from the terminal with `Rscript scriptname.R`
+- Scripts execute from top to bottom, just like Python
+- `print()` and `cat()` both display output but format it differently
+:::
+
+---
+
+## Step 3: Install RStudio (with a Brief Note on VS Code)
+
+While running R from the terminal works, an **Integrated Development Environment (IDE)** provides a much richer experience, with features like:
+
+- **Syntax highlighting**
+- **Code completion**
+- **Environment pane** (R's version of Spyder's Variable Explorer)
+- **Integrated debugger**
+- **Built-in help and plot viewer**
+
+**RStudio** is the standard IDE for R, playing a role very similar to the one Spyder played for Python.
+
+### 3.1 Install RStudio Desktop
+
+::: {.panel-tabset}
+
+### Windows
+
+1. Visit [posit.co/download/rstudio-desktop](https://posit.co/download/rstudio-desktop/)
+2. Download the Windows installer
+3. Run the installer and accept the defaults
+4. RStudio will automatically detect your R installation
+
+### Mac
+
+1. Visit [posit.co/download/rstudio-desktop](https://posit.co/download/rstudio-desktop/)
+2. Download the macOS installer (.dmg)
+3. Open the .dmg and drag RStudio to Applications
+
+### Linux
+
+1. Visit [posit.co/download/rstudio-desktop](https://posit.co/download/rstudio-desktop/)
+2. Download the installer appropriate for your distribution (.deb or .rpm)
+
+**Ubuntu/Debian example:**
+```bash
+sudo apt install ./rstudio-*.deb
+```
+
+**Fedora example:**
+```bash
+sudo dnf install rstudio-*.rpm
+```
+
+:::
+
+::: {.callout-important}
+## RStudio Needs R Installed First
+RStudio is just the IDE; it does not include R itself. Make sure you completed Step 1 (installing R) before installing RStudio, or RStudio will not find an R installation to use.
+:::
+
+### 3.2 Launch RStudio
+
+::: {.panel-tabset}
+
+### Windows
+
+Find RStudio in your Start Menu and click it.
+
+### Mac
+
+Open RStudio from your Applications folder.
+
+### Linux
+
+```bash
+rstudio
+```
+Or find it in your applications menu.
+
+:::
+
+<!-- Screenshot placeholder: RStudio opening screen -->
+
+### 3.3 A Brief Note on VS Code
+
+Some of you may prefer VS Code, especially if you are already using it for Python. VS Code can work well for R too, though the setup has a few extra steps:
+
+1. Install the **R extension** for VS Code (search "R" in the Extensions panel)
+2. Install the **languageserver** package in R, which powers code completion and diagnostics:
+
+```{r}
+#| eval: false
+install.packages("languageserver")
+```
+
+3. Install **radian**, an improved R console, via pip (optional but recommended):
+
+```bash
+pip install radian
+```
+
+4. In VS Code settings, set `r.rterm.*` paths to point to R (or to `radian` if installed) and `r.bracketedPaste` to `true`
+
+::: {.callout-note}
+## RStudio vs. VS Code
+RStudio is purpose-built for R and requires no extra configuration: panes for the console, editor, environment, and plots are ready immediately. VS Code is more general-purpose and requires a bit of setup, but it is a reasonable choice if you want one editor for both Python and R. For this course, we will use **RStudio** as our primary R environment, since its tight integration mirrors what Spyder gave us for Python.
+:::
+
+---
+
+## Step 4: Create a Project Environment with renv and Use It in RStudio
+
+Now we'll create our first **renv project environment**. Think of it as a separate package library specific to a project, exactly like a Python virtual environment created with `venv`.
+
+### 4.1 Understanding renv
+
+::: {.callout-note}
+## renv Is R's Answer to venv
+Imagine you have:
+
+- **Project A** that needs an older version of a package
+- **Project B** that needs a newer version of the same package, with breaking changes
+
+Without project-local libraries, you can only have one version of a package installed globally. With renv, each project gets its own package library, just like `venv` gives each Python project its own set of installed packages.
+:::
+
+### 4.2 Create Your First renv Project (env1)
+
+We will create a dedicated project folder for env1, separate from your `src` folder (renv works at the project level, with your R scripts living inside `src` and being run from within the project).
+
+::: {.panel-tabset}
+
+### Windows
+
+```powershell
+# Navigate to your course folder
+cd $HOME\Documents\math5200
+
+# Create a project folder for env1
+mkdir r_env1
+cd r_env1
+
+# Launch R in this folder
+R
+```
+
+### Mac/Linux
+
+```bash
+# Navigate to your course folder
+cd ~/Documents/math5200
+
+# Create a project folder for env1
+mkdir r_env1
+cd r_env1
+
+# Launch R in this folder
+R
+```
+
+:::
+
+Once inside R, install and initialize renv:
+
+```{r}
+#| eval: false
+# Install renv itself (one-time, into your base R library)
+install.packages("renv")
+
+# Initialize a new project-local library in this folder
+renv::init()
+```
+
+`renv::init()` creates a few files in your project folder:
+
+- `renv.lock` -- records the exact package versions used (like Python's `requirements.txt`, but auto-generated and exact)
+- `renv/` -- a folder containing the project's private package library
+- `.Rprofile` -- a startup script that automatically activates renv whenever you open this project
+
+::: {.callout-tip}
+## renv.lock Is Like requirements.txt, But Better
+`renv.lock` is created and updated automatically by renv, and it records exact versions (down to the source) of every package. Running `renv::restore()` on another machine recreates the exact same package library, which is even more precise than a hand-written `requirements.txt`.
+:::
+
+### 4.3 Install a Package into env1
+
+Let's install a lightweight package, but deliberately **not** the tidyverse. We will use `jsonlite`, a small package for working with JSON data.
+
+```{r}
+#| eval: false
+install.packages("jsonlite")
+
+# Record this package in renv.lock
+renv::snapshot()
+```
+
+`renv::snapshot()` updates `renv.lock` to match the packages currently installed, exactly like running `pip freeze > requirements.txt` for a Python virtual environment.
+
+### 4.4 Open This Project in RStudio
+
+::: {.panel-tabset}
+
+### Windows
+
+In RStudio: **File -> Open Project...** and navigate to `math5200/r_env1`. If renv created a `.Rproj` file, you can also just double-click it in File Explorer to launch RStudio directly into this project.
+
+### Mac/Linux
+
+In RStudio: **File -> Open Project...** and navigate to `math5200/r_env1`. If renv created a `.Rproj` file, you can also double-click it in Finder/your file manager to launch RStudio directly into this project.
+
+:::
+
+::: {.callout-note}
+## Automatic Activation
+Unlike Python's venv, which you must manually activate with `source env/bin/activate`, an renv project activates itself automatically whenever you open its folder as an RStudio project (because of the `.Rprofile` file renv created). You will see a message in the console confirming that renv has been activated.
+:::
+
+<!-- Screenshot placeholder: RStudio console showing renv activation message -->
+
+### 4.5 Tour of RStudio
+
+Now that you have a project open, let's explore RStudio's interface. By default, RStudio arranges its panes into four quadrants.
+
+<!-- Screenshot placeholder: RStudio interface with panes labeled -->
+
+#### 1. Source Editor (top left)
+- Where you write and edit `.R` scripts
+- Multiple files open in tabs
+- Syntax highlighting, code completion, and inline diagnostics
+
+#### 2. Console (bottom left)
+- Interactive R console, equivalent to Spyder's IPython console
+- Results appear immediately after you type commands
+- Shows the renv activation message when you open the project
+
+#### 3. Environment Pane (top right)
+- Shows all variables currently in memory, their types, and their values
+- This is RStudio's version of Spyder's Variable Explorer
+- Click a data frame to view it in a spreadsheet-like viewer
+
+#### 4. Files / Plots / Packages / Help Pane (bottom right)
+- **Files:** Browse your project's folder
+- **Plots:** Displays R plots
+- **Packages:** Shows installed packages (and which ones are loaded) -- useful for confirming you are using the project's renv library, not your global R library
+- **Help:** Documentation for functions (type `?function_name` in the console, or press F1 with your cursor on a function name)
+
+### 4.6 Working in RStudio
+
+Let's write and run some code in RStudio.
+
+1. In the **Source Editor**, create a new file (File -> New File -> R Script, or `Ctrl+Shift+N`)
+2. Type the following code:
+
+```{r}
+#| eval: false
+# rstudio_demo.R
+# Demonstrating RStudio features
+
+numbers <- c(1, 2, 3, 4, 5)
+squared <- numbers^2
+
+# Calculate statistics
+total <- sum(numbers)
+mean_val <- mean(numbers)
+std_dev <- sd(numbers)
+
+# Print results
+cat(sprintf("Numbers: %s\n", paste(numbers, collapse = ", ")))
+cat(sprintf("Squared: %s\n", paste(squared, collapse = ", ")))
+cat(sprintf("Mean: %.3f\n", mean_val))
+cat(sprintf("Standard Deviation: %.3f\n", std_dev))
+
+# Create a list (R's rough analogue of a Python dictionary)
+data <- list(
+  numbers = numbers,
+  squared = squared,
+  mean = mean_val,
+  std_dev = std_dev
+)
+
+print("Data list created!")
+print("Check the Environment pane ->")
+
+# Use the jsonlite package we installed into env1
+library(jsonlite)
+json_text <- toJSON(data, pretty = TRUE)
+cat(json_text)
+```
+
+3. **Save the file** (File -> Save, or `Ctrl+S`) in your `math5200/src` folder as `rstudio_demo.R`
+4. **Run the file:** click **Source** in the top-right of the editor pane, or press `Ctrl+Shift+Enter` (sources the whole file), or run line-by-line with `Ctrl+Enter`
+
+<!-- Screenshot placeholder: RStudio with code in editor and output in console -->
+
+#### Observe the Results
+
+After running:
+
+1. **Console:** see the printed output, including the formatted JSON produced by `jsonlite`
+2. **Environment pane:** see all your variables (`numbers`, `squared`, `total`, `mean_val`, `std_dev`, `data`, `json_text`)
+   - Click on `data` to inspect its structure
+   - Click on `numbers` to see its values
+
+::: {.callout-tip}
+## Environment Pane Power
+Just like Spyder's Variable Explorer, RStudio's Environment pane lets you:
+- See all variables, their types, and a preview of their values
+- Click to inspect data frames and lists in detail
+- Clear variables with the broom icon to start fresh
+:::
+
+#### Using the Console Interactively
+
+In the **Console**, you can interact with the variables from your script:
+
+```{r}
+#| eval: false
+# These variables exist because we ran the script
+numbers
+# Output: [1] 1 2 3 4 5
+
+squared[3]
+# Output: [1] 9
+
+data$mean
+# Output: [1] 3
+```
+
+### 4.7 Confirm env1 Does Not Have Tidyverse
+
+Let's confirm that `env1` is isolated and does not include the tidyverse.
+
+```{r}
+#| eval: false
+library(dplyr)
+```
+
+You should get an error:
+```
+Error in library(dplyr) : there is no package called 'dplyr'
+```
+
+::: {.callout-important}
+## This Is Expected!
+This confirms env1 is a clean, minimal environment containing only base R plus `jsonlite` (and renv itself). We have not installed the tidyverse here on purpose, so we can demonstrate isolation in the next step.
+:::
+
+---
+
+## Step 5: Create a Second renv Project (env2) with Tidyverse
+
+Now let's create a second renv project to demonstrate **package isolation**, the key benefit of project-local environments.
+
+### 5.1 Create and Initialize env2
+
+::: {.panel-tabset}
+
+### Windows
+
+```powershell
+# Navigate to your course folder
+cd $HOME\Documents\math5200
+
+# Create a project folder for env2
+mkdir r_env2
+cd r_env2
+
+# Launch R in this folder
+R
+```
+
+### Mac/Linux
+
+```bash
+# Navigate to your course folder
+cd ~/Documents/math5200
+
+# Create a project folder for env2
+mkdir r_env2
+cd r_env2
+
+# Launch R in this folder
+R
+```
+
+:::
+
+Inside R:
+
+```{r}
+#| eval: false
+install.packages("renv")
+renv::init()
+```
+
+### 5.2 Install Tidyverse into env2
+
+```{r}
+#| eval: false
+install.packages("tidyverse")
+
+# This can take a few minutes, since tidyverse installs many packages
+```
+
+::: {.callout-note}
+## What Is the Tidyverse?
+The **tidyverse** is a popular collection of R packages for data manipulation and visualization (including `dplyr`, `ggplot2`, `tidyr`, and others), similar in spirit to how `pandas` and `matplotlib` work together in Python's scientific stack.
+:::
+
+### 5.3 Create a renv.lock File
+
+```{r}
+#| eval: false
+renv::snapshot()
+```
+
+This records every tidyverse package (and its dependencies) into `renv.lock`, exactly as `renv::snapshot()` did for env1, but now capturing a much larger set of packages.
+
+::: {.callout-tip}
+## Reproducibility with renv.lock
+If a classmate wanted to recreate your env2 exactly, they would only need your project folder (including `renv.lock`) and could run:
+```{r}
+#| eval: false
+renv::restore()
+```
+This installs the exact package versions recorded in `renv.lock`, just like `pip install -r requirements.txt` does for Python.
+:::
+
+### 5.4 Open env2 in RStudio
+
+::: {.panel-tabset}
+
+### Windows
+
+**File -> Open Project...** and select `math5200/r_env2`, or double-click the `.Rproj` file in that folder.
+
+### Mac/Linux
+
+**File -> Open Project...** and select `math5200/r_env2`, or double-click the `.Rproj` file in that folder.
+
+:::
+
+::: {.callout-note}
+## Switching Projects in RStudio
+Opening a new project in RStudio automatically closes the previous one (or opens a new window, depending on your settings) and activates the new project's renv library. This is RStudio's equivalent of deactivating one Python virtual environment and activating another.
+:::
+
+### 5.5 Demonstrate Package Isolation
+
+Now for the important demonstration: `env2` has different packages than `env1`.
+
+#### Use tidyverse packages (works here)
+
+```{r}
+#| eval: false
+library(dplyr)
+library(ggplot2)
+
+df <- data.frame(
+  environment = c("env1", "env1", "env2", "env2"),
+  package = c("jsonlite", "dplyr", "jsonlite", "dplyr"),
+  installed = c("Yes", "No", "No", "Yes")
+)
+
+print(df)
+```
+
+Expected output:
+```
+  environment  package installed
+1        env1 jsonlite       Yes
+2        env1    dplyr        No
+3        env2 jsonlite        No
+4        env2    dplyr       Yes
+```
+
+#### Try to use jsonlite (will fail!)
+
+```{r}
+#| eval: false
+library(jsonlite)
+```
+
+You should get an error:
+```
+Error in library(jsonlite) : there is no package called 'jsonlite'
+```
+
+::: {.callout-important}
+## This Is Expected, Too!
+Even though we installed `jsonlite` in env1, it is not available in env2. Each renv project has its own completely independent package library. This is the same isolation guarantee that Python's venv gives us, just implemented differently under the hood.
+:::
+
+<!-- Screenshot placeholder: RStudio showing jsonlite import error and successful use of tidyverse in env2 -->
+
+### 5.6 Switch Back to env1
+
+To verify, switch back to the env1 project in RStudio (**File -> Open Project...** -> `math5200/r_env1`) and confirm:
+
+```{r}
+#| eval: false
+library(jsonlite)
+cat("jsonlite works in env1!\n")
+
+# Try dplyr (will fail in env1)
+library(dplyr)  # Error: there is no package called 'dplyr'
+```
+
+::: {.callout-tip}
+## Key Takeaway
+Each renv project is **completely independent**, exactly like each Python virtual environment. This allows you to:
+- Use different package sets for different projects
+- Avoid conflicts between incompatible package versions
+- Share an exact, reproducible package list with collaborators via `renv.lock`
+- Recreate your analysis environment months or years later with `renv::restore()`
+:::
+
+---
+
+## Basic Troubleshooting
+
+Here are solutions to a few common issues you might encounter. We will keep this list short; most R/RStudio setup problems are easy to resolve.
+
+### Issue 1: "R: command not found" or "'R' is not recognized"
+
+**Solution:** R was not added to your PATH, or the installation did not complete. Reinstall R from CRAN and restart your terminal.
+
+### Issue 2: RStudio opens but says it cannot find R
+
+**Solution:** Make sure R (Step 1) was installed before RStudio. In RStudio, go to **Tools -> Global Options -> General** and confirm the R version listed under "R version" points to a valid installation.
+
+### Issue 3: renv does not activate automatically
+
+**Solution:** Make sure you opened the project folder as an RStudio **Project** (via the `.Rproj` file or File -> Open Project), not just opened a loose script. renv activates through the project's `.Rprofile`, so it needs to recognize the folder as a project.
+
+### Issue 4: Package installation fails with a mirror/download error
+
+**Solution:** R needs a CRAN mirror to download from. If prompted, choose a mirror geographically close to you (for example, a "0-Cloud" or regional mirror), then try `install.packages()` again.
+
+### Issue 5: "there is no package called ___" even though you installed it
+
+**Solution:** Confirm which project is active by running `getwd()` and `.libPaths()` in the console. You may be in the wrong renv project. Open the correct project folder and try again.
+
+---
+
+## Summary
+
+Congratulations! You've completed your first steps with R. Here's what you've learned:
+
+1. **Installing R:** Downloaded and installed R from CRAN on your system
+
+2. **Interactive R:** Used the R console (REPL) to execute commands interactively and explore basic concepts like:
+   - Dynamic typing
+   - Different data types (numeric, integer, character, logical)
+   - Base R math functions
+   - Basic operations
+
+3. **R Scripts:** Created and executed R scripts from files, understanding the workflow of:
+   - Writing code in a text file
+   - Saving as `.R`
+   - Running from the terminal with `Rscript`
+
+4. **Integrated Development Environment (IDE):** Installed and learned to use RStudio, exploring:
+   - The Source Editor for writing code
+   - The Console for interactive work
+   - The Environment pane for understanding program state
+   - The Files/Plots/Packages/Help pane
+   - A brief look at using VS Code as an alternative
+
+5. **Project Environments with renv:** Mastered the R equivalent of Python's venv:
+   - Created multiple renv projects (env1 and env2)
+   - Installed different packages in each environment
+   - Demonstrated package isolation
+   - Connected RStudio to different renv projects
+
+6. **Package Management:** Learned to:
+   - Install packages with `install.packages()`
+   - Create and use `renv.lock` for reproducibility
+   - Snapshot and restore environments
+   - Understand how renv activation works automatically
+
+### Key Concepts
+
+- **Dynamic Typing:** Variables in R can hold any type of data, just like Python
+- **Packages:** R's ecosystem provides powerful functionality through packages, loaded with `library()`
+- **renv Projects:** Isolated package libraries prevent conflicts and ensure reproducibility, just like Python's venv
+- **IDE Benefits:** Tools like RStudio make development easier with integrated panes
+- **Package Isolation:** Each renv project has its own set of installed packages
+
+### Next Steps
+
+Now that you have a solid foundation, you're ready to:
+- Write more complex R programs
+- Install data science packages (tidyverse, data.table, etc.)
+- Work on course assignments with proper environment management
+- Explore RStudio's advanced features (debugging, R Markdown/Quarto documents, version control integration)
+
+### Quick Reference
+
+**Open a Project in RStudio:** File -> Open Project... (or double-click the `.Rproj` file)
+
+**Initialize renv in a Project:** `renv::init()`
+
+**Install Package:** `install.packages("package_name")`
+
+**Record Environment:** `renv::snapshot()`
+
+**Recreate Environment:** `renv::restore()`
+
+**List Loaded Packages:** `search()`
+
+**List Installed Packages:** `installed.packages()`
+
+**Run Script:** `Rscript script_name.R`
+
+**Source a Script in RStudio:** `Ctrl+Shift+Enter` (or click Source)
+
+---
+
+::: {.callout-tip}
+## Best Practices Going Forward
+1. **Always use renv projects** for your R work, just as you use venv for Python
+2. **Snapshot your environment** with `renv::snapshot()` whenever you add a package
+3. **Use meaningful variable names** in your code
+4. **Comment your code** to explain the "why", not just the "what"
+5. **Save your work frequently**
+6. **Use version control** (Git) for important projects (we'll cover this later!)
+:::
+
+Happy coding!
