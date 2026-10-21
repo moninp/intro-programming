@@ -38,9 +38,14 @@ jobs:
         with:
           r-version: '4.5.2'
 
-      - name: Install R packages
+      - #name: Install R packages
         #run: Rscript -e 'install.packages("rmarkdown", repos="https://cloud.r-project.org")'
-        run: Rscript -e 'install.packages("rmarkdown", repos = "https://r-project.org")'
+        #run: Rscript -e 'install.packages("rmarkdown", repos = "https://r-project.org")'
+
+        name: Install R dependencies
+        uses: r-lib/actions/setup-r-deps@v2
+        with:
+          packages: rmarkdown
 
       - name: Render and Publish
         uses: quarto-dev/quarto-actions/publish@v2
