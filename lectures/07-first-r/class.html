@@ -1,0 +1,1747 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.19">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>First Steps with R – Computing Using R &amp; Python</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-55617497126496852ff9f5a59253c640.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Computing Using R &amp; Python</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../syllabus.html"> 
+<span class="menu-text">Syllabus</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../lectures.html"> 
+<span class="menu-text">Lectures</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../project.html"> 
+<span class="menu-text">Project</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#step-1-install-r-and-run-from-terminal" id="toc-step-1-install-r-and-run-from-terminal" class="nav-link" data-scroll-target="#step-1-install-r-and-run-from-terminal">Step 1: Install R and Run from Terminal</a>
+  <ul class="collapse">
+  <li><a href="#download-and-install-r" id="toc-download-and-install-r" class="nav-link" data-scroll-target="#download-and-install-r">1.1 Download and Install R</a></li>
+  <li><a href="#test-your-installation" id="toc-test-your-installation" class="nav-link" data-scroll-target="#test-your-installation">1.2 Test Your Installation</a></li>
+  <li><a href="#running-r-interactively" id="toc-running-r-interactively" class="nav-link" data-scroll-target="#running-r-interactively">1.3 Running R Interactively</a></li>
+  <li><a href="#exploring-basic-r-concepts" id="toc-exploring-basic-r-concepts" class="nav-link" data-scroll-target="#exploring-basic-r-concepts">1.4 Exploring Basic R Concepts</a></li>
+  </ul></li>
+  <li><a href="#step-2-reuse-your-folder-structure-and-run-an-r-script" id="toc-step-2-reuse-your-folder-structure-and-run-an-r-script" class="nav-link" data-scroll-target="#step-2-reuse-your-folder-structure-and-run-an-r-script">Step 2: Reuse Your Folder Structure and Run an R Script</a>
+  <ul class="collapse">
+  <li><a href="#confirm-your-existing-folder-structure" id="toc-confirm-your-existing-folder-structure" class="nav-link" data-scroll-target="#confirm-your-existing-folder-structure">2.1 Confirm Your Existing Folder Structure</a></li>
+  <li><a href="#create-your-first-r-script" id="toc-create-your-first-r-script" class="nav-link" data-scroll-target="#create-your-first-r-script">2.2 Create Your First R Script</a></li>
+  <li><a href="#write-your-first-script" id="toc-write-your-first-script" class="nav-link" data-scroll-target="#write-your-first-script">2.3 Write Your First Script</a></li>
+  <li><a href="#run-your-script" id="toc-run-your-script" class="nav-link" data-scroll-target="#run-your-script">2.4 Run Your Script</a></li>
+  </ul></li>
+  <li><a href="#step-3-install-rstudio-with-a-brief-note-on-vs-code" id="toc-step-3-install-rstudio-with-a-brief-note-on-vs-code" class="nav-link" data-scroll-target="#step-3-install-rstudio-with-a-brief-note-on-vs-code">Step 3: Install RStudio (with a Brief Note on VS Code)</a>
+  <ul class="collapse">
+  <li><a href="#install-rstudio-desktop" id="toc-install-rstudio-desktop" class="nav-link" data-scroll-target="#install-rstudio-desktop">3.1 Install RStudio Desktop</a></li>
+  <li><a href="#launch-rstudio" id="toc-launch-rstudio" class="nav-link" data-scroll-target="#launch-rstudio">3.2 Launch RStudio</a></li>
+  <li><a href="#a-brief-note-on-vs-code" id="toc-a-brief-note-on-vs-code" class="nav-link" data-scroll-target="#a-brief-note-on-vs-code">3.3 A Brief Note on VS Code</a></li>
+  </ul></li>
+  <li><a href="#step-4-create-a-project-environment-with-renv-and-use-it-in-rstudio" id="toc-step-4-create-a-project-environment-with-renv-and-use-it-in-rstudio" class="nav-link" data-scroll-target="#step-4-create-a-project-environment-with-renv-and-use-it-in-rstudio">Step 4: Create a Project Environment with renv and Use It in RStudio</a>
+  <ul class="collapse">
+  <li><a href="#understanding-renv" id="toc-understanding-renv" class="nav-link" data-scroll-target="#understanding-renv">4.1 Understanding renv</a></li>
+  <li><a href="#create-your-first-renv-project-env1" id="toc-create-your-first-renv-project-env1" class="nav-link" data-scroll-target="#create-your-first-renv-project-env1">4.2 Create Your First renv Project (env1)</a></li>
+  <li><a href="#install-a-package-into-env1" id="toc-install-a-package-into-env1" class="nav-link" data-scroll-target="#install-a-package-into-env1">4.3 Install a Package into env1</a></li>
+  <li><a href="#open-this-project-in-rstudio" id="toc-open-this-project-in-rstudio" class="nav-link" data-scroll-target="#open-this-project-in-rstudio">4.4 Open This Project in RStudio</a></li>
+  <li><a href="#tour-of-rstudio" id="toc-tour-of-rstudio" class="nav-link" data-scroll-target="#tour-of-rstudio">4.5 Tour of RStudio</a></li>
+  <li><a href="#working-in-rstudio" id="toc-working-in-rstudio" class="nav-link" data-scroll-target="#working-in-rstudio">4.6 Working in RStudio</a></li>
+  <li><a href="#confirm-env1-does-not-have-tidyverse" id="toc-confirm-env1-does-not-have-tidyverse" class="nav-link" data-scroll-target="#confirm-env1-does-not-have-tidyverse">4.7 Confirm env1 Does Not Have Tidyverse</a></li>
+  </ul></li>
+  <li><a href="#step-5-create-a-second-renv-project-env2-with-tidyverse" id="toc-step-5-create-a-second-renv-project-env2-with-tidyverse" class="nav-link" data-scroll-target="#step-5-create-a-second-renv-project-env2-with-tidyverse">Step 5: Create a Second renv Project (env2) with Tidyverse</a>
+  <ul class="collapse">
+  <li><a href="#create-and-initialize-env2" id="toc-create-and-initialize-env2" class="nav-link" data-scroll-target="#create-and-initialize-env2">5.1 Create and Initialize env2</a></li>
+  <li><a href="#install-tidyverse-into-env2" id="toc-install-tidyverse-into-env2" class="nav-link" data-scroll-target="#install-tidyverse-into-env2">5.2 Install Tidyverse into env2</a></li>
+  <li><a href="#create-a-renv.lock-file" id="toc-create-a-renv.lock-file" class="nav-link" data-scroll-target="#create-a-renv.lock-file">5.3 Create a renv.lock File</a></li>
+  <li><a href="#open-env2-in-rstudio" id="toc-open-env2-in-rstudio" class="nav-link" data-scroll-target="#open-env2-in-rstudio">5.4 Open env2 in RStudio</a></li>
+  <li><a href="#demonstrate-package-isolation" id="toc-demonstrate-package-isolation" class="nav-link" data-scroll-target="#demonstrate-package-isolation">5.5 Demonstrate Package Isolation</a></li>
+  <li><a href="#switch-back-to-env1" id="toc-switch-back-to-env1" class="nav-link" data-scroll-target="#switch-back-to-env1">5.6 Switch Back to env1</a></li>
+  </ul></li>
+  <li><a href="#basic-troubleshooting" id="toc-basic-troubleshooting" class="nav-link" data-scroll-target="#basic-troubleshooting">Basic Troubleshooting</a>
+  <ul class="collapse">
+  <li><a href="#issue-1-r-command-not-found-or-r-is-not-recognized" id="toc-issue-1-r-command-not-found-or-r-is-not-recognized" class="nav-link" data-scroll-target="#issue-1-r-command-not-found-or-r-is-not-recognized">Issue 1: “R: command not found” or “‘R’ is not recognized”</a></li>
+  <li><a href="#issue-2-rstudio-opens-but-says-it-cannot-find-r" id="toc-issue-2-rstudio-opens-but-says-it-cannot-find-r" class="nav-link" data-scroll-target="#issue-2-rstudio-opens-but-says-it-cannot-find-r">Issue 2: RStudio opens but says it cannot find R</a></li>
+  <li><a href="#issue-3-renv-does-not-activate-automatically" id="toc-issue-3-renv-does-not-activate-automatically" class="nav-link" data-scroll-target="#issue-3-renv-does-not-activate-automatically">Issue 3: renv does not activate automatically</a></li>
+  <li><a href="#issue-4-package-installation-fails-with-a-mirrordownload-error" id="toc-issue-4-package-installation-fails-with-a-mirrordownload-error" class="nav-link" data-scroll-target="#issue-4-package-installation-fails-with-a-mirrordownload-error">Issue 4: Package installation fails with a mirror/download error</a></li>
+  <li><a href="#issue-5-there-is-no-package-called-___-even-though-you-installed-it" id="toc-issue-5-there-is-no-package-called-___-even-though-you-installed-it" class="nav-link" data-scroll-target="#issue-5-there-is-no-package-called-___-even-though-you-installed-it">Issue 5: “there is no package called ___” even though you installed it</a></li>
+  </ul></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a>
+  <ul class="collapse">
+  <li><a href="#key-concepts" id="toc-key-concepts" class="nav-link" data-scroll-target="#key-concepts">Key Concepts</a></li>
+  <li><a href="#next-steps" id="toc-next-steps" class="nav-link" data-scroll-target="#next-steps">Next Steps</a></li>
+  <li><a href="#quick-reference" id="toc-quick-reference" class="nav-link" data-scroll-target="#quick-reference">Quick Reference</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">First Steps with R</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>In this tutorial, we’ll guide you through setting up a complete R development environment. By the end of this session, you’ll understand:</p>
+<ul>
+<li><strong>What R is</strong> and how to install it on your system</li>
+<li><strong>Running R interactively</strong> from the terminal</li>
+<li><strong>Running R scripts</strong> from files</li>
+<li><strong>Installing and using RStudio</strong> as your primary R IDE (with a brief look at VS Code as an alternative)</li>
+<li><strong>Taking a tour of RStudio</strong> and understanding its key panes</li>
+<li><strong>Creating project-local package environments with renv</strong> to manage project dependencies</li>
+<li><strong>Connecting renv projects to RStudio</strong> and switching between them</li>
+<li><strong>Understanding package isolation</strong> across different environments</li>
+<li><strong>Basic troubleshooting</strong> for common issues</li>
+</ul>
+<p>This should feel familiar: it is the same journey we took with Python, just with a new language. We installed Python, ran it from the terminal, installed Spyder, and used venv to create isolated environments. Here we will install R, run it from the terminal, install RStudio, and use renv to do the same job that venv did for Python.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Why Project-Local Package Environments?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Just as with Python, different R projects may need different packages, or different versions of the same package. renv lets you create an isolated package library for each project, so installing or updating a package in one project never breaks another.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Reuse Your Existing Folder
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>We will keep using the same <code>src</code> folder you created for Python. By the end of this course, your <code>src</code> folder will contain both <code>.py</code> and <code>.R</code> files side by side. Getting comfortable with a shared folder for multiple languages is good practice: real projects often mix languages.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="step-1-install-r-and-run-from-terminal" class="level2">
+<h2 class="anchored" data-anchor-id="step-1-install-r-and-run-from-terminal">Step 1: Install R and Run from Terminal</h2>
+<section id="download-and-install-r" class="level3">
+<h3 class="anchored" data-anchor-id="download-and-install-r">1.1 Download and Install R</h3>
+<p>First, we need to install R on your system. We’ll install the latest stable version from CRAN (the Comprehensive R Archive Network).</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Windows</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Mac</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false" href="">Linux</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<ol type="1">
+<li>Visit <a href="https://cran.r-project.org/bin/windows/base/">CRAN for Windows</a></li>
+<li>Click the link for the latest release (for example, “Download R-4.x.x for Windows”)</li>
+<li>Run the downloaded installer</li>
+<li>Accept the defaults during installation (R does <strong>not</strong> need to be manually added to PATH; the installer handles this)</li>
+<li>Wait for installation to complete</li>
+</ol>
+<!-- Screenshot placeholder: Windows R installer -->
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<ol type="1">
+<li>Visit <a href="https://cran.r-project.org/bin/macosx/">CRAN for macOS</a></li>
+<li>Download the latest .pkg installer that matches your Mac (Apple silicon vs.&nbsp;Intel)</li>
+<li>Open the downloaded .pkg file</li>
+<li>Follow the installation wizard (accept defaults)</li>
+<li>R will be automatically added to your PATH</li>
+</ol>
+<!-- Screenshot placeholder: macOS R installer -->
+</div>
+<div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
+<p>Most distributions package R, though CRAN’s own repositories often have more current versions.</p>
+<p><strong>Ubuntu/Debian:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt update</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt install r-base r-base-dev</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Fedora:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> dnf install R</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Arch Linux:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> pacman <span class="at">-S</span> r</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</div>
+</section>
+<section id="test-your-installation" class="level3">
+<h3 class="anchored" data-anchor-id="test-your-installation">1.2 Test Your Installation</h3>
+<p>Let’s verify that R is installed correctly and accessible from your terminal.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true" href="">Windows</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false" href="">Mac</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-3" role="tab" aria-controls="tabset-2-3" aria-selected="false" href="">Linux</a></li></ul>
+<div class="tab-content">
+<div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
+<ol type="1">
+<li>Open <strong>PowerShell</strong> (search for “PowerShell” in the Start menu)</li>
+<li>Type the following command and press Enter:</li>
+</ol>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">R</span> <span class="op">--</span>version</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>You should see something like <code>R version 4.4.0</code> (version number may vary).</p>
+</div>
+<div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
+<ol type="1">
+<li>Open <strong>Terminal</strong> (Applications -&gt; Utilities -&gt; Terminal, or search “Terminal”)</li>
+<li>Type the following command and press Enter:</li>
+</ol>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">R</span> <span class="at">--version</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>You should see something like <code>R version 4.4.0</code> (version number may vary).</p>
+</div>
+<div id="tabset-2-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-3-tab">
+<ol type="1">
+<li>Open your terminal application</li>
+<li>Type the following command and press Enter:</li>
+</ol>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">R</span> <span class="at">--version</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>You should see something like <code>R version 4.4.0</code> (version number may vary).</p>
+</div>
+</div>
+</div>
+<!-- Screenshot placeholder: Terminal showing successful R --version output -->
+</section>
+<section id="running-r-interactively" class="level3">
+<h3 class="anchored" data-anchor-id="running-r-interactively">1.3 Running R Interactively</h3>
+<p>Just like Python, R has an <strong>interactive interpreter</strong> (sometimes called the R console or R REPL). This lets you type R commands one at a time and see immediate results.</p>
+<p>In your terminal (any platform), type:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">R</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>You should see something like this:</p>
+<pre><code>R version 4.4.0 (2024-04-24) -- "Puppy Cup"
+Copyright (C) 2024 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+&gt;</code></pre>
+<p>The <code>&gt;</code> is the R prompt, waiting for your input.</p>
+</section>
+<section id="exploring-basic-r-concepts" class="level3">
+<h3 class="anchored" data-anchor-id="exploring-basic-r-concepts">1.4 Exploring Basic R Concepts</h3>
+<p>Now let’s explore some fundamental R concepts. Type each command after the <code>&gt;</code> prompt.</p>
+<section id="variables-and-dynamic-typing" class="level4">
+<h4 class="anchored" data-anchor-id="variables-and-dynamic-typing">Variables and Dynamic Typing</h4>
+<p>Like Python, R uses <strong>dynamic typing</strong>: variables can hold different types of data at different times. R uses the assignment operator <code>&lt;-</code> (though <code>=</code> also works at the top level).</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Numeric (R does not distinguish int/float by default)</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(x)  <span class="co"># Returns: "numeric"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Character (R's name for a string)</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="st">"phil"</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(x)  <span class="co"># Returns: "character"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Integer (explicit integer type)</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">10</span>L</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(x)  <span class="co"># Returns: "integer"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Logical (note: must be all capitals, with no quotes!)</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="cn">TRUE</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(x)  <span class="co"># Returns: "logical"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>R Is Case-Sensitive, Just Like Python!
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Try typing <code>x &lt;- true</code> (lowercase):</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> true  <span class="co"># This will raise an error!</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>This produces an error because R expects <code>TRUE</code> (all capitals), not <code>true</code> or <code>True</code>. R also accepts the shorthand <code>T</code> and <code>F</code>, but spelling out <code>TRUE</code>/<code>FALSE</code> is safer and clearer.</p>
+</div>
+</div>
+</section>
+<section id="working-with-multiple-variables" class="level4">
+<h4 class="anchored" data-anchor-id="working-with-multiple-variables">Working with Multiple Variables</h4>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">20</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="checking-your-workspace" class="level4">
+<h4 class="anchored" data-anchor-id="checking-your-workspace">Checking Your Workspace</h4>
+<p>The <code>ls()</code> function shows all variables currently in your workspace, similar to Python’s <code>dir()</code>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>You’ll see a list that includes <code>x</code> and <code>y</code>.</p>
+</section>
+<section id="loading-packages" class="level4">
+<h4 class="anchored" data-anchor-id="loading-packages">Loading Packages</h4>
+<p>R’s power comes from its enormous ecosystem of packages. Base R already includes many useful functions without loading anything extra:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sin</span>(<span class="dv">0</span>)  <span class="co"># Returns: 0</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Unlike Python, R does not require an <code>import</code> statement to use basic math functions like <code>sin()</code>, <code>sqrt()</code>, or <code>log()</code>; these are part of base R. We will see how to load additional packages (like <code>library(ggplot2)</code>) once we start installing them.</p>
+</section>
+<section id="exiting-r" class="level4">
+<h4 class="anchored" data-anchor-id="exiting-r">Exiting R</h4>
+<p>To exit the interactive interpreter:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">q</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>You will be asked whether to save your workspace; type <code>n</code> and press Enter to decline.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>What We Just Learned
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>R uses dynamic typing (variables can change types)</li>
+<li><code>class()</code> tells us what kind of data we have (R’s version of Python’s <code>type()</code>)</li>
+<li><code>ls()</code> shows what’s in our workspace (R’s version of Python’s <code>dir()</code>)</li>
+<li>Base R includes many functions without needing to load a package</li>
+<li>R is case-sensitive, and logical values must be <code>TRUE</code>/<code>FALSE</code> (all capitals)</li>
+</ul>
+</div>
+</div>
+<!-- Screenshot placeholder: R interactive session showing the above commands -->
+<hr>
+</section>
+</section>
+</section>
+<section id="step-2-reuse-your-folder-structure-and-run-an-r-script" class="level2">
+<h2 class="anchored" data-anchor-id="step-2-reuse-your-folder-structure-and-run-an-r-script">Step 2: Reuse Your Folder Structure and Run an R Script</h2>
+<p>While the interactive interpreter is great for experimentation, real programming happens in <strong>script files</strong> that we can save, edit, and run repeatedly. We will keep using the same <code>math5200/src</code> folder we created for Python.</p>
+<section id="confirm-your-existing-folder-structure" class="level3">
+<h3 class="anchored" data-anchor-id="confirm-your-existing-folder-structure">2.1 Confirm Your Existing Folder Structure</h3>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true" href="">Windows</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-2" role="tab" aria-controls="tabset-3-2" aria-selected="false" href="">Mac/Linux</a></li></ul>
+<div class="tab-content">
+<div id="tabset-3-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-3-1-tab">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cd</span> <span class="va">$HOME</span>\Documents\math5200</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cd</span> src</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="tabset-3-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-2-tab">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/Documents/math5200</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> src</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</div>
+<p>You should still see your Python files (such as <code>first_script.py</code> and <code>spyder_demo.py</code>) in <code>src</code>. We are simply going to add R files alongside them.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>One src Folder, Many Languages
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Keeping Python and R files in the same <code>src</code> folder mirrors how real projects are often organized: by project, not by language. File extensions (<code>.py</code> vs <code>.R</code>) tell you and your tools which language a file uses.</p>
+</div>
+</div>
+</section>
+<section id="create-your-first-r-script" class="level3">
+<h3 class="anchored" data-anchor-id="create-your-first-r-script">2.2 Create Your First R Script</h3>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-4-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-1" role="tab" aria-controls="tabset-4-1" aria-selected="true" href="">Windows</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-4-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-2" role="tab" aria-controls="tabset-4-2" aria-selected="false" href="">Mac</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-4-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-3" role="tab" aria-controls="tabset-4-3" aria-selected="false" href="">Linux</a></li></ul>
+<div class="tab-content">
+<div id="tabset-4-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-4-1-tab">
+<p>You can use any text editor. Let’s use Notepad for simplicity:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cd</span> <span class="va">$HOME</span>\Documents\math5200\src</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>notepad first_script<span class="op">.</span><span class="fu">R</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="tabset-4-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-4-2-tab">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/Documents/math5200/src</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="ex">open</span> <span class="at">-a</span> TextEdit first_script.R</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Or use a command-line editor:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nano</span> first_script.R</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="tabset-4-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-4-3-tab">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/Documents/math5200/src</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">nano</span> first_script.R</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</div>
+</section>
+<section id="write-your-first-script" class="level3">
+<h3 class="anchored" data-anchor-id="write-your-first-script">2.3 Write Your First Script</h3>
+<p>In the text editor, type the following R code:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># first_script.R</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="co"># My first R script!</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="st">"Hello, R world!"</span>)</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">strrep</span>(<span class="st">"="</span>, <span class="dv">40</span>))  <span class="co"># Print a line of 40 equals signs</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Define some variables</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>name <span class="ot">&lt;-</span> <span class="st">"Student"</span></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>course <span class="ot">&lt;-</span> <span class="st">"Math 5200"</span></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>year <span class="ot">&lt;-</span> <span class="dv">2026</span></span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Print formatted information using sprintf (similar to Python's f-strings)</span></span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Welcome, %s!</span><span class="sc">\n</span><span class="st">"</span>, name))</span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Course: %s</span><span class="sc">\n</span><span class="st">"</span>, course))</span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Year: %d</span><span class="sc">\n</span><span class="st">"</span>, year))</span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">strrep</span>(<span class="st">"="</span>, <span class="dv">40</span>))</span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Do some calculations</span></span>
+<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">20</span></span>
+<span id="cb24-21"><a href="#cb24-21" aria-hidden="true" tabindex="-1"></a>sum_result <span class="ot">&lt;-</span> x <span class="sc">+</span> y</span>
+<span id="cb24-22"><a href="#cb24-22" aria-hidden="true" tabindex="-1"></a>product <span class="ot">&lt;-</span> x <span class="sc">*</span> y</span>
+<span id="cb24-23"><a href="#cb24-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-24"><a href="#cb24-24" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"%d + %d = %d</span><span class="sc">\n</span><span class="st">"</span>, x, y, sum_result))</span>
+<span id="cb24-25"><a href="#cb24-25" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"%d * %d = %d</span><span class="sc">\n</span><span class="st">"</span>, x, y, product))</span>
+<span id="cb24-26"><a href="#cb24-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-27"><a href="#cb24-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Use a base R math function</span></span>
+<span id="cb24-28"><a href="#cb24-28" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">strrep</span>(<span class="st">"="</span>, <span class="dv">40</span>))</span>
+<span id="cb24-29"><a href="#cb24-29" aria-hidden="true" tabindex="-1"></a>angle_rad <span class="ot">&lt;-</span> pi <span class="sc">/</span> <span class="dv">4</span>  <span class="co"># 45 degrees in radians</span></span>
+<span id="cb24-30"><a href="#cb24-30" aria-hidden="true" tabindex="-1"></a>sin_value <span class="ot">&lt;-</span> <span class="fu">sin</span>(angle_rad)</span>
+<span id="cb24-31"><a href="#cb24-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-32"><a href="#cb24-32" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"sin(pi/4) = %.4f</span><span class="sc">\n</span><span class="st">"</span>, sin_value))</span>
+<span id="cb24-33"><a href="#cb24-33" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="st">"Script complete!"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Save the file and close the editor.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Understanding the Code
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>print()</code> displays an R object to the console, including its structure</li>
+<li><code>cat()</code> prints text directly, without the quotes and index markers that <code>print()</code> adds – closer to Python’s <code>print()</code></li>
+<li><code>sprintf()</code> builds formatted strings using <code>%s</code>, <code>%d</code>, <code>%.4f</code>, similar to Python’s old-style <code>%</code> formatting</li>
+<li><code>strrep("=", 40)</code> repeats the equals sign 40 times (R’s version of Python’s <code>"=" * 40</code>)</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="run-your-script" class="level3">
+<h3 class="anchored" data-anchor-id="run-your-script">2.4 Run Your Script</h3>
+<p>Now let’s run the script from the terminal using <code>Rscript</code>, R’s command-line script runner (analogous to typing <code>python script.py</code>).</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-5-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-1" role="tab" aria-controls="tabset-5-1" aria-selected="true" href="">Windows</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-5-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-2" role="tab" aria-controls="tabset-5-2" aria-selected="false" href="">Mac/Linux</a></li></ul>
+<div class="tab-content">
+<div id="tabset-5-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-5-1-tab">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cd</span> <span class="va">$HOME</span>\Documents\math5200\src</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>Rscript first_script<span class="op">.</span><span class="fu">R</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="tabset-5-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-5-2-tab">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/Documents/math5200/src</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> first_script.R</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</div>
+<p>You should see output like:</p>
+<pre><code>[1] "Hello, R world!"
+[1] "========================================"
+Welcome, Student!
+Course: Math 5200
+Year: 2026
+========================================
+10 + 20 = 30
+10 * 20 = 200
+========================================
+sin(pi/4) = 0.7071
+[1] "Script complete!"</code></pre>
+<!-- Screenshot placeholder: Terminal showing the R script output -->
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Why Do Some Lines Start with [1]?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>When R’s <code>print()</code> displays something, it shows <code>[1]</code> before the first element to indicate position in a vector. <code>cat()</code> does not add this marker, which is why the <code>sprintf</code>/<code>cat</code> lines look cleaner. This is a common point of confusion for people coming from Python.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>What We Just Learned
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>R scripts are text files with a <code>.R</code> extension</li>
+<li>We run scripts from the terminal with <code>Rscript scriptname.R</code></li>
+<li>Scripts execute from top to bottom, just like Python</li>
+<li><code>print()</code> and <code>cat()</code> both display output but format it differently</li>
+</ul>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="step-3-install-rstudio-with-a-brief-note-on-vs-code" class="level2">
+<h2 class="anchored" data-anchor-id="step-3-install-rstudio-with-a-brief-note-on-vs-code">Step 3: Install RStudio (with a Brief Note on VS Code)</h2>
+<p>While running R from the terminal works, an <strong>Integrated Development Environment (IDE)</strong> provides a much richer experience, with features like:</p>
+<ul>
+<li><strong>Syntax highlighting</strong></li>
+<li><strong>Code completion</strong></li>
+<li><strong>Environment pane</strong> (R’s version of Spyder’s Variable Explorer)</li>
+<li><strong>Integrated debugger</strong></li>
+<li><strong>Built-in help and plot viewer</strong></li>
+</ul>
+<p><strong>RStudio</strong> is the standard IDE for R, playing a role very similar to the one Spyder played for Python.</p>
+<section id="install-rstudio-desktop" class="level3">
+<h3 class="anchored" data-anchor-id="install-rstudio-desktop">3.1 Install RStudio Desktop</h3>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-6-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-1" role="tab" aria-controls="tabset-6-1" aria-selected="true" href="">Windows</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-6-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-2" role="tab" aria-controls="tabset-6-2" aria-selected="false" href="">Mac</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-6-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-3" role="tab" aria-controls="tabset-6-3" aria-selected="false" href="">Linux</a></li></ul>
+<div class="tab-content">
+<div id="tabset-6-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-6-1-tab">
+<ol type="1">
+<li>Visit <a href="https://posit.co/download/rstudio-desktop/">posit.co/download/rstudio-desktop</a></li>
+<li>Download the Windows installer</li>
+<li>Run the installer and accept the defaults</li>
+<li>RStudio will automatically detect your R installation</li>
+</ol>
+</div>
+<div id="tabset-6-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-6-2-tab">
+<ol type="1">
+<li>Visit <a href="https://posit.co/download/rstudio-desktop/">posit.co/download/rstudio-desktop</a></li>
+<li>Download the macOS installer (.dmg)</li>
+<li>Open the .dmg and drag RStudio to Applications</li>
+</ol>
+</div>
+<div id="tabset-6-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-6-3-tab">
+<ol type="1">
+<li>Visit <a href="https://posit.co/download/rstudio-desktop/">posit.co/download/rstudio-desktop</a></li>
+<li>Download the installer appropriate for your distribution (.deb or .rpm)</li>
+</ol>
+<p><strong>Ubuntu/Debian example:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt install ./rstudio-<span class="pp">*</span>.deb</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Fedora example:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> dnf install rstudio-<span class="pp">*</span>.rpm</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>RStudio Needs R Installed First
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>RStudio is just the IDE; it does not include R itself. Make sure you completed Step 1 (installing R) before installing RStudio, or RStudio will not find an R installation to use.</p>
+</div>
+</div>
+</section>
+<section id="launch-rstudio" class="level3">
+<h3 class="anchored" data-anchor-id="launch-rstudio">3.2 Launch RStudio</h3>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-7-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-7-1" role="tab" aria-controls="tabset-7-1" aria-selected="true" href="">Windows</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-7-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-7-2" role="tab" aria-controls="tabset-7-2" aria-selected="false" href="">Mac</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-7-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-7-3" role="tab" aria-controls="tabset-7-3" aria-selected="false" href="">Linux</a></li></ul>
+<div class="tab-content">
+<div id="tabset-7-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-7-1-tab">
+<p>Find RStudio in your Start Menu and click it.</p>
+</div>
+<div id="tabset-7-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-7-2-tab">
+<p>Open RStudio from your Applications folder.</p>
+</div>
+<div id="tabset-7-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-7-3-tab">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="ex">rstudio</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Or find it in your applications menu.</p>
+</div>
+</div>
+</div>
+<!-- Screenshot placeholder: RStudio opening screen -->
+</section>
+<section id="a-brief-note-on-vs-code" class="level3">
+<h3 class="anchored" data-anchor-id="a-brief-note-on-vs-code">3.3 A Brief Note on VS Code</h3>
+<p>Some of you may prefer VS Code, especially if you are already using it for Python. VS Code can work well for R too, though the setup has a few extra steps:</p>
+<ol type="1">
+<li>Install the <strong>R extension</strong> for VS Code (search “R” in the Extensions panel)</li>
+<li>Install the <strong>languageserver</strong> package in R, which powers code completion and diagnostics:</li>
+</ol>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"languageserver"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<ol start="3" type="1">
+<li>Install <strong>radian</strong>, an improved R console, via pip (optional but recommended):</li>
+</ol>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install radian</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ol start="4" type="1">
+<li>In VS Code settings, set <code>r.rterm.*</code> paths to point to R (or to <code>radian</code> if installed) and <code>r.bracketedPaste</code> to <code>true</code></li>
+</ol>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>RStudio vs.&nbsp;VS Code
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>RStudio is purpose-built for R and requires no extra configuration: panes for the console, editor, environment, and plots are ready immediately. VS Code is more general-purpose and requires a bit of setup, but it is a reasonable choice if you want one editor for both Python and R. For this course, we will use <strong>RStudio</strong> as our primary R environment, since its tight integration mirrors what Spyder gave us for Python.</p>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="step-4-create-a-project-environment-with-renv-and-use-it-in-rstudio" class="level2">
+<h2 class="anchored" data-anchor-id="step-4-create-a-project-environment-with-renv-and-use-it-in-rstudio">Step 4: Create a Project Environment with renv and Use It in RStudio</h2>
+<p>Now we’ll create our first <strong>renv project environment</strong>. Think of it as a separate package library specific to a project, exactly like a Python virtual environment created with <code>venv</code>.</p>
+<section id="understanding-renv" class="level3">
+<h3 class="anchored" data-anchor-id="understanding-renv">4.1 Understanding renv</h3>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>renv Is R’s Answer to venv
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Imagine you have:</p>
+<ul>
+<li><strong>Project A</strong> that needs an older version of a package</li>
+<li><strong>Project B</strong> that needs a newer version of the same package, with breaking changes</li>
+</ul>
+<p>Without project-local libraries, you can only have one version of a package installed globally. With renv, each project gets its own package library, just like <code>venv</code> gives each Python project its own set of installed packages.</p>
+</div>
+</div>
+</section>
+<section id="create-your-first-renv-project-env1" class="level3">
+<h3 class="anchored" data-anchor-id="create-your-first-renv-project-env1">4.2 Create Your First renv Project (env1)</h3>
+<p>We will create a dedicated project folder for env1, separate from your <code>src</code> folder (renv works at the project level, with your R scripts living inside <code>src</code> and being run from within the project).</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-8-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-1" role="tab" aria-controls="tabset-8-1" aria-selected="true" href="">Windows</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-8-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-2" role="tab" aria-controls="tabset-8-2" aria-selected="false" href="">Mac/Linux</a></li></ul>
+<div class="tab-content">
+<div id="tabset-8-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-8-1-tab">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb33"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Navigate to your course folder</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cd</span> <span class="va">$HOME</span>\Documents\math5200</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a project folder for env1</span></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>mkdir r_env1</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a><span class="fu">cd</span> r_env1</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Launch R in this folder</span></span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a><span class="fu">R</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="tabset-8-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-8-2-tab">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Navigate to your course folder</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/Documents/math5200</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a project folder for env1</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> r_env1</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> r_env1</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Launch R in this folder</span></span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a><span class="ex">R</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</div>
+<p>Once inside R, install and initialize renv:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Install renv itself (one-time, into your base R library)</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"renv"</span>)</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize a new project-local library in this folder</span></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>renv<span class="sc">::</span><span class="fu">init</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><code>renv::init()</code> creates a few files in your project folder:</p>
+<ul>
+<li><code>renv.lock</code> – records the exact package versions used (like Python’s <code>requirements.txt</code>, but auto-generated and exact)</li>
+<li><code>renv/</code> – a folder containing the project’s private package library</li>
+<li><code>.Rprofile</code> – a startup script that automatically activates renv whenever you open this project</li>
+</ul>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>renv.lock Is Like requirements.txt, But Better
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>renv.lock</code> is created and updated automatically by renv, and it records exact versions (down to the source) of every package. Running <code>renv::restore()</code> on another machine recreates the exact same package library, which is even more precise than a hand-written <code>requirements.txt</code>.</p>
+</div>
+</div>
+</section>
+<section id="install-a-package-into-env1" class="level3">
+<h3 class="anchored" data-anchor-id="install-a-package-into-env1">4.3 Install a Package into env1</h3>
+<p>Let’s install a lightweight package, but deliberately <strong>not</strong> the tidyverse. We will use <code>jsonlite</code>, a small package for working with JSON data.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"jsonlite"</span>)</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Record this package in renv.lock</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>renv<span class="sc">::</span><span class="fu">snapshot</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><code>renv::snapshot()</code> updates <code>renv.lock</code> to match the packages currently installed, exactly like running <code>pip freeze &gt; requirements.txt</code> for a Python virtual environment.</p>
+</section>
+<section id="open-this-project-in-rstudio" class="level3">
+<h3 class="anchored" data-anchor-id="open-this-project-in-rstudio">4.4 Open This Project in RStudio</h3>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-9-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-9-1" role="tab" aria-controls="tabset-9-1" aria-selected="true" href="">Windows</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-9-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-9-2" role="tab" aria-controls="tabset-9-2" aria-selected="false" href="">Mac/Linux</a></li></ul>
+<div class="tab-content">
+<div id="tabset-9-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-9-1-tab">
+<p>In RStudio: <strong>File -&gt; Open Project…</strong> and navigate to <code>math5200/r_env1</code>. If renv created a <code>.Rproj</code> file, you can also just double-click it in File Explorer to launch RStudio directly into this project.</p>
+</div>
+<div id="tabset-9-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-9-2-tab">
+<p>In RStudio: <strong>File -&gt; Open Project…</strong> and navigate to <code>math5200/r_env1</code>. If renv created a <code>.Rproj</code> file, you can also double-click it in Finder/your file manager to launch RStudio directly into this project.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Automatic Activation
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Unlike Python’s venv, which you must manually activate with <code>source env/bin/activate</code>, an renv project activates itself automatically whenever you open its folder as an RStudio project (because of the <code>.Rprofile</code> file renv created). You will see a message in the console confirming that renv has been activated.</p>
+</div>
+</div>
+<!-- Screenshot placeholder: RStudio console showing renv activation message -->
+</section>
+<section id="tour-of-rstudio" class="level3">
+<h3 class="anchored" data-anchor-id="tour-of-rstudio">4.5 Tour of RStudio</h3>
+<p>Now that you have a project open, let’s explore RStudio’s interface. By default, RStudio arranges its panes into four quadrants.</p>
+<!-- Screenshot placeholder: RStudio interface with panes labeled -->
+<section id="source-editor-top-left" class="level4">
+<h4 class="anchored" data-anchor-id="source-editor-top-left">1. Source Editor (top left)</h4>
+<ul>
+<li>Where you write and edit <code>.R</code> scripts</li>
+<li>Multiple files open in tabs</li>
+<li>Syntax highlighting, code completion, and inline diagnostics</li>
+</ul>
+</section>
+<section id="console-bottom-left" class="level4">
+<h4 class="anchored" data-anchor-id="console-bottom-left">2. Console (bottom left)</h4>
+<ul>
+<li>Interactive R console, equivalent to Spyder’s IPython console</li>
+<li>Results appear immediately after you type commands</li>
+<li>Shows the renv activation message when you open the project</li>
+</ul>
+</section>
+<section id="environment-pane-top-right" class="level4">
+<h4 class="anchored" data-anchor-id="environment-pane-top-right">3. Environment Pane (top right)</h4>
+<ul>
+<li>Shows all variables currently in memory, their types, and their values</li>
+<li>This is RStudio’s version of Spyder’s Variable Explorer</li>
+<li>Click a data frame to view it in a spreadsheet-like viewer</li>
+</ul>
+</section>
+<section id="files-plots-packages-help-pane-bottom-right" class="level4">
+<h4 class="anchored" data-anchor-id="files-plots-packages-help-pane-bottom-right">4. Files / Plots / Packages / Help Pane (bottom right)</h4>
+<ul>
+<li><strong>Files:</strong> Browse your project’s folder</li>
+<li><strong>Plots:</strong> Displays R plots</li>
+<li><strong>Packages:</strong> Shows installed packages (and which ones are loaded) – useful for confirming you are using the project’s renv library, not your global R library</li>
+<li><strong>Help:</strong> Documentation for functions (type <code>?function_name</code> in the console, or press F1 with your cursor on a function name)</li>
+</ul>
+</section>
+</section>
+<section id="working-in-rstudio" class="level3">
+<h3 class="anchored" data-anchor-id="working-in-rstudio">4.6 Working in RStudio</h3>
+<p>Let’s write and run some code in RStudio.</p>
+<ol type="1">
+<li>In the <strong>Source Editor</strong>, create a new file (File -&gt; New File -&gt; R Script, or <code>Ctrl+Shift+N</code>)</li>
+<li>Type the following code:</li>
+</ol>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># rstudio_demo.R</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Demonstrating RStudio features</span></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>numbers <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>)</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>squared <span class="ot">&lt;-</span> numbers<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate statistics</span></span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>total <span class="ot">&lt;-</span> <span class="fu">sum</span>(numbers)</span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>mean_val <span class="ot">&lt;-</span> <span class="fu">mean</span>(numbers)</span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>std_dev <span class="ot">&lt;-</span> <span class="fu">sd</span>(numbers)</span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Print results</span></span>
+<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Numbers: %s</span><span class="sc">\n</span><span class="st">"</span>, <span class="fu">paste</span>(numbers, <span class="at">collapse =</span> <span class="st">", "</span>)))</span>
+<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Squared: %s</span><span class="sc">\n</span><span class="st">"</span>, <span class="fu">paste</span>(squared, <span class="at">collapse =</span> <span class="st">", "</span>)))</span>
+<span id="cb37-15"><a href="#cb37-15" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Mean: %.3f</span><span class="sc">\n</span><span class="st">"</span>, mean_val))</span>
+<span id="cb37-16"><a href="#cb37-16" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Standard Deviation: %.3f</span><span class="sc">\n</span><span class="st">"</span>, std_dev))</span>
+<span id="cb37-17"><a href="#cb37-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-18"><a href="#cb37-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a list (R's rough analogue of a Python dictionary)</span></span>
+<span id="cb37-19"><a href="#cb37-19" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb37-20"><a href="#cb37-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">numbers =</span> numbers,</span>
+<span id="cb37-21"><a href="#cb37-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">squared =</span> squared,</span>
+<span id="cb37-22"><a href="#cb37-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">mean =</span> mean_val,</span>
+<span id="cb37-23"><a href="#cb37-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">std_dev =</span> std_dev</span>
+<span id="cb37-24"><a href="#cb37-24" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb37-25"><a href="#cb37-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-26"><a href="#cb37-26" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="st">"Data list created!"</span>)</span>
+<span id="cb37-27"><a href="#cb37-27" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="st">"Check the Environment pane -&gt;"</span>)</span>
+<span id="cb37-28"><a href="#cb37-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-29"><a href="#cb37-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Use the jsonlite package we installed into env1</span></span>
+<span id="cb37-30"><a href="#cb37-30" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(jsonlite)</span>
+<span id="cb37-31"><a href="#cb37-31" aria-hidden="true" tabindex="-1"></a>json_text <span class="ot">&lt;-</span> <span class="fu">toJSON</span>(data, <span class="at">pretty =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb37-32"><a href="#cb37-32" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(json_text)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<ol start="3" type="1">
+<li><strong>Save the file</strong> (File -&gt; Save, or <code>Ctrl+S</code>) in your <code>math5200/src</code> folder as <code>rstudio_demo.R</code></li>
+<li><strong>Run the file:</strong> click <strong>Source</strong> in the top-right of the editor pane, or press <code>Ctrl+Shift+Enter</code> (sources the whole file), or run line-by-line with <code>Ctrl+Enter</code></li>
+</ol>
+<!-- Screenshot placeholder: RStudio with code in editor and output in console -->
+<section id="observe-the-results" class="level4">
+<h4 class="anchored" data-anchor-id="observe-the-results">Observe the Results</h4>
+<p>After running:</p>
+<ol type="1">
+<li><strong>Console:</strong> see the printed output, including the formatted JSON produced by <code>jsonlite</code></li>
+<li><strong>Environment pane:</strong> see all your variables (<code>numbers</code>, <code>squared</code>, <code>total</code>, <code>mean_val</code>, <code>std_dev</code>, <code>data</code>, <code>json_text</code>)
+<ul>
+<li>Click on <code>data</code> to inspect its structure</li>
+<li>Click on <code>numbers</code> to see its values</li>
+</ul></li>
+</ol>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Environment Pane Power
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Just like Spyder’s Variable Explorer, RStudio’s Environment pane lets you: - See all variables, their types, and a preview of their values - Click to inspect data frames and lists in detail - Clear variables with the broom icon to start fresh</p>
+</div>
+</div>
+</section>
+<section id="using-the-console-interactively" class="level4">
+<h4 class="anchored" data-anchor-id="using-the-console-interactively">Using the Console Interactively</h4>
+<p>In the <strong>Console</strong>, you can interact with the variables from your script:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># These variables exist because we ran the script</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>numbers</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Output: [1] 1 2 3 4 5</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>squared[<span class="dv">3</span>]</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Output: [1] 9</span></span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>mean</span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Output: [1] 3</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+</section>
+<section id="confirm-env1-does-not-have-tidyverse" class="level3">
+<h3 class="anchored" data-anchor-id="confirm-env1-does-not-have-tidyverse">4.7 Confirm env1 Does Not Have Tidyverse</h3>
+<p>Let’s confirm that <code>env1</code> is isolated and does not include the tidyverse.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>You should get an error:</p>
+<pre><code>Error in library(dplyr) : there is no package called 'dplyr'</code></pre>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>This Is Expected!
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This confirms env1 is a clean, minimal environment containing only base R plus <code>jsonlite</code> (and renv itself). We have not installed the tidyverse here on purpose, so we can demonstrate isolation in the next step.</p>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="step-5-create-a-second-renv-project-env2-with-tidyverse" class="level2">
+<h2 class="anchored" data-anchor-id="step-5-create-a-second-renv-project-env2-with-tidyverse">Step 5: Create a Second renv Project (env2) with Tidyverse</h2>
+<p>Now let’s create a second renv project to demonstrate <strong>package isolation</strong>, the key benefit of project-local environments.</p>
+<section id="create-and-initialize-env2" class="level3">
+<h3 class="anchored" data-anchor-id="create-and-initialize-env2">5.1 Create and Initialize env2</h3>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-10-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-10-1" role="tab" aria-controls="tabset-10-1" aria-selected="true" href="">Windows</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-10-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-10-2" role="tab" aria-controls="tabset-10-2" aria-selected="false" href="">Mac/Linux</a></li></ul>
+<div class="tab-content">
+<div id="tabset-10-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-10-1-tab">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb41"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Navigate to your course folder</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cd</span> <span class="va">$HOME</span>\Documents\math5200</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a project folder for env2</span></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>mkdir r_env2</span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a><span class="fu">cd</span> r_env2</span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Launch R in this folder</span></span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a><span class="fu">R</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="tabset-10-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-10-2-tab">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb42"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Navigate to your course folder</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/Documents/math5200</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a project folder for env2</span></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> r_env2</span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> r_env2</span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Launch R in this folder</span></span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a><span class="ex">R</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</div>
+<p>Inside R:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"renv"</span>)</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>renv<span class="sc">::</span><span class="fu">init</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="install-tidyverse-into-env2" class="level3">
+<h3 class="anchored" data-anchor-id="install-tidyverse-into-env2">5.2 Install Tidyverse into env2</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"tidyverse"</span>)</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a><span class="co"># This can take a few minutes, since tidyverse installs many packages</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>What Is the Tidyverse?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The <strong>tidyverse</strong> is a popular collection of R packages for data manipulation and visualization (including <code>dplyr</code>, <code>ggplot2</code>, <code>tidyr</code>, and others), similar in spirit to how <code>pandas</code> and <code>matplotlib</code> work together in Python’s scientific stack.</p>
+</div>
+</div>
+</section>
+<section id="create-a-renv.lock-file" class="level3">
+<h3 class="anchored" data-anchor-id="create-a-renv.lock-file">5.3 Create a renv.lock File</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>renv<span class="sc">::</span><span class="fu">snapshot</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>This records every tidyverse package (and its dependencies) into <code>renv.lock</code>, exactly as <code>renv::snapshot()</code> did for env1, but now capturing a much larger set of packages.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Reproducibility with renv.lock
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If a classmate wanted to recreate your env2 exactly, they would only need your project folder (including <code>renv.lock</code>) and could run:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>renv<span class="sc">::</span><span class="fu">restore</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>This installs the exact package versions recorded in <code>renv.lock</code>, just like <code>pip install -r requirements.txt</code> does for Python.</p>
+</div>
+</div>
+</section>
+<section id="open-env2-in-rstudio" class="level3">
+<h3 class="anchored" data-anchor-id="open-env2-in-rstudio">5.4 Open env2 in RStudio</h3>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-11-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-11-1" role="tab" aria-controls="tabset-11-1" aria-selected="true" href="">Windows</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-11-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-11-2" role="tab" aria-controls="tabset-11-2" aria-selected="false" href="">Mac/Linux</a></li></ul>
+<div class="tab-content">
+<div id="tabset-11-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-11-1-tab">
+<p><strong>File -&gt; Open Project…</strong> and select <code>math5200/r_env2</code>, or double-click the <code>.Rproj</code> file in that folder.</p>
+</div>
+<div id="tabset-11-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-11-2-tab">
+<p><strong>File -&gt; Open Project…</strong> and select <code>math5200/r_env2</code>, or double-click the <code>.Rproj</code> file in that folder.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Switching Projects in RStudio
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Opening a new project in RStudio automatically closes the previous one (or opens a new window, depending on your settings) and activates the new project’s renv library. This is RStudio’s equivalent of deactivating one Python virtual environment and activating another.</p>
+</div>
+</div>
+</section>
+<section id="demonstrate-package-isolation" class="level3">
+<h3 class="anchored" data-anchor-id="demonstrate-package-isolation">5.5 Demonstrate Package Isolation</h3>
+<p>Now for the important demonstration: <code>env2</code> has different packages than <code>env1</code>.</p>
+<section id="use-tidyverse-packages-works-here" class="level4">
+<h4 class="anchored" data-anchor-id="use-tidyverse-packages-works-here">Use tidyverse packages (works here)</h4>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">environment =</span> <span class="fu">c</span>(<span class="st">"env1"</span>, <span class="st">"env1"</span>, <span class="st">"env2"</span>, <span class="st">"env2"</span>),</span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">package =</span> <span class="fu">c</span>(<span class="st">"jsonlite"</span>, <span class="st">"dplyr"</span>, <span class="st">"jsonlite"</span>, <span class="st">"dplyr"</span>),</span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">installed =</span> <span class="fu">c</span>(<span class="st">"Yes"</span>, <span class="st">"No"</span>, <span class="st">"No"</span>, <span class="st">"Yes"</span>)</span>
+<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb47-9"><a href="#cb47-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-10"><a href="#cb47-10" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(df)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Expected output:</p>
+<pre><code>  environment  package installed
+1        env1 jsonlite       Yes
+2        env1    dplyr        No
+3        env2 jsonlite        No
+4        env2    dplyr       Yes</code></pre>
+</section>
+<section id="try-to-use-jsonlite-will-fail" class="level4">
+<h4 class="anchored" data-anchor-id="try-to-use-jsonlite-will-fail">Try to use jsonlite (will fail!)</h4>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(jsonlite)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>You should get an error:</p>
+<pre><code>Error in library(jsonlite) : there is no package called 'jsonlite'</code></pre>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>This Is Expected, Too!
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Even though we installed <code>jsonlite</code> in env1, it is not available in env2. Each renv project has its own completely independent package library. This is the same isolation guarantee that Python’s venv gives us, just implemented differently under the hood.</p>
+</div>
+</div>
+<!-- Screenshot placeholder: RStudio showing jsonlite import error and successful use of tidyverse in env2 -->
+</section>
+</section>
+<section id="switch-back-to-env1" class="level3">
+<h3 class="anchored" data-anchor-id="switch-back-to-env1">5.6 Switch Back to env1</h3>
+<p>To verify, switch back to the env1 project in RStudio (<strong>File -&gt; Open Project…</strong> -&gt; <code>math5200/r_env1</code>) and confirm:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(jsonlite)</span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"jsonlite works in env1!</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Try dplyr (will fail in env1)</span></span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)  <span class="co"># Error: there is no package called 'dplyr'</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Key Takeaway
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Each renv project is <strong>completely independent</strong>, exactly like each Python virtual environment. This allows you to: - Use different package sets for different projects - Avoid conflicts between incompatible package versions - Share an exact, reproducible package list with collaborators via <code>renv.lock</code> - Recreate your analysis environment months or years later with <code>renv::restore()</code></p>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="basic-troubleshooting" class="level2">
+<h2 class="anchored" data-anchor-id="basic-troubleshooting">Basic Troubleshooting</h2>
+<p>Here are solutions to a few common issues you might encounter. We will keep this list short; most R/RStudio setup problems are easy to resolve.</p>
+<section id="issue-1-r-command-not-found-or-r-is-not-recognized" class="level3">
+<h3 class="anchored" data-anchor-id="issue-1-r-command-not-found-or-r-is-not-recognized">Issue 1: “R: command not found” or “‘R’ is not recognized”</h3>
+<p><strong>Solution:</strong> R was not added to your PATH, or the installation did not complete. Reinstall R from CRAN and restart your terminal.</p>
+</section>
+<section id="issue-2-rstudio-opens-but-says-it-cannot-find-r" class="level3">
+<h3 class="anchored" data-anchor-id="issue-2-rstudio-opens-but-says-it-cannot-find-r">Issue 2: RStudio opens but says it cannot find R</h3>
+<p><strong>Solution:</strong> Make sure R (Step 1) was installed before RStudio. In RStudio, go to <strong>Tools -&gt; Global Options -&gt; General</strong> and confirm the R version listed under “R version” points to a valid installation.</p>
+</section>
+<section id="issue-3-renv-does-not-activate-automatically" class="level3">
+<h3 class="anchored" data-anchor-id="issue-3-renv-does-not-activate-automatically">Issue 3: renv does not activate automatically</h3>
+<p><strong>Solution:</strong> Make sure you opened the project folder as an RStudio <strong>Project</strong> (via the <code>.Rproj</code> file or File -&gt; Open Project), not just opened a loose script. renv activates through the project’s <code>.Rprofile</code>, so it needs to recognize the folder as a project.</p>
+</section>
+<section id="issue-4-package-installation-fails-with-a-mirrordownload-error" class="level3">
+<h3 class="anchored" data-anchor-id="issue-4-package-installation-fails-with-a-mirrordownload-error">Issue 4: Package installation fails with a mirror/download error</h3>
+<p><strong>Solution:</strong> R needs a CRAN mirror to download from. If prompted, choose a mirror geographically close to you (for example, a “0-Cloud” or regional mirror), then try <code>install.packages()</code> again.</p>
+</section>
+<section id="issue-5-there-is-no-package-called-___-even-though-you-installed-it" class="level3">
+<h3 class="anchored" data-anchor-id="issue-5-there-is-no-package-called-___-even-though-you-installed-it">Issue 5: “there is no package called ___” even though you installed it</h3>
+<p><strong>Solution:</strong> Confirm which project is active by running <code>getwd()</code> and <code>.libPaths()</code> in the console. You may be in the wrong renv project. Open the correct project folder and try again.</p>
+<hr>
+</section>
+</section>
+<section id="summary" class="level2">
+<h2 class="anchored" data-anchor-id="summary">Summary</h2>
+<p>Congratulations! You’ve completed your first steps with R. Here’s what you’ve learned:</p>
+<ol type="1">
+<li><p><strong>Installing R:</strong> Downloaded and installed R from CRAN on your system</p></li>
+<li><p><strong>Interactive R:</strong> Used the R console (REPL) to execute commands interactively and explore basic concepts like:</p>
+<ul>
+<li>Dynamic typing</li>
+<li>Different data types (numeric, integer, character, logical)</li>
+<li>Base R math functions</li>
+<li>Basic operations</li>
+</ul></li>
+<li><p><strong>R Scripts:</strong> Created and executed R scripts from files, understanding the workflow of:</p>
+<ul>
+<li>Writing code in a text file</li>
+<li>Saving as <code>.R</code></li>
+<li>Running from the terminal with <code>Rscript</code></li>
+</ul></li>
+<li><p><strong>Integrated Development Environment (IDE):</strong> Installed and learned to use RStudio, exploring:</p>
+<ul>
+<li>The Source Editor for writing code</li>
+<li>The Console for interactive work</li>
+<li>The Environment pane for understanding program state</li>
+<li>The Files/Plots/Packages/Help pane</li>
+<li>A brief look at using VS Code as an alternative</li>
+</ul></li>
+<li><p><strong>Project Environments with renv:</strong> Mastered the R equivalent of Python’s venv:</p>
+<ul>
+<li>Created multiple renv projects (env1 and env2)</li>
+<li>Installed different packages in each environment</li>
+<li>Demonstrated package isolation</li>
+<li>Connected RStudio to different renv projects</li>
+</ul></li>
+<li><p><strong>Package Management:</strong> Learned to:</p>
+<ul>
+<li>Install packages with <code>install.packages()</code></li>
+<li>Create and use <code>renv.lock</code> for reproducibility</li>
+<li>Snapshot and restore environments</li>
+<li>Understand how renv activation works automatically</li>
+</ul></li>
+</ol>
+<section id="key-concepts" class="level3">
+<h3 class="anchored" data-anchor-id="key-concepts">Key Concepts</h3>
+<ul>
+<li><strong>Dynamic Typing:</strong> Variables in R can hold any type of data, just like Python</li>
+<li><strong>Packages:</strong> R’s ecosystem provides powerful functionality through packages, loaded with <code>library()</code></li>
+<li><strong>renv Projects:</strong> Isolated package libraries prevent conflicts and ensure reproducibility, just like Python’s venv</li>
+<li><strong>IDE Benefits:</strong> Tools like RStudio make development easier with integrated panes</li>
+<li><strong>Package Isolation:</strong> Each renv project has its own set of installed packages</li>
+</ul>
+</section>
+<section id="next-steps" class="level3">
+<h3 class="anchored" data-anchor-id="next-steps">Next Steps</h3>
+<p>Now that you have a solid foundation, you’re ready to: - Write more complex R programs - Install data science packages (tidyverse, data.table, etc.) - Work on course assignments with proper environment management - Explore RStudio’s advanced features (debugging, R Markdown/Quarto documents, version control integration)</p>
+</section>
+<section id="quick-reference" class="level3">
+<h3 class="anchored" data-anchor-id="quick-reference">Quick Reference</h3>
+<p><strong>Open a Project in RStudio:</strong> File -&gt; Open Project… (or double-click the <code>.Rproj</code> file)</p>
+<p><strong>Initialize renv in a Project:</strong> <code>renv::init()</code></p>
+<p><strong>Install Package:</strong> <code>install.packages("package_name")</code></p>
+<p><strong>Record Environment:</strong> <code>renv::snapshot()</code></p>
+<p><strong>Recreate Environment:</strong> <code>renv::restore()</code></p>
+<p><strong>List Loaded Packages:</strong> <code>search()</code></p>
+<p><strong>List Installed Packages:</strong> <code>installed.packages()</code></p>
+<p><strong>Run Script:</strong> <code>Rscript script_name.R</code></p>
+<p><strong>Source a Script in RStudio:</strong> <code>Ctrl+Shift+Enter</code> (or click Source)</p>
+<hr>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Best Practices Going Forward
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li><strong>Always use renv projects</strong> for your R work, just as you use venv for Python</li>
+<li><strong>Snapshot your environment</strong> with <code>renv::snapshot()</code> whenever you add a package</li>
+<li><strong>Use meaningful variable names</strong> in your code</li>
+<li><strong>Comment your code</strong> to explain the “why”, not just the “what”</li>
+<li><strong>Save your work frequently</strong></li>
+<li><strong>Use version control</strong> (Git) for important projects (we’ll cover this later!)</li>
+</ol>
+</div>
+</div>
+<p>Happy coding!</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/moninp\.github\.io\/intro-programming\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
