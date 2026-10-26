@@ -1,0 +1,767 @@
+---
+title: "Lecture 8 -- Python to R: Two Languages, One Computational Model"
+subtitle: "Background Notes"
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    code-fold: false
+jupyter: ir
+---
+
+# 1. Introduction
+
+These notes provide a systematic reference for the material introduced in Lecture 8's `class.qmd` and `class.R`. The central theme of this lecture is a translation, not a reinvention: everything you already know about computation from seven lectures of Python -- variables, collections, control flow, functions, vectorization, and reproducible workflows -- continues to apply. What changes is notation, a handful of default behaviors, and, in some places, which idiom experienced users prefer.
+
+R was created in 1993 by Ross Ihaka and Robert Gentleman as a free implementation of the S language, itself designed at Bell Labs for statistical computing. Python was created slightly earlier, in 1991, by Guido van Rossum as a general-purpose scripting language; its scientific capabilities (NumPy, pandas, SciPy) were added over the following two decades by the open-source community. This history explains a great deal about why the two languages feel different in practice:
+
+- R treats **vectors** and **data frames** as native, built-in concepts. There is no equivalent of "importing NumPy" to get vectorized arithmetic; it is simply how R works.
+- Python treats collections as a general-purpose `list`, with vectorized numerical behavior available only once you import NumPy.
+- R's standard library is comparatively small; most functionality (plotting, data wrangling, modeling extensions) comes from packages on CRAN, the Comprehensive R Archive Network.
+- Python's standard library is larger, but the scientific stack is still delivered via third-party packages (NumPy, pandas, matplotlib) in a similar fashion.
+
+Both languages are dynamically typed, both support functions as first-class objects, both have mechanisms for iteration and vectorized operations, and both can be used interactively or as scripts. The remainder of these notes works through the specific syntax and idioms you need to translate your existing computational fluency from Python into R.
+
+::: {.callout-note}
+## A Note on Scope
+This lecture (and these notes) cover **base R** -- the functionality available without loading any packages beyond what ships with R itself. Lecture 9 introduces the **tidyverse**, a separate ecosystem of packages that provides a more modern, consistent grammar for data manipulation. Everything in this lecture remains useful once you start using the tidyverse; in fact, many tidyverse functions are thin, more readable wrappers around base R operations you will learn today.
+:::
+
+# 2. R as an Interactive Language and as a Scripting Language
+
+## 2.1 Two Modes of Use
+
+Exactly as with Python, R supports two primary modes of interaction:
+
+**Interactive mode**: you type commands one at a time at the `>` prompt (in a terminal, or in RStudio's Console pane) and see results immediately. This is ideal for exploration, debugging, and quick calculations.
+
+**Script mode**: you save a sequence of commands in a `.R` file and execute the whole file at once, either with `Rscript filename.R` from the command line, or by clicking "Source" in RStudio, or line-by-line with `Ctrl+Enter`.
+
+```{r}
+# This line runs identically whether typed interactively or sourced from a script
+x <- 10
+x
+```
+
+## 2.2 Objects
+
+R documentation almost universally refers to "objects" rather than "variables." The term is used broadly: numbers, vectors, data frames, functions, and even plots are all objects in R, each with a *class* that determines how generic functions (like `print()` or `summary()`) behave on them. This is conceptually similar to how "everything is an object" in Python, including functions and modules.
+
+```{r}
+x <- 10
+class(x)
+
+f <- function(x) x^2
+class(f)
+```
+
+## 2.3 Functions
+
+Functions in R are called with parentheses, just as in Python: `mean(x)`, `sqrt(16)`, `print("hello")`. R has an enormous number of built-in and package-provided functions; discovering the right function for a task is a large part of learning R fluently.
+
+```{r}
+sqrt(16)
+round(3.14159, 2)
+nchar("hello")  # analogous to Python's len("hello")
+```
+
+## 2.4 Packages and the R Ecosystem
+
+A **package** in R bundles functions, data, and documentation together, just as a Python package (installed via `pip`) does. R's package repository is called **CRAN**. Installing and loading a package uses two separate steps:
+
+```{r}
+#| eval: false
+install.packages("dplyr")  # done once, like pip install
+library(dplyr)              # done each session, like import
+```
+
+This differs slightly from Python's `import` statement, which handles both "the package must already be installed" and "load it into this session" implicitly (Python raises an error if the package was never installed; R's `install.packages()` and `library()` are explicitly separate steps).
+
+::: {.callout-tip}
+## Checking Installed Packages
+Use `installed.packages()` to list everything installed, or `library()` with no arguments to open a package browser in RStudio. To check whether a specific package is already available without loading it, use `requireNamespace("dplyr", quietly = TRUE)`.
+:::
+
+## 2.5 R versus Python: A Summary of Design Philosophy
+
+| Aspect | Python | R |
+|---|---|---|
+| Origin | General-purpose scripting language | Statistical computing language (descended from S) |
+| Native numeric collection | `list` (not vectorized) | vector (vectorized by default) |
+| Scientific stack | Third-party (NumPy, pandas, SciPy) | Largely native, extended by tidyverse |
+| Typical community | Software engineering, data science, scripting | Statistics, biostatistics, econometrics, academic research |
+| Package repository | PyPI | CRAN |
+| Indexing | 0-based | 1-based |
+| Assignment operator | `=` | `<-` (idiomatic), `=` also works |
+
+# 3. Conceptual Translation: Python to R
+
+This section lays out explicit term-by-term correspondences you will use repeatedly.
+
+## 3.1 Variables / Objects
+
+Python:
+```python
+x = 10
+```
+
+R:
+```{r}
+x <- 10
+```
+
+Both `<-` and `=` work for assignment at the top level in R, but `<-` is the idiomatic choice, and some contexts (such as naming arguments inside a function call) require `=` specifically, which can create ambiguity if you use `=` for assignment everywhere. We will consistently use `<-` for assignment and reserve `=` for passing named arguments.
+
+```{r}
+# <- for assignment, = for naming an argument
+round(x = 3.14159, digits = 2)
+```
+
+::: {.callout-tip}
+## Keyboard Shortcut
+RStudio provides a keyboard shortcut for typing `<-`: `Alt + -` (Windows/Linux) or `Option + -` (Mac). Learning this shortcut early will save you a great deal of typing.
+:::
+
+## 3.2 Python Lists/Arrays <-> R Vectors
+
+A Python `list` is a general-purpose ordered collection that can hold mixed types without complaint. A NumPy array is homogeneous and supports vectorized arithmetic. R's vector, created with `c()`, behaves like the NumPy array: homogeneous (R will silently coerce mixed types to a common type) and vectorized by default.
+
+```{r}
+# R vector: homogeneous, vectorized
+v <- c(1, 2, 3, 4)
+v * 2
+```
+
+```{r}
+# Mixing types in c() triggers coercion, not an error
+mixed <- c(1, 2, "three")
+mixed       # everything became character
+class(mixed)
+```
+
+::: {.callout-important}
+## Silent Coercion Is a Common Source of Bugs
+Unlike Python, which raises a `TypeError` if you try to add a number and a string, R's `c()` will silently coerce all elements to the most general type present (logical -> integer -> double -> character, in that order). Always check `class()` on a vector if its behavior surprises you.
+:::
+
+## 3.3 NumPy Arrays <-> R Vectorized Operations
+
+Both NumPy and R allow you to apply an operation to every element of a collection without writing an explicit loop.
+
+```python
+import numpy as np
+arr = np.array([1, 2, 3, 4])
+arr + 10
+```
+
+```{r}
+v <- c(1, 2, 3, 4)
+v + 10
+```
+
+The key practical difference: in Python, you must deliberately choose to use NumPy to get this behavior (plain lists do not vectorize). In R, there is no "plain list" numeric type to fall back to -- vectors are vectorized unconditionally.
+
+## 3.4 pandas DataFrames <-> Data Frames / Tibbles
+
+pandas' `DataFrame` was explicitly inspired by R's data frame; the resemblance is intentional, not coincidental.
+
+```python
+import pandas as pd
+df = pd.DataFrame({"name": ["Ada", "Grace"], "score": [92, 88]})
+```
+
+```{r}
+df <- data.frame(name = c("Ada", "Grace"), score = c(92, 88))
+df
+```
+
+A **tibble** (from the tidyverse, covered in Lecture 9) is a modernized data frame with more predictable printing and fewer surprising default behaviors. For today, base `data.frame()` is sufficient.
+
+## 3.5 Python Functions <-> R Functions
+
+```python
+def square(x):
+    return x ** 2
+```
+
+```{r}
+square <- function(x) {
+  return(x^2)
+}
+square(4)
+```
+
+Both languages support default argument values, variable numbers of arguments, and functions as first-class values that can be passed to other functions.
+
+```{r}
+# Default argument value
+greet <- function(name, greeting = "Hello") {
+  paste(greeting, name)
+}
+greet("Ada")
+greet("Ada", greeting = "Hi")
+```
+
+## 3.6 Python Boolean Indexing <-> R Logical Filtering
+
+```python
+import numpy as np
+scores = np.array([85, 92, 78, 95])
+scores[scores > 90]
+```
+
+```{r}
+scores <- c(85, 92, 78, 95)
+scores[scores > 90]
+```
+
+The underlying mechanism is identical in spirit: a logical/boolean vector of the same length as the data is used to select elements where the value is `TRUE`.
+
+# 4. R's Atomic Vector Types
+
+## 4.1 The Four Core Types
+
+R has four atomic vector types used constantly in everyday work:
+
+```{r}
+class(TRUE)     # logical
+class(5L)       # integer
+class(5.0)      # double (R calls this "numeric")
+class("hello")  # character
+```
+
+| R type | Python analogue | Literal syntax in R |
+|---|---|---|
+| `logical` | `bool` | `TRUE`, `FALSE` (or `T`, `F`) |
+| `integer` | `int` | `5L` (the `L` suffix forces an integer) |
+| `double` / `numeric` | `float` | `5.0` or simply `5` |
+| `character` | `str` | `"hello"` or `'hello'` |
+
+::: {.callout-note}
+## Why Does `5` Default to Double, Not Integer?
+In R, a bare numeric literal like `5` is stored as a `double` by default, not an `integer`. This differs from some other languages. If you specifically need an integer (rare in everyday data analysis), append `L`: `5L`. In practice, the distinction between integer and double rarely matters for day-to-day analysis, since R's arithmetic functions happily operate on both.
+:::
+
+## 4.2 Case Sensitivity and Logical Literals
+
+R is case-sensitive, just like Python. `TRUE` and `FALSE` must be spelled with the exact capitalization shown; `true`, `True`, and `false` will all raise errors (R does not define them). The shorthand `T` and `F` exist but are discouraged in careful code, since `T` and `F` are ordinary variable names that could be reassigned, unlike the protected keywords `TRUE`/`FALSE`.
+
+```{r}
+#| error: true
+x <- true  # Error: object 'true' not found
+```
+
+```{r}
+T <- 5          # legal but dangerous -- T no longer means TRUE!
+if (T) {
+  print("this won't print, because T is now 5, not TRUE... actually 5 is truthy")
+}
+T <- TRUE  # restore sanity
+```
+
+## 4.3 Type Coercion Hierarchy
+
+When R combines mixed types in a single vector via `c()`, it coerces everything to the most general type present, following this order (least to most general):
+
+```
+logical -> integer -> double -> character
+```
+
+```{r}
+c(TRUE, 1L)        # integer vector: TRUE becomes 1L
+c(TRUE, 1.5)       # double vector: TRUE becomes 1.0
+c(1, "a")          # character vector: 1 becomes "1"
+```
+
+## 4.4 Checking and Converting Types
+
+Analogous to Python's `isinstance()` and explicit casting (`int(x)`, `str(x)`), R provides `is.*()` checks and `as.*()` conversions.
+
+```{r}
+is.numeric(5)
+is.character("hello")
+is.logical(TRUE)
+```
+
+```{r}
+as.character(5)
+as.numeric("3.14")
+as.integer(3.99)  # truncates toward zero, like Python's int()
+```
+
+```{r}
+#| error: false
+#| warning: true
+as.numeric("abc")  # produces NA with a warning, not an error
+```
+
+::: {.callout-important}
+## Failed Conversions Produce NA, Not an Error
+Where Python's `int("abc")` raises a `ValueError`, R's `as.numeric("abc")` returns `NA` and issues a warning rather than stopping execution. This means a bad conversion can silently propagate through your analysis if you are not checking for `NA` values afterward.
+:::
+
+# 5. Factors (Conceptual Introduction)
+
+A **factor** represents a categorical variable with a fixed set of possible values (called **levels**). There is no single-word Python equivalent, though pandas' `Categorical` type serves a similar purpose.
+
+```{r}
+grade <- factor(c("A", "B", "A", "C"), levels = c("A", "B", "C"))
+grade
+levels(grade)
+```
+
+Factors matter because many R modeling and plotting functions treat categorical variables specially (for example, choosing an order for bars in a plot, or setting up dummy-variable encoding in a regression) based on factor levels. We will not use factors heavily today, but you will encounter them frequently once we begin statistical modeling later in the course.
+
+::: {.callout-tip}
+## When to Worry About Factors
+A common historical pain point in R: older versions automatically converted character columns to factors when creating data frames, which surprised many users. Modern R (4.0+) and the tidyverse default to keeping character columns as character, not factors, so this is less of an issue than it used to be. Still, be aware that `factor()` exists and behaves differently from plain character vectors when you encounter it.
+:::
+
+# 6. Lists
+
+## 6.1 Lists as R's General-Purpose Container
+
+Where an R vector must be homogeneous, an R `list()` can hold elements of different types, different lengths, and can be named -- similar in spirit to a Python `dict`, though R lists also preserve order like a Python `list`.
+
+```{r}
+person <- list(name = "Ada", age = 36, languages = c("R", "Python"))
+person
+```
+
+## 6.2 Accessing List Elements
+
+R provides three related-but-different extraction operators, which trip up many newcomers:
+
+```{r}
+person$name        # by name, returns the unwrapped value
+person[["name"]]    # by name or position, returns the unwrapped value
+person["name"]      # by name or position, returns a sub-list (still a list!)
+```
+
+```{r}
+class(person$name)    # character
+class(person["name"])  # list
+```
+
+::: {.callout-important}
+## Single Brackets vs. Double Brackets
+`[[ ]]` extracts the actual contents (an R analogue of a Python dictionary's `d["key"]`). A single `[ ]` on a list returns a smaller *list* containing that element, not the element itself. This distinction has no Python analogue and is one of the most common sources of confusion for newcomers. As a rule of thumb: use `[[ ]]` or `$` when you want the value, and `[ ]` only when you deliberately want to keep working with a list.
+:::
+
+## 6.3 Lists Can Nest and Hold Mixed Lengths
+
+```{r}
+mixed_list <- list(
+  numbers = c(1, 2, 3),
+  label = "example",
+  nested = list(a = 1, b = 2)
+)
+mixed_list$nested$a
+```
+
+# 7. Data Frames
+
+## 7.1 Creating a Data Frame
+
+```{r}
+df <- data.frame(
+  name = c("Ada", "Grace", "Alan"),
+  score = c(92, 88, 95)
+)
+df
+```
+
+A data frame is, structurally, a **list of equal-length vectors**, displayed as a table. Each column is a vector (so each column must be internally homogeneous), but different columns can hold different types -- exactly like a pandas `DataFrame` or an R list where every element happens to be the same length.
+
+## 7.2 Inspecting a Data Frame
+
+```{r}
+str(df)      # structure: types and a preview of each column
+summary(df)  # summary statistics for each column
+nrow(df)
+ncol(df)
+dim(df)
+colnames(df)
+```
+
+## 7.3 Accessing Columns and Rows
+
+```{r}
+df$score          # column, by name, as a vector (most common)
+df[["score"]]      # equivalent to df$score
+df[, "score"]      # equivalent, using bracket notation with a comma
+df[1, ]            # first row, all columns
+df[1, "score"]     # first row, score column only
+```
+
+::: {.callout-note}
+## The Comma Inside Brackets
+R's data frame bracket syntax is `df[rows, columns]`. Leaving one side blank means "all." `df[1, ]` means "row 1, all columns." `df[, "score"]` means "all rows, the score column." This comma-separated syntax has no direct single-bracket equivalent in pandas, where `.loc[]` and `.iloc[]` are used instead, but the underlying idea (specify a row selector and a column selector) is the same.
+:::
+
+## 7.4 Logical Filtering of Rows
+
+```{r}
+df[df$score > 90, ]
+```
+
+This reads as: "Take the rows where the logical condition `df$score > 90` is `TRUE`, and all columns." It is the direct structural analogue of pandas' `df[df["score"] > 90]`.
+
+## 7.5 Adding and Modifying Columns
+
+```{r}
+df$passed <- df$score >= 90
+df
+```
+
+## 7.6 data.frame() versus tibble()
+
+Base R's `data.frame()` has a handful of quirky default behaviors (recycling columns of mismatched length with a warning rather than an error, printing all rows by default even for huge tables, and historically auto-converting strings to factors). The tidyverse's `tibble()`, introduced properly in Lecture 9, addresses these quirks with more predictable defaults. We use `data.frame()` today because it requires no additional packages, but expect the transition to tibbles next lecture to feel almost seamless.
+
+# 8. Missing Values: NA
+
+## 8.1 NA Is Typed
+
+Unlike Python's single universal `None`, R's `NA` comes in several typed flavors (`NA` as logical, `NA_integer_`, `NA_real_`, `NA_character_`), though in practice R converts between these automatically and you rarely need to worry about the distinction.
+
+```{r}
+x <- c(1, 2, NA, 4)
+is.na(x)
+```
+
+## 8.2 NA Propagation
+
+```{r}
+sum(x)                 # NA
+sum(x, na.rm = TRUE)    # 7
+mean(x, na.rm = TRUE)
+```
+
+::: {.callout-important}
+## Compare to Python's None
+In Python, `sum([1, 2, None, 4])` raises a `TypeError` immediately. In R, `sum()` silently returns `NA` rather than erroring. This "fail silently" behavior means you must proactively check `is.na()` or use `na.rm = TRUE`; R will not stop and complain for you.
+:::
+
+## 8.3 Removing or Replacing Missing Values
+
+```{r}
+x[!is.na(x)]          # keep only non-missing values
+ifelse(is.na(x), 0, x) # replace NA with 0, elementwise
+```
+
+# 9. Writing Functions in R
+
+## 9.1 Basic Syntax
+
+```{r}
+square <- function(x) {
+  return(x^2)
+}
+square(4)
+```
+
+## 9.2 Implicit Return Values
+
+```{r}
+square_implicit <- function(x) {
+  x^2  # the value of the last evaluated expression is returned automatically
+}
+square_implicit(5)
+```
+
+Many experienced R programmers omit `return()` for short, single-expression functions, relying on the implicit return. We will use explicit `return()` in the early part of the course for clarity, matching the style you are used to from Python, and relax this later.
+
+## 9.3 Default Arguments and Named Arguments
+
+```{r}
+describe <- function(name, title = "Dr.") {
+  paste(title, name)
+}
+describe("Smith")
+describe("Smith", title = "Prof.")
+describe(name = "Smith", title = "Prof.")
+```
+
+## 9.4 Variable Numbers of Arguments
+
+Python's `*args`/`**kwargs` have a rough analogue in R's `...` ("dots").
+
+```{r}
+add_all <- function(...) {
+  sum(...)
+}
+add_all(1, 2, 3, 4)
+```
+
+## 9.5 Functions Are First-Class Objects
+
+```{r}
+apply_twice <- function(f, x) {
+  f(f(x))
+}
+apply_twice(square, 3)
+```
+
+# 10. Scope
+
+## 10.1 Local Scope Inside Functions
+
+```{r}
+#| error: true
+make_local <- function() {
+  local_var <- 10
+  return(local_var)
+}
+result <- make_local()
+print(local_var)  # object 'local_var' not found
+```
+
+Variables created inside a function body are local to that function, exactly as in Python. They do not leak into the surrounding environment.
+
+## 10.2 Reading (Not Modifying) an Outer Variable
+
+```{r}
+counter_value <- 0
+
+show_counter <- function() {
+  print(counter_value)  # reading an outer variable is fine
+}
+show_counter()
+```
+
+## 10.3 The `<<-` Operator (Use Sparingly)
+
+R has a "superassignment" operator `<<-` that modifies a variable in an enclosing scope rather than creating a new local variable. It is the rough analogue of Python's `global` keyword, but can reach further up through nested function environments. It is rarely needed in everyday data analysis and is easy to misuse; we mention it here mainly so you recognize it when you see it in other people's code.
+
+```{r}
+counter_value <- 0
+
+increment_global <- function() {
+  counter_value <<- counter_value + 1
+}
+increment_global()
+counter_value  # now 1
+```
+
+::: {.callout-important}
+## Prefer Return Values Over <<-
+Just as in Python, where modifying global state from inside a function is discouraged in favor of returning a new value, R style strongly prefers functions that take inputs and return outputs, rather than functions that reach outside themselves to modify state via `<<-`. Treat `<<-` as a tool of last resort.
+:::
+
+# 11. Iteration: for and while Loops
+
+## 11.1 for Loops
+
+```{r}
+for (i in 1:5) {
+  print(i^2)
+}
+```
+
+R's `for` loop iterates directly over the elements of a vector (or list), rather than requiring something like Python's `range()`.
+
+::: {.callout-important}
+## 1:5 Includes Both Endpoints
+Python's `range(1, 5)` produces `1, 2, 3, 4` (excludes the stop value). R's `1:5` produces `1, 2, 3, 4, 5` (includes both endpoints). This is one of the most common sources of off-by-one bugs when translating code between the languages.
+:::
+
+## 11.2 Iterating Over Something Other Than a Numeric Sequence
+
+```{r}
+for (name in c("Ada", "Grace", "Alan")) {
+  print(paste("Hello,", name))
+}
+```
+
+## 11.3 while Loops
+
+```{r}
+n <- 1
+while (n < 5) {
+  print(n)
+  n <- n + 1
+}
+```
+
+Structurally identical to Python's `while` loop; the main difference is R's curly-brace block syntax rather than Python's indentation-based blocks.
+
+## 11.4 seq_along() for Safe Index Iteration
+
+```{r}
+values <- c(10, 20, 30)
+for (i in seq_along(values)) {
+  print(values[i])
+}
+```
+
+`seq_along(values)` is the safe way to generate indices `1:length(values)`; it correctly produces an empty sequence if `values` has length 0, whereas `1:length(values)` would incorrectly produce `1:0`, i.e., `c(1, 0)`, and attempt two iterations on an empty vector. This parallels why Python programmers prefer `for i, x in enumerate(values)` or `for x in values` over manually indexing with `range(len(values))`.
+
+```{r}
+empty <- c()
+length(empty)
+seq_along(empty)  # correctly empty
+1:length(empty)   # incorrectly produces c(1, 0) -- a classic bug
+```
+
+# 12. Vectorization: R's Central Idiom
+
+## 12.1 Why Loops Are Usually the Wrong Tool in R
+
+```{r}
+values <- c(1, 2, 3, 4, 5)
+
+# Loop version -- works, but is not idiomatic R
+squared_loop <- numeric(length(values))
+for (i in seq_along(values)) {
+  squared_loop[i] <- values[i]^2
+}
+squared_loop
+```
+
+```{r}
+# Vectorized version -- idiomatic R
+squared_vectorized <- values^2
+squared_vectorized
+```
+
+```{r}
+identical(squared_loop, squared_vectorized)
+```
+
+In NumPy, vectorization is a performance *option* you choose by using arrays instead of lists. In R, essentially all arithmetic, comparison, and many string operations are vectorized by default on the language's native vector type, and writing an explicit loop to perform elementwise arithmetic is both slower and considered poor style.
+
+## 12.2 Recycling
+
+A subtlety with no clean Python analogue: when R performs vectorized arithmetic on vectors of different lengths, it **recycles** the shorter vector by repeating it.
+
+```{r}
+c(1, 2, 3, 4) + c(10, 20)  # recycles c(10, 20) to c(10, 20, 10, 20)
+```
+
+```{r}
+#| warning: true
+c(1, 2, 3) + c(10, 20)  # length mismatch not a multiple -- warns, still runs
+```
+
+::: {.callout-important}
+## Recycling Can Hide Bugs
+Recycling is sometimes useful (e.g., adding a single number to every element, which is recycling a length-1 vector), but recycling vectors of unrelated lengths without noticing is a real source of subtle bugs. Always check vector lengths with `length()` if an operation produces a surprising result.
+:::
+
+## 12.3 The apply Family (Conceptual Introduction)
+
+When a vectorized arithmetic shortcut does not exist, or when applying a more complex function to every element, R's `apply` family plays a role similar to Python's `map()` or list comprehensions.
+
+```{r}
+values <- c(1, 2, 3, 4, 5)
+sapply(values, function(x) x^2)
+```
+
+```{r}
+# For a list, lapply() returns a list rather than attempting to simplify
+lapply(list(1, "a", TRUE), class)
+```
+
+| Function | Input | Output | Rough Python analogue |
+|---|---|---|---|
+| `sapply()` | vector or list | vector (simplified) | list comprehension / `map()` + conversion |
+| `lapply()` | vector or list | list | `map()` (returns an iterator of results) |
+| `vapply()` | vector or list | vector (with explicit type check) | list comprehension with type checking |
+| `mapply()` | multiple vectors | vector/list | `map()` over multiple iterables (`zip` + `map`) |
+
+::: {.callout-tip}
+## Preference Order
+Prefer, in order: (1) a direct vectorized operation if one exists (`values^2`); (2) `sapply()`/`lapply()` if you need to apply a custom function elementwise; (3) an explicit `for` loop only when neither of the above is feasible (for example, when each iteration depends on the result of the previous one). This mirrors the Python hierarchy of preferring vectorized NumPy operations, then comprehensions/`map()`, then explicit loops.
+:::
+
+# 13. Worked Comparison: A Complete Small Program in Both Languages
+
+To consolidate everything above, consider a small analysis: simulate 20 draws from a standard normal distribution, split them into two labeled groups, and compute the mean of each group.
+
+**Python:**
+```python
+import numpy as np
+
+rng = np.random.default_rng(42)
+values = rng.normal(loc=0, scale=1, size=20)
+groups = np.repeat(["A", "B"], 10)
+
+for g in ["A", "B"]:
+    print(g, values[groups == g].mean())
+```
+
+**R:**
+```{r}
+set.seed(42)
+values <- rnorm(20, mean = 0, sd = 1)
+groups <- rep(c("A", "B"), each = 10)
+
+for (g in c("A", "B")) {
+  print(paste(g, mean(values[groups == g])))
+}
+```
+
+Notice what translated almost directly (the logical filtering `values[groups == g]`, the `for` loop structure, the overall shape of the computation) and what required a different idiom (NumPy's `random.default_rng()` object-based random number generation versus R's simpler `set.seed()` plus `rnorm()`; `np.repeat` versus R's `rep(..., each = ...)`).
+
+::: {.callout-note}
+## rep() Has Two Important Modes
+`rep(c("A", "B"), each = 10)` repeats each element 10 times before moving to the next: `A A A ... B B B ...`. `rep(c("A", "B"), times = 10)` repeats the whole sequence 10 times: `A B A B A B ...`. These produce very different results and are a common point of confusion.
+:::
+
+```{r}
+rep(c("A", "B"), each = 3)
+rep(c("A", "B"), times = 3)
+```
+
+# 14. Common Pitfalls When Moving from Python to R
+
+1. **Off-by-one errors from inclusive ranges.** `1:5` includes 5; Python's `range(1, 5)` does not.
+2. **Silent NA propagation.** Forgetting `na.rm = TRUE` causes summary statistics to silently return `NA` rather than erroring.
+3. **Confusing `[`, `[[`, and `$` on lists.** Single brackets return a list; double brackets and `$` return the unwrapped value.
+4. **Forgetting that vectors are homogeneous.** Mixing types in `c()` silently coerces everything, rather than raising a `TypeError` as Python would.
+5. **Unexpected recycling.** Arithmetic between vectors of different (non-matching) lengths recycles rather than erroring, which can mask bugs.
+6. **Assuming `data.frame()` behaves exactly like a pandas `DataFrame`.** Column selection, row filtering, and printing defaults all differ in small but important ways; tibbles (Lecture 9) resolve most of these differences.
+7. **Writing loops where vectorized code was intended.** This works but is slow and unidiomatic; always look for a vectorized alternative first.
+8. **Overusing `<<-`.** Favor returning values from functions over modifying variables in an enclosing scope.
+
+# 15. Key Takeaways
+
+1. R and Python share the same underlying computational model: variables (objects), collections, control flow, and functions.
+2. R's assignment operator is idiomatically `<-`, though `=` also works at the top level.
+3. R's vector, created with `c()`, is the native analogue of a NumPy array: homogeneous and vectorized by default.
+4. Vectorization is not optional in R the way it is in Python/NumPy -- it is the default behavior for arithmetic on vectors.
+5. R has four core atomic types: `logical`, `integer`, `double` (numeric), and `character`.
+6. R is case-sensitive; `TRUE`/`FALSE` must be capitalized exactly.
+7. `c()` silently coerces mixed types to the most general type present, following the order logical -> integer -> double -> character.
+8. `NA` represents missing data and, unlike Python's `None`, propagates silently through calculations unless explicitly handled with `na.rm = TRUE` or similar arguments.
+9. Failed type conversions in R (e.g., `as.numeric("abc")`) produce `NA` with a warning rather than raising an error.
+10. Factors represent categorical data with fixed levels; they matter for modeling and plotting but are not emphasized in this lecture.
+11. R's `list()` can hold mixed types and named elements, similar in spirit to a Python `dict`.
+12. On lists, `[[ ]]` and `$` extract the unwrapped value; a single `[ ]` returns a smaller list.
+13. Data frames are lists of equal-length vectors displayed as tables; each column is internally homogeneous, but columns can differ from one another in type.
+14. R functions use implicit returns (the value of the last evaluated expression) in addition to explicit `return()`.
+15. R's `for` loop iterates directly over vector elements; `1:n` is inclusive of both endpoints, unlike Python's `range()`.
+16. `seq_along()` is the safe way to generate loop indices, avoiding a classic bug with `1:length(x)` on empty vectors.
+17. The `apply` family (`sapply()`, `lapply()`, `vapply()`, `mapply()`) plays a role similar to Python's `map()` and list comprehensions when a direct vectorized operation is unavailable.
+18. Recycling (reusing shorter vectors to match a longer one in elementwise operations) is a distinctive R behavior with no clean Python analogue, and can hide bugs if vector lengths are mismatched unintentionally.
+
+# 16. Further Questions to Think About
+
+1. Why might a language designed primarily for statistics default to vectorized, homogeneous collections, while a general-purpose language like Python does not?
+2. What are the tradeoffs of R's "fail silently" behavior with `NA` compared to Python's tendency to raise exceptions on invalid operations?
+3. In what situations would R's recycling behavior be genuinely useful, rather than a hidden source of bugs?
+4. Why does R distinguish between `[`, `[[`, and `$` for list access, rather than using a single extraction operator as Python's `dict` does?
+5. What practical consequences follow from R's 1-based indexing and inclusive ranges, beyond the off-by-one bugs mentioned in these notes?
+6. Why might R's community have historically preferred vectorized operations and the `apply` family over explicit loops, beyond pure performance considerations?
+7. What would be lost, and what would be gained, if R's `data.frame()` behaved exactly like a pandas `DataFrame`?
+8. How does the existence of `<<-` change the way you would reason about a function's correctness compared to a Python function that only uses local variables and return values?
+9. Why do you think R chose implicit returns as a default, while Python requires an explicit `return` statement?
+10. Given that both `is.na()` and `na.rm = TRUE` exist, what workflow would you adopt to make sure missing values are never silently mishandled in your own analyses?
+11. How might the existence of factors change the way you design a data-cleaning pipeline, compared to working with plain categorical strings in Python/pandas?
+12. What translation strategy worked best for you in today's major exercise: thinking in terms of the underlying computational operation first, or translating line-by-line? Why?
+
+# 17. Looking Ahead
+
+Lecture 9 moves from base R into the **tidyverse**, a cohesive collection of packages built around a consistent grammar for data manipulation. You will learn `dplyr`'s core verbs (`select()`, `filter()`, `mutate()`, `arrange()`, `group_by()`, `summarise()`), `tidyr`'s reshaping functions (`pivot_longer()`, `pivot_wider()`), and how to join multiple related datasets using primary and foreign keys. You will also learn to validate each transformation you perform, checking row counts, uniqueness, missing values, and known relationships -- a habit that matters in every data language, not just R.
+
+Everything from today remains directly useful: tibbles are data frames with nicer defaults, `dplyr`'s verbs operate on the same vectors and logical filtering you learned today, and the `NA`-handling habits you practiced will carry over directly into tidyverse workflows. Today's foundation in base R is not a detour before "real" R programming -- it is the substrate the tidyverse is built on top of.
