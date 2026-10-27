@@ -6,7 +6,6 @@ format:
     toc: true
     toc-depth: 3
     code-fold: false
-jupyter: ir
 ---
 
 # 1. Introduction
