@@ -522,7 +522,7 @@
     "href": "lectures/05-data-pandas/notes.html#vectorization",
     "title": "Lecture 5 — Data Analysis with Pandas",
     "section": "14.1 Vectorization",
-    "text": "14.1 Vectorization\nAlways prefer vectorized operations over loops:\n\nimport time\n\n# Create larger sample\nlarge_sample = pd.DataFrame({\n    'value': np.random.randn(10000)\n})\n\n# Bad: loop\nstart = time.time()\nresult_loop = []\nfor val in large_sample['value']:\n    result_loop.append(val ** 2)\nloop_time = time.time() - start\n\n# Good: vectorized\nstart = time.time()\nresult_vectorized = large_sample['value'] ** 2\nvectorized_time = time.time() - start\n\nprint(f\"Loop time: {loop_time:.4f} seconds\")\nprint(f\"Vectorized time: {vectorized_time:.4f} seconds\")\n\nLoop time: 0.0021 seconds\nVectorized time: 0.0002 seconds"
+    "text": "14.1 Vectorization\nAlways prefer vectorized operations over loops:\n\nimport time\n\n# Create larger sample\nlarge_sample = pd.DataFrame({\n    'value': np.random.randn(10000)\n})\n\n# Bad: loop\nstart = time.time()\nresult_loop = []\nfor val in large_sample['value']:\n    result_loop.append(val ** 2)\nloop_time = time.time() - start\n\n# Good: vectorized\nstart = time.time()\nresult_vectorized = large_sample['value'] ** 2\nvectorized_time = time.time() - start\n\nprint(f\"Loop time: {loop_time:.4f} seconds\")\nprint(f\"Vectorized time: {vectorized_time:.4f} seconds\")\n\nLoop time: 0.0026 seconds\nVectorized time: 0.0002 seconds"
   },
   {
     "objectID": "lectures/05-data-pandas/notes.html#efficient-data-types",
@@ -662,7 +662,7 @@
     "href": "lectures/02-data-structures/class_annotated.html#exercise-detect-duplicates",
     "title": "Lecture 2: Data Structures, Algorithms, and Control Flow",
     "section": "Exercise: Detect Duplicates",
-    "text": "Exercise: Detect Duplicates\nQuestion: Does a list contain any duplicate values?\n\nAlgorithm 1: Compare All Pairs\n\nvalues = [1, 2, 3, 4, 5, 3, 6]\n\nhas_duplicate = False\n\n1for i in range(len(values)):\n2    for j in range(i + 1, len(values)):\n3        if values[i] == values[j]:\n4            has_duplicate = True\n5            break\n    if has_duplicate:\n        break\n\nhas_duplicate\n\n\n1\n\nOuter loop: select each value as a reference point\n\n2\n\nInner loop: compare reference against all subsequent values\n\n3\n\nCheck if we found a match\n\n4\n\nRecord that we found a duplicate\n\n5\n\nExit both loops early (optimization)\n\n\n\n\nTrue\n\n\nThis uses nested loops: for each value, check it against every other value.\n\n\nAlgorithm 2: Use a Set\n\nvalues = [1, 2, 3, 4, 5, 3, 6]\n\n1seen = set()\nhas_duplicate = False\n\n2for value in values:\n3    if value in seen:\n4        has_duplicate = True\n5        break\n6    seen.add(value)\n\nhas_duplicate\n\n\n1\n\nTrack values we’ve already encountered (initially empty)\n\n2\n\nProcess values one at a time, in order\n\n3\n\nCheck if current value is already in our “seen” set (fast!)\n\n4\n\nIf yes, we found a duplicate\n\n5\n\nExit loop early—no need to continue\n\n6\n\nIf not a duplicate, add to our tracking set for future comparisons\n\n\n\n\nTrue\n\n\nThis uses a single loop and a set to track what we’ve seen.\n\n\nAlgorithm 1: Compare All Pairs\n\nvalues = [1, 2, 3, 4, 5, 3, 6]\n\nhas_duplicate = False\n\nfor i in range(len(values)):\n    for j in range(i + 1, len(values)):\n        if values[i] == values[j]:\n            has_duplicate = True\n            break\n    if has_duplicate:\n        break\n\nhas_duplicate\n\nTrue\n\n\nThis uses nested loops: for each value, check it against every other value.\n\n\nAlgorithm 2: Use a Set\n\nvalues = [1, 2, 3, 4, 5, 3, 6]\n\nseen = set()\nhas_duplicate = False\n\nfor value in values:\n    if value in seen:\n        has_duplicate = True\n        break\n    seen.add(value)\n\nhas_duplicate\n\nTrue\n\n\nThis uses a single loop and a set to track what we’ve seen.\n\n\nWhich Is Better?\nLet’s think about the computational work:\nAlgorithm 1:\n\nFor each of n values, check against up to n other values\nTotal comparisons: roughly n²/2\nAs n grows, work grows quadratically: O(n²)\n\nAlgorithm 2:\n\nFor each of n values, check set membership (fast) and add to set\nTotal operations: roughly n\nAs n grows, work grows linearly: O(n)\n\n\n\nDemonstration\n\nimport time\n\ndef algorithm1(values):\n    \"\"\"Compare all pairs\"\"\"\n    for i in range(len(values)):\n        for j in range(i + 1, len(values)):\n            if values[i] == values[j]:\n                return True\n    return False\n\ndef algorithm2(values):\n    \"\"\"Use a set\"\"\"\n    seen = set()\n    for value in values:\n        if value in seen:\n            return True\n        seen.add(value)\n    return False\n\n# Test with different sizes\nsizes = [100, 200, 400, 800]\n\nfor n in sizes:\n    values = list(range(n))  # No duplicates (worst case)\n    \n    start = time.time()\n    algorithm1(values)\n    time1 = time.time() - start\n    \n    start = time.time()\n    algorithm2(values)\n    time2 = time.time() - start\n    \n    print(f\"n={n:4d}: Algorithm 1: {time1:.4f}s  Algorithm 2: {time2:.6f}s\")\n\nn= 100: Algorithm 1: 0.0001s  Algorithm 2: 0.000007s\nn= 200: Algorithm 1: 0.0004s  Algorithm 2: 0.000009s\nn= 400: Algorithm 1: 0.0020s  Algorithm 2: 0.000016s\nn= 800: Algorithm 1: 0.0092s  Algorithm 2: 0.000028s\n\n\nNotice how Algorithm 1’s time grows rapidly while Algorithm 2 remains fast.\n\n\n\n\n\n\nImportantAlgorithm and Data Structure Matter\n\n\n\nThe choice of algorithm and data structure can determine whether a problem is:\n\nEasy or difficult\nFast or slow\nPractical or impractical\n\nThis is why we study both algorithms and data structures together.\n\n\n\n\nYour Turn: Complexity Reasoning\n\n# Consider these operations:\n\n# 1. Sum all values in a list of length n\n# 2. Find the maximum value in a list\n# 3. Determine if a value exists in a list\n# 4. Determine if a value exists in a set\n# 5. Count occurrences in a list using nested loops\n# 6. Count occurrences using a dictionary\n\n# For each, roughly how does the work grow with n?\n# - O(1): constant\n# - O(n): linear\n# - O(n²): quadratic\n\n# Discuss your reasoning"
+    "text": "Exercise: Detect Duplicates\nQuestion: Does a list contain any duplicate values?\n\nAlgorithm 1: Compare All Pairs\n\nvalues = [1, 2, 3, 4, 5, 3, 6]\n\nhas_duplicate = False\n\n1for i in range(len(values)):\n2    for j in range(i + 1, len(values)):\n3        if values[i] == values[j]:\n4            has_duplicate = True\n5            break\n    if has_duplicate:\n        break\n\nhas_duplicate\n\n\n1\n\nOuter loop: select each value as a reference point\n\n2\n\nInner loop: compare reference against all subsequent values\n\n3\n\nCheck if we found a match\n\n4\n\nRecord that we found a duplicate\n\n5\n\nExit both loops early (optimization)\n\n\n\n\nTrue\n\n\nThis uses nested loops: for each value, check it against every other value.\n\n\nAlgorithm 2: Use a Set\n\nvalues = [1, 2, 3, 4, 5, 3, 6]\n\n1seen = set()\nhas_duplicate = False\n\n2for value in values:\n3    if value in seen:\n4        has_duplicate = True\n5        break\n6    seen.add(value)\n\nhas_duplicate\n\n\n1\n\nTrack values we’ve already encountered (initially empty)\n\n2\n\nProcess values one at a time, in order\n\n3\n\nCheck if current value is already in our “seen” set (fast!)\n\n4\n\nIf yes, we found a duplicate\n\n5\n\nExit loop early—no need to continue\n\n6\n\nIf not a duplicate, add to our tracking set for future comparisons\n\n\n\n\nTrue\n\n\nThis uses a single loop and a set to track what we’ve seen.\n\n\nAlgorithm 1: Compare All Pairs\n\nvalues = [1, 2, 3, 4, 5, 3, 6]\n\nhas_duplicate = False\n\nfor i in range(len(values)):\n    for j in range(i + 1, len(values)):\n        if values[i] == values[j]:\n            has_duplicate = True\n            break\n    if has_duplicate:\n        break\n\nhas_duplicate\n\nTrue\n\n\nThis uses nested loops: for each value, check it against every other value.\n\n\nAlgorithm 2: Use a Set\n\nvalues = [1, 2, 3, 4, 5, 3, 6]\n\nseen = set()\nhas_duplicate = False\n\nfor value in values:\n    if value in seen:\n        has_duplicate = True\n        break\n    seen.add(value)\n\nhas_duplicate\n\nTrue\n\n\nThis uses a single loop and a set to track what we’ve seen.\n\n\nWhich Is Better?\nLet’s think about the computational work:\nAlgorithm 1:\n\nFor each of n values, check against up to n other values\nTotal comparisons: roughly n²/2\nAs n grows, work grows quadratically: O(n²)\n\nAlgorithm 2:\n\nFor each of n values, check set membership (fast) and add to set\nTotal operations: roughly n\nAs n grows, work grows linearly: O(n)\n\n\n\nDemonstration\n\nimport time\n\ndef algorithm1(values):\n    \"\"\"Compare all pairs\"\"\"\n    for i in range(len(values)):\n        for j in range(i + 1, len(values)):\n            if values[i] == values[j]:\n                return True\n    return False\n\ndef algorithm2(values):\n    \"\"\"Use a set\"\"\"\n    seen = set()\n    for value in values:\n        if value in seen:\n            return True\n        seen.add(value)\n    return False\n\n# Test with different sizes\nsizes = [100, 200, 400, 800]\n\nfor n in sizes:\n    values = list(range(n))  # No duplicates (worst case)\n    \n    start = time.time()\n    algorithm1(values)\n    time1 = time.time() - start\n    \n    start = time.time()\n    algorithm2(values)\n    time2 = time.time() - start\n    \n    print(f\"n={n:4d}: Algorithm 1: {time1:.4f}s  Algorithm 2: {time2:.6f}s\")\n\nn= 100: Algorithm 1: 0.0001s  Algorithm 2: 0.000006s\nn= 200: Algorithm 1: 0.0005s  Algorithm 2: 0.000027s\nn= 400: Algorithm 1: 0.0027s  Algorithm 2: 0.000017s\nn= 800: Algorithm 1: 0.0120s  Algorithm 2: 0.000068s\n\n\nNotice how Algorithm 1’s time grows rapidly while Algorithm 2 remains fast.\n\n\n\n\n\n\nImportantAlgorithm and Data Structure Matter\n\n\n\nThe choice of algorithm and data structure can determine whether a problem is:\n\nEasy or difficult\nFast or slow\nPractical or impractical\n\nThis is why we study both algorithms and data structures together.\n\n\n\n\nYour Turn: Complexity Reasoning\n\n# Consider these operations:\n\n# 1. Sum all values in a list of length n\n# 2. Find the maximum value in a list\n# 3. Determine if a value exists in a list\n# 4. Determine if a value exists in a set\n# 5. Count occurrences in a list using nested loops\n# 6. Count occurrences using a dictionary\n\n# For each, roughly how does the work grow with n?\n# - O(1): constant\n# - O(n): linear\n# - O(n²): quadratic\n\n# Discuss your reasoning"
   },
   {
     "objectID": "lectures/02-data-structures/class_annotated.html#representation",
@@ -1554,6 +1554,307 @@
     "text": "11.2 Clear naming\nFunction names should clearly indicate purpose:\nGood names:\n\ncalculate_mean()\nfilter_positive_values()\nconvert_to_returns()\nvalidate_inputs()\n\nPoor names:\n\ndo_stuff()\nprocess()\ncalc()\nfunc1()"
   },
   {
+    "objectID": "lectures/08-python-to-r/notes.html",
+    "href": "lectures/08-python-to-r/notes.html",
+    "title": "Lecture 8 – Python to R: Two Languages, One Computational Model",
+    "section": "",
+    "text": "These notes provide a systematic reference for the material introduced in Lecture 8’s class.qmd and class.R. The central theme of this lecture is a translation, not a reinvention: everything you already know about computation from seven lectures of Python – variables, collections, control flow, functions, vectorization, and reproducible workflows – continues to apply. What changes is notation, a handful of default behaviors, and, in some places, which idiom experienced users prefer.\nR was created in 1993 by Ross Ihaka and Robert Gentleman as a free implementation of the S language, itself designed at Bell Labs for statistical computing. Python was created slightly earlier, in 1991, by Guido van Rossum as a general-purpose scripting language; its scientific capabilities (NumPy, pandas, SciPy) were added over the following two decades by the open-source community. This history explains a great deal about why the two languages feel different in practice:\n\nR treats vectors and data frames as native, built-in concepts. There is no equivalent of “importing NumPy” to get vectorized arithmetic; it is simply how R works.\nPython treats collections as a general-purpose list, with vectorized numerical behavior available only once you import NumPy.\nR’s standard library is comparatively small; most functionality (plotting, data wrangling, modeling extensions) comes from packages on CRAN, the Comprehensive R Archive Network.\nPython’s standard library is larger, but the scientific stack is still delivered via third-party packages (NumPy, pandas, matplotlib) in a similar fashion.\n\nBoth languages are dynamically typed, both support functions as first-class objects, both have mechanisms for iteration and vectorized operations, and both can be used interactively or as scripts. The remainder of these notes works through the specific syntax and idioms you need to translate your existing computational fluency from Python into R.\n\n\n\n\n\n\nNoteA Note on Scope\n\n\n\nThis lecture (and these notes) cover base R – the functionality available without loading any packages beyond what ships with R itself. Lecture 9 introduces the tidyverse, a separate ecosystem of packages that provides a more modern, consistent grammar for data manipulation. Everything in this lecture remains useful once you start using the tidyverse; in fact, many tidyverse functions are thin, more readable wrappers around base R operations you will learn today."
+  },
+  {
+    "objectID": "lectures/08-python-to-r/notes.html#two-modes-of-use",
+    "href": "lectures/08-python-to-r/notes.html#two-modes-of-use",
+    "title": "Lecture 8 – Python to R: Two Languages, One Computational Model",
+    "section": "2.1 Two Modes of Use",
+    "text": "2.1 Two Modes of Use\nExactly as with Python, R supports two primary modes of interaction:\nInteractive mode: you type commands one at a time at the &gt; prompt (in a terminal, or in RStudio’s Console pane) and see results immediately. This is ideal for exploration, debugging, and quick calculations.\nScript mode: you save a sequence of commands in a .R file and execute the whole file at once, either with Rscript filename.R from the command line, or by clicking “Source” in RStudio, or line-by-line with Ctrl+Enter.\n\n# This line runs identically whether typed interactively or sourced from a script\nx &lt;- 10\nx\n\n[1] 10"
+  },
+  {
+    "objectID": "lectures/08-python-to-r/notes.html#objects",
+    "href": "lectures/08-python-to-r/notes.html#objects",
+    "title": "Lecture 8 – Python to R: Two Languages, One Computational Model",
+    "section": "2.2 Objects",
+    "text": "2.2 Objects\nR documentation almost universally refers to “objects” rather than “variables.” The term is used broadly: numbers, vectors, data frames, functions, and even plots are all objects in R, each with a class that determines how generic functions (like print() or summary()) behave on them. This is conceptually similar to how “everything is an object” in Python, including functions and modules.\n\nx &lt;- 10\nclass(x)\n\n[1] \"numeric\"\n\nf &lt;- function(x) x^2\nclass(f)\n\n[1] \"function\""
+  },
+  {
+    "objectID": "lectures/08-python-to-r/notes.html#functions",
+    "href": "lectures/08-python-to-r/notes.html#functions",
+    "title": "Lecture 8 – Python to R: Two Languages, One Computational Model",
+    "section": "2.3 Functions",
+    "text": "2.3 Functions\nFunctions in R are called with parentheses, just as in Python: mean(x), sqrt(16), print(\"hello\"). R has an enormous number of built-in and package-provided functions; discovering the right function for a task is a large part of learning R fluently.\n\nsqrt(16)\n\n[1] 4\n\nround(3.14159, 2)\n\n[1] 3.14\n\nnchar(\"hello\")  # analogous to Python's len(\"hello\")\n\n[1] 5"
+  },
+  {
+    "objectID": "lectures/08-python-to-r/notes.html#packages-and-the-r-ecosystem",
+    "href": "lectures/08-python-to-r/notes.html#packages-and-the-r-ecosystem",
+    "title": "Lecture 8 – Python to R: Two Languages, One Computational Model",
+    "section": "2.4 Packages and the R Ecosystem",
+    "text": "2.4 Packages and the R Ecosystem\nA package in R bundles functions, data, and documentation together, just as a Python package (installed via pip) does. R’s package repository is called CRAN. Installing and loading a package uses two separate steps:\n\ninstall.packages(\"dplyr\")  # done once, like pip install\nlibrary(dplyr)              # done each session, like import\n\nThis differs slightly from Python’s import statement, which handles both “the package must already be installed” and “load it into this session” implicitly (Python raises an error if the package was never installed; R’s install.packages() and library() are explicitly separate steps).\n\n\n\n\n\n\nTipChecking Installed Packages\n\n\n\nUse installed.packages() to list everything installed, or library() with no arguments to open a package browser in RStudio. To check whether a specific package is already available without loading it, use requireNamespace(\"dplyr\", quietly = TRUE)."
+  },
+  {
+    "objectID": "lectures/08-python-to-r/notes.html#r-versus-python-a-summary-of-design-philosophy",
+    "href": "lectures/08-python-to-r/notes.html#r-versus-python-a-summary-of-design-philosophy",
+    "title": "Lecture 8 – Python to R: Two Languages, One Computational Model",
+    "section": "2.5 R versus Python: A Summary of Design Philosophy",
+    "text": "2.5 R versus Python: A Summary of Design Philosophy\n\n\n\n\n\n\n\n\nAspect\nPython\nR\n\n\n\n\nOrigin\nGeneral-purpose scripting language\nStatistical computing language (descended from S)\n\n\nNative numeric collection\nlist (not vectorized)\nvector (vectorized by default)\n\n\nScientific stack\nThird-party (NumPy, pandas, SciPy)\nLargely native, extended by tidyverse\n\n\nTypical community\nSoftware engineering, data science, scripting\nStatistics, biostatistics, econometrics, academic research\n\n\nPackage repository\nPyPI\nCRAN\n\n\nIndexing\n0-based\n1-based\n\n\nAssignment operator\n=\n&lt;- (idiomatic), = also works"
+  },
+  {
+    "objectID": "lectures/08-python-to-r/notes.html#variables-objects",
+    "href": "lectures/08-python-to-r/notes.html#variables-objects",
+    "title": "Lecture 8 – Python to R: Two Languages, One Computational Model",
+    "section": "3.1 Variables / Objects",
+    "text": "3.1 Variables / Objects\nPython:\nx = 10\nR:\n\nx &lt;- 10\n\nBoth &lt;- and = work for assignment at the top level in R, but &lt;- is the idiomatic choice, and some contexts (such as naming arguments inside a function call) require = specifically, which can create ambiguity if you use = for assignment everywhere. We will consistently use &lt;- for assignment and reserve = for passing named arguments.\n\n# &lt;- for assignment, = for naming an argument\nround(x = 3.14159, digits = 2)\n\n[1] 3.14\n\n\n\n\n\n\n\n\nTipKeyboard Shortcut\n\n\n\nRStudio provides a keyboard shortcut for typing &lt;-: Alt + - (Windows/Linux) or Option + - (Mac). Learning this shortcut early will save you a great deal of typing."
+  },
+  {
+    "objectID": "lectures/08-python-to-r/notes.html#python-listsarrays---r-vectors",
+    "href": "lectures/08-python-to-r/notes.html#python-listsarrays---r-vectors",
+    "title": "Lecture 8 – Python to R: Two Languages, One Computational Model",
+    "section": "3.2 Python Lists/Arrays <-> R Vectors",
+    "text": "3.2 Python Lists/Arrays &lt;-&gt; R Vectors\nA Python list is a general-purpose ordered collection that can hold mixed types without complaint. A NumPy array is homogeneous and supports vectorized arithmetic. R’s vector, created with c(), behaves like the NumPy array: homogeneous (R will silently coerce mixed types to a common type) and vectorized by default.\n\n# R vector: homogeneous, vectorized\nv &lt;- c(1, 2, 3, 4)\nv * 2\n\n[1] 2 4 6 8\n\n\n\n# Mixing types in c() triggers coercion, not an error\nmixed &lt;- c(1, 2, \"three\")\nmixed       # everything became character\n\n[1] \"1\"     \"2\"     \"three\"\n\nclass(mixed)\n\n[1] \"character\"\n\n\n\n\n\n\n\n\nImportantSilent Coercion Is a Common Source of Bugs\n\n\n\nUnlike Python, which raises a TypeError if you try to add a number and a string, R’s c() will silently coerce all elements to the most general type present (logical -&gt; integer -&gt; double -&gt; character, in that order). Always check class() on a vector if its behavior surprises you."
+  },
+  {
+    "objectID": "lectures/08-python-to-r/notes.html#numpy-arrays---r-vectorized-operations",
+    "href": "lectures/08-python-to-r/notes.html#numpy-arrays---r-vectorized-operations",
+    "title": "Lecture 8 – Python to R: Two Languages, One Computational Model",
+    "section": "3.3 NumPy Arrays <-> R Vectorized Operations",
+    "text": "3.3 NumPy Arrays &lt;-&gt; R Vectorized Operations\nBoth NumPy and R allow you to apply an operation to every element of a collection without writing an explicit loop.\nimport numpy as np\narr = np.array([1, 2, 3, 4])\narr + 10\n\nv &lt;- c(1, 2, 3, 4)\nv + 10\n\n[1] 11 12 13 14\n\n\nThe key practical difference: in Python, you must deliberately choose to use NumPy to get this behavior (plain lists do not vectorize). In R, there is no “plain list” numeric type to fall back to – vectors are vectorized unconditionally."
+  },
+  {
+    "objectID": "lectures/08-python-to-r/notes.html#pandas-dataframes---data-frames-tibbles",
+    "href": "lectures/08-python-to-r/notes.html#pandas-dataframes---data-frames-tibbles",
+    "title": "Lecture 8 – Python to R: Two Languages, One Computational Model",
+    "section": "3.4 pandas DataFrames <-> Data Frames / Tibbles",
+    "text": "3.4 pandas DataFrames &lt;-&gt; Data Frames / Tibbles\npandas’ DataFrame was explicitly inspired by R’s data frame; the resemblance is intentional, not coincidental.\nimport pandas as pd\ndf = pd.DataFrame({\"name\": [\"Ada\", \"Grace\"], \"score\": [92, 88]})\n\ndf &lt;- data.frame(name = c(\"Ada\", \"Grace\"), score = c(92, 88))\ndf\n\n   name score\n1   Ada    92\n2 Grace    88\n\n\nA tibble (from the tidyverse, covered in Lecture 9) is a modernized data frame with more predictable printing and fewer surprising default behaviors. For today, base data.frame() is sufficient."
+  },
+  {
+    "objectID": "lectures/08-python-to-r/notes.html#python-functions---r-functions",
+    "href": "lectures/08-python-to-r/notes.html#python-functions---r-functions",
+    "title": "Lecture 8 – Python to R: Two Languages, One Computational Model",
+    "section": "3.5 Python Functions <-> R Functions",
+    "text": "3.5 Python Functions &lt;-&gt; R Functions\ndef square(x):\n    return x ** 2\n\nsquare &lt;- function(x) {\n  return(x^2)\n}\nsquare(4)\n\n[1] 16\n\n\nBoth languages support default argument values, variable numbers of arguments, and functions as first-class values that can be passed to other functions.\n\n# Default argument value\ngreet &lt;- function(name, greeting = \"Hello\") {\n  paste(greeting, name)\n}\ngreet(\"Ada\")\n\n[1] \"Hello Ada\"\n\ngreet(\"Ada\", greeting = \"Hi\")\n\n[1] \"Hi Ada\""
+  },
+  {
+    "objectID": "lectures/08-python-to-r/notes.html#python-boolean-indexing---r-logical-filtering",
+    "href": "lectures/08-python-to-r/notes.html#python-boolean-indexing---r-logical-filtering",
+    "title": "Lecture 8 – Python to R: Two Languages, One Computational Model",
+    "section": "3.6 Python Boolean Indexing <-> R Logical Filtering",
+    "text": "3.6 Python Boolean Indexing &lt;-&gt; R Logical Filtering\nimport numpy as np\nscores = np.array([85, 92, 78, 95])\nscores[scores &gt; 90]\n\nscores &lt;- c(85, 92, 78, 95)\nscores[scores &gt; 90]\n\n[1] 92 95\n\n\nThe underlying mechanism is identical in spirit: a logical/boolean vector of the same length as the data is used to select elements where the value is TRUE."
+  },
+  {
+    "objectID": "lectures/08-python-to-r/notes.html#the-four-core-types",
+    "href": "lectures/08-python-to-r/notes.html#the-four-core-types",
+    "title": "Lecture 8 – Python to R: Two Languages, One Computational Model",
+    "section": "4.1 The Four Core Types",
+    "text": "4.1 The Four Core Types\nR has four atomic vector types used constantly in everyday work:\n\nclass(TRUE)     # logical\n\n[1] \"logical\"\n\nclass(5L)       # integer\n\n[1] \"integer\"\n\nclass(5.0)      # double (R calls this \"numeric\")\n\n[1] \"numeric\"\n\nclass(\"hello\")  # character\n\n[1] \"character\"\n\n\n\n\n\nR type\nPython analogue\nLiteral syntax in R\n\n\n\n\nlogical\nbool\nTRUE, FALSE (or T, F)\n\n\ninteger\nint\n5L (the L suffix forces an integer)\n\n\ndouble / numeric\nfloat\n5.0 or simply 5\n\n\ncharacter\nstr\n\"hello\" or 'hello'\n\n\n\n\n\n\n\n\n\nNoteWhy Does 5 Default to Double, Not Integer?\n\n\n\nIn R, a bare numeric literal like 5 is stored as a double by default, not an integer. This differs from some other languages. If you specifically need an integer (rare in everyday data analysis), append L: 5L. In practice, the distinction between integer and double rarely matters for day-to-day analysis, since R’s arithmetic functions happily operate on both."
+  },
+  {
+    "objectID": "lectures/08-python-to-r/notes.html#case-sensitivity-and-logical-literals",
+    "href": "lectures/08-python-to-r/notes.html#case-sensitivity-and-logical-literals",
+    "title": "Lecture 8 – Python to R: Two Languages, One Computational Model",
+    "section": "4.2 Case Sensitivity and Logical Literals",
+    "text": "4.2 Case Sensitivity and Logical Literals\nR is case-sensitive, just like Python. TRUE and FALSE must be spelled with the exact capitalization shown; true, True, and false will all raise errors (R does not define them). The shorthand T and F exist but are discouraged in careful code, since T and F are ordinary variable names that could be reassigned, unlike the protected keywords TRUE/FALSE.\n\nx &lt;- true  # Error: object 'true' not found\n\nError:\n! object 'true' not found\n\n\n\nT &lt;- 5          # legal but dangerous -- T no longer means TRUE!\nif (T) {\n  print(\"this won't print, because T is now 5, not TRUE... actually 5 is truthy\")\n}\n\n[1] \"this won't print, because T is now 5, not TRUE... actually 5 is truthy\"\n\nT &lt;- TRUE  # restore sanity"
+  },
+  {
+    "objectID": "lectures/08-python-to-r/notes.html#type-coercion-hierarchy",
+    "href": "lectures/08-python-to-r/notes.html#type-coercion-hierarchy",
+    "title": "Lecture 8 – Python to R: Two Languages, One Computational Model",
+    "section": "4.3 Type Coercion Hierarchy",
+    "text": "4.3 Type Coercion Hierarchy\nWhen R combines mixed types in a single vector via c(), it coerces everything to the most general type present, following this order (least to most general):\nlogical -&gt; integer -&gt; double -&gt; character\n\nc(TRUE, 1L)        # integer vector: TRUE becomes 1L\n\n[1] 1 1\n\nc(TRUE, 1.5)       # double vector: TRUE becomes 1.0\n\n[1] 1.0 1.5\n\nc(1, \"a\")          # character vector: 1 becomes \"1\"\n\n[1] \"1\" \"a\""
+  },
+  {
+    "objectID": "lectures/08-python-to-r/notes.html#checking-and-converting-types",
+    "href": "lectures/08-python-to-r/notes.html#checking-and-converting-types",
+    "title": "Lecture 8 – Python to R: Two Languages, One Computational Model",
+    "section": "4.4 Checking and Converting Types",
+    "text": "4.4 Checking and Converting Types\nAnalogous to Python’s isinstance() and explicit casting (int(x), str(x)), R provides is.*() checks and as.*() conversions.\n\nis.numeric(5)\n\n[1] TRUE\n\nis.character(\"hello\")\n\n[1] TRUE\n\nis.logical(TRUE)\n\n[1] TRUE\n\n\n\nas.character(5)\n\n[1] \"5\"\n\nas.numeric(\"3.14\")\n\n[1] 3.14\n\nas.integer(3.99)  # truncates toward zero, like Python's int()\n\n[1] 3\n\n\n\nas.numeric(\"abc\")  # produces NA with a warning, not an error\n\nWarning: NAs introduced by coercion\n\n\n[1] NA\n\n\n\n\n\n\n\n\nImportantFailed Conversions Produce NA, Not an Error\n\n\n\nWhere Python’s int(\"abc\") raises a ValueError, R’s as.numeric(\"abc\") returns NA and issues a warning rather than stopping execution. This means a bad conversion can silently propagate through your analysis if you are not checking for NA values afterward."
+  },
+  {
+    "objectID": "lectures/08-python-to-r/notes.html#lists-as-rs-general-purpose-container",
+    "href": "lectures/08-python-to-r/notes.html#lists-as-rs-general-purpose-container",
+    "title": "Lecture 8 – Python to R: Two Languages, One Computational Model",
+    "section": "6.1 Lists as R’s General-Purpose Container",
+    "text": "6.1 Lists as R’s General-Purpose Container\nWhere an R vector must be homogeneous, an R list() can hold elements of different types, different lengths, and can be named – similar in spirit to a Python dict, though R lists also preserve order like a Python list.\n\nperson &lt;- list(name = \"Ada\", age = 36, languages = c(\"R\", \"Python\"))\nperson\n\n$name\n[1] \"Ada\"\n\n$age\n[1] 36\n\n$languages\n[1] \"R\"      \"Python\""
+  },
+  {
+    "objectID": "lectures/08-python-to-r/notes.html#accessing-list-elements",
+    "href": "lectures/08-python-to-r/notes.html#accessing-list-elements",
+    "title": "Lecture 8 – Python to R: Two Languages, One Computational Model",
+    "section": "6.2 Accessing List Elements",
+    "text": "6.2 Accessing List Elements\nR provides three related-but-different extraction operators, which trip up many newcomers:\n\nperson$name        # by name, returns the unwrapped value\n\n[1] \"Ada\"\n\nperson[[\"name\"]]    # by name or position, returns the unwrapped value\n\n[1] \"Ada\"\n\nperson[\"name\"]      # by name or position, returns a sub-list (still a list!)\n\n$name\n[1] \"Ada\"\n\n\n\nclass(person$name)    # character\n\n[1] \"character\"\n\nclass(person[\"name\"])  # list\n\n[1] \"list\"\n\n\n\n\n\n\n\n\nImportantSingle Brackets vs. Double Brackets\n\n\n\n[[ ]] extracts the actual contents (an R analogue of a Python dictionary’s d[\"key\"]). A single [ ] on a list returns a smaller list containing that element, not the element itself. This distinction has no Python analogue and is one of the most common sources of confusion for newcomers. As a rule of thumb: use [[ ]] or $ when you want the value, and [ ] only when you deliberately want to keep working with a list."
+  },
+  {
+    "objectID": "lectures/08-python-to-r/notes.html#lists-can-nest-and-hold-mixed-lengths",
+    "href": "lectures/08-python-to-r/notes.html#lists-can-nest-and-hold-mixed-lengths",
+    "title": "Lecture 8 – Python to R: Two Languages, One Computational Model",
+    "section": "6.3 Lists Can Nest and Hold Mixed Lengths",
+    "text": "6.3 Lists Can Nest and Hold Mixed Lengths\n\nmixed_list &lt;- list(\n  numbers = c(1, 2, 3),\n  label = \"example\",\n  nested = list(a = 1, b = 2)\n)\nmixed_list$nested$a\n\n[1] 1"
+  },
+  {
+    "objectID": "lectures/08-python-to-r/notes.html#creating-a-data-frame",
+    "href": "lectures/08-python-to-r/notes.html#creating-a-data-frame",
+    "title": "Lecture 8 – Python to R: Two Languages, One Computational Model",
+    "section": "7.1 Creating a Data Frame",
+    "text": "7.1 Creating a Data Frame\n\ndf &lt;- data.frame(\n  name = c(\"Ada\", \"Grace\", \"Alan\"),\n  score = c(92, 88, 95)\n)\ndf\n\n   name score\n1   Ada    92\n2 Grace    88\n3  Alan    95\n\n\nA data frame is, structurally, a list of equal-length vectors, displayed as a table. Each column is a vector (so each column must be internally homogeneous), but different columns can hold different types – exactly like a pandas DataFrame or an R list where every element happens to be the same length."
+  },
+  {
+    "objectID": "lectures/08-python-to-r/notes.html#inspecting-a-data-frame",
+    "href": "lectures/08-python-to-r/notes.html#inspecting-a-data-frame",
+    "title": "Lecture 8 – Python to R: Two Languages, One Computational Model",
+    "section": "7.2 Inspecting a Data Frame",
+    "text": "7.2 Inspecting a Data Frame\n\nstr(df)      # structure: types and a preview of each column\n\n'data.frame':   3 obs. of  2 variables:\n $ name : chr  \"Ada\" \"Grace\" \"Alan\"\n $ score: num  92 88 95\n\nsummary(df)  # summary statistics for each column\n\n     name               score      \n Length:3           Min.   :88.00  \n Class :character   1st Qu.:90.00  \n Mode  :character   Median :92.00  \n                    Mean   :91.67  \n                    3rd Qu.:93.50  \n                    Max.   :95.00  \n\nnrow(df)\n\n[1] 3\n\nncol(df)\n\n[1] 2\n\ndim(df)\n\n[1] 3 2\n\ncolnames(df)\n\n[1] \"name\"  \"score\""
+  },
+  {
+    "objectID": "lectures/08-python-to-r/notes.html#accessing-columns-and-rows",
+    "href": "lectures/08-python-to-r/notes.html#accessing-columns-and-rows",
+    "title": "Lecture 8 – Python to R: Two Languages, One Computational Model",
+    "section": "7.3 Accessing Columns and Rows",
+    "text": "7.3 Accessing Columns and Rows\n\ndf$score          # column, by name, as a vector (most common)\n\n[1] 92 88 95\n\ndf[[\"score\"]]      # equivalent to df$score\n\n[1] 92 88 95\n\ndf[, \"score\"]      # equivalent, using bracket notation with a comma\n\n[1] 92 88 95\n\ndf[1, ]            # first row, all columns\n\n  name score\n1  Ada    92\n\ndf[1, \"score\"]     # first row, score column only\n\n[1] 92\n\n\n\n\n\n\n\n\nNoteThe Comma Inside Brackets\n\n\n\nR’s data frame bracket syntax is df[rows, columns]. Leaving one side blank means “all.” df[1, ] means “row 1, all columns.” df[, \"score\"] means “all rows, the score column.” This comma-separated syntax has no direct single-bracket equivalent in pandas, where .loc[] and .iloc[] are used instead, but the underlying idea (specify a row selector and a column selector) is the same."
+  },
+  {
+    "objectID": "lectures/08-python-to-r/notes.html#logical-filtering-of-rows",
+    "href": "lectures/08-python-to-r/notes.html#logical-filtering-of-rows",
+    "title": "Lecture 8 – Python to R: Two Languages, One Computational Model",
+    "section": "7.4 Logical Filtering of Rows",
+    "text": "7.4 Logical Filtering of Rows\n\ndf[df$score &gt; 90, ]\n\n  name score\n1  Ada    92\n3 Alan    95\n\n\nThis reads as: “Take the rows where the logical condition df$score &gt; 90 is TRUE, and all columns.” It is the direct structural analogue of pandas’ df[df[\"score\"] &gt; 90]."
+  },
+  {
+    "objectID": "lectures/08-python-to-r/notes.html#adding-and-modifying-columns",
+    "href": "lectures/08-python-to-r/notes.html#adding-and-modifying-columns",
+    "title": "Lecture 8 – Python to R: Two Languages, One Computational Model",
+    "section": "7.5 Adding and Modifying Columns",
+    "text": "7.5 Adding and Modifying Columns\n\ndf$passed &lt;- df$score &gt;= 90\ndf\n\n   name score passed\n1   Ada    92   TRUE\n2 Grace    88  FALSE\n3  Alan    95   TRUE"
+  },
+  {
+    "objectID": "lectures/08-python-to-r/notes.html#data.frame-versus-tibble",
+    "href": "lectures/08-python-to-r/notes.html#data.frame-versus-tibble",
+    "title": "Lecture 8 – Python to R: Two Languages, One Computational Model",
+    "section": "7.6 data.frame() versus tibble()",
+    "text": "7.6 data.frame() versus tibble()\nBase R’s data.frame() has a handful of quirky default behaviors (recycling columns of mismatched length with a warning rather than an error, printing all rows by default even for huge tables, and historically auto-converting strings to factors). The tidyverse’s tibble(), introduced properly in Lecture 9, addresses these quirks with more predictable defaults. We use data.frame() today because it requires no additional packages, but expect the transition to tibbles next lecture to feel almost seamless."
+  },
+  {
+    "objectID": "lectures/08-python-to-r/notes.html#na-is-typed",
+    "href": "lectures/08-python-to-r/notes.html#na-is-typed",
+    "title": "Lecture 8 – Python to R: Two Languages, One Computational Model",
+    "section": "8.1 NA Is Typed",
+    "text": "8.1 NA Is Typed\nUnlike Python’s single universal None, R’s NA comes in several typed flavors (NA as logical, NA_integer_, NA_real_, NA_character_), though in practice R converts between these automatically and you rarely need to worry about the distinction.\n\nx &lt;- c(1, 2, NA, 4)\nis.na(x)\n\n[1] FALSE FALSE  TRUE FALSE"
+  },
+  {
+    "objectID": "lectures/08-python-to-r/notes.html#na-propagation",
+    "href": "lectures/08-python-to-r/notes.html#na-propagation",
+    "title": "Lecture 8 – Python to R: Two Languages, One Computational Model",
+    "section": "8.2 NA Propagation",
+    "text": "8.2 NA Propagation\n\nsum(x)                 # NA\n\n[1] NA\n\nsum(x, na.rm = TRUE)    # 7\n\n[1] 7\n\nmean(x, na.rm = TRUE)\n\n[1] 2.333333\n\n\n\n\n\n\n\n\nImportantCompare to Python’s None\n\n\n\nIn Python, sum([1, 2, None, 4]) raises a TypeError immediately. In R, sum() silently returns NA rather than erroring. This “fail silently” behavior means you must proactively check is.na() or use na.rm = TRUE; R will not stop and complain for you."
+  },
+  {
+    "objectID": "lectures/08-python-to-r/notes.html#removing-or-replacing-missing-values",
+    "href": "lectures/08-python-to-r/notes.html#removing-or-replacing-missing-values",
+    "title": "Lecture 8 – Python to R: Two Languages, One Computational Model",
+    "section": "8.3 Removing or Replacing Missing Values",
+    "text": "8.3 Removing or Replacing Missing Values\n\nx[!is.na(x)]          # keep only non-missing values\n\n[1] 1 2 4\n\nifelse(is.na(x), 0, x) # replace NA with 0, elementwise\n\n[1] 1 2 0 4"
+  },
+  {
+    "objectID": "lectures/08-python-to-r/notes.html#basic-syntax",
+    "href": "lectures/08-python-to-r/notes.html#basic-syntax",
+    "title": "Lecture 8 – Python to R: Two Languages, One Computational Model",
+    "section": "9.1 Basic Syntax",
+    "text": "9.1 Basic Syntax\n\nsquare &lt;- function(x) {\n  return(x^2)\n}\nsquare(4)\n\n[1] 16"
+  },
+  {
+    "objectID": "lectures/08-python-to-r/notes.html#implicit-return-values",
+    "href": "lectures/08-python-to-r/notes.html#implicit-return-values",
+    "title": "Lecture 8 – Python to R: Two Languages, One Computational Model",
+    "section": "9.2 Implicit Return Values",
+    "text": "9.2 Implicit Return Values\n\nsquare_implicit &lt;- function(x) {\n  x^2  # the value of the last evaluated expression is returned automatically\n}\nsquare_implicit(5)\n\n[1] 25\n\n\nMany experienced R programmers omit return() for short, single-expression functions, relying on the implicit return. We will use explicit return() in the early part of the course for clarity, matching the style you are used to from Python, and relax this later."
+  },
+  {
+    "objectID": "lectures/08-python-to-r/notes.html#default-arguments-and-named-arguments",
+    "href": "lectures/08-python-to-r/notes.html#default-arguments-and-named-arguments",
+    "title": "Lecture 8 – Python to R: Two Languages, One Computational Model",
+    "section": "9.3 Default Arguments and Named Arguments",
+    "text": "9.3 Default Arguments and Named Arguments\n\ndescribe &lt;- function(name, title = \"Dr.\") {\n  paste(title, name)\n}\ndescribe(\"Smith\")\n\n[1] \"Dr. Smith\"\n\ndescribe(\"Smith\", title = \"Prof.\")\n\n[1] \"Prof. Smith\"\n\ndescribe(name = \"Smith\", title = \"Prof.\")\n\n[1] \"Prof. Smith\""
+  },
+  {
+    "objectID": "lectures/08-python-to-r/notes.html#variable-numbers-of-arguments",
+    "href": "lectures/08-python-to-r/notes.html#variable-numbers-of-arguments",
+    "title": "Lecture 8 – Python to R: Two Languages, One Computational Model",
+    "section": "9.4 Variable Numbers of Arguments",
+    "text": "9.4 Variable Numbers of Arguments\nPython’s *args/**kwargs have a rough analogue in R’s ... (“dots”).\n\nadd_all &lt;- function(...) {\n  sum(...)\n}\nadd_all(1, 2, 3, 4)\n\n[1] 10"
+  },
+  {
+    "objectID": "lectures/08-python-to-r/notes.html#functions-are-first-class-objects",
+    "href": "lectures/08-python-to-r/notes.html#functions-are-first-class-objects",
+    "title": "Lecture 8 – Python to R: Two Languages, One Computational Model",
+    "section": "9.5 Functions Are First-Class Objects",
+    "text": "9.5 Functions Are First-Class Objects\n\napply_twice &lt;- function(f, x) {\n  f(f(x))\n}\napply_twice(square, 3)\n\n[1] 81"
+  },
+  {
+    "objectID": "lectures/08-python-to-r/notes.html#local-scope-inside-functions",
+    "href": "lectures/08-python-to-r/notes.html#local-scope-inside-functions",
+    "title": "Lecture 8 – Python to R: Two Languages, One Computational Model",
+    "section": "10.1 Local Scope Inside Functions",
+    "text": "10.1 Local Scope Inside Functions\n\nmake_local &lt;- function() {\n  local_var &lt;- 10\n  return(local_var)\n}\nresult &lt;- make_local()\nprint(local_var)  # object 'local_var' not found\n\nError:\n! object 'local_var' not found\n\n\nVariables created inside a function body are local to that function, exactly as in Python. They do not leak into the surrounding environment."
+  },
+  {
+    "objectID": "lectures/08-python-to-r/notes.html#reading-not-modifying-an-outer-variable",
+    "href": "lectures/08-python-to-r/notes.html#reading-not-modifying-an-outer-variable",
+    "title": "Lecture 8 – Python to R: Two Languages, One Computational Model",
+    "section": "10.2 Reading (Not Modifying) an Outer Variable",
+    "text": "10.2 Reading (Not Modifying) an Outer Variable\n\ncounter_value &lt;- 0\n\nshow_counter &lt;- function() {\n  print(counter_value)  # reading an outer variable is fine\n}\nshow_counter()\n\n[1] 0"
+  },
+  {
+    "objectID": "lectures/08-python-to-r/notes.html#the---operator-use-sparingly",
+    "href": "lectures/08-python-to-r/notes.html#the---operator-use-sparingly",
+    "title": "Lecture 8 – Python to R: Two Languages, One Computational Model",
+    "section": "10.3 The <<- Operator (Use Sparingly)",
+    "text": "10.3 The &lt;&lt;- Operator (Use Sparingly)\nR has a “superassignment” operator &lt;&lt;- that modifies a variable in an enclosing scope rather than creating a new local variable. It is the rough analogue of Python’s global keyword, but can reach further up through nested function environments. It is rarely needed in everyday data analysis and is easy to misuse; we mention it here mainly so you recognize it when you see it in other people’s code.\n\ncounter_value &lt;- 0\n\nincrement_global &lt;- function() {\n  counter_value &lt;&lt;- counter_value + 1\n}\nincrement_global()\ncounter_value  # now 1\n\n[1] 1\n\n\n\n\n\n\n\n\nImportantPrefer Return Values Over &lt;&lt;-\n\n\n\nJust as in Python, where modifying global state from inside a function is discouraged in favor of returning a new value, R style strongly prefers functions that take inputs and return outputs, rather than functions that reach outside themselves to modify state via &lt;&lt;-. Treat &lt;&lt;- as a tool of last resort."
+  },
+  {
+    "objectID": "lectures/08-python-to-r/notes.html#for-loops",
+    "href": "lectures/08-python-to-r/notes.html#for-loops",
+    "title": "Lecture 8 – Python to R: Two Languages, One Computational Model",
+    "section": "11.1 for Loops",
+    "text": "11.1 for Loops\n\nfor (i in 1:5) {\n  print(i^2)\n}\n\n[1] 1\n[1] 4\n[1] 9\n[1] 16\n[1] 25\n\n\nR’s for loop iterates directly over the elements of a vector (or list), rather than requiring something like Python’s range().\n\n\n\n\n\n\nImportant1:5 Includes Both Endpoints\n\n\n\nPython’s range(1, 5) produces 1, 2, 3, 4 (excludes the stop value). R’s 1:5 produces 1, 2, 3, 4, 5 (includes both endpoints). This is one of the most common sources of off-by-one bugs when translating code between the languages."
+  },
+  {
+    "objectID": "lectures/08-python-to-r/notes.html#iterating-over-something-other-than-a-numeric-sequence",
+    "href": "lectures/08-python-to-r/notes.html#iterating-over-something-other-than-a-numeric-sequence",
+    "title": "Lecture 8 – Python to R: Two Languages, One Computational Model",
+    "section": "11.2 Iterating Over Something Other Than a Numeric Sequence",
+    "text": "11.2 Iterating Over Something Other Than a Numeric Sequence\n\nfor (name in c(\"Ada\", \"Grace\", \"Alan\")) {\n  print(paste(\"Hello,\", name))\n}\n\n[1] \"Hello, Ada\"\n[1] \"Hello, Grace\"\n[1] \"Hello, Alan\""
+  },
+  {
+    "objectID": "lectures/08-python-to-r/notes.html#while-loops",
+    "href": "lectures/08-python-to-r/notes.html#while-loops",
+    "title": "Lecture 8 – Python to R: Two Languages, One Computational Model",
+    "section": "11.3 while Loops",
+    "text": "11.3 while Loops\n\nn &lt;- 1\nwhile (n &lt; 5) {\n  print(n)\n  n &lt;- n + 1\n}\n\n[1] 1\n[1] 2\n[1] 3\n[1] 4\n\n\nStructurally identical to Python’s while loop; the main difference is R’s curly-brace block syntax rather than Python’s indentation-based blocks."
+  },
+  {
+    "objectID": "lectures/08-python-to-r/notes.html#seq_along-for-safe-index-iteration",
+    "href": "lectures/08-python-to-r/notes.html#seq_along-for-safe-index-iteration",
+    "title": "Lecture 8 – Python to R: Two Languages, One Computational Model",
+    "section": "11.4 seq_along() for Safe Index Iteration",
+    "text": "11.4 seq_along() for Safe Index Iteration\n\nvalues &lt;- c(10, 20, 30)\nfor (i in seq_along(values)) {\n  print(values[i])\n}\n\n[1] 10\n[1] 20\n[1] 30\n\n\nseq_along(values) is the safe way to generate indices 1:length(values); it correctly produces an empty sequence if values has length 0, whereas 1:length(values) would incorrectly produce 1:0, i.e., c(1, 0), and attempt two iterations on an empty vector. This parallels why Python programmers prefer for i, x in enumerate(values) or for x in values over manually indexing with range(len(values)).\n\nempty &lt;- c()\nlength(empty)\n\n[1] 0\n\nseq_along(empty)  # correctly empty\n\ninteger(0)\n\n1:length(empty)   # incorrectly produces c(1, 0) -- a classic bug\n\n[1] 1 0"
+  },
+  {
+    "objectID": "lectures/08-python-to-r/notes.html#why-loops-are-usually-the-wrong-tool-in-r",
+    "href": "lectures/08-python-to-r/notes.html#why-loops-are-usually-the-wrong-tool-in-r",
+    "title": "Lecture 8 – Python to R: Two Languages, One Computational Model",
+    "section": "12.1 Why Loops Are Usually the Wrong Tool in R",
+    "text": "12.1 Why Loops Are Usually the Wrong Tool in R\n\nvalues &lt;- c(1, 2, 3, 4, 5)\n\n# Loop version -- works, but is not idiomatic R\nsquared_loop &lt;- numeric(length(values))\nfor (i in seq_along(values)) {\n  squared_loop[i] &lt;- values[i]^2\n}\nsquared_loop\n\n[1]  1  4  9 16 25\n\n\n\n# Vectorized version -- idiomatic R\nsquared_vectorized &lt;- values^2\nsquared_vectorized\n\n[1]  1  4  9 16 25\n\n\n\nidentical(squared_loop, squared_vectorized)\n\n[1] TRUE\n\n\nIn NumPy, vectorization is a performance option you choose by using arrays instead of lists. In R, essentially all arithmetic, comparison, and many string operations are vectorized by default on the language’s native vector type, and writing an explicit loop to perform elementwise arithmetic is both slower and considered poor style."
+  },
+  {
+    "objectID": "lectures/08-python-to-r/notes.html#recycling",
+    "href": "lectures/08-python-to-r/notes.html#recycling",
+    "title": "Lecture 8 – Python to R: Two Languages, One Computational Model",
+    "section": "12.2 Recycling",
+    "text": "12.2 Recycling\nA subtlety with no clean Python analogue: when R performs vectorized arithmetic on vectors of different lengths, it recycles the shorter vector by repeating it.\n\nc(1, 2, 3, 4) + c(10, 20)  # recycles c(10, 20) to c(10, 20, 10, 20)\n\n[1] 11 22 13 24\n\n\n\nc(1, 2, 3) + c(10, 20)  # length mismatch not a multiple -- warns, still runs\n\nWarning in c(1, 2, 3) + c(10, 20): longer object length is not a multiple of\nshorter object length\n\n\n[1] 11 22 13\n\n\n\n\n\n\n\n\nImportantRecycling Can Hide Bugs\n\n\n\nRecycling is sometimes useful (e.g., adding a single number to every element, which is recycling a length-1 vector), but recycling vectors of unrelated lengths without noticing is a real source of subtle bugs. Always check vector lengths with length() if an operation produces a surprising result."
+  },
+  {
+    "objectID": "lectures/08-python-to-r/notes.html#the-apply-family-conceptual-introduction",
+    "href": "lectures/08-python-to-r/notes.html#the-apply-family-conceptual-introduction",
+    "title": "Lecture 8 – Python to R: Two Languages, One Computational Model",
+    "section": "12.3 The apply Family (Conceptual Introduction)",
+    "text": "12.3 The apply Family (Conceptual Introduction)\nWhen a vectorized arithmetic shortcut does not exist, or when applying a more complex function to every element, R’s apply family plays a role similar to Python’s map() or list comprehensions.\n\nvalues &lt;- c(1, 2, 3, 4, 5)\nsapply(values, function(x) x^2)\n\n[1]  1  4  9 16 25\n\n\n\n# For a list, lapply() returns a list rather than attempting to simplify\nlapply(list(1, \"a\", TRUE), class)\n\n[[1]]\n[1] \"numeric\"\n\n[[2]]\n[1] \"character\"\n\n[[3]]\n[1] \"logical\"\n\n\n\n\n\n\n\n\n\n\n\nFunction\nInput\nOutput\nRough Python analogue\n\n\n\n\nsapply()\nvector or list\nvector (simplified)\nlist comprehension / map() + conversion\n\n\nlapply()\nvector or list\nlist\nmap() (returns an iterator of results)\n\n\nvapply()\nvector or list\nvector (with explicit type check)\nlist comprehension with type checking\n\n\nmapply()\nmultiple vectors\nvector/list\nmap() over multiple iterables (zip + map)\n\n\n\n\n\n\n\n\n\nTipPreference Order\n\n\n\nPrefer, in order: (1) a direct vectorized operation if one exists (values^2); (2) sapply()/lapply() if you need to apply a custom function elementwise; (3) an explicit for loop only when neither of the above is feasible (for example, when each iteration depends on the result of the previous one). This mirrors the Python hierarchy of preferring vectorized NumPy operations, then comprehensions/map(), then explicit loops."
+  },
+  {
     "objectID": "lectures/04-numerical-computing/git_guide.html",
     "href": "lectures/04-numerical-computing/git_guide.html",
     "title": "Git Version Control",
@@ -2048,7 +2349,7 @@
     "href": "lectures/04-numerical-computing/notes.html#performance-comparison",
     "title": "Lecture 4 — Numerical Computing with NumPy",
     "section": "2.3 Performance Comparison",
-    "text": "2.3 Performance Comparison\nLet’s measure the difference:\n\nimport numpy as np\nimport time\n\nn = 1000000\n\n# Python lists\npython_list = list(range(n))\nstart = time.time()\nresult_list = [x ** 2 for x in python_list]\npython_time = time.time() - start\n\n# NumPy array\nnumpy_array = np.arange(n)\nstart = time.time()\nresult_numpy = numpy_array ** 2\nnumpy_time = time.time() - start\n\nprint(f\"Python list: {python_time:.4f} seconds\")\nprint(f\"NumPy array: {numpy_time:.4f} seconds\")\nprint(f\"Speedup: {python_time / numpy_time if numpy_time &gt; 0 else float('inf'):.1f}x\")\n\nPython list: 0.0443 seconds\nNumPy array: 0.0025 seconds\nSpeedup: 17.7x\n\n\nNumPy is typically 10-100x faster due to: - Contiguous memory: Data stored sequentially for cache efficiency - Compiled C code: Core operations implemented in C/Fortran - Vectorization: CPU can process multiple elements simultaneously (SIMD) - No Python overhead: No per-element type checking or Python function calls"
+    "text": "2.3 Performance Comparison\nLet’s measure the difference:\n\nimport numpy as np\nimport time\n\nn = 1000000\n\n# Python lists\npython_list = list(range(n))\nstart = time.time()\nresult_list = [x ** 2 for x in python_list]\npython_time = time.time() - start\n\n# NumPy array\nnumpy_array = np.arange(n)\nstart = time.time()\nresult_numpy = numpy_array ** 2\nnumpy_time = time.time() - start\n\nprint(f\"Python list: {python_time:.4f} seconds\")\nprint(f\"NumPy array: {numpy_time:.4f} seconds\")\nprint(f\"Speedup: {python_time / numpy_time if numpy_time &gt; 0 else float('inf'):.1f}x\")\n\nPython list: 0.0517 seconds\nNumPy array: 0.0014 seconds\nSpeedup: 37.7x\n\n\nNumPy is typically 10-100x faster due to: - Contiguous memory: Data stored sequentially for cache efficiency - Compiled C code: Core operations implemented in C/Fortran - Vectorization: CPU can process multiple elements simultaneously (SIMD) - No Python overhead: No per-element type checking or Python function calls"
   },
   {
     "objectID": "lectures/04-numerical-computing/notes.html#when-to-use-lists-vs.-arrays",
@@ -2090,7 +2391,7 @@
     "href": "lectures/04-numerical-computing/notes.html#arrays-of-zeros-ones-and-constants",
     "title": "Lecture 4 — Numerical Computing with NumPy",
     "section": "4.2 Arrays of Zeros, Ones, and Constants",
-    "text": "4.2 Arrays of Zeros, Ones, and Constants\n\nimport numpy as np\n\n# Zeros\nzeros_1d = np.zeros(5)\nzeros_2d = np.zeros((3, 4))  # Note: shape is a tuple!\nprint(f\"Zeros 1D: {zeros_1d}\")\nprint(f\"Zeros 2D:\\n{zeros_2d}\")\n\n# Ones\nones_1d = np.ones(5)\nones_2d = np.ones((2, 3))\nprint(f\"Ones 2D:\\n{ones_2d}\")\n\n# Full: filled with a specific value\nfull_arr = np.full((3, 3), 7)\nprint(f\"Full of 7s:\\n{full_arr}\")\n\n# Empty: uninitialized (faster but contains garbage)\nempty_arr = np.empty((2, 2))  # Don't rely on values!\nprint(f\"Empty (random garbage):\\n{empty_arr}\")\n\nZeros 1D: [0. 0. 0. 0. 0.]\nZeros 2D:\n[[0. 0. 0. 0.]\n [0. 0. 0. 0.]\n [0. 0. 0. 0.]]\nOnes 2D:\n[[1. 1. 1.]\n [1. 1. 1.]]\nFull of 7s:\n[[7 7 7]\n [7 7 7]\n [7 7 7]]\nEmpty (random garbage):\n[[4.66091266e-310 0.00000000e+000]\n [6.94773211e-310 6.94773211e-310]]"
+    "text": "4.2 Arrays of Zeros, Ones, and Constants\n\nimport numpy as np\n\n# Zeros\nzeros_1d = np.zeros(5)\nzeros_2d = np.zeros((3, 4))  # Note: shape is a tuple!\nprint(f\"Zeros 1D: {zeros_1d}\")\nprint(f\"Zeros 2D:\\n{zeros_2d}\")\n\n# Ones\nones_1d = np.ones(5)\nones_2d = np.ones((2, 3))\nprint(f\"Ones 2D:\\n{ones_2d}\")\n\n# Full: filled with a specific value\nfull_arr = np.full((3, 3), 7)\nprint(f\"Full of 7s:\\n{full_arr}\")\n\n# Empty: uninitialized (faster but contains garbage)\nempty_arr = np.empty((2, 2))  # Don't rely on values!\nprint(f\"Empty (random garbage):\\n{empty_arr}\")\n\nZeros 1D: [0. 0. 0. 0. 0.]\nZeros 2D:\n[[0. 0. 0. 0.]\n [0. 0. 0. 0.]\n [0. 0. 0. 0.]]\nOnes 2D:\n[[1. 1. 1.]\n [1. 1. 1.]]\nFull of 7s:\n[[7 7 7]\n [7 7 7]\n [7 7 7]]\nEmpty (random garbage):\n[[4.65943431e-310 0.00000000e+000]\n [1.56005084e-239 4.39224359e-321]]"
   },
   {
     "objectID": "lectures/04-numerical-computing/notes.html#identity-and-diagonal-matrices",
@@ -2321,7 +2622,7 @@
     "href": "lectures/04-numerical-computing/notes.html#why-vectorization-matters",
     "title": "Lecture 4 — Numerical Computing with NumPy",
     "section": "11.1 Why Vectorization Matters",
-    "text": "11.1 Why Vectorization Matters\nVectorization is the process of expressing operations on entire arrays rather than looping over individual elements.\nPerformance comparison:\n\nimport numpy as np\nimport time\n\nn = 1000000\n\n# Method 1: Python loop\ndata_list = list(range(n))\nstart = time.time()\nresult_loop = []\nfor x in data_list:\n    result_loop.append(x ** 2 + 2 * x + 1)\nloop_time = time.time() - start\n\n# Method 2: List comprehension\nstart = time.time()\nresult_comp = [x ** 2 + 2 * x + 1 for x in data_list]\ncomp_time = time.time() - start\n\n# Method 3: NumPy vectorized\ndata_array = np.arange(n)\nstart = time.time()\nresult_numpy = data_array ** 2 + 2 * data_array + 1\nnumpy_time = time.time() - start\n\nprint(f\"Loop time: {loop_time:.4f}s\")\nprint(f\"List comp time: {comp_time:.4f}s\")\nprint(f\"NumPy time: {numpy_time:.4f}s\")\nprint(f\"\\nSpeedup vs loop: {loop_time / numpy_time if numpy_time &gt; 0 else float('inf'):.1f}x\")\nprint(f\"Speedup vs list comp: {comp_time / numpy_time if numpy_time &gt; 0 else float('inf'):.1f}x\")\n\nLoop time: 0.1583s\nList comp time: 0.1071s\nNumPy time: 0.0293s\n\nSpeedup vs loop: 5.4x\nSpeedup vs list comp: 3.7x"
+    "text": "11.1 Why Vectorization Matters\nVectorization is the process of expressing operations on entire arrays rather than looping over individual elements.\nPerformance comparison:\n\nimport numpy as np\nimport time\n\nn = 1000000\n\n# Method 1: Python loop\ndata_list = list(range(n))\nstart = time.time()\nresult_loop = []\nfor x in data_list:\n    result_loop.append(x ** 2 + 2 * x + 1)\nloop_time = time.time() - start\n\n# Method 2: List comprehension\nstart = time.time()\nresult_comp = [x ** 2 + 2 * x + 1 for x in data_list]\ncomp_time = time.time() - start\n\n# Method 3: NumPy vectorized\ndata_array = np.arange(n)\nstart = time.time()\nresult_numpy = data_array ** 2 + 2 * data_array + 1\nnumpy_time = time.time() - start\n\nprint(f\"Loop time: {loop_time:.4f}s\")\nprint(f\"List comp time: {comp_time:.4f}s\")\nprint(f\"NumPy time: {numpy_time:.4f}s\")\nprint(f\"\\nSpeedup vs loop: {loop_time / numpy_time if numpy_time &gt; 0 else float('inf'):.1f}x\")\nprint(f\"Speedup vs list comp: {comp_time / numpy_time if numpy_time &gt; 0 else float('inf'):.1f}x\")\n\nLoop time: 0.1642s\nList comp time: 0.1199s\nNumPy time: 0.0086s\n\nSpeedup vs loop: 19.1x\nSpeedup vs list comp: 14.0x"
   },
   {
     "objectID": "lectures/04-numerical-computing/notes.html#how-vectorization-works",
@@ -2349,7 +2650,7 @@
     "href": "lectures/04-numerical-computing/notes.html#memory-layout-and-cache-efficiency",
     "title": "Lecture 4 — Numerical Computing with NumPy",
     "section": "11.5 Memory Layout and Cache Efficiency",
-    "text": "11.5 Memory Layout and Cache Efficiency\nNumPy arrays can be stored in row-major (C-style) or column-major (Fortran-style) order:\n\nimport numpy as np\n\n# C-contiguous (row-major): default\narr_c = np.array([[1, 2, 3],\n                  [4, 5, 6]], order='C')\n\n# Fortran-contiguous (column-major)\narr_f = np.array([[1, 2, 3],\n                  [4, 5, 6]], order='F')\n\nprint(f\"C-contiguous: {arr_c.flags['C_CONTIGUOUS']}\")\nprint(f\"F-contiguous: {arr_c.flags['F_CONTIGUOUS']}\")\n\nprint(f\"C-contiguous: {arr_f.flags['C_CONTIGUOUS']}\")\nprint(f\"F-contiguous: {arr_f.flags['F_CONTIGUOUS']}\")\n\nC-contiguous: True\nF-contiguous: False\nC-contiguous: False\nF-contiguous: True\n\n\nWhy it matters:\n\nAccessing elements in memory order is much faster (cache-friendly)\nFor row-major arrays, iterate over rows\nFor column-major arrays, iterate over columns\n\n\nimport numpy as np\nimport time\n\narr = np.random.rand(5000, 5000)\n\n# Sum over rows (cache-friendly for C-order)\nstart = time.time()\nrow_sums = arr.sum(axis=1)\nrow_time = time.time() - start\n\n# Sum over columns (less cache-friendly)\nstart = time.time()\ncol_sums = arr.sum(axis=0)\ncol_time = time.time() - start\n\nprint(f\"Row sum time: {row_time:.4f}s\")\nprint(f\"Col sum time: {col_time:.4f}s\")\nprint(f\"Ratio: {col_time / row_time:.2f}\")\n\nRow sum time: 0.0179s\nCol sum time: 0.0155s\nRatio: 0.87"
+    "text": "11.5 Memory Layout and Cache Efficiency\nNumPy arrays can be stored in row-major (C-style) or column-major (Fortran-style) order:\n\nimport numpy as np\n\n# C-contiguous (row-major): default\narr_c = np.array([[1, 2, 3],\n                  [4, 5, 6]], order='C')\n\n# Fortran-contiguous (column-major)\narr_f = np.array([[1, 2, 3],\n                  [4, 5, 6]], order='F')\n\nprint(f\"C-contiguous: {arr_c.flags['C_CONTIGUOUS']}\")\nprint(f\"F-contiguous: {arr_c.flags['F_CONTIGUOUS']}\")\n\nprint(f\"C-contiguous: {arr_f.flags['C_CONTIGUOUS']}\")\nprint(f\"F-contiguous: {arr_f.flags['F_CONTIGUOUS']}\")\n\nC-contiguous: True\nF-contiguous: False\nC-contiguous: False\nF-contiguous: True\n\n\nWhy it matters:\n\nAccessing elements in memory order is much faster (cache-friendly)\nFor row-major arrays, iterate over rows\nFor column-major arrays, iterate over columns\n\n\nimport numpy as np\nimport time\n\narr = np.random.rand(5000, 5000)\n\n# Sum over rows (cache-friendly for C-order)\nstart = time.time()\nrow_sums = arr.sum(axis=1)\nrow_time = time.time() - start\n\n# Sum over columns (less cache-friendly)\nstart = time.time()\ncol_sums = arr.sum(axis=0)\ncol_time = time.time() - start\n\nprint(f\"Row sum time: {row_time:.4f}s\")\nprint(f\"Col sum time: {col_time:.4f}s\")\nprint(f\"Ratio: {col_time / row_time:.2f}\")\n\nRow sum time: 0.0095s\nCol sum time: 0.0086s\nRatio: 0.91"
   },
   {
     "objectID": "lectures/04-numerical-computing/notes.html#the-integration-problem",
@@ -2601,7 +2902,7 @@
     "href": "lectures/04-numerical-computing/class.html#exercise-2.1-the-cost-of-loops",
     "title": "Lecture 4: Numerical Computing with NumPy",
     "section": "Exercise 2.1: The Cost of Loops",
-    "text": "Exercise 2.1: The Cost of Loops\nBefore we dive into epidemiology, let’s see why vectorization matters for numerical computing.\n\nA Simple Calculation: Sum of Squares\nSuppose we want to calculate \\(\\sum_{i=1}^{n} i^2\\) for large \\(n\\).\nLoop-based approach:\n\nimport time\n\nn = 1000000  # one million\n\n# Using a Python loop\nstart = time.time()\ntotal_loop = 0\nfor i in range(1, n + 1):\n    total_loop += i ** 2\nloop_time = time.time() - start\n\nprint(f\"Loop result: {total_loop}\")\nprint(f\"Loop time: {loop_time:.4f} seconds\")\n\nLoop result: 333333833333500000\nLoop time: 0.1159 seconds\n\n\nVectorized approach:\n\nimport numpy as np\nimport time\n\nn = 1000000\n\n# Using NumPy\nstart = time.time()\nnumbers = np.arange(1, n + 1)\ntotal_numpy = np.sum(numbers ** 2)\nnumpy_time = time.time() - start\n\nprint(f\"NumPy result: {total_numpy}\")\nprint(f\"NumPy time: {numpy_time:.4f} seconds\")\nprint(f\"Speedup: {loop_time / numpy_time if numpy_time &gt; 0 else float('inf'):.1f}x faster\")\n\nNumPy result: 333333833333500000\nNumPy time: 0.0047 seconds\nSpeedup: 24.5x faster\n\n\nYou should see NumPy is 10-100 times faster!\n\n\n\n\n\n\nImportantWhy Is NumPy So Much Faster?\n\n\n\n\nCompiled C code: NumPy operations run in optimized C/Fortran libraries\nVectorization: CPU can perform multiple operations simultaneously (SIMD - Single Instruction Multiple Data)\nMemory locality: Data is contiguous in memory, enabling fast access\nNo Python overhead: No per-element type checking or function calls\n\nFor scientific computing, this performance difference is crucial. Imagine simulating a million-person epidemic over 365 days. Vectorization can mean the difference between minutes and hours!\n\n\n\n\nYour Turn: Compare Performance on a More Complex Operation\n\nimport numpy as np\nimport time\n\n# Simulate calculating exponential growth for many starting values\nn = 500000\ninitial_values = np.arange(1, n + 1)\ngrowth_rate = 0.05\ntime_steps = 10\n\n# Method 1: Loop\nstart = time.time()\nresults_loop = []\nfor val in initial_values:\n    result = val * np.exp(growth_rate * time_steps)\n    results_loop.append(result)\nloop_time = time.time() - start\n\n# Method 2: Vectorized\nstart = time.time()\nresults_numpy = initial_values * np.exp(growth_rate * time_steps)\nnumpy_time = time.time() - start\n\n# Verify they give the same answer\nprint(f\"Results match: {np.allclose(results_loop, results_numpy)}\")\nprint(f\"Loop time: {loop_time:.4f}s\")\nprint(f\"NumPy time: {numpy_time:.4f}s\")\nprint(f\"Speedup: {loop_time / numpy_time if numpy_time &gt; 0 else float('inf'):.1f}x\")\n\n# Task: Now try with even more complex calculations\n# Calculate: (x^2 + 2x + 1) * sin(x) * e^(-x/100) for all x\nstart = time.time()\n# Your loop-based code here\nloop_complex_time = time.time() - start\n\nstart = time.time()\nx = initial_values\nresults_complex = # Your vectorized code here\nnumpy_complex_time = time.time() - start\n\nprint(f\"\\nComplex calculation speedup: {loop_complex_time / numpy_complex_time:.1f}x\")"
+    "text": "Exercise 2.1: The Cost of Loops\nBefore we dive into epidemiology, let’s see why vectorization matters for numerical computing.\n\nA Simple Calculation: Sum of Squares\nSuppose we want to calculate \\(\\sum_{i=1}^{n} i^2\\) for large \\(n\\).\nLoop-based approach:\n\nimport time\n\nn = 1000000  # one million\n\n# Using a Python loop\nstart = time.time()\ntotal_loop = 0\nfor i in range(1, n + 1):\n    total_loop += i ** 2\nloop_time = time.time() - start\n\nprint(f\"Loop result: {total_loop}\")\nprint(f\"Loop time: {loop_time:.4f} seconds\")\n\nLoop result: 333333833333500000\nLoop time: 0.1177 seconds\n\n\nVectorized approach:\n\nimport numpy as np\nimport time\n\nn = 1000000\n\n# Using NumPy\nstart = time.time()\nnumbers = np.arange(1, n + 1)\ntotal_numpy = np.sum(numbers ** 2)\nnumpy_time = time.time() - start\n\nprint(f\"NumPy result: {total_numpy}\")\nprint(f\"NumPy time: {numpy_time:.4f} seconds\")\nprint(f\"Speedup: {loop_time / numpy_time if numpy_time &gt; 0 else float('inf'):.1f}x faster\")\n\nNumPy result: 333333833333500000\nNumPy time: 0.0043 seconds\nSpeedup: 27.4x faster\n\n\nYou should see NumPy is 10-100 times faster!\n\n\n\n\n\n\nImportantWhy Is NumPy So Much Faster?\n\n\n\n\nCompiled C code: NumPy operations run in optimized C/Fortran libraries\nVectorization: CPU can perform multiple operations simultaneously (SIMD - Single Instruction Multiple Data)\nMemory locality: Data is contiguous in memory, enabling fast access\nNo Python overhead: No per-element type checking or function calls\n\nFor scientific computing, this performance difference is crucial. Imagine simulating a million-person epidemic over 365 days. Vectorization can mean the difference between minutes and hours!\n\n\n\n\nYour Turn: Compare Performance on a More Complex Operation\n\nimport numpy as np\nimport time\n\n# Simulate calculating exponential growth for many starting values\nn = 500000\ninitial_values = np.arange(1, n + 1)\ngrowth_rate = 0.05\ntime_steps = 10\n\n# Method 1: Loop\nstart = time.time()\nresults_loop = []\nfor val in initial_values:\n    result = val * np.exp(growth_rate * time_steps)\n    results_loop.append(result)\nloop_time = time.time() - start\n\n# Method 2: Vectorized\nstart = time.time()\nresults_numpy = initial_values * np.exp(growth_rate * time_steps)\nnumpy_time = time.time() - start\n\n# Verify they give the same answer\nprint(f\"Results match: {np.allclose(results_loop, results_numpy)}\")\nprint(f\"Loop time: {loop_time:.4f}s\")\nprint(f\"NumPy time: {numpy_time:.4f}s\")\nprint(f\"Speedup: {loop_time / numpy_time if numpy_time &gt; 0 else float('inf'):.1f}x\")\n\n# Task: Now try with even more complex calculations\n# Calculate: (x^2 + 2x + 1) * sin(x) * e^(-x/100) for all x\nstart = time.time()\n# Your loop-based code here\nloop_complex_time = time.time() - start\n\nstart = time.time()\nx = initial_values\nresults_complex = # Your vectorized code here\nnumpy_complex_time = time.time() - start\n\nprint(f\"\\nComplex calculation speedup: {loop_complex_time / numpy_complex_time:.1f}x\")"
   },
   {
     "objectID": "lectures/04-numerical-computing/class.html#exercise-2.2-the-sir-model---mathematical-background",
@@ -2658,6 +2959,104 @@
     "title": "Lecture 4: Numerical Computing with NumPy",
     "section": "Reflecting on VSCode",
     "text": "Reflecting on VSCode\nWe also saw VSCode today. Remember:\n\nIt’s optional but professionally valuable\nExcellent Git integration makes version control easier\nWorks with any language (you’ll use R later in this course)\nMany data scientists use both Spyder and VSCode\n\nFor homework, you’ll install it and verify it works. After that, use whatever tool you prefer!"
+  },
+  {
+    "objectID": "lectures/08-python-to-r/class.html",
+    "href": "lectures/08-python-to-r/class.html",
+    "title": "Lecture 8: Python to R – Two Languages, One Computational Model",
+    "section": "",
+    "text": "If you already know how to solve a computational problem, what changes when you express the solution in R?\n\nFor the past seven lectures, you have been building a mental model of computation: variables, collections, control flow, functions, vectorized operations, and reproducible workflows. None of that goes away today. What changes is the notation – and, in a few important places, the idiom that experienced users prefer.\nR was designed by statisticians, for statistics. Python was designed as a general-purpose language that later grew a scientific stack (NumPy, pandas) on top of it. This difference in origin explains almost everything that feels unfamiliar about R at first glance: data frames and vectors are not an add-on in R, they are the language’s native way of thinking.\nToday we will not learn R as if it were a brand new universe. Instead, we will repeatedly ask: “I already know how to do this in Python – what is the R version?” By the end of class, you will be comfortable with R’s core data structures, you will have written functions and loops in R, and you will have translated a small Python program into R."
+  },
+  {
+    "objectID": "lectures/08-python-to-r/class.html#exercise-1.1-objects-and-assignment",
+    "href": "lectures/08-python-to-r/class.html#exercise-1.1-objects-and-assignment",
+    "title": "Lecture 8: Python to R – Two Languages, One Computational Model",
+    "section": "Exercise 1.1: Objects and Assignment",
+    "text": "Exercise 1.1: Objects and Assignment\nIn Python, you write x = 10 to create a variable. R calls these objects, and the idiomatic assignment operator is &lt;- rather than = (though = also works at the top level – we will use &lt;- throughout the course, since it is the convention you will see in almost all R code).\n\n# Illustrative only -- the full exercise is in class.R\nx &lt;- 10\ny &lt;- \"hello\"\n\n\nSee Exercise 1.1 in class.R.\n\n\nJust-in-Time Concept: Interactive Use, Scripts, and Packages\nR can be used two ways, exactly like Python:\n\nInteractively, typing commands one at a time at the &gt; prompt in the RStudio console.\nAs a script, saving commands in a .R file and running the whole file with Rscript or by sourcing it inside RStudio.\n\nR’s standard library is deliberately small compared to Python’s. Almost all of the functionality you associate with “doing data science in R” – reshaping data, making plots, fitting models – comes from packages installed with install.packages() and loaded with library(), just as Python code loads functionality with import.\n\nx &lt;- c(1, 2, 3)\nmean(x)\n\n[1] 2\n\n\n\n# mean() is part of base R -- no library() call needed\n# but something like read_csv() requires:\n# library(readr)\n\n\n\n\n\n\n\nNoteR vs. Python Design Philosophy\n\n\n\nPython was built as a general-purpose language and grew a scientific stack on top (NumPy, pandas, SciPy). R was built from the start as a language for statistical computing. This is why vectors and data frames feel like “the point” of R, rather than an add-on library as they are in Python."
+  },
+  {
+    "objectID": "lectures/08-python-to-r/class.html#exercise-1.2-vectors-the-atomic-unit-of-r",
+    "href": "lectures/08-python-to-r/class.html#exercise-1.2-vectors-the-atomic-unit-of-r",
+    "title": "Lecture 8: Python to R – Two Languages, One Computational Model",
+    "section": "Exercise 1.2: Vectors – The Atomic Unit of R",
+    "text": "Exercise 1.2: Vectors – The Atomic Unit of R\nPython has lists ([1, 2, 3]) and, with NumPy, arrays. R has vectors, created with the c() (“combine”) function, and vectors are the single most important data structure in the language. Unlike a Python list, an R vector’s elements are (almost) always all the same type – it behaves much more like a NumPy array than a Python list.\n\n# Illustrative only -- the full exercise is in class.R\nscores &lt;- c(85, 92, 78, 95)\n\n\nSee Exercise 1.2 in class.R.\n\n\nJust-in-Time Concept: Vectorized Arithmetic\nIn Python, adding 5 to every element of a NumPy array looks like arr + 5. In plain Python lists, you would need a loop or a list comprehension. R’s vectors behave like NumPy arrays by default: arithmetic is vectorized automatically, with no special import required.\n\nscores &lt;- c(85, 92, 78, 95)\nscores + 5\n\n[1]  90  97  83 100\n\n\n\nscores * 2\n\n[1] 170 184 156 190\n\n\n\n# Element-wise operations between two vectors of the same length\nbonus &lt;- c(1, 2, 3, 4)\nscores + bonus\n\n[1] 86 94 81 99\n\n\n\n\n\n\n\n\nImportantVectorization Is Not Optional in R – It Is the Default\n\n\n\nIn NumPy, you choose to use arrays to get vectorized behavior; plain Python lists do not vectorize. In R, all arithmetic on vectors is vectorized by default. Writing a loop to add 5 to every element of a vector is almost always the wrong approach in R, both stylistically and for performance."
+  },
+  {
+    "objectID": "lectures/08-python-to-r/class.html#exercise-1.3-vectorized-comparisons-and-logical-filtering",
+    "href": "lectures/08-python-to-r/class.html#exercise-1.3-vectorized-comparisons-and-logical-filtering",
+    "title": "Lecture 8: Python to R – Two Languages, One Computational Model",
+    "section": "Exercise 1.3: Vectorized Comparisons and Logical Filtering",
+    "text": "Exercise 1.3: Vectorized Comparisons and Logical Filtering\nPython’s boolean indexing with NumPy (arr[arr &gt; 90]) has a direct analogue in R.\n\n# Illustrative only -- the full exercise is in class.R\nscores &lt;- c(85, 92, 78, 95)\nscores &gt; 90\n\n\nSee Exercise 1.3 in class.R."
+  },
+  {
+    "objectID": "lectures/08-python-to-r/class.html#exercise-2.1-atomic-vector-types",
+    "href": "lectures/08-python-to-r/class.html#exercise-2.1-atomic-vector-types",
+    "title": "Lecture 8: Python to R – Two Languages, One Computational Model",
+    "section": "Exercise 2.1: Atomic Vector Types",
+    "text": "Exercise 2.1: Atomic Vector Types\nR has four atomic vector types you will use constantly, each with a direct Python analogue:\n\n\n\nR type\nExample\nClosest Python analogue\n\n\n\n\nlogical\nTRUE, FALSE\nbool\n\n\ninteger\n5L\nint\n\n\ndouble (numeric)\n5.0, 5\nfloat\n\n\ncharacter\n\"hello\"\nstr\n\n\n\n\nclass(TRUE)\n\n[1] \"logical\"\n\nclass(5L)\n\n[1] \"integer\"\n\nclass(5.0)\n\n[1] \"numeric\"\n\nclass(\"hello\")\n\n[1] \"character\"\n\n\n\n\n\n\n\n\nImportantR Is Case-Sensitive, Just Like Python\n\n\n\nLogical values must be written TRUE and FALSE (all capitals), not true/True. R does accept the shorthand T and F, but spelling them out is safer and clearer, exactly as we preferred True/False over any shortcuts in Python.\n\n\n\nSee Exercise 2.1 in class.R."
+  },
+  {
+    "objectID": "lectures/08-python-to-r/class.html#exercise-2.2-missing-values-na",
+    "href": "lectures/08-python-to-r/class.html#exercise-2.2-missing-values-na",
+    "title": "Lecture 8: Python to R – Two Languages, One Computational Model",
+    "section": "Exercise 2.2: Missing Values – NA",
+    "text": "Exercise 2.2: Missing Values – NA\nPython has None. R has NA, but with an important twist: NA is not a single universal “nothing” value – it is typed, so there is a logical NA, an integer NA, and so on, and R handles this automatically. What matters practically is how NA propagates through computations.\n\nx &lt;- c(1, 2, NA, 4)\nsum(x)          # NA, because R will not silently ignore missing values\n\n[1] NA\n\nsum(x, na.rm = TRUE)  # 7, once we explicitly tell R to remove NA first\n\n[1] 7\n\n\n\n\n\n\n\n\nImportantNA Propagates, It Does Not Disappear\n\n\n\nIn Python, None in a list usually causes an outright error if you try to do arithmetic with it. In R, NA propagates silently through most calculations, turning the whole result into NA, unless you explicitly handle it (often with an na.rm = TRUE argument). This is a common source of “silent” bugs – always check for NA in your data."
+  },
+  {
+    "objectID": "lectures/08-python-to-r/class.html#exercise-2.3-lists",
+    "href": "lectures/08-python-to-r/class.html#exercise-2.3-lists",
+    "title": "Lecture 8: Python to R – Two Languages, One Computational Model",
+    "section": "Exercise 2.3: Lists",
+    "text": "Exercise 2.3: Lists\nPython has two very different structures that both resemble R’s list(): the Python list (ordered, often same-type) and the Python dict (key-value pairs). R’s list() is closer to a Python dict with optional ordering – it can hold elements of different types and different lengths, and elements can be named.\n\n# Illustrative only -- the full exercise is in class.R\nperson &lt;- list(name = \"Ada\", age = 36, languages = c(\"R\", \"Python\"))\n\n\nSee Exercise 2.3 in class.R."
+  },
+  {
+    "objectID": "lectures/08-python-to-r/class.html#exercise-2.4-data-frames-rs-native-tabular-structure",
+    "href": "lectures/08-python-to-r/class.html#exercise-2.4-data-frames-rs-native-tabular-structure",
+    "title": "Lecture 8: Python to R – Two Languages, One Computational Model",
+    "section": "Exercise 2.4: Data Frames – R’s Native Tabular Structure",
+    "text": "Exercise 2.4: Data Frames – R’s Native Tabular Structure\nPython’s pandas DataFrame was explicitly modeled on R’s data frame. If you are comfortable with pandas, a data frame will feel almost immediately familiar: rows are observations, columns are variables, and columns can have different types.\n\ndf &lt;- data.frame(\n  name = c(\"Ada\", \"Grace\", \"Alan\"),\n  score = c(92, 88, 95)\n)\ndf\n\n   name score\n1   Ada    92\n2 Grace    88\n3  Alan    95\n\n\n\nstr(df)\n\n'data.frame':   3 obs. of  2 variables:\n $ name : chr  \"Ada\" \"Grace\" \"Alan\"\n $ score: num  92 88 95\n\n\n\n\n\n\n\n\nNotedata.frame vs. tibble\n\n\n\nBase R provides data.frame(). The tidyverse (which we will use extensively in Lecture 9) provides tibble(), a modernized data frame with more predictable printing and behavior. For today, base data.frame() is sufficient; we introduce tibbles properly next lecture.\n\n\n\nSee Exercise 2.4 in class.R."
+  },
+  {
+    "objectID": "lectures/08-python-to-r/class.html#exercise-2.5-logical-filtering-of-data-frames",
+    "href": "lectures/08-python-to-r/class.html#exercise-2.5-logical-filtering-of-data-frames",
+    "title": "Lecture 8: Python to R – Two Languages, One Computational Model",
+    "section": "Exercise 2.5: Logical Filtering of Data Frames",
+    "text": "Exercise 2.5: Logical Filtering of Data Frames\nPython/pandas boolean indexing (df[df[\"score\"] &gt; 90]) maps directly onto R’s bracket syntax for data frames.\n\n# Illustrative only -- the full exercise is in class.R\ndf[df$score &gt; 90, ]\n\n\nSee Exercise 2.5 in class.R."
+  },
+  {
+    "objectID": "lectures/08-python-to-r/class.html#exercise-3.1-writing-functions-in-r",
+    "href": "lectures/08-python-to-r/class.html#exercise-3.1-writing-functions-in-r",
+    "title": "Lecture 8: Python to R – Two Languages, One Computational Model",
+    "section": "Exercise 3.1: Writing Functions in R",
+    "text": "Exercise 3.1: Writing Functions in R\nPython:\ndef square(x):\n    return x ** 2\nR:\n\nsquare &lt;- function(x) {\n  return(x^2)\n}\nsquare(4)\n\n[1] 16\n\n\n\n\n\n\n\n\nNoteImplicit Returns\n\n\n\nR functions return the value of the last evaluated expression automatically, even without return(). Many R style guides prefer omitting the explicit return() for short functions. We will use explicit return() early in the course for clarity, and relax this convention later.\n\n\n\nsquare_implicit &lt;- function(x) {\n  x^2  # last expression is returned automatically\n}\nsquare_implicit(5)\n\n[1] 25\n\n\n\nSee Exercise 3.1 in class.R."
+  },
+  {
+    "objectID": "lectures/08-python-to-r/class.html#exercise-3.2-for-loops",
+    "href": "lectures/08-python-to-r/class.html#exercise-3.2-for-loops",
+    "title": "Lecture 8: Python to R – Two Languages, One Computational Model",
+    "section": "Exercise 3.2: for Loops",
+    "text": "Exercise 3.2: for Loops\nR’s for loop looks structurally similar to Python’s, but iterates directly over a vector rather than needing range().\n\nfor (i in 1:5) {\n  print(i^2)\n}\n\n[1] 1\n[1] 4\n[1] 9\n[1] 16\n[1] 25\n\n\n\n\n\n\n\n\nImportant1:5 Includes Both Endpoints\n\n\n\nUnlike Python’s range(1, 5) (which excludes 5), R’s 1:5 produces 1, 2, 3, 4, 5 – both endpoints are included. This is a very common source of off-by-one errors when moving between the two languages.\n\n\n\nSee Exercise 3.2 in class.R."
+  },
+  {
+    "objectID": "lectures/08-python-to-r/class.html#exercise-3.3-while-loops",
+    "href": "lectures/08-python-to-r/class.html#exercise-3.3-while-loops",
+    "title": "Lecture 8: Python to R – Two Languages, One Computational Model",
+    "section": "Exercise 3.3: while Loops",
+    "text": "Exercise 3.3: while Loops\n\nn &lt;- 1\nwhile (n &lt; 5) {\n  print(n)\n  n &lt;- n + 1\n}\n\n[1] 1\n[1] 2\n[1] 3\n[1] 4\n\n\n\nSee Exercise 3.3 in class.R."
+  },
+  {
+    "objectID": "lectures/08-python-to-r/class.html#exercise-3.4-vectorization-instead-of-loops",
+    "href": "lectures/08-python-to-r/class.html#exercise-3.4-vectorization-instead-of-loops",
+    "title": "Lecture 8: Python to R – Two Languages, One Computational Model",
+    "section": "Exercise 3.4: Vectorization Instead of Loops",
+    "text": "Exercise 3.4: Vectorization Instead of Loops\nThe single biggest idiom shift from Python to R: where NumPy allows vectorization as an optimization, R vectors default to it, and loops over vectors are usually a sign you are fighting the language.\n\n# Illustrative only -- the full exercise is in class.R\nvalues &lt;- c(1, 2, 3, 4, 5)\n\n# Loop version (works, but not idiomatic R)\nsquared_loop &lt;- numeric(length(values))\nfor (i in seq_along(values)) {\n  squared_loop[i] &lt;- values[i]^2\n}\n\n# Vectorized version (idiomatic R)\nsquared_vectorized &lt;- values^2\n\n\nSee Exercise 3.4 in class.R.\n\n\nJust-in-Time Concept: The apply Family\nPython’s map() and list comprehensions have rough analogues in R’s apply family of functions. sapply() is the most approachable: it applies a function to every element of a vector or list and tries to simplify the result into a vector.\n\nvalues &lt;- c(1, 2, 3, 4, 5)\nsapply(values, function(x) x^2)\n\n[1]  1  4  9 16 25\n\n\n\n# Equivalent, and usually preferred when a direct vectorized op exists:\nvalues^2\n\n[1]  1  4  9 16 25\n\n\n\n\n\n\n\n\nTipWhen to Reach for sapply()\n\n\n\nUse direct vectorized arithmetic (values^2) whenever the operation is already vectorized (addition, multiplication, comparisons, most math functions). Reach for sapply() or the purrr::map() family (introduced later in the course) when you need to apply a function that is not already vectorized, such as one that depends on multiple steps per element."
+  },
+  {
+    "objectID": "lectures/08-python-to-r/class.html#exercise-3.5-scope",
+    "href": "lectures/08-python-to-r/class.html#exercise-3.5-scope",
+    "title": "Lecture 8: Python to R – Two Languages, One Computational Model",
+    "section": "Exercise 3.5: Scope",
+    "text": "Exercise 3.5: Scope\nR’s scoping rules are similar in spirit to Python’s: variables created inside a function are local to that function by default.\n\nmake_local &lt;- function() {\n  local_var &lt;- 10\n  return(local_var)\n}\nresult &lt;- make_local()\nprint(local_var)  # Error: object 'local_var' not found\n\nError:\n! object 'local_var' not found\n\n\n\nSee Exercise 3.5 in class.R."
   },
   {
     "objectID": "lectures/03-modularity/class.html",
@@ -3441,7 +3840,7 @@
     "href": "lectures/02-data-structures/notes.html#sets-and-membership-testing",
     "title": "Lecture 2 — Data Structures, Algorithms, and Control Flow",
     "section": "8.4 Sets and membership testing",
-    "text": "8.4 Sets and membership testing\nSets are especially useful when the important question is membership:\n\nIs this element in the collection?\n\nMembership testing for sets is very efficient (average \\(O(1)\\) time) compared to lists (\\(O(n)\\) time):\n\nimport time\n\n# Large collection\nlarge_list = list(range(100000))\nlarge_set = set(range(100000))\n\n# Test membership\ntarget = 99999\n\n# List membership\nstart = time.time()\n_ = target in large_list\nlist_time = time.time() - start\n\n# Set membership\nstart = time.time()\n_ = target in large_set\nset_time = time.time() - start\n\nprint(f\"List: {list_time:.6f}s\")\nprint(f\"Set:  {set_time:.6f}s\")\n\nList: 0.000827s\nSet:  0.000040s"
+    "text": "8.4 Sets and membership testing\nSets are especially useful when the important question is membership:\n\nIs this element in the collection?\n\nMembership testing for sets is very efficient (average \\(O(1)\\) time) compared to lists (\\(O(n)\\) time):\n\nimport time\n\n# Large collection\nlarge_list = list(range(100000))\nlarge_set = set(range(100000))\n\n# Test membership\ntarget = 99999\n\n# List membership\nstart = time.time()\n_ = target in large_list\nlist_time = time.time() - start\n\n# Set membership\nstart = time.time()\n_ = target in large_set\nset_time = time.time() - start\n\nprint(f\"List: {list_time:.6f}s\")\nprint(f\"Set:  {set_time:.6f}s\")\n\nList: 0.001048s\nSet:  0.000048s"
   },
   {
     "objectID": "lectures/02-data-structures/notes.html#set-comprehensions",
@@ -3819,7 +4218,7 @@
     "href": "lectures/02-data-structures/class.html#exercise-detect-duplicates",
     "title": "Lecture 2: Data Structures, Algorithms, and Control Flow",
     "section": "Exercise: Detect Duplicates",
-    "text": "Exercise: Detect Duplicates\nQuestion: Does a list contain any duplicate values?\n\nAlgorithm 1: Compare All Pairs\n\nvalues = [1, 2, 3, 4, 5, 3, 6]\n\nhas_duplicate = False\n\nfor i in range(len(values)):\n    for j in range(i + 1, len(values)):\n        if values[i] == values[j]:\n            has_duplicate = True\n            break\n    if has_duplicate:\n        break\n\nhas_duplicate\n\nTrue\n\n\nThis uses nested loops: for each value, check it against every other value.\n\n\nAlgorithm 2: Use a Set\n\nvalues = [1, 2, 3, 4, 5, 3, 6]\n\nseen = set()\nhas_duplicate = False\n\nfor value in values:\n    if value in seen:\n        has_duplicate = True\n        break\n    seen.add(value)\n\nhas_duplicate\n\nTrue\n\n\nThis uses a single loop and a set to track what we’ve seen.\n\n\nWhich Is Better?\nLet’s think about the computational work:\nAlgorithm 1:\n\nFor each of n values, check against up to n other values\nTotal comparisons: roughly n²/2\nAs n grows, work grows quadratically: O(n²)\n\nAlgorithm 2:\n\nFor each of n values, check set membership (fast) and add to set\nTotal operations: roughly n\nAs n grows, work grows linearly: O(n)\n\n\n\nDemonstration\n\nimport time\n\ndef algorithm1(values):\n    \"\"\"Compare all pairs\"\"\"\n    for i in range(len(values)):\n        for j in range(i + 1, len(values)):\n            if values[i] == values[j]:\n                return True\n    return False\n\ndef algorithm2(values):\n    \"\"\"Use a set\"\"\"\n    seen = set()\n    for value in values:\n        if value in seen:\n            return True\n        seen.add(value)\n    return False\n\n# Test with different sizes\nsizes = [100, 200, 400, 800]\n\nfor n in sizes:\n    values = list(range(n))  # No duplicates (worst case)\n    \n    start = time.time()\n    algorithm1(values)\n    time1 = time.time() - start\n    \n    start = time.time()\n    algorithm2(values)\n    time2 = time.time() - start\n    \n    print(f\"n={n:4d}: Algorithm 1: {time1:.4f}s  Algorithm 2: {time2:.6f}s\")\n\nn= 100: Algorithm 1: 0.0001s  Algorithm 2: 0.000007s\nn= 200: Algorithm 1: 0.0004s  Algorithm 2: 0.000009s\nn= 400: Algorithm 1: 0.0021s  Algorithm 2: 0.000024s\nn= 800: Algorithm 1: 0.0094s  Algorithm 2: 0.000030s\n\n\nNotice how Algorithm 1’s time grows rapidly while Algorithm 2 remains fast.\n\n\n\n\n\n\nImportantAlgorithm and Data Structure Matter\n\n\n\nThe choice of algorithm and data structure can determine whether a problem is:\n\nEasy or difficult\nFast or slow\nPractical or impractical\n\nThis is why we study both algorithms and data structures together.\n\n\n\n\nYour Turn: Complexity Reasoning\n\n# Consider these operations:\n\n# 1. Sum all values in a list of length n\n# 2. Find the maximum value in a list\n# 3. Determine if a value exists in a list\n# 4. Determine if a value exists in a set\n# 5. Count occurrences in a list using nested loops\n# 6. Count occurrences using a dictionary\n\n# For each, roughly how does the work grow with n?\n# - O(1): constant\n# - O(n): linear\n# - O(n²): quadratic\n\n# Discuss your reasoning"
+    "text": "Exercise: Detect Duplicates\nQuestion: Does a list contain any duplicate values?\n\nAlgorithm 1: Compare All Pairs\n\nvalues = [1, 2, 3, 4, 5, 3, 6]\n\nhas_duplicate = False\n\nfor i in range(len(values)):\n    for j in range(i + 1, len(values)):\n        if values[i] == values[j]:\n            has_duplicate = True\n            break\n    if has_duplicate:\n        break\n\nhas_duplicate\n\nTrue\n\n\nThis uses nested loops: for each value, check it against every other value.\n\n\nAlgorithm 2: Use a Set\n\nvalues = [1, 2, 3, 4, 5, 3, 6]\n\nseen = set()\nhas_duplicate = False\n\nfor value in values:\n    if value in seen:\n        has_duplicate = True\n        break\n    seen.add(value)\n\nhas_duplicate\n\nTrue\n\n\nThis uses a single loop and a set to track what we’ve seen.\n\n\nWhich Is Better?\nLet’s think about the computational work:\nAlgorithm 1:\n\nFor each of n values, check against up to n other values\nTotal comparisons: roughly n²/2\nAs n grows, work grows quadratically: O(n²)\n\nAlgorithm 2:\n\nFor each of n values, check set membership (fast) and add to set\nTotal operations: roughly n\nAs n grows, work grows linearly: O(n)\n\n\n\nDemonstration\n\nimport time\n\ndef algorithm1(values):\n    \"\"\"Compare all pairs\"\"\"\n    for i in range(len(values)):\n        for j in range(i + 1, len(values)):\n            if values[i] == values[j]:\n                return True\n    return False\n\ndef algorithm2(values):\n    \"\"\"Use a set\"\"\"\n    seen = set()\n    for value in values:\n        if value in seen:\n            return True\n        seen.add(value)\n    return False\n\n# Test with different sizes\nsizes = [100, 200, 400, 800]\n\nfor n in sizes:\n    values = list(range(n))  # No duplicates (worst case)\n    \n    start = time.time()\n    algorithm1(values)\n    time1 = time.time() - start\n    \n    start = time.time()\n    algorithm2(values)\n    time2 = time.time() - start\n    \n    print(f\"n={n:4d}: Algorithm 1: {time1:.4f}s  Algorithm 2: {time2:.6f}s\")\n\nn= 100: Algorithm 1: 0.0001s  Algorithm 2: 0.000006s\nn= 200: Algorithm 1: 0.0005s  Algorithm 2: 0.000010s\nn= 400: Algorithm 1: 0.0026s  Algorithm 2: 0.000035s\nn= 800: Algorithm 1: 0.0119s  Algorithm 2: 0.000040s\n\n\nNotice how Algorithm 1’s time grows rapidly while Algorithm 2 remains fast.\n\n\n\n\n\n\nImportantAlgorithm and Data Structure Matter\n\n\n\nThe choice of algorithm and data structure can determine whether a problem is:\n\nEasy or difficult\nFast or slow\nPractical or impractical\n\nThis is why we study both algorithms and data structures together.\n\n\n\n\nYour Turn: Complexity Reasoning\n\n# Consider these operations:\n\n# 1. Sum all values in a list of length n\n# 2. Find the maximum value in a list\n# 3. Determine if a value exists in a list\n# 4. Determine if a value exists in a set\n# 5. Count occurrences in a list using nested loops\n# 6. Count occurrences using a dictionary\n\n# For each, roughly how does the work grow with n?\n# - O(1): constant\n# - O(n): linear\n# - O(n²): quadratic\n\n# Discuss your reasoning"
   },
   {
     "objectID": "lectures/02-data-structures/class.html#representation",
@@ -3917,7 +4316,7 @@
     "href": "lectures/05-data-pandas/class.html#converting-to-datetime",
     "title": "Lecture 5: Data Analysis with Pandas",
     "section": "2.1: Converting to Datetime",
-    "text": "2.1: Converting to Datetime\nThe started_at and ended_at columns are currently strings. We need to convert them to datetime objects for temporal analysis.\n\nJust-in-Time Concept: Working with Dates and Times\nPandas has powerful datetime functionality:\n\n# Convert to datetime\ndf_sample['started_at'] = pd.to_datetime(df_sample['started_at'])\ndf_sample['ended_at'] = pd.to_datetime(df_sample['ended_at'])\n\nprint(\"After conversion:\")\nprint(df_sample.dtypes)\n\n# Extract components\ndf_sample['hour'] = df_sample['started_at'].dt.hour\ndf_sample['day_of_week'] = df_sample['started_at'].dt.dayofweek  # Monday=0, Sunday=6\ndf_sample['date'] = df_sample['started_at'].dt.date\n\nprint(\"\\nDatetime components:\")\nprint(df_sample[['started_at', 'hour', 'day_of_week', 'date']].head())\n\nAfter conversion:\nride_id                          str\nrideable_type                    str\nstarted_at            datetime64[us]\nended_at              datetime64[us]\nstart_station_name               str\nstart_station_id                 str\nend_station_name                 str\nend_station_id                   str\nstart_lat                    float64\nstart_lng                    float64\nend_lat                      float64\nend_lng                      float64\nmember_casual                    str\ndtype: object\n\nDatetime components:\n           started_at  hour  day_of_week        date\n0 2024-05-01 08:00:00     8            2  2024-05-01\n1 2024-05-01 09:15:00     9            2  2024-05-01\n2 2024-05-01 12:30:00    12            2  2024-05-01\n\n\n\n\nYour Turn: DateTime Conversions and Extraction\n\n# Convert started_at and ended_at to datetime if not already done\n# Your code here\n\n# Extract the month from started_at\n# Your code here\n\n# Extract the day name (Monday, Tuesday, etc.)\n# Your code here\n\n# Calculate trip duration in minutes\n# Hint: (ended_at - started_at).dt.total_seconds() / 60\n# Your code here\n\n# Find the average trip duration\n# Your code here"
+    "text": "2.1: Converting to Datetime\nThe started_at and ended_at columns are currently strings. We need to convert them to datetime objects for temporal analysis.\n\nJust-in-Time Concept: Working with Dates and Times\nPandas has powerful datetime functionality:\n\n# Convert to datetime\ndf_sample['started_at'] = pd.to_datetime(df_sample['started_at'])\ndf_sample['ended_at'] = pd.to_datetime(df_sample['ended_at'])\n\nprint(\"After conversion:\")\nprint(df_sample.dtypes)\n\n# Extract components\ndf_sample['hour'] = df_sample['started_at'].dt.hour\ndf_sample['day_of_week'] = df_sample['started_at'].dt.dayofweek  # Monday=0, Sunday=6\ndf_sample['date'] = df_sample['started_at'].dt.date\n\nprint(\"\\nDatetime components:\")\nprint(df_sample[['started_at', 'hour', 'day_of_week', 'date']].head())\n\nAfter conversion:\nride_id                          str\nrideable_type                    str\nstarted_at            datetime64[us]\nended_at              datetime64[us]\nstart_station_name               str\nstart_station_id                 str\nend_station_name                 str\nend_station_id                   str\nstart_lat                    float64\nstart_lng                    float64\nend_lat                      float64\nend_lng                      float64\nmember_casual                    str\ndtype: object\n\nDatetime components:\n           started_at  hour  day_of_week        date\n0 2024-05-01 08:00:00     8            2  2024-05-01\n1 2024-05-01 09:15:00     9            2  2024-05-01\n2 2024-05-01 12:30:00    12            2  2024-05-01\n\n\n/tmp/ipykernel_7160/3442362389.py:10: Pandas4Warning: Series.dt.dayofweek is deprecated and will be removed in a future version. Use Series.dt.day_of_week instead.\n  df_sample['day_of_week'] = df_sample['started_at'].dt.dayofweek  # Monday=0, Sunday=6\n\n\n\n\nYour Turn: DateTime Conversions and Extraction\n\n# Convert started_at and ended_at to datetime if not already done\n# Your code here\n\n# Extract the month from started_at\n# Your code here\n\n# Extract the day name (Monday, Tuesday, etc.)\n# Your code here\n\n# Calculate trip duration in minutes\n# Hint: (ended_at - started_at).dt.total_seconds() / 60\n# Your code here\n\n# Find the average trip duration\n# Your code here"
   },
   {
     "objectID": "lectures/05-data-pandas/class.html#data-quality-checks",
