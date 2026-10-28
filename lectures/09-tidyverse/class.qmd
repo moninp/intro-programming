@@ -1,0 +1,315 @@
+---
+title: "Lecture 9: Data Wrangling, Validation, and Tidy Data"
+subtitle: "MATH 5200 -- Computing Using R & Python"
+format:
+  html:
+    code-fold: false
+    toc: true
+jupyter: ir
+---
+
+# Central Question
+
+> **How do we transform messy observations into a trustworthy analytical dataset?**
+
+Last lecture, we built a bridge from Python to base R: vectors, data frames, functions, and the habit of thinking in vectorized operations rather than explicit loops. Today we build on top of that foundation with the **tidyverse**, a family of packages that gives R a consistent grammar for the single most common task in applied computing: turning raw, messy data into something you can trust well enough to analyze.
+
+Real data rarely arrives ready for analysis. You will typically have several related files -- some long, some wide, some with duplicate records, some with missing values -- and your job is to combine them correctly into one clean analysis dataset. "Correctly" is the operative word. A join that silently duplicates rows, or a pivot that silently drops observations, can produce a dataset that *looks* fine and is *completely wrong*. Today's lecture is about both the tools (`dplyr`, `tidyr`, joins) and the habit that makes those tools safe to use: **validating every transformation you perform.**
+
+We will work throughout with a small infectious disease dataset: daily case counts by region, population figures by region, and a lookup table of which country each region belongs to. By the end of class, you will have combined these into a single validated analysis dataset -- exactly the kind of task you will repeat, at larger scale, in tonight's homework.
+
+# 1. Quiz
+
+Before we begin, complete the short quiz covering Lecture 8 (Python-to-R translation). It should take about 10 minutes.
+
+# Exercise 1: Tidy Data and Tibbles
+
+## Exercise 1.1: tibble() versus data.frame()
+
+Last lecture we used base R's `data.frame()`. The tidyverse provides `tibble()`, a modernized data frame with more predictable printing and fewer surprising defaults.
+
+```{r}
+#| eval: false
+# Illustrative only -- the full exercise is in class.R
+library(tidyverse)
+df <- data.frame(x = 1:3, y = c("a", "b", "c"))
+tb <- tibble(x = 1:3, y = c("a", "b", "c"))
+```
+
+> **See Exercise 1.1 in `class.R`.**
+
+### Just-in-Time Concept: Why Tibbles Print Differently
+
+A classic base R annoyance: `print()`-ing a large data frame dumps every row to the console. Tibbles print only the first 10 rows by default, along with the dimensions and column types, which is almost always what you want when exploring data.
+
+```{r}
+library(tidyverse)
+big_df <- data.frame(x = 1:200)
+big_tb <- tibble(x = 1:200)
+```
+
+```{r}
+# base data.frame prints all 200 rows if you ask for it -- noisy
+head(big_df, 3)
+```
+
+```{r}
+# tibble's default print is deliberately compact
+big_tb
+```
+
+::: {.callout-note}
+## Tibbles Are Still Data Frames
+A tibble *is* a data frame -- `is.data.frame(tb)` returns `TRUE`. Everything you learned about `df$col`, `df[rows, cols]`, and logical filtering in Lecture 8 still works. Tibbles simply layer nicer defaults (printing, stricter subsetting, no silent factor conversion) on top of the same underlying structure. From here on, we will default to `tibble()` and the tidyverse functions that return tibbles automatically.
+:::
+
+## Exercise 1.2: What Makes Data "Tidy"?
+
+Hadley Wickham's tidy data principles give us a precise target to aim for:
+
+1. Every **variable** is a column.
+2. Every **observation** is a row.
+3. Every **value** is a single cell.
+
+```{r}
+#| eval: false
+# Illustrative only -- the full exercise is in class.R
+wide_cases <- tibble(
+  region = c("North", "South"),
+  cases_day1 = c(12, 8),
+  cases_day2 = c(15, 10)
+)
+```
+
+> **See Exercise 1.2 in `class.R`.**
+
+### Just-in-Time Concept: Long versus Wide Format
+
+The table above is in **wide** format: each day is its own column. This is often how data is *recorded* (e.g., a spreadsheet with one column per date), but it is rarely how data should be *analyzed*. In **long** format, "day" becomes a variable (a column) and each row is a single region-day observation.
+
+```{r}
+wide_example <- tibble(
+  region = c("North", "South"),
+  day1 = c(12, 8),
+  day2 = c(15, 10)
+)
+wide_example
+```
+
+```{r}
+long_example <- wide_example |>
+  pivot_longer(cols = c(day1, day2), names_to = "day", values_to = "cases")
+long_example
+```
+
+::: {.callout-important}
+## Why Representation Matters
+Grouping, filtering, and summarizing by day are awkward or impossible in wide format -- "day" is not a column you can `group_by()`. The same operations are trivial once the data is long. Choosing the right shape is not cosmetic; it determines which questions you can easily ask.
+:::
+
+# Exercise 2: dplyr Verbs
+
+## Exercise 2.1: select() and filter()
+
+`select()` picks columns; `filter()` picks rows based on a logical condition -- the tidyverse equivalents of the column- and row-subsetting you did with brackets in Lecture 8.
+
+```{r}
+#| eval: false
+# Illustrative only -- the full exercise is in class.R
+daily_cases |> select(region, date, new_cases)
+daily_cases |> filter(new_cases > 50)
+```
+
+> **See Exercise 2.1 in `class.R`.**
+
+### Just-in-Time Concept: The Pipe Operator |>
+
+The native pipe `|>` takes the result of the expression on its left and feeds it as the first argument to the function on its right. It reads top-to-bottom as "take this, then do that," which is far more readable than nesting function calls.
+
+```{r}
+x <- c(4, 1, 9, 2)
+sort(x)
+```
+
+```{r}
+x |> sort()
+```
+
+```{r}
+x |> sort() |> rev()
+```
+
+::: {.callout-tip}
+## |> versus %>%
+You will see an older pipe, `%>%`, from the `magrittr` package (loaded automatically by the tidyverse) in a great deal of existing R code. `|>` is R's native pipe (R 4.1+) and behaves almost identically. We will use `|>` throughout this course, but you should recognize `%>%` when you encounter it elsewhere.
+:::
+
+## Exercise 2.2: mutate() and arrange()
+
+`mutate()` creates or modifies columns; `arrange()` sorts rows.
+
+```{r}
+#| eval: false
+# Illustrative only -- the full exercise is in class.R
+daily_cases |>
+  mutate(cases_per_10k = new_cases / population * 10000) |>
+  arrange(desc(cases_per_10k))
+```
+
+> **See Exercise 2.2 in `class.R`.**
+
+## Exercise 2.3: group_by() and summarise()
+
+`group_by()` followed by `summarise()` is the tidyverse's answer to split-apply-combine -- directly analogous to pandas' `groupby()`, which you used extensively in Python.
+
+```{r}
+#| eval: false
+# Illustrative only -- the full exercise is in class.R
+daily_cases |>
+  group_by(region) |>
+  summarise(total_cases = sum(new_cases), n_days = n())
+```
+
+> **See Exercise 2.3 in `class.R`.**
+
+### Just-in-Time Concept: Validating a Transformation
+
+Every time you transform data, check that the result is what you expect. After a `group_by() |> summarise()`, a natural check is: does the number of groups match what you expected, and do grouped totals sum back to the original total?
+
+```{r}
+small <- tibble(region = c("A", "A", "B"), value = c(10, 20, 5))
+summarised <- small |> group_by(region) |> summarise(total = sum(value))
+summarised
+```
+
+```{r}
+# Validation: grouped totals should sum to the original total
+sum(summarised$total) == sum(small$value)
+```
+
+::: {.callout-important}
+## Validation Is Not Optional
+A pipeline that runs without error is not the same as a pipeline that is correct. Throughout today's exercises, after each major transformation, we will explicitly check row counts, uniqueness of identifiers, missing values, or known totals. Build this habit now; it is the single most important skill in this lecture.
+:::
+
+# Exercise 3: Reshaping with tidyr
+
+## Exercise 3.1: pivot_longer()
+
+Our geographic lookup arrives in a wide format with one column per year; we need it long for joining against yearly case data.
+
+```{r}
+#| eval: false
+# Illustrative only -- the full exercise is in class.R
+population_wide |>
+  pivot_longer(cols = starts_with("pop_"), names_to = "year", values_to = "population")
+```
+
+> **See Exercise 3.1 in `class.R`.**
+
+## Exercise 3.2: pivot_wider()
+
+`pivot_wider()` reverses the operation -- useful for producing a human-readable summary table at the end of an analysis, even though long format is usually preferred during analysis itself.
+
+```{r}
+#| eval: false
+# Illustrative only -- the full exercise is in class.R
+daily_cases |>
+  group_by(region, date) |>
+  summarise(total = sum(new_cases)) |>
+  pivot_wider(names_from = date, values_from = total)
+```
+
+> **See Exercise 3.2 in `class.R`.**
+
+::: {.callout-tip}
+## A Validation Habit for Pivots
+After any pivot, check `nrow()` and `ncol()` against what you expect: pivoting longer should multiply row count and divide column count in predictable ways (and vice versa for wider). If the numbers don't match your mental arithmetic, something went wrong.
+:::
+
+# Exercise 4: Joins
+
+## Exercise 4.1: Keys and inner_join()
+
+A **primary key** uniquely identifies each row in a table (e.g., `region` in our population table). A **foreign key** is a column in one table that refers to the primary key of another (e.g., `region` in our case-count table, referring back to the population table).
+
+```{r}
+#| eval: false
+# Illustrative only -- the full exercise is in class.R
+daily_cases |> inner_join(population, by = "region")
+```
+
+> **See Exercise 4.1 in `class.R`.**
+
+### Just-in-Time Concept: inner_join() versus left_join()
+
+`inner_join()` keeps only rows with a match in both tables. `left_join()` keeps every row from the left table, filling in `NA` where no match exists in the right table.
+
+```{r}
+left_tbl <- tibble(region = c("North", "South", "East"), cases = c(10, 20, 5))
+right_tbl <- tibble(region = c("North", "South"), population = c(1000, 2000))
+```
+
+```{r}
+left_tbl |> inner_join(right_tbl, by = "region")  # "East" is dropped
+```
+
+```{r}
+left_tbl |> left_join(right_tbl, by = "region")   # "East" kept, population is NA
+```
+
+::: {.callout-important}
+## Choosing inner_join() versus left_join()
+Use `inner_join()` when a missing match genuinely means "this observation cannot be analyzed." Use `left_join()` when you want to keep every original observation and explicitly see where information is missing (so you can investigate, rather than silently losing data). Silently choosing the wrong one is a common source of analysis errors.
+:::
+
+## Exercise 4.2: Many-to-Many Joins and Unexpected Duplication
+
+A **many-to-one** relationship (many case records joining to one population row per region) is safe: it does not change the number of rows beyond what you expect. A **many-to-many** relationship -- where the join key is not unique in *either* table -- can silently multiply rows.
+
+```{r}
+#| eval: false
+# Illustrative only -- the full exercise is in class.R
+daily_cases |> inner_join(variant_surveillance, by = "region")
+```
+
+> **See Exercise 4.2 in `class.R`.**
+
+::: {.callout-important}
+## Row Counts Before and After a Join Are Not Optional to Check
+Before any join, check whether your key is unique in each table with something like `anyDuplicated(table$key) == 0`. After any join, compare `nrow()` of the result to what you expected. A row count that is larger than either input table is a strong signal of unintended many-to-many duplication.
+:::
+
+# Exercise 5: Major Investigation -- Building a Validated Analysis Dataset
+
+We now combine everything: daily case counts, a population lookup, and a country/region geographic lookup, into a single tidy, validated analysis dataset -- then compute cases per 10,000 population by country.
+
+```{r}
+#| eval: false
+# Illustrative only -- the full exercise is in class.R
+analysis_data <- daily_cases |>
+  inner_join(population, by = "region") |>
+  inner_join(geography, by = "region")
+```
+
+> **See Exercise 5.1 in `class.R`.**
+
+::: {.callout-tip}
+## Validation Checklist for a Finished Analysis Dataset
+Before trusting a combined dataset, check:
+
+- Row count matches your expectation (e.g., equal to the original case-count table, if you used `left_join()` throughout, or appropriately smaller for `inner_join()`)
+- No unexpected duplicate (region, date) combinations
+- No unexpected missing values introduced by the join
+- A known total (e.g., total cases) matches the sum before and after the join
+- Derived variables (like cases per 10,000) fall within a sane range
+:::
+
+# Looking Ahead
+
+Today you learned to reshape, filter, group, join, and -- most importantly -- validate real data using the tidyverse. Next lecture moves from data wrangling to **statistical computing**: simulation, Monte Carlo reasoning, sampling distributions, and basic regression. The validated analysis dataset you can now construct is exactly the kind of input a statistical analysis depends on; next lecture assumes you can get to a trustworthy dataset so that we can focus on what the data tells us about an underlying random process.
+
+::: {.callout-note}
+## Homework Preview
+Tonight's homework is a substantial data-wrangling assignment: you will combine multiple files, perform joins, reshape data, create derived variables, and validate every step, writing fully reproducible code.
+:::
