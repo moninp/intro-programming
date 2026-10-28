@@ -43,9 +43,12 @@ jobs:
         with:
           packages: |
             any::rmarkdown
+            any::tidyverse
 
       - name: Verify R setup
-        run: Rscript -e 'stopifnot(requireNamespace("rmarkdown", quietly = TRUE)); packageVersion("rmarkdown")'
+        run: 
+          Rscript -e 'stopifnot(requireNamespace("rmarkdown", quietly = TRUE))'
+          Rscript -e 'stopifnot(requireNamespace("tidyverse", quietly = TRUE))'
 
       - name: Render and Publish
         uses: quarto-dev/quarto-actions/publish@v2
