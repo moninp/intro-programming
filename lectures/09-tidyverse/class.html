@@ -1,0 +1,1083 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.19">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Lecture 9: Data Wrangling, Validation, and Tidy Data – Computing Using R &amp; Python</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-a14d652b86e00f03abd5043129e363d4.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Computing Using R &amp; Python</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../syllabus.html"> 
+<span class="menu-text">Syllabus</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../lectures.html"> 
+<span class="menu-text">Lectures</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../project.html"> 
+<span class="menu-text">Project</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#central-question" id="toc-central-question" class="nav-link active" data-scroll-target="#central-question">Central Question</a></li>
+  <li><a href="#quiz" id="toc-quiz" class="nav-link" data-scroll-target="#quiz">1. Quiz</a></li>
+  <li><a href="#exercise-1-tidy-data-and-tibbles" id="toc-exercise-1-tidy-data-and-tibbles" class="nav-link" data-scroll-target="#exercise-1-tidy-data-and-tibbles">Exercise 1: Tidy Data and Tibbles</a>
+  <ul class="collapse">
+  <li><a href="#exercise-1.1-tibble-versus-data.frame" id="toc-exercise-1.1-tibble-versus-data.frame" class="nav-link" data-scroll-target="#exercise-1.1-tibble-versus-data.frame">Exercise 1.1: tibble() versus data.frame()</a>
+  <ul class="collapse">
+  <li><a href="#just-in-time-concept-why-tibbles-print-differently" id="toc-just-in-time-concept-why-tibbles-print-differently" class="nav-link" data-scroll-target="#just-in-time-concept-why-tibbles-print-differently">Just-in-Time Concept: Why Tibbles Print Differently</a></li>
+  </ul></li>
+  <li><a href="#exercise-1.2-what-makes-data-tidy" id="toc-exercise-1.2-what-makes-data-tidy" class="nav-link" data-scroll-target="#exercise-1.2-what-makes-data-tidy">Exercise 1.2: What Makes Data “Tidy”?</a>
+  <ul class="collapse">
+  <li><a href="#just-in-time-concept-long-versus-wide-format" id="toc-just-in-time-concept-long-versus-wide-format" class="nav-link" data-scroll-target="#just-in-time-concept-long-versus-wide-format">Just-in-Time Concept: Long versus Wide Format</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#exercise-2-dplyr-verbs" id="toc-exercise-2-dplyr-verbs" class="nav-link" data-scroll-target="#exercise-2-dplyr-verbs">Exercise 2: dplyr Verbs</a>
+  <ul class="collapse">
+  <li><a href="#exercise-2.1-select-and-filter" id="toc-exercise-2.1-select-and-filter" class="nav-link" data-scroll-target="#exercise-2.1-select-and-filter">Exercise 2.1: select() and filter()</a>
+  <ul class="collapse">
+  <li><a href="#just-in-time-concept-the-pipe-operator" id="toc-just-in-time-concept-the-pipe-operator" class="nav-link" data-scroll-target="#just-in-time-concept-the-pipe-operator">Just-in-Time Concept: The Pipe Operator |&gt;</a></li>
+  </ul></li>
+  <li><a href="#exercise-2.2-mutate-and-arrange" id="toc-exercise-2.2-mutate-and-arrange" class="nav-link" data-scroll-target="#exercise-2.2-mutate-and-arrange">Exercise 2.2: mutate() and arrange()</a></li>
+  <li><a href="#exercise-2.3-group_by-and-summarise" id="toc-exercise-2.3-group_by-and-summarise" class="nav-link" data-scroll-target="#exercise-2.3-group_by-and-summarise">Exercise 2.3: group_by() and summarise()</a>
+  <ul class="collapse">
+  <li><a href="#just-in-time-concept-validating-a-transformation" id="toc-just-in-time-concept-validating-a-transformation" class="nav-link" data-scroll-target="#just-in-time-concept-validating-a-transformation">Just-in-Time Concept: Validating a Transformation</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#exercise-3-reshaping-with-tidyr" id="toc-exercise-3-reshaping-with-tidyr" class="nav-link" data-scroll-target="#exercise-3-reshaping-with-tidyr">Exercise 3: Reshaping with tidyr</a>
+  <ul class="collapse">
+  <li><a href="#exercise-3.1-pivot_longer" id="toc-exercise-3.1-pivot_longer" class="nav-link" data-scroll-target="#exercise-3.1-pivot_longer">Exercise 3.1: pivot_longer()</a></li>
+  <li><a href="#exercise-3.2-pivot_wider" id="toc-exercise-3.2-pivot_wider" class="nav-link" data-scroll-target="#exercise-3.2-pivot_wider">Exercise 3.2: pivot_wider()</a></li>
+  </ul></li>
+  <li><a href="#exercise-4-joins" id="toc-exercise-4-joins" class="nav-link" data-scroll-target="#exercise-4-joins">Exercise 4: Joins</a>
+  <ul class="collapse">
+  <li><a href="#exercise-4.1-keys-and-inner_join" id="toc-exercise-4.1-keys-and-inner_join" class="nav-link" data-scroll-target="#exercise-4.1-keys-and-inner_join">Exercise 4.1: Keys and inner_join()</a>
+  <ul class="collapse">
+  <li><a href="#just-in-time-concept-inner_join-versus-left_join" id="toc-just-in-time-concept-inner_join-versus-left_join" class="nav-link" data-scroll-target="#just-in-time-concept-inner_join-versus-left_join">Just-in-Time Concept: inner_join() versus left_join()</a></li>
+  </ul></li>
+  <li><a href="#exercise-4.2-many-to-many-joins-and-unexpected-duplication" id="toc-exercise-4.2-many-to-many-joins-and-unexpected-duplication" class="nav-link" data-scroll-target="#exercise-4.2-many-to-many-joins-and-unexpected-duplication">Exercise 4.2: Many-to-Many Joins and Unexpected Duplication</a></li>
+  </ul></li>
+  <li><a href="#exercise-5-major-investigation-building-a-validated-analysis-dataset" id="toc-exercise-5-major-investigation-building-a-validated-analysis-dataset" class="nav-link" data-scroll-target="#exercise-5-major-investigation-building-a-validated-analysis-dataset">Exercise 5: Major Investigation – Building a Validated Analysis Dataset</a></li>
+  <li><a href="#looking-ahead" id="toc-looking-ahead" class="nav-link" data-scroll-target="#looking-ahead">Looking Ahead</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Lecture 9: Data Wrangling, Validation, and Tidy Data</h1>
+<p class="subtitle lead">MATH 5200 – Computing Using R &amp; Python</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="central-question" class="level1">
+<h1>Central Question</h1>
+<blockquote class="blockquote">
+<p><strong>How do we transform messy observations into a trustworthy analytical dataset?</strong></p>
+</blockquote>
+<p>Last lecture, we built a bridge from Python to base R: vectors, data frames, functions, and the habit of thinking in vectorized operations rather than explicit loops. Today we build on top of that foundation with the <strong>tidyverse</strong>, a family of packages that gives R a consistent grammar for the single most common task in applied computing: turning raw, messy data into something you can trust well enough to analyze.</p>
+<p>Real data rarely arrives ready for analysis. You will typically have several related files – some long, some wide, some with duplicate records, some with missing values – and your job is to combine them correctly into one clean analysis dataset. “Correctly” is the operative word. A join that silently duplicates rows, or a pivot that silently drops observations, can produce a dataset that <em>looks</em> fine and is <em>completely wrong</em>. Today’s lecture is about both the tools (<code>dplyr</code>, <code>tidyr</code>, joins) and the habit that makes those tools safe to use: <strong>validating every transformation you perform.</strong></p>
+<p>We will work throughout with a small infectious disease dataset: daily case counts by region, population figures by region, and a lookup table of which country each region belongs to. By the end of class, you will have combined these into a single validated analysis dataset – exactly the kind of task you will repeat, at larger scale, in tonight’s homework.</p>
+</section>
+<section id="quiz" class="level1">
+<h1>1. Quiz</h1>
+<p>Before we begin, complete the short quiz covering Lecture 8 (Python-to-R translation). It should take about 10 minutes.</p>
+</section>
+<section id="exercise-1-tidy-data-and-tibbles" class="level1">
+<h1>Exercise 1: Tidy Data and Tibbles</h1>
+<section id="exercise-1.1-tibble-versus-data.frame" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-1.1-tibble-versus-data.frame">Exercise 1.1: tibble() versus data.frame()</h2>
+<p>Last lecture we used base R’s <code>data.frame()</code>. The tidyverse provides <code>tibble()</code>, a modernized data frame with more predictable printing and fewer surprising defaults.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Illustrative only -- the full exercise is in class.R</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">y =</span> <span class="fu">c</span>(<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span>))</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>tb <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">y =</span> <span class="fu">c</span>(<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<blockquote class="blockquote">
+<p><strong>See Exercise 1.1 in <code>class.R</code>.</strong></p>
+</blockquote>
+<section id="just-in-time-concept-why-tibbles-print-differently" class="level3">
+<h3 class="anchored" data-anchor-id="just-in-time-concept-why-tibbles-print-differently">Just-in-Time Concept: Why Tibbles Print Differently</h3>
+<p>A classic base R annoyance: <code>print()</code>-ing a large data frame dumps every row to the console. Tibbles print only the first 10 rows by default, along with the dimensions and column types, which is almost always what you want when exploring data.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.2.1     ✔ readr     2.2.0
+✔ forcats   1.0.1     ✔ stringr   1.6.0
+✔ ggplot2   4.0.3     ✔ tibble    3.3.1
+✔ lubridate 1.9.5     ✔ tidyr     1.3.2
+✔ purrr     1.2.2     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>big_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">200</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>big_tb <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">200</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># base data.frame prints all 200 rows if you ask for it -- noisy</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(big_df, <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  x
+1 1
+2 2
+3 3</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># tibble's default print is deliberately compact</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>big_tb</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 200 × 1
+       x
+   &lt;int&gt;
+ 1     1
+ 2     2
+ 3     3
+ 4     4
+ 5     5
+ 6     6
+ 7     7
+ 8     8
+ 9     9
+10    10
+# ℹ 190 more rows</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Tibbles Are Still Data Frames
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A tibble <em>is</em> a data frame – <code>is.data.frame(tb)</code> returns <code>TRUE</code>. Everything you learned about <code>df$col</code>, <code>df[rows, cols]</code>, and logical filtering in Lecture 8 still works. Tibbles simply layer nicer defaults (printing, stricter subsetting, no silent factor conversion) on top of the same underlying structure. From here on, we will default to <code>tibble()</code> and the tidyverse functions that return tibbles automatically.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-1.2-what-makes-data-tidy" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-1.2-what-makes-data-tidy">Exercise 1.2: What Makes Data “Tidy”?</h2>
+<p>Hadley Wickham’s tidy data principles give us a precise target to aim for:</p>
+<ol type="1">
+<li>Every <strong>variable</strong> is a column.</li>
+<li>Every <strong>observation</strong> is a row.</li>
+<li>Every <strong>value</strong> is a single cell.</li>
+</ol>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Illustrative only -- the full exercise is in class.R</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>wide_cases <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">region =</span> <span class="fu">c</span>(<span class="st">"North"</span>, <span class="st">"South"</span>),</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">cases_day1 =</span> <span class="fu">c</span>(<span class="dv">12</span>, <span class="dv">8</span>),</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">cases_day2 =</span> <span class="fu">c</span>(<span class="dv">15</span>, <span class="dv">10</span>)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<blockquote class="blockquote">
+<p><strong>See Exercise 1.2 in <code>class.R</code>.</strong></p>
+</blockquote>
+<section id="just-in-time-concept-long-versus-wide-format" class="level3">
+<h3 class="anchored" data-anchor-id="just-in-time-concept-long-versus-wide-format">Just-in-Time Concept: Long versus Wide Format</h3>
+<p>The table above is in <strong>wide</strong> format: each day is its own column. This is often how data is <em>recorded</em> (e.g., a spreadsheet with one column per date), but it is rarely how data should be <em>analyzed</em>. In <strong>long</strong> format, “day” becomes a variable (a column) and each row is a single region-day observation.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>wide_example <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">region =</span> <span class="fu">c</span>(<span class="st">"North"</span>, <span class="st">"South"</span>),</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">day1 =</span> <span class="fu">c</span>(<span class="dv">12</span>, <span class="dv">8</span>),</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">day2 =</span> <span class="fu">c</span>(<span class="dv">15</span>, <span class="dv">10</span>)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>wide_example</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 3
+  region  day1  day2
+  &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt;
+1 North     12    15
+2 South      8    10</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>long_example <span class="ot">&lt;-</span> wide_example <span class="sc">|&gt;</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">c</span>(day1, day2), <span class="at">names_to =</span> <span class="st">"day"</span>, <span class="at">values_to =</span> <span class="st">"cases"</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>long_example</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 3
+  region day   cases
+  &lt;chr&gt;  &lt;chr&gt; &lt;dbl&gt;
+1 North  day1     12
+2 North  day2     15
+3 South  day1      8
+4 South  day2     10</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Why Representation Matters
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Grouping, filtering, and summarizing by day are awkward or impossible in wide format – “day” is not a column you can <code>group_by()</code>. The same operations are trivial once the data is long. Choosing the right shape is not cosmetic; it determines which questions you can easily ask.</p>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="exercise-2-dplyr-verbs" class="level1">
+<h1>Exercise 2: dplyr Verbs</h1>
+<section id="exercise-2.1-select-and-filter" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-2.1-select-and-filter">Exercise 2.1: select() and filter()</h2>
+<p><code>select()</code> picks columns; <code>filter()</code> picks rows based on a logical condition – the tidyverse equivalents of the column- and row-subsetting you did with brackets in Lecture 8.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Illustrative only -- the full exercise is in class.R</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>daily_cases <span class="sc">|&gt;</span> <span class="fu">select</span>(region, date, new_cases)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>daily_cases <span class="sc">|&gt;</span> <span class="fu">filter</span>(new_cases <span class="sc">&gt;</span> <span class="dv">50</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<blockquote class="blockquote">
+<p><strong>See Exercise 2.1 in <code>class.R</code>.</strong></p>
+</blockquote>
+<section id="just-in-time-concept-the-pipe-operator" class="level3">
+<h3 class="anchored" data-anchor-id="just-in-time-concept-the-pipe-operator">Just-in-Time Concept: The Pipe Operator |&gt;</h3>
+<p>The native pipe <code>|&gt;</code> takes the result of the expression on its left and feeds it as the first argument to the function on its right. It reads top-to-bottom as “take this, then do that,” which is far more readable than nesting function calls.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">1</span>, <span class="dv">9</span>, <span class="dv">2</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sort</span>(x)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1 2 4 9</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>x <span class="sc">|&gt;</span> <span class="fu">sort</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1 2 4 9</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>x <span class="sc">|&gt;</span> <span class="fu">sort</span>() <span class="sc">|&gt;</span> <span class="fu">rev</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 9 4 2 1</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>|&gt; versus %&gt;%
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You will see an older pipe, <code>%&gt;%</code>, from the <code>magrittr</code> package (loaded automatically by the tidyverse) in a great deal of existing R code. <code>|&gt;</code> is R’s native pipe (R 4.1+) and behaves almost identically. We will use <code>|&gt;</code> throughout this course, but you should recognize <code>%&gt;%</code> when you encounter it elsewhere.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-2.2-mutate-and-arrange" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-2.2-mutate-and-arrange">Exercise 2.2: mutate() and arrange()</h2>
+<p><code>mutate()</code> creates or modifies columns; <code>arrange()</code> sorts rows.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Illustrative only -- the full exercise is in class.R</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>daily_cases <span class="sc">|&gt;</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">cases_per_10k =</span> new_cases <span class="sc">/</span> population <span class="sc">*</span> <span class="dv">10000</span>) <span class="sc">|&gt;</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(cases_per_10k))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<blockquote class="blockquote">
+<p><strong>See Exercise 2.2 in <code>class.R</code>.</strong></p>
+</blockquote>
+</section>
+<section id="exercise-2.3-group_by-and-summarise" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-2.3-group_by-and-summarise">Exercise 2.3: group_by() and summarise()</h2>
+<p><code>group_by()</code> followed by <code>summarise()</code> is the tidyverse’s answer to split-apply-combine – directly analogous to pandas’ <code>groupby()</code>, which you used extensively in Python.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Illustrative only -- the full exercise is in class.R</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>daily_cases <span class="sc">|&gt;</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(region) <span class="sc">|&gt;</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">total_cases =</span> <span class="fu">sum</span>(new_cases), <span class="at">n_days =</span> <span class="fu">n</span>())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<blockquote class="blockquote">
+<p><strong>See Exercise 2.3 in <code>class.R</code>.</strong></p>
+</blockquote>
+<section id="just-in-time-concept-validating-a-transformation" class="level3">
+<h3 class="anchored" data-anchor-id="just-in-time-concept-validating-a-transformation">Just-in-Time Concept: Validating a Transformation</h3>
+<p>Every time you transform data, check that the result is what you expect. After a <code>group_by() |&gt; summarise()</code>, a natural check is: does the number of groups match what you expected, and do grouped totals sum back to the original total?</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>small <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">region =</span> <span class="fu">c</span>(<span class="st">"A"</span>, <span class="st">"A"</span>, <span class="st">"B"</span>), <span class="at">value =</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">5</span>))</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>summarised <span class="ot">&lt;-</span> small <span class="sc">|&gt;</span> <span class="fu">group_by</span>(region) <span class="sc">|&gt;</span> <span class="fu">summarise</span>(<span class="at">total =</span> <span class="fu">sum</span>(value))</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>summarised</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 2
+  region total
+  &lt;chr&gt;  &lt;dbl&gt;
+1 A         30
+2 B          5</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Validation: grouped totals should sum to the original total</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(summarised<span class="sc">$</span>total) <span class="sc">==</span> <span class="fu">sum</span>(small<span class="sc">$</span>value)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Validation Is Not Optional
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A pipeline that runs without error is not the same as a pipeline that is correct. Throughout today’s exercises, after each major transformation, we will explicitly check row counts, uniqueness of identifiers, missing values, or known totals. Build this habit now; it is the single most important skill in this lecture.</p>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="exercise-3-reshaping-with-tidyr" class="level1">
+<h1>Exercise 3: Reshaping with tidyr</h1>
+<section id="exercise-3.1-pivot_longer" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-3.1-pivot_longer">Exercise 3.1: pivot_longer()</h2>
+<p>Our geographic lookup arrives in a wide format with one column per year; we need it long for joining against yearly case data.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Illustrative only -- the full exercise is in class.R</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>population_wide <span class="sc">|&gt;</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">starts_with</span>(<span class="st">"pop_"</span>), <span class="at">names_to =</span> <span class="st">"year"</span>, <span class="at">values_to =</span> <span class="st">"population"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<blockquote class="blockquote">
+<p><strong>See Exercise 3.1 in <code>class.R</code>.</strong></p>
+</blockquote>
+</section>
+<section id="exercise-3.2-pivot_wider" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-3.2-pivot_wider">Exercise 3.2: pivot_wider()</h2>
+<p><code>pivot_wider()</code> reverses the operation – useful for producing a human-readable summary table at the end of an analysis, even though long format is usually preferred during analysis itself.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Illustrative only -- the full exercise is in class.R</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>daily_cases <span class="sc">|&gt;</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(region, date) <span class="sc">|&gt;</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">total =</span> <span class="fu">sum</span>(new_cases)) <span class="sc">|&gt;</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> date, <span class="at">values_from =</span> total)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<blockquote class="blockquote">
+<p><strong>See Exercise 3.2 in <code>class.R</code>.</strong></p>
+</blockquote>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>A Validation Habit for Pivots
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>After any pivot, check <code>nrow()</code> and <code>ncol()</code> against what you expect: pivoting longer should multiply row count and divide column count in predictable ways (and vice versa for wider). If the numbers don’t match your mental arithmetic, something went wrong.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-4-joins" class="level1">
+<h1>Exercise 4: Joins</h1>
+<section id="exercise-4.1-keys-and-inner_join" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-4.1-keys-and-inner_join">Exercise 4.1: Keys and inner_join()</h2>
+<p>A <strong>primary key</strong> uniquely identifies each row in a table (e.g., <code>region</code> in our population table). A <strong>foreign key</strong> is a column in one table that refers to the primary key of another (e.g., <code>region</code> in our case-count table, referring back to the population table).</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Illustrative only -- the full exercise is in class.R</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>daily_cases <span class="sc">|&gt;</span> <span class="fu">inner_join</span>(population, <span class="at">by =</span> <span class="st">"region"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<blockquote class="blockquote">
+<p><strong>See Exercise 4.1 in <code>class.R</code>.</strong></p>
+</blockquote>
+<section id="just-in-time-concept-inner_join-versus-left_join" class="level3">
+<h3 class="anchored" data-anchor-id="just-in-time-concept-inner_join-versus-left_join">Just-in-Time Concept: inner_join() versus left_join()</h3>
+<p><code>inner_join()</code> keeps only rows with a match in both tables. <code>left_join()</code> keeps every row from the left table, filling in <code>NA</code> where no match exists in the right table.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>left_tbl <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">region =</span> <span class="fu">c</span>(<span class="st">"North"</span>, <span class="st">"South"</span>, <span class="st">"East"</span>), <span class="at">cases =</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">5</span>))</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>right_tbl <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">region =</span> <span class="fu">c</span>(<span class="st">"North"</span>, <span class="st">"South"</span>), <span class="at">population =</span> <span class="fu">c</span>(<span class="dv">1000</span>, <span class="dv">2000</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>left_tbl <span class="sc">|&gt;</span> <span class="fu">inner_join</span>(right_tbl, <span class="at">by =</span> <span class="st">"region"</span>)  <span class="co"># "East" is dropped</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 3
+  region cases population
+  &lt;chr&gt;  &lt;dbl&gt;      &lt;dbl&gt;
+1 North     10       1000
+2 South     20       2000</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>left_tbl <span class="sc">|&gt;</span> <span class="fu">left_join</span>(right_tbl, <span class="at">by =</span> <span class="st">"region"</span>)   <span class="co"># "East" kept, population is NA</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 3
+  region cases population
+  &lt;chr&gt;  &lt;dbl&gt;      &lt;dbl&gt;
+1 North     10       1000
+2 South     20       2000
+3 East       5         NA</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Choosing inner_join() versus left_join()
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Use <code>inner_join()</code> when a missing match genuinely means “this observation cannot be analyzed.” Use <code>left_join()</code> when you want to keep every original observation and explicitly see where information is missing (so you can investigate, rather than silently losing data). Silently choosing the wrong one is a common source of analysis errors.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-4.2-many-to-many-joins-and-unexpected-duplication" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-4.2-many-to-many-joins-and-unexpected-duplication">Exercise 4.2: Many-to-Many Joins and Unexpected Duplication</h2>
+<p>A <strong>many-to-one</strong> relationship (many case records joining to one population row per region) is safe: it does not change the number of rows beyond what you expect. A <strong>many-to-many</strong> relationship – where the join key is not unique in <em>either</em> table – can silently multiply rows.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Illustrative only -- the full exercise is in class.R</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>daily_cases <span class="sc">|&gt;</span> <span class="fu">inner_join</span>(variant_surveillance, <span class="at">by =</span> <span class="st">"region"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<blockquote class="blockquote">
+<p><strong>See Exercise 4.2 in <code>class.R</code>.</strong></p>
+</blockquote>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Row Counts Before and After a Join Are Not Optional to Check
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Before any join, check whether your key is unique in each table with something like <code>anyDuplicated(table$key) == 0</code>. After any join, compare <code>nrow()</code> of the result to what you expected. A row count that is larger than either input table is a strong signal of unintended many-to-many duplication.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-5-major-investigation-building-a-validated-analysis-dataset" class="level1">
+<h1>Exercise 5: Major Investigation – Building a Validated Analysis Dataset</h1>
+<p>We now combine everything: daily case counts, a population lookup, and a country/region geographic lookup, into a single tidy, validated analysis dataset – then compute cases per 10,000 population by country.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Illustrative only -- the full exercise is in class.R</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>analysis_data <span class="ot">&lt;-</span> daily_cases <span class="sc">|&gt;</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(population, <span class="at">by =</span> <span class="st">"region"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(geography, <span class="at">by =</span> <span class="st">"region"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<blockquote class="blockquote">
+<p><strong>See Exercise 5.1 in <code>class.R</code>.</strong></p>
+</blockquote>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Validation Checklist for a Finished Analysis Dataset
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Before trusting a combined dataset, check:</p>
+<ul>
+<li>Row count matches your expectation (e.g., equal to the original case-count table, if you used <code>left_join()</code> throughout, or appropriately smaller for <code>inner_join()</code>)</li>
+<li>No unexpected duplicate (region, date) combinations</li>
+<li>No unexpected missing values introduced by the join</li>
+<li>A known total (e.g., total cases) matches the sum before and after the join</li>
+<li>Derived variables (like cases per 10,000) fall within a sane range</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="looking-ahead" class="level1">
+<h1>Looking Ahead</h1>
+<p>Today you learned to reshape, filter, group, join, and – most importantly – validate real data using the tidyverse. Next lecture moves from data wrangling to <strong>statistical computing</strong>: simulation, Monte Carlo reasoning, sampling distributions, and basic regression. The validated analysis dataset you can now construct is exactly the kind of input a statistical analysis depends on; next lecture assumes you can get to a trustworthy dataset so that we can focus on what the data tells us about an underlying random process.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Homework Preview
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Tonight’s homework is a substantial data-wrangling assignment: you will combine multiple files, perform joins, reshape data, create derived variables, and validate every step, writing fully reproducible code.</p>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/moninp\.github\.io\/intro-programming\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
