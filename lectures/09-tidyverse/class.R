@@ -1,9 +1,3 @@
-
----
-
-# class.R
-
-```r
 # =============================================================================
 # Lecture 9: Data Wrangling, Validation, and Tidy Data
 # Live Coding Script (Stub)
@@ -71,7 +65,6 @@ variant_surveillance <- tibble(
 # tibble(). Print both. Then check is.data.frame() on the tibble.
 
 # TODO: work this out live in class
-# PAUSE: ask students what differences they notice in the printed output
 
 # ---- Your Turn 1.2: What Makes Data "Tidy"? ----
 #
@@ -109,8 +102,6 @@ wide_cases <- tibble(
 #   (b) filter() to keep only rows where new_cases > 15.
 
 # TODO: work this out live in class
-# PAUSE: ask students to predict how many rows survive the filter
-#        before running it
 
 # ---- Your Turn 2.2: mutate() and arrange() ----
 #
@@ -131,7 +122,6 @@ wide_cases <- tibble(
 #       regions equals sum(daily_cases$new_cases).
 
 # TODO: work this out live in class
-# PAUSE: this validation step is not optional -- make sure it runs
 
 # =============================================================================
 # Exercise 3: Reshaping with tidyr
@@ -160,7 +150,6 @@ wide_cases <- tibble(
 #       plus the number of distinct dates.
 
 # TODO: work this out live in class
-# PAUSE: ask students to predict ncol() of the result before checking
 
 # =============================================================================
 # Exercise 4: Joins
@@ -188,8 +177,6 @@ wide_cases <- tibble(
 #     signal a mistake?
 
 # TODO: work this out live in class
-# PAUSE: have students predict nrow() of the joined result BEFORE
-#        running it -- most will underestimate it
 
 # =============================================================================
 # Exercise 5: Major Investigation -- Building a Validated Analysis Dataset
@@ -218,5 +205,3 @@ wide_cases <- tibble(
 #     plausible magnitude (not in the millions, for example).
 
 # TODO: work this out live in class
-# PAUSE: walk through each validation check explicitly and discuss
-#        what a failure would have meant
