@@ -12,12 +12,6 @@
 # - When asked to predict output, make your prediction in a comment first.
 # - Your code should run from top to bottom without requiring manual input.
 #
-# A note on this assignment: the underlying concepts here are all things
-# you already know well from Python. The goal tonight is reps, not
-# difficulty -- lots of short, focused exercises so that R syntax starts
-# to feel automatic rather than something you have to consciously
-# translate every time. Work through every sub-problem, even the ones
-# that feel almost too easy; that repetition is the point.
 # =============================================================================
 
 # =============================================================================
@@ -44,7 +38,7 @@ answer_1a_length <- NULL
 #     expression, not a loop. Store the result (a vector of length 7)
 #     in daily_change.
 #
-# Hint: prices[2:8] - prices[1:7]
+# Hint: prices[2:8] gets the prices for days 2 through 8 in one vector.
 
 daily_change <- NULL
 
@@ -353,18 +347,3 @@ moving_average <- function(x, window) {
 }
 
 answer_7a_test <- NULL  # call moving_average(daily_high_f, 3) here
-
-"
-Expected time: 3-5 hours for students still building R fluency.
-
-Main concepts practiced:
-
-- Creating and inspecting vectors, lists, and data frames
-- Vectorized arithmetic and comparisons
-- Logical filtering on vectors and data frames
-- NA-aware computation (sum, mean, custom functions)
-- Writing and testing simple R functions
-- for loops versus vectorized/built-in alternatives (cumsum, etc.)
-- rep() with each= versus times=
-- Translating a complete small Python/NumPy analysis into R
-"

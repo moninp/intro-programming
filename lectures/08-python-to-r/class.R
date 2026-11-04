@@ -27,9 +27,8 @@
 # Then use class() to check the type of each (R's version of
 # Python's type()).
 
-# TODO: work this out live in class
-# PAUSE: ask students to predict what class() will report for each
-
+x <- 10
+y <- "hello"
 
 # ---- Your Turn 1.2: Vectors -- The Atomic Unit of R ----
 #
@@ -39,8 +38,11 @@
 # Create an R vector called scores holding the same four values,
 # using c(). Then check its length() and class().
 
-# TODO: work this out live in class
-# PAUSE: ask students what happens if they mix a string into c(85, 92, "x")
+scores <- c(85,92,78,95)
+
+scores_ <- c(85,92,78,95,"phil")
+
+# note that scores_ runs without an error, but produces elements that are character type
 
 
 # ---- Your Turn 1.3: Vectorized Comparisons and Logical Filtering ----
@@ -52,7 +54,10 @@
 # In Python/NumPy this would be:
 #   scores[scores > 90]
 
-# TODO: work this out live in class
+scores <- c(85, 92, 78, 95)
+scores > 90
+
+scores[scores > 90]
 
 
 # =============================================================================
@@ -65,7 +70,10 @@
 #   a logical value, an integer (using the L suffix), a double, and
 #   a character string. Confirm each type with class().
 
-# TODO: work this out live in class
+alogical <- TRUE
+aninteger <- 13L
+adouble = 3.14
+achar <- "math5200"
 
 
 # ---- Your Turn 2.2: Missing Values -- NA ----
@@ -74,8 +82,13 @@
 #   (a) Compute sum() on it directly -- what happens?
 #   (b) Compute sum() again, this time removing NA values.
 
-# TODO: work this out live in class
-# PAUSE: ask students to predict the output of sum() BEFORE running it
+p = c(1,2,NA,4)
+sum(p)
+# NA
+sum(p, na.rm=T)
+# 7
+
+
 
 
 # ---- Your Turn 2.3: Lists ----
@@ -87,8 +100,9 @@
 #
 # Then access each element using the $ operator, e.g. person$name.
 
-# TODO: work this out live in class
+person = list(name = 'Portia', age = 23, languages=c('French','English','Twi') )
 
+print(person$name)
 
 # ---- Your Turn 2.4: Data Frames ----
 #
@@ -98,16 +112,25 @@
 #
 # Inspect it with str() and summary().
 
-# TODO: work this out live in class
+df <- data.frame( name = c('Ada','Grace','Alan'),
+                  score = c(92,88,95)
+                  )
 
+str(df)
+
+summary(df)
 
 # ---- Your Turn 2.5: Logical Filtering of Data Frames ----
 #
 # Using the df object from 2.4, extract only the rows where score
 # is greater than 90. Recall the bracket syntax: df[condition, ]
 
-# TODO: work this out live in class
-# PAUSE: ask students why there is a comma inside the brackets
+# Several ways
+df[ df$score > 90 , ]
+
+df[ df['score'] > 90 , ]
+
+df[ df[2] > 90 , ]
 
 
 # =============================================================================
@@ -119,7 +142,9 @@
 # Write a function called cube that takes a single argument x and
 # returns x raised to the third power. Test it on a few values.
 
-# TODO: work this out live in class
+cube <- function(x){
+  return(x^3)
+}
 
 
 # ---- Your Turn 3.2: for Loops ----
@@ -129,7 +154,10 @@
 #
 # Reminder: R's 1:5 includes both endpoints.
 
-# TODO: work this out live in class
+for (it in 1:5){
+  print(cube(it))
+}
+
 
 
 # ---- Your Turn 3.3: while Loops ----
@@ -137,7 +165,14 @@
 # Using a while loop, print successive powers of 2 (2, 4, 8, 16, ...)
 # as long as the value stays below 100.
 
-# TODO: work this out live in class
+n = 1
+while (2^n < 100){
+  print(2^n)
+  n <- n+1
+}
+
+
+
 
 
 # ---- Your Turn 3.4: Vectorization Instead of Loops ----
@@ -151,9 +186,17 @@
 
 values <- c(1, 2, 3, 4, 5)
 
-# TODO: work this out live in class
-# PAUSE: ask students which version they find easier to read, and why
+values^3
 
+cubed_values = numeric(length(values))
+for (i in seq_along(values)){
+  cubed_values[i] = values[i]^3
+}
+
+cubed_values = numeric(length(values))
+for (i in values){
+  cubed_values[i] = values[i]^3
+}
 
 # ---- Your Turn 3.5: Scope ----
 #
@@ -197,9 +240,22 @@ values <- c(1, 2, 3, 4, 5)
 
 set.seed(42)
 
-# TODO: work this out live in class
-# PAUSE: discuss how rep(c("A", "B"), each = 10) differs from
-#        rep(c("A", "B"), times = 10)
+sample = rnorm(mean=0, sd=1, n=20)
+
+groups = c(rep('A',10), rep('B',10))
+
+# If we want the mean of the entries in sample that correspond to entries in groups
+# equal to "A" or "B"
+
+# Extract a logical vector indicating when groups is equal to "A":
+gA <-  ( groups == "A" )
+
+# Then, use this to index into sample, and compute the mean
+mean_A <- mean(sample[gA])
+
+# Then we can do the same for "B", this time directly
+mean_B <- mean(sample[groups == 'B'])
+
 
 
 # ---- Your Turn 4.2 (Optional, Time Permitting): Write a Reusable Function ----

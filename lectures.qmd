@@ -23,5 +23,5 @@ Lecture materials are organized by week. Each lecture generally has two componen
 | Lecture 6: Testing, Debugging, and AI-Assisted Programming | [class](lectures/06-test-debug-ai/class.qmd) | -- | -- |
 | Lecture 7: First Steps with R | [class](lectures/07-first-r/class.qmd) | -- | -- |
 | Lecture 8: Python to R -- Two Languages, One Computational Model | [class](lectures/08-python-to-r/class.qmd) | [notes](lectures/08-python-to-r/notes.qmd) | -- |
-
+| Lecture 9: Data Wrangling, Validation, and Tidy Data | [class](lectures/09-tidyverse/class.qmd) | -- | -- |
 The lecture schedule and materials will develop as the semester progresses.
