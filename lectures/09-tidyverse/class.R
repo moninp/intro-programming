@@ -64,7 +64,17 @@ variant_surveillance <- tibble(
 # Create the same small table two ways: as a data.frame() and as a
 # tibble(). Print both. Then check is.data.frame() on the tibble.
 
-# TODO: work this out live in class
+daily_cases_df <- data.frame(
+  region = rep(c("North", "South", "East", "West"), each = 5),
+  date = rep(as.Date("2026-01-01") + 0:4, times = 4),
+  new_cases = c(
+    12, 15, 9, 20, 18,    # North
+    8, 10, 7, 11, 9,      # South
+    30, 28, 35, 40, 38,   # East
+    5, 6, 4, 7, 6         # West
+  )
+)
+
 
 # ---- Your Turn 1.2: What Makes Data "Tidy"? ----
 #
@@ -84,7 +94,12 @@ variant_surveillance <- tibble(
 wide_cases <- tibble(
   region = c("North", "South"),
   cases_day1 = c(12, 8),
-  cases_day2 = c(15, 10)
+  cases_day2 = c(15, 10),
+  cases_day3 = c(4, 10),
+  cases_day4 = c(11, 7),
+  cases_day5 = c(12, 4),
+  cases_day6 = c(11, 7),
+  cases_day7 = c(8, 10)
 )
 
 # TODO: work this out live in class
@@ -101,7 +116,7 @@ wide_cases <- tibble(
 #       select() by reordering them: date, region, new_cases).
 #   (b) filter() to keep only rows where new_cases > 15.
 
-# TODO: work this out live in class
+daily_cases |> select(date, region, new_cases) |> filter(new_cases > 15)
 
 # ---- Your Turn 2.2: mutate() and arrange() ----
 #
@@ -111,17 +126,26 @@ wide_cases <- tibble(
 #   (b) Arrange the result in descending order of cases_per_10k.
 #   (c) Which region-date combination has the highest rate?
 
-# TODO: work this out live in class
+daily_cases2_tibble <- daily_cases |> 
+  inner_join(population, by="region") |> 
+  mutate(cases_per_10k = new_cases / population * 10000) |> 
+  arrange(desc(cases_per_10k))
 
-# ---- Your Turn 2.3: group_by() and summarise() ----
+daily_cases2 = merge(daily_cases, population, by="region", all.x=F, all.y=F)
+daily_cases2$cases_per_10k = daily_cases2$new_cases / daily_cases2$population *10000
+daily_cases2 = daily_cases2[order(-daily_cases2$cases_per_10k),]
+
+# |> ---- Your Turn 2.3: group_by() and summarise() ----
 #
-# Using daily_cases:
-#   (a) Group by region and compute total_cases = sum(new_cases) and
-#       n_days = n() (the number of rows per group).
-#   (b) VALIDATE: confirm that the sum of total_cases across all
-#       regions equals sum(daily_cases$new_cases).
+# Using daily_cases: (a) Group by region and compute total_cases =
+# sum(new_cases) and n_days = n() (the number of rows per group). (b) VALIDATE:
+# confirm that the sum of total_cases across all regions equals
+# sum(daily_cases$new_cases).
 
-# TODO: work this out live in class
+daily_cases |> 
+  group_by(region) |> 
+  summarize(total_cases = sum(new_cases, na.rm=T),
+            n_days = n())
 
 # =============================================================================
 # Exercise 3: Reshaping with tidyr
@@ -136,7 +160,7 @@ wide_cases <- tibble(
 #   (b) VALIDATE: the resulting table should have
 #       nrow(population_wide) * 3 rows. Check this with nrow().
 
-# TODO: work this out live in class
+population_wide |> pivot_longer(cols=starts_with("pop_")g |> |> , names_to="year", values_to="population")
 
 # ---- Your Turn 3.2: pivot_wider() ----
 #
@@ -149,8 +173,16 @@ wide_cases <- tibble(
 #   (c) VALIDATE: the number of columns should equal 1 (for region)
 #       plus the number of distinct dates.
 
-# TODO: work this out live in class
+#a
+daily_cases |> 
+  group_by(region,date) |> 
+  summarize(new_cases = sum(new_cases))
 
+#b
+daily_cases |> 
+  group_by(region,date) |> 
+  summarize(new_cases = sum(new_cases)) |> 
+  pivot_wider(names_from="date", values_from="new_cases")
 # =============================================================================
 # Exercise 4: Joins
 # =============================================================================
@@ -164,7 +196,9 @@ wide_cases <- tibble(
 #     as daily_cases, since every region in daily_cases has a match
 #     in population (a many-to-one relationship).
 
-# TODO: work this out live in class
+left_tbl <- tibble(region = c("North", "South", "East"), cases = c(10, 20, 5))
+right_tbl <- tibble(region = c("North", "South","West"), population = c(1000, 2000,3000))
+
 
 # ---- Your Turn 4.2: Many-to-Many Joins and Unexpected Duplication ----
 #
@@ -176,7 +210,13 @@ wide_cases <- tibble(
 # (d) Discuss: is this duplication ever desirable? When would it
 #     signal a mistake?
 
-# TODO: work this out live in class
+x = daily_cases |> inner_join(variant_surveillance, by="region")
+
+daily_cases |> group_by(region) |> summarize(total_cases = sum(new_cases))
+
+
+x |> group_by(region) |> summarize(total_cases = sum(new_cases))
+
 
 # =============================================================================
 # Exercise 5: Major Investigation -- Building a Validated Analysis Dataset
@@ -204,4 +244,22 @@ wide_cases <- tibble(
 #   - cases_per_10k values should all be positive and of a
 #     plausible magnitude (not in the millions, for example).
 
-# TODO: work this out live in class
+analysis_data <- daily_cases |> 
+  inner_join(population, by='region') |> 
+  inner_join(geography, by='region')
+
+analysis_data <- analysis_data |> 
+  mutate(cases_per_10k = new_cases / population * 10000)
+
+result <- analysis_data |> 
+  group_by(country, date) |> 
+  summarize(total_cases = sum(new_cases),
+            total_cases_per_10k = sum(cases_per_10k))
+
+daily_cases |> 
+  inner_join(population, by='region') |> 
+  inner_join(geography, by='region') |> 
+  mutate(cases_per_10k = new_cases / population * 10000) |> 
+  group_by(country, date) |> 
+  summarize(total_cases = sum(new_cases),
+            total_cases_per_10k = sum(cases_per_10k))

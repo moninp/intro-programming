@@ -15,12 +15,6 @@
 #   comment or as executed code. This is not optional -- it is graded.
 # - Your code should run from top to bottom without requiring manual input.
 #
-# A note on this assignment: in class we worked with a single small
-# infectious disease example. Tonight's assignment uses several
-# different domains and several related tables per problem, so you get
-# real practice deciding WHICH join to use, WHICH shape the data needs
-# to be in, and HOW to validate that your transformation did what you
-# intended -- not just reproducing a pattern you already saw in class.
 # =============================================================================
 
 library(tidyverse)
@@ -366,20 +360,3 @@ answer_5d_after <- NULL
 # known relationship), and explain in a comment what it confirms.
 
 region_year_summary <- NULL
-
-"
-Expected time: 4-6 hours.
-
-Main concepts practiced:
-
-- dplyr core verbs: select(), filter(), mutate(), arrange(), group_by(),
-  summarise()
-- tidyr reshaping: pivot_longer(), pivot_wider()
-- Choosing between inner_join()/left_join() based on desired behavior
-  for unmatched rows
-- Diagnosing many-to-one versus many-to-many join relationships using
-  anyDuplicated()
-- Validating every major transformation: row counts, uniqueness,
-  missing values, known totals
-- Writing fully reproducible, pipe-based (|>) R code
-"
