@@ -1,0 +1,472 @@
+---
+title: "Lecture 9 -- Data Wrangling, Validation, and Tidy Data"
+subtitle: "Background Notes"
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    code-fold: false
+---
+
+# 1. Introduction
+
+These notes provide a systematic reference for the tidyverse concepts introduced in Lecture 9's `class.qmd` and `class.R`. Lecture 8 established that R's native data structures -- vectors, lists, data frames -- map closely onto concepts you already knew from Python and NumPy. Today's lecture builds a layer on top of base R called the **tidyverse**, a collection of packages sharing a common design philosophy and a consistent function-naming grammar.
+
+If you have used pandas in Python, nearly everything in this lecture will feel like a notational variant of something you already know: `select()` is column subsetting, `filter()` is row subsetting, `group_by()` plus `summarise()` is `groupby()` plus aggregation, and joins are joins. The genuinely new material in this lecture is not primarily about syntax -- it is about **validation discipline**: the habit of checking, after every transformation, that your data still means what you think it means.
+
+This habit matters more as your pipelines grow longer. A single incorrect join or an unnoticed duplicate key can silently corrupt an entire downstream analysis while producing no error message at all. These notes treat validation as a first-class topic, not an afterthought.
+
+::: {.callout-note}
+## Scope
+This lecture introduces `dplyr` (data manipulation verbs), `tidyr` (reshaping), and joins (`dplyr`'s `*_join()` family). We do not yet cover `ggplot2` (visualization) or `purrr` (functional programming over lists), both of which appear later in the course.
+:::
+
+# 2. The Tidyverse as a Package Ecosystem
+
+## 2.1 Loading the Tidyverse
+
+```{r}
+library(tidyverse)
+```
+
+`library(tidyverse)` loads several packages at once: `dplyr`, `tidyr`, `ggplot2`, `readr`, `purrr`, `tibble`, `stringr`, and `forcats`, among others. You could load each individually (`library(dplyr)`, `library(tidyr)`, ...), but loading the umbrella package is standard practice for day-to-day work.
+
+## 2.2 Design Philosophy
+
+The tidyverse follows a few consistent conventions you will notice repeatedly:
+
+- Functions take a data frame/tibble as their **first argument**, which makes piping natural.
+- Column names are referenced **unquoted** inside tidyverse functions (`filter(df, score > 90)`, not `filter(df, df$score > 90)` or `filter(df, "score > 90")`).
+- Functions tend to return a new tibble rather than modifying data in place, matching R's general preference for immutability over Python's more common in-place mutation style (e.g., pandas' `inplace=True` has no tidyverse equivalent; you always get a new object back).
+
+```{r}
+small <- tibble(score = c(85, 92, 78))
+small |> filter(score > 90)   # unquoted column name
+small                          # original object unchanged
+```
+
+# 3. Tibbles
+
+## 3.1 Creating Tibbles
+
+```{r}
+tb <- tibble(x = 1:3, y = c("a", "b", "c"))
+tb
+```
+
+```{r}
+df <- data.frame(x = 1:3, y = c("a", "b", "c"))
+as_tibble(df)  # convert an existing data.frame to a tibble
+```
+
+## 3.2 How Tibbles Differ From data.frame
+
+| Behavior | `data.frame()` | `tibble()` |
+|---|---|---|
+| Printing large tables | prints every row unless truncated manually | prints first 10 rows, shows dimensions and types |
+| Character columns | historically auto-converted to factors (pre-R 4.0) | always kept as character |
+| Partial column name matching | `df$sco` may silently match `df$score` | `tb$sco` returns `NULL`, avoiding silent bugs |
+| Subsetting with `[` | may return a vector or a data frame depending on context | always returns a tibble, more predictable |
+
+```{r}
+tb <- tibble(score = c(85, 92, 78))
+tb$sco   # NULL -- no silent partial matching
+```
+
+```{r}
+df <- data.frame(score = c(85, 92, 78))
+df$sco   # historically could silently match "score" in some R versions
+```
+
+::: {.callout-tip}
+## A Tibble Is Still a Data Frame
+`is.data.frame(tb)` returns `TRUE` for a tibble. Everything you learned about bracket indexing and `$` extraction in Lecture 8 continues to work. Tibbles layer safer defaults on top, they do not replace the underlying concept.
+:::
+
+# 4. Tidy Data Principles
+
+## 4.1 The Three Rules
+
+A dataset is **tidy** when:
+
+1. Every variable forms a column.
+2. Every observation forms a row.
+3. Every value has its own cell.
+
+These rules sound almost trivial stated abstractly, but violating them is extremely common in real data, especially data exported from spreadsheets.
+
+## 4.2 Wide versus Long Format
+
+```{r}
+wide <- tibble(
+  region = c("North", "South"),
+  day1 = c(12, 8),
+  day2 = c(15, 10)
+)
+wide
+```
+
+Here, "day" is smeared across column *names* rather than appearing as a column of *values*. This violates tidy data rule 1: "day" is a variable, but it does not have its own column.
+
+```{r}
+long <- wide |> pivot_longer(cols = c(day1, day2), names_to = "day", values_to = "cases")
+long
+```
+
+## 4.3 Why Shape Matters for Analysis
+
+```{r}
+#| error: true
+# This FAILS conceptually: "day" is not a column we can group by in wide format
+# (illustrative -- day1/day2 are separate columns, not levels of a "day" variable)
+wide |> group_by(day) |> summarise(total = sum(cases))
+```
+
+```{r}
+# This WORKS once the data is long: day is a real column
+long |> group_by(day) |> summarise(total = sum(cases))
+```
+
+Wide format is often convenient for *display* (a summary table for a report) but long format is almost always correct for *analysis*. A useful habit: reshape to long as early as possible in a pipeline, and reshape back to wide, if needed, only at the very end for presentation.
+
+# 5. Core dplyr Verbs
+
+## 5.1 select()
+
+```{r}
+cases <- tibble(
+  region = c("North", "South"),
+  date = as.Date(c("2026-01-01", "2026-01-01")),
+  new_cases = c(12, 8),
+  notes = c("none", "none")
+)
+cases |> select(region, new_cases)
+```
+
+```{r}
+cases |> select(-notes)   # drop a column by name, with a minus sign
+```
+
+```{r}
+cases |> select(starts_with("new"))  # select by pattern
+```
+
+## 5.2 filter()
+
+```{r}
+cases |> filter(new_cases > 10)
+```
+
+```{r}
+cases |> filter(region == "North" & new_cases > 5)  # multiple conditions
+```
+
+::: {.callout-important}
+## == for Comparison, = for Naming Arguments
+Inside `filter()`, you compare with `==`, not `=`. Writing `filter(cases, region = "North")` does not filter at all -- it is interpreted as an attempt to name an argument, and will raise an error. This is a very common early mistake.
+:::
+
+## 5.3 mutate()
+
+```{r}
+cases |> mutate(cases_doubled = new_cases * 2)
+```
+
+```{r}
+# mutate() can reference a column you just created, in the same call
+cases |> mutate(cases_doubled = new_cases * 2,
+                 cases_quadrupled = cases_doubled * 2)
+```
+
+## 5.4 arrange()
+
+```{r}
+cases |> arrange(new_cases)          # ascending (default)
+cases |> arrange(desc(new_cases))     # descending
+```
+
+## 5.5 group_by() and summarise()
+
+```{r}
+grouped_example <- tibble(
+  region = c("North", "North", "South"),
+  new_cases = c(12, 15, 8)
+)
+grouped_example |>
+  group_by(region) |>
+  summarise(total_cases = sum(new_cases), n_days = n())
+```
+
+`n()` (no arguments) counts the number of rows in the current group -- there is no direct single-function pandas equivalent, though `.size()` after `groupby()` serves the same purpose.
+
+## 5.6 Grouped Mutate: mutate() After group_by()
+
+A powerful and sometimes under-appreciated pattern: `mutate()` after `group_by()` computes a value *per group* but keeps every original row (unlike `summarise()`, which collapses each group to one row).
+
+```{r}
+grouped_example |>
+  group_by(region) |>
+  mutate(region_total = sum(new_cases))
+```
+
+This is the tidyverse analogue of pandas' `df.groupby("region")["new_cases"].transform("sum")`.
+
+# 6. The Native Pipe |>
+
+## 6.1 Basic Mechanics
+
+`x |> f()` is equivalent to `f(x)`. `x |> f(y)` is equivalent to `f(x, y)` -- the left-hand side is inserted as the *first* argument.
+
+```{r}
+c(3, 1, 2) |> sort()
+```
+
+```{r}
+sort(c(3, 1, 2))  # identical result, written without the pipe
+```
+
+## 6.2 Chaining Multiple Steps
+
+```{r}
+cases |>
+  filter(new_cases > 5) |>
+  mutate(cases_doubled = new_cases * 2) |>
+  arrange(desc(cases_doubled))
+```
+
+Without the pipe, the same computation requires nested function calls read from the inside out, which is harder to follow:
+
+```{r}
+arrange(mutate(filter(cases, new_cases > 5), cases_doubled = new_cases * 2), desc(cases_doubled))
+```
+
+## 6.3 |> versus the Older %>%
+
+`%>%` comes from the `magrittr` package and predates R's native `|>` (introduced in R 4.1, 2021). They behave almost identically for simple pipelines. We use `|>` throughout this course since it requires no additional package and is now the standard recommended by the R core team, but you will frequently encounter `%>%` in existing code, tutorials, and Stack Overflow answers.
+
+```{r}
+library(magrittr)
+c(3, 1, 2) %>% sort()
+```
+
+# 7. Reshaping with tidyr
+
+## 7.1 pivot_longer()
+
+```{r}
+wide2 <- tibble(
+  region = c("North", "South"),
+  pop_2024 = c(1150000, 880000),
+  pop_2025 = c(1180000, 890000)
+)
+wide2 |> pivot_longer(cols = starts_with("pop_"), names_to = "year", values_to = "population")
+```
+
+Key arguments:
+
+- `cols`: which columns to gather into the long format
+- `names_to`: the name of the new column holding the former column *names*
+- `values_to`: the name of the new column holding the former cell *values*
+
+## 7.2 pivot_wider()
+
+```{r}
+long2 <- tibble(
+  region = c("North", "North", "South", "South"),
+  year = c("2024", "2025", "2024", "2025"),
+  population = c(1150000, 1180000, 880000, 890000)
+)
+long2 |> pivot_wider(names_from = year, values_from = population)
+```
+
+Key arguments:
+
+- `names_from`: which column's distinct values become new column names
+- `values_from`: which column supplies the cell values for those new columns
+
+## 7.3 Validating a Pivot
+
+After `pivot_longer()`, expect:
+
+```
+new_nrow == old_nrow * number_of_pivoted_columns
+new_ncol == old_ncol - number_of_pivoted_columns + 2
+```
+
+```{r}
+nrow(wide2); nrow(wide2 |> pivot_longer(cols = starts_with("pop_"), names_to = "year", values_to = "population"))
+```
+
+After `pivot_wider()`, the arithmetic reverses. If your row/column counts do not match this arithmetic, something unexpected happened (commonly: duplicate rows for what you expected to be a single identifying combination).
+
+# 8. Joins
+
+## 8.1 Keys
+
+A **primary key** is one or more columns that uniquely identify each row of a table. A **foreign key** is a column in a different table that references a primary key elsewhere.
+
+```{r}
+population <- tibble(region = c("North", "South"), population = c(1200000, 900000))
+anyDuplicated(population$region)  # 0 means region is a valid unique key here
+```
+
+## 8.2 inner_join()
+
+Keeps only rows with a match in **both** tables.
+
+```{r}
+cases_small <- tibble(region = c("North", "South", "East"), new_cases = c(12, 8, 5))
+cases_small |> inner_join(population, by = "region")  # "East" dropped, no match
+```
+
+## 8.3 left_join()
+
+Keeps **every row from the left table**, filling unmatched rows with `NA`.
+
+```{r}
+cases_small |> left_join(population, by = "region")  # "East" kept, population is NA
+```
+
+## 8.4 Other Join Types (Reference)
+
+| Function | Keeps |
+|---|---|
+| `inner_join()` | rows with a match in both tables |
+| `left_join()` | all rows from the left table |
+| `right_join()` | all rows from the right table |
+| `full_join()` | all rows from both tables |
+| `anti_join()` | rows in the left table with **no** match in the right (useful for finding orphaned records) |
+| `semi_join()` | rows in the left table **that do** have a match, but keeping only left-table columns |
+
+```{r}
+cases_small |> anti_join(population, by = "region")  # find the unmatched row
+```
+
+## 8.5 Many-to-One Joins (Safe)
+
+When the join key is unique in (at least) one of the two tables, the result's row count is predictable: it equals the row count of the "many" side (for an inner or left join where the "many" side is fully matched).
+
+```{r}
+nrow(cases_small)  # 3
+nrow(cases_small |> left_join(population, by = "region"))  # still 3
+```
+
+## 8.6 Many-to-Many Joins (Dangerous)
+
+When the join key is **not unique in either table**, each matching pair of rows produces one output row -- row counts can explode.
+
+```{r}
+variants <- tibble(
+  region = c("North", "North", "South"),
+  variant = c("Alpha", "Beta", "Alpha")
+)
+anyDuplicated(variants$region)  # nonzero -- region is NOT unique here
+```
+
+```{r}
+cases_small |> inner_join(variants, by = "region")
+```
+
+Here, "North" appears twice in `variants`, so each "North" row in `cases_small` is duplicated once per matching variant row. The output has more rows than either input table -- a strong signal that something may be wrong, unless this duplication was genuinely intended (e.g., you wanted one row per case-variant combination).
+
+::: {.callout-important}
+## Always Check Key Uniqueness Before Joining
+Before any join, run `anyDuplicated(table$key)` on both tables. If it returns 0 for at least one side, you have a safe many-to-one (or one-to-one) relationship. If it is nonzero on both sides, you have a many-to-many relationship, and you must explicitly decide whether row duplication is intended.
+:::
+
+# 9. Validation as a Discipline
+
+## 9.1 What to Check After a Transformation
+
+A practical, reusable checklist:
+
+1. **Row counts**: Does `nrow()` match your expectation given the operation performed?
+2. **Unique identifiers**: Is the column you believe identifies each row (e.g., `region`, or `region` + `date`) actually unique? Check with `anyDuplicated()` or `n_distinct()`.
+3. **Missing values**: Did the operation introduce new `NA`s? Check with `sum(is.na(df$col))` before and after.
+4. **Ranges**: Are derived values (rates, percentages, ratios) within a plausible range? A "percent" column with a value of 450 is a red flag.
+5. **Totals**: Do grouped/aggregated totals sum back to a known overall total?
+6. **Known relationships**: If you know, for example, that population should never decrease year over year in this dataset, check that explicitly.
+
+## 9.2 Example: A Full Validation Sequence
+
+```{r}
+cases_full <- tibble(
+  region = c("North", "North", "South", "South"),
+  new_cases = c(12, 15, 8, 10)
+)
+
+joined <- cases_full |> left_join(population, by = "region")
+
+# 1. Row count unchanged by a left_join on a unique key
+nrow(joined) == nrow(cases_full)
+
+# 2. No unexpected duplicate (region) combinations introduced
+anyDuplicated(joined) == 0 || TRUE  # duplicates in rows are expected here; check key uniqueness instead
+n_distinct(cases_full$region) == n_distinct(population$region)
+
+# 3. No new missing values in population column
+sum(is.na(joined$population)) == 0
+
+# 4. Totals preserved
+sum(joined$new_cases) == sum(cases_full$new_cases)
+```
+
+::: {.callout-tip}
+## Make Validation Automatic, Not Optional
+Consider writing small validation helper functions once you have a few checks you repeat often, e.g., `validate_row_count(before, after)`. This turns validation from a manual afterthought into a built-in part of your pipeline, much like writing unit tests for code.
+:::
+
+# 10. Comparison to pandas
+
+| Task | R (tidyverse) | Python (pandas) |
+|---|---|---|
+| Select columns | `select(df, a, b)` | `df[["a", "b"]]` |
+| Filter rows | `filter(df, x > 5)` | `df[df["x"] > 5]` |
+| New/modified column | `mutate(df, y = x * 2)` | `df["y"] = df["x"] * 2` |
+| Sort | `arrange(df, x)` | `df.sort_values("x")` |
+| Group and aggregate | `df |> group_by(g) |> summarise(m = mean(x))` | `df.groupby("g")["x"].mean()` |
+| Reshape long | `pivot_longer()` | `pd.melt()` |
+| Reshape wide | `pivot_wider()` | `pivot_table()` / `pivot()` |
+| Inner join | `inner_join(df1, df2, by = "key")` | `df1.merge(df2, on="key")` |
+| Left join | `left_join(df1, df2, by = "key")` | `df1.merge(df2, on="key", how="left")` |
+| Chaining operations | `|>` | method chaining (`.pipe()` or sequential `.assign()`) |
+
+# 11. Key Takeaways
+
+1. The tidyverse is a family of packages sharing consistent design conventions: data-frame-first arguments, unquoted column names, and non-mutating functions that return new objects.
+2. A tibble is a data frame with safer, more predictable defaults; `is.data.frame()` is still `TRUE` for a tibble.
+3. Tidy data requires every variable to be a column, every observation a row, and every value a single cell.
+4. Wide format is often convenient for display; long format is almost always correct for analysis, especially for grouping and summarizing.
+5. `select()` and `filter()` subset columns and rows, respectively, using unquoted column names.
+6. `mutate()` creates or modifies columns and can reference columns created earlier in the same call.
+7. `arrange()` sorts rows; wrap a column in `desc()` for descending order.
+8. `group_by()` followed by `summarise()` performs split-apply-combine, collapsing each group to one row.
+9. `group_by()` followed by `mutate()` computes a per-group value while retaining every original row.
+10. The native pipe `|>` inserts its left-hand side as the first argument of the function on its right, enabling readable left-to-right chains.
+11. `pivot_longer()` and `pivot_wider()` reshape data between long and wide formats, with predictable row/column count arithmetic you can use to validate the result.
+12. A primary key uniquely identifies rows in a table; a foreign key in another table references it.
+13. `inner_join()` keeps only matched rows; `left_join()` keeps all rows from the left table, introducing `NA` for unmatched rows.
+14. Many-to-one joins are row-count-safe; many-to-many joins (non-unique keys on both sides) can silently multiply rows.
+15. Always check key uniqueness with `anyDuplicated()` before joining, and compare row counts before and after any join.
+16. Validation after every major transformation -- row counts, uniqueness, missing values, ranges, totals, known relationships -- is not optional; it is the primary defense against silent data errors.
+17. `anti_join()` and `semi_join()` are useful for diagnosing unmatched or matched records without producing a full merged table.
+18. Nearly every tidyverse operation has a direct pandas analogue; the underlying computational operations are identical even where syntax differs.
+
+# 12. Further Questions to Think About
+
+1. Why might "every variable is a column" be a more subtle requirement than it first appears, especially in data recorded by non-programmers (e.g., in a spreadsheet)?
+2. In what situations would you deliberately choose `left_join()` over `inner_join()`, even knowing it introduces missing values?
+3. Why does a many-to-many join multiply rows rather than raising an error? What design tradeoff does this reflect?
+4. What is the risk of validating only at the very end of a long pipeline, rather than after each step?
+5. How would you design an automated validation check that could catch an unintended many-to-many join before it silently corrupts an analysis?
+6. Why is long format generally preferred for analysis, even though wide format is often more readable for a final report?
+7. What is lost, and what is gained, by R's convention that tidyverse functions never modify their input in place?
+8. How does `n_distinct()` differ from `length(unique(x))`, and are there situations where they might disagree (e.g., with missing values)?
+9. If you discovered, after an analysis was complete, that a join earlier in your pipeline had silently duplicated rows, what steps would you take to assess the damage?
+10. What validation checks would be appropriate for a dataset where you do *not* know the correct answer in advance (unlike our examples today, where we knew the expected totals)?
+11. How might the "unquoted column name" convention in dplyr create risks that do not exist in pandas, where column names are always quoted strings?
+12. Why might a statistician or data scientist choose to spend more time on validation than on the transformation code itself?
+
+# 13. Looking Ahead
+
+Lecture 10 shifts from data wrangling to **statistical computing**: simulation, Monte Carlo reasoning, sampling distributions, and basic regression. The validated analysis dataset you learned to construct today is exactly the kind of trustworthy input a statistical analysis requires -- Lecture 10 assumes you can reliably get to that point, so that attention can shift to what the data reveals about an underlying random process. You will also see random number generation and reproducibility (via `set.seed()`, introduced briefly in Lecture 8) return as a central topic, now used not just for toy examples but as a genuine tool for understanding estimator behavior, confidence intervals, and statistical power.

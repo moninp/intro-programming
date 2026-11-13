@@ -1,0 +1,397 @@
+---
+title: "Lecture 10 -- Statistical Computing, Simulation, and Modeling"
+subtitle: "Background Notes"
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    code-fold: false
+---
+
+# 1. Introduction
+
+These notes provide a systematic reference for the simulation and inference concepts introduced in Lecture 10's `class.qmd` and `class.R`. Lecture 9 taught you to build a trustworthy analysis dataset. Today's lecture asks what to do once you have one: how much should you trust a number computed from data?
+
+Classical statistics answers this question with formulas derived under mathematical assumptions: the Central Limit Theorem, the sampling distribution of an estimator, the behavior of a t-test. These formulas are correct, but they can feel like facts handed down from above rather than things you understand. Simulation offers a different, complementary path: build a tiny, fully known world (a data-generating process you specify completely), repeatedly draw samples from it, and watch what the classical formulas describe actually happen.
+
+This matters practically, not just pedagogically. Many real statistical questions have no closed-form answer -- the exact sampling distribution of a complicated estimator, the power of a nonstandard test, the coverage of a confidence interval under non-normal data. Simulation lets you investigate these questions directly, at the cost of introducing a new kind of uncertainty of its own: Monte Carlo error, which shrinks as you simulate more, but never disappears.
+
+::: {.callout-note}
+## Scope
+This lecture uses `rnorm()`, `runif()`, `rexp()`, `rt()`, `t.test()`, and `lm()`, all part of base R. No new packages beyond what you have already loaded are required.
+:::
+
+# 2. Pseudorandom Number Generation
+
+## 2.1 What "Random" Means on a Computer
+
+Computers are deterministic machines; they cannot produce truly random numbers without external physical input (e.g., hardware entropy sources). Instead, R uses a **pseudorandom number generator (PRNG)**: a deterministic algorithm that produces a sequence of numbers that *behaves statistically* like a random sequence, starting from an internal state called the **seed**.
+
+```{r}
+set.seed(1)
+rnorm(3)
+```
+
+```{r}
+set.seed(1)
+rnorm(3)  # identical -- same seed, same sequence
+```
+
+```{r}
+set.seed(2)
+rnorm(3)  # different seed, different sequence
+```
+
+## 2.2 Why Reproducibility Requires the Seed
+
+Without recording a seed, a "random" result in a report is not actually reproducible -- no one, including you in six months, can regenerate the exact numbers. Always call `set.seed()` explicitly before any simulation, and record the seed value directly in your code (not just "I used some seed").
+
+::: {.callout-important}
+## set.seed() Affects the Global RNG State
+`set.seed()` resets R's entire random number stream. If you run two simulations in the same script without resetting the seed between them, the second simulation continues from wherever the first one left the RNG state -- which is often fine, but is NOT the same as saying both simulations started fresh. If you need two independently reproducible simulations, call `set.seed()` again before each.
+:::
+
+## 2.3 Common Random-Generating Functions in R
+
+| Function | Distribution | Key arguments |
+|---|---|---|
+| `runif(n, min, max)` | Uniform | `min`, `max` |
+| `rnorm(n, mean, sd)` | Normal | `mean`, `sd` |
+| `rexp(n, rate)` | Exponential | `rate` |
+| `rt(n, df)` | Student's t | `df` (degrees of freedom; smaller df = heavier tails) |
+| `rbinom(n, size, prob)` | Binomial | `size`, `prob` |
+| `rpois(n, lambda)` | Poisson | `lambda` |
+
+```{r}
+set.seed(10)
+rnorm(3, mean = 5, sd = 2)
+runif(3, min = 0, max = 10)
+rexp(3, rate = 2)
+```
+
+## 2.4 Independent Repetitions
+
+The fundamental building block of every simulation in this lecture: draw one sample, compute a statistic, and repeat the entire process many times, independently.
+
+```{r}
+set.seed(11)
+one_sample <- rnorm(30, mean = 0.001, sd = 0.02)
+mean(one_sample)
+```
+
+```{r}
+# A second, independent sample from the SAME distribution
+another_sample <- rnorm(30, mean = 0.001, sd = 0.02)
+mean(another_sample)
+```
+
+The two sample means differ, even though both samples came from the exact same distribution -- this variability *is* what the rest of the lecture investigates.
+
+# 3. Monte Carlo Reasoning
+
+## 3.1 Monte Carlo Approximation
+
+A **Monte Carlo approximation** estimates a quantity (often a probability or expectation) by simulating many draws from a known process and computing the relevant proportion or average, rather than deriving an exact formula.
+
+```{r}
+# Exact answer, using the known CDF of the normal distribution
+exact <- pnorm(-0.03, mean = 0.001, sd = 0.02)
+exact
+```
+
+```{r}
+# Monte Carlo approximation of the same quantity
+set.seed(42)
+draws <- rnorm(100000, mean = 0.001, sd = 0.02)
+monte_carlo_estimate <- mean(draws < -0.03)
+monte_carlo_estimate
+```
+
+The two values should be close but not identical -- the Monte Carlo estimate carries its own sampling error, which we quantify next.
+
+## 3.2 Monte Carlo Standard Error
+
+If $\hat{p}$ is a Monte Carlo estimate of a probability based on $n$ simulations, its standard error is approximately:
+
+$$
+\text{SE}(\hat{p}) = \sqrt{\frac{\hat{p}(1 - \hat{p})}{n}}
+$$
+
+```{r}
+n_mc <- length(draws)
+p_hat <- monte_carlo_estimate
+mc_se <- sqrt(p_hat * (1 - p_hat) / n_mc)
+mc_se
+```
+
+::: {.callout-important}
+## Monte Carlo Error Shrinks With sqrt(n), Not n
+To cut the Monte Carlo standard error in half, you need **four times** as many simulations, not twice as many, since the error scales as $1/\sqrt{n}$. This is the same square-root law that governs the standard error of any sample mean -- Monte Carlo simulation is itself just a sampling procedure, subject to the same statistical laws it is being used to study.
+:::
+
+## 3.3 Convergence With Simulation Size
+
+```{r}
+sim_sizes <- c(10, 100, 1000, 10000, 100000)
+set.seed(21)
+estimates <- sapply(sim_sizes, function(n) {
+  mean(rnorm(n, mean = 0.001, sd = 0.02) < -0.03)
+})
+data.frame(n = sim_sizes, estimate = estimates, exact = exact)
+```
+
+As `n` grows, the Monte Carlo estimate generally gets closer to the exact value, though not monotonically for any single run -- randomness means a smaller simulation can occasionally land closer to the truth than a larger one, purely by chance. What is guaranteed is that the *typical size of the error*, measured across many repeated simulations, shrinks predictably with `n`.
+
+# 4. Sampling Distributions
+
+## 4.1 Definition
+
+A **sampling distribution** is the probability distribution of a statistic (such as a sample mean) computed from repeated, independent samples drawn from the same population. It is a property of the *procedure* (take a sample of size n, compute the mean), not of any single sample.
+
+## 4.2 Building a Sampling Distribution by Simulation
+
+```{r}
+set.seed(30)
+n_sims <- 5000
+n_per_sample <- 30
+sample_means <- sapply(1:n_sims, function(i) {
+  mean(rnorm(n_per_sample, mean = 0.001, sd = 0.02))
+})
+hist(sample_means, breaks = 50, main = "Simulated Sampling Distribution of the Mean")
+```
+
+```{r}
+mean(sample_means)   # should be close to 0.001
+sd(sample_means)      # should be close to 0.02 / sqrt(30)
+0.02 / sqrt(30)        # theoretical standard error
+```
+
+## 4.3 The Central Limit Theorem as a Computational Phenomenon
+
+The CLT states that, regardless of the population's shape, the sampling distribution of the mean approaches normality as sample size grows (provided the population has finite variance). We can observe this directly even when the population is nowhere close to normal.
+
+```{r}
+set.seed(31)
+pop_sample <- rexp(100000, rate = 1)  # population is strongly right-skewed
+hist(pop_sample, breaks = 50, main = "Population: Exponential(1)")
+```
+
+```{r}
+means_n5 <- sapply(1:5000, function(i) mean(rexp(5, rate = 1)))
+hist(means_n5, breaks = 50, main = "Sampling Distribution of Mean, n = 5")
+```
+
+```{r}
+means_n50 <- sapply(1:5000, function(i) mean(rexp(50, rate = 1)))
+hist(means_n50, breaks = 50, main = "Sampling Distribution of Mean, n = 50")
+```
+
+At n = 5, the sampling distribution still shows visible skew, inherited from the population. By n = 50, it looks close to symmetric and bell-shaped, even though the population itself never changed shape. This is the CLT, demonstrated rather than merely stated.
+
+## 4.4 Effect of Sample Size on Sampling Variance
+
+```{r}
+sd(means_n5)
+sd(means_n50)
+```
+
+```{r}
+# Theoretical standard error ratio: sqrt(5/50)
+sqrt(5 / 50)
+sd(means_n50) / sd(means_n5)
+```
+
+Standard error scales as $\sigma / \sqrt{n}$: increasing the sample size by a factor of 10 shrinks the standard error by a factor of $\sqrt{10} \approx 3.16$, not by a factor of 10. This sublinear relationship is a recurring, important fact: doubling your sample size does not halve your uncertainty.
+
+# 5. Statistical Inference via Simulation
+
+## 5.1 Confidence Interval Coverage
+
+A 95% confidence interval procedure is designed so that, across many repeated samples, the resulting interval contains the true parameter approximately 95% of the time. This is a frequency claim about the *procedure*, not a probability statement about any single interval you compute from one dataset.
+
+```{r}
+true_mean_return <- 0.001
+true_sd_return <- 0.02
+
+one_ci <- function(n = 30) {
+  x <- rnorm(n, mean = true_mean_return, sd = true_sd_return)
+  se <- sd(x) / sqrt(n)
+  m <- mean(x)
+  c(lower = m - 1.96 * se, upper = m + 1.96 * se)
+}
+```
+
+```{r}
+set.seed(40)
+intervals <- sapply(1:2000, function(i) one_ci())
+coverage <- mean(intervals["lower", ] <= true_mean_return & true_mean_return <= intervals["upper", ])
+coverage
+```
+
+The empirical coverage should land close to 0.95, confirming that the standard "mean +/- 1.96 x SE" procedure performs as advertised when its assumptions (here, normally distributed data) hold.
+
+## 5.2 Type I and Type II Error, and Power
+
+A **Type I error** is rejecting a true null hypothesis (a false positive). A **Type II error** is failing to reject a false null hypothesis (a false negative). **Power** is the probability of correctly rejecting a false null hypothesis -- i.e., 1 minus the Type II error rate.
+
+```{r}
+set.seed(50)
+# Under the TRUE NULL (mean = 0): estimate the Type I error rate
+type1_rate <- mean(sapply(1:2000, function(i) {
+  x <- rnorm(30, mean = 0, sd = 0.02)
+  t.test(x, mu = 0)$p.value < 0.05
+}))
+type1_rate  # should be close to 0.05
+```
+
+```{r}
+set.seed(51)
+# Under a TRUE ALTERNATIVE (mean = 0.005): estimate power at n = 30
+power_n30 <- mean(sapply(1:2000, function(i) {
+  x <- rnorm(30, mean = 0.005, sd = 0.02)
+  t.test(x, mu = 0)$p.value < 0.05
+}))
+power_n30
+```
+
+```{r}
+set.seed(52)
+# Same effect size, larger sample: power at n = 200
+power_n200 <- mean(sapply(1:2000, function(i) {
+  x <- rnorm(200, mean = 0.005, sd = 0.02)
+  t.test(x, mu = 0)$p.value < 0.05
+}))
+power_n200
+```
+
+::: {.callout-tip}
+## Power Increases With Sample Size (and Effect Size)
+Larger samples make a fixed true effect easier to detect, because the standard error of the mean shrinks with $\sqrt{n}$. This is the same square-root relationship from Section 4.4, now showing up as a practical consequence for hypothesis testing: all else equal, a bigger sample gives you more power to detect a real effect.
+:::
+
+# 6. Regression
+
+## 6.1 Fitting a Linear Model
+
+```{r}
+set.seed(60)
+market_return <- rnorm(100, mean = 0.0005, sd = 0.01)
+stock_return <- 0.0002 + 1.2 * market_return + rnorm(100, sd = 0.01)
+df_demo <- data.frame(market_return, stock_return)
+
+model <- lm(stock_return ~ market_return, data = df_demo)
+summary(model)
+```
+
+## 6.2 Interpreting lm() Output
+
+- **Estimate**: the fitted intercept and slope. Here, the slope estimates the stock's "beta" with respect to market return.
+- **Std. Error**: the estimated standard error of each coefficient -- conceptually identical to the standard errors computed by simulation earlier in this lecture, just derived analytically instead of by resampling.
+- **t value** and **Pr(>|t|)**: a t-statistic and p-value testing whether each coefficient differs from zero.
+- **R-squared**: the proportion of variance in the response explained by the predictor(s).
+
+```{r}
+coef(model)
+```
+
+```{r}
+confint(model)  # 95% confidence intervals for the coefficients
+```
+
+## 6.3 Residuals and Fitted Values
+
+```{r}
+fitted_vals <- fitted(model)
+resids <- resid(model)
+plot(fitted_vals, resids, xlab = "Fitted values", ylab = "Residuals")
+abline(h = 0, col = "red")
+```
+
+A patternless, roughly constant-width scatter of residuals around zero is a good sign for the model's assumptions (linearity and constant variance). Visible curvature, or a funnel shape (residual spread changing systematically with fitted value), signals a violated assumption.
+
+## 6.4 Prediction
+
+```{r}
+new_market_return <- data.frame(market_return = c(-0.01, 0, 0.01))
+predict(model, newdata = new_market_return)
+```
+
+## 6.5 Connecting Regression Back to Simulation
+
+Everything in this lecture connects here: the standard error on a regression coefficient is a formula-based shortcut for exactly the kind of sampling variability you built up intuition for by direct simulation in Sections 3-5. If you simulated many datasets from the same true data-generating process (same true slope, same noise level) and fit `lm()` to each, the resulting collection of estimated slopes would form a sampling distribution, and its standard deviation would match the "Std. Error" column `lm()` reports from a single fit.
+
+```{r}
+set.seed(61)
+slopes <- sapply(1:1000, function(i) {
+  mr <- rnorm(100, mean = 0.0005, sd = 0.01)
+  sr <- 0.0002 + 1.2 * mr + rnorm(100, sd = 0.01)
+  coef(lm(sr ~ mr))[["mr"]]
+})
+sd(slopes)                        # simulation-based estimate of the slope's SE
+summary(model)$coefficients["market_return", "Std. Error"]  # formula-based SE from ONE fit
+```
+
+These two numbers should be close, which is exactly the point: `lm()`'s reported standard error is a mathematical shortcut for something you can also discover directly by simulation.
+
+# 7. Simulation Versus Proof
+
+A simulation demonstrates behavior under the *specific* data-generating process, sample size, and conditions you chose. It is not a mathematical proof that a method works in general. Changing any of those conditions -- a different distribution, a smaller sample, the presence of outliers -- can change the conclusion entirely. This is not a weakness; it is exactly what makes simulation useful: it lets you map out *where* a method's guarantees hold and where they break down, in a way a single formula cannot show you directly.
+
+```{r}
+set.seed(70)
+one_ci_t <- function(n = 30) {
+  x <- true_mean_return + true_sd_return * rt(n, df = 3)
+  se <- sd(x) / sqrt(n)
+  m <- mean(x)
+  c(lower = m - 1.96 * se, upper = m + 1.96 * se)
+}
+
+intervals_t <- sapply(1:2000, function(i) one_ci_t())
+coverage_t <- mean(intervals_t["lower", ] <= true_mean_return & true_mean_return <= intervals_t["upper", ])
+coverage_t
+```
+
+::: {.callout-important}
+## Heavy Tails Can Degrade Coverage
+Compare `coverage_t` to the `coverage` value computed in Section 5.1 under normal data. If `coverage_t` is noticeably below 0.95, this demonstrates that the standard "mean +/- 1.96 x SE" interval, which relies on an approximately normal sampling distribution, can under-cover when the underlying data has heavier tails than a normal distribution -- exactly the kind of behavior real financial returns often exhibit.
+:::
+
+# 8. Key Takeaways
+
+1. Computers generate pseudorandom numbers from a deterministic algorithm started by a seed; the same seed always reproduces the same sequence.
+2. `set.seed()` must be called explicitly, and the seed value recorded, for a simulation to be genuinely reproducible.
+3. `set.seed()` resets R's global random number state; call it again before each independent simulation if you need separate reproducibility.
+4. A Monte Carlo approximation estimates a quantity by simulating many draws and computing a proportion or average, rather than deriving an exact formula.
+5. Monte Carlo estimates carry their own standard error, which shrinks with $1/\sqrt{n_{\text{simulations}}}$, not linearly with $n$.
+6. A sampling distribution describes how a statistic varies across repeated samples from the same population, and can be constructed directly by simulation.
+7. The Central Limit Theorem can be observed computationally: the sampling distribution of the mean approaches normality as sample size grows, even when the population is strongly skewed.
+8. Standard error scales as $\sigma / \sqrt{n}$; increasing sample size by a factor of $k$ shrinks standard error by a factor of $\sqrt{k}$, not $k$.
+9. Confidence interval coverage is a long-run frequency property of a procedure, and can be checked directly by simulation in a way that is impossible with a single real dataset.
+10. A Type I error is rejecting a true null hypothesis; the Type I error rate can be estimated by simulating under a true null and recording the rejection frequency.
+11. Statistical power is the probability of correctly rejecting a false null hypothesis, and can be estimated by simulating under a true, nonzero effect.
+12. Power increases with sample size and with the magnitude of the true effect, all else equal.
+13. `lm()` fits a linear regression model; its "Estimate" column gives fitted coefficients, and its "Std. Error" column quantifies sampling variability in each coefficient.
+14. A fitted regression coefficient is a single estimate computed from one sample, subject to the same sampling variability simulated directly earlier in the lecture.
+15. Residual plots (residuals versus fitted values) are a primary diagnostic for checking linear model assumptions such as linearity and constant variance.
+16. A regression coefficient's reported standard error is a formula-based shortcut for exactly the kind of variability a direct simulation study can also reveal.
+17. Simulation demonstrates behavior under the specific assumptions built into the data-generating process; it is not a general proof, and changing those assumptions can change the conclusion entirely.
+18. Heavy-tailed or outlier-prone data can degrade the coverage of standard confidence interval procedures, a phenomenon that is difficult to see without direct simulation.
+
+# 9. Further Questions to Think About
+
+1. Why does recording a random seed matter for scientific reproducibility, beyond simply "getting the same numbers again"?
+2. If a Monte Carlo estimate and an exact calculation disagree slightly, how would you decide whether the disagreement reflects genuine Monte Carlo error or a bug in your simulation code?
+3. Why does Monte Carlo error shrink with $\sqrt{n}$ rather than $n$? What does this imply about the cost of achieving very high simulation precision?
+4. In what sense is the Central Limit Theorem a claim about a *procedure* rather than about any single sample?
+5. Why might a confidence interval's advertised 95% coverage fail to hold in practice, even when your code correctly implements the formula?
+6. How would you design a simulation to investigate whether a confidence interval's coverage depends on sample size, holding the underlying distribution fixed?
+7. What is the practical difference between a Type I error rate that is simulated to be 0.05 exactly and one that is simulated to be 0.07? How would you know whether 0.07 reflects a real problem or just Monte Carlo noise?
+8. Why does statistical power depend on both sample size and effect size, and which of these is typically easier for a researcher to influence directly?
+9. What would it mean, concretely, for a regression model's residuals to show a "funnel shape," and why would this matter for trusting the model's standard errors?
+10. If a simulation study and a real dataset give different answers about how a statistical method performs, what questions would you ask before concluding the simulation was uninformative?
+11. Why is it important to distinguish "simulation under a known, fully specified process" from "evidence about how well a method will work on an unknown, real dataset"?
+12. How might you extend today's heavy-tailed coverage investigation to also check what happens with outliers (rather than merely heavier tails), and would you expect a different kind of coverage failure?
+
+# 10. Looking Ahead
+
+Today's simulations produced numerical summaries, quick base R histograms, and `lm()` output -- all genuinely useful for exploration, but not yet polished enough for a report meant for other people to read. Lecture 11 introduces `ggplot2`, a far more deliberate and expressive system for building figures, along with the principles that separate an *exploratory* graphic (made quickly, for yourself, to check something) from an *explanatory* graphic (made carefully, for an audience, to make an argument). You will also learn to combine code, figures, and narrative text into a single reproducible Quarto report -- exactly the kind of document that could properly communicate everything you discovered in today's simulation exercises.
