@@ -1,0 +1,1127 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.11.9">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Lecture 10: Statistical Computing, Simulation, and Modeling – Computing Using R &amp; Python</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-b0bacdaee50ff9abb97ae013f25660d1.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-fixed quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark" aria-label="Site">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Computing Using R &amp; Python</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../syllabus.html"> 
+<span class="menu-text">Syllabus</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../lectures.html"> 
+<span class="menu-text">Lectures</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../project.html"> 
+<span class="menu-text">Project</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+            <div id="quarto-search" class="" title="Search"></div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" aria-labelledby="toc-title" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#central-question" id="toc-central-question" class="nav-link active" data-scroll-target="#central-question">Central Question</a></li>
+  <li><a href="#quiz" id="toc-quiz" class="nav-link" data-scroll-target="#quiz">1. Quiz</a></li>
+  <li><a href="#exercise-1-randomness-and-reproducibility" id="toc-exercise-1-randomness-and-reproducibility" class="nav-link" data-scroll-target="#exercise-1-randomness-and-reproducibility">Exercise 1: Randomness and Reproducibility</a>
+  <ul class="collapse">
+  <li><a href="#exercise-1.1-pseudorandom-generation-and-seeds" id="toc-exercise-1.1-pseudorandom-generation-and-seeds" class="nav-link" data-scroll-target="#exercise-1.1-pseudorandom-generation-and-seeds">Exercise 1.1: Pseudorandom Generation and Seeds</a>
+  <ul class="collapse">
+  <li><a href="#just-in-time-concept-what-pseudorandom-actually-means" id="toc-just-in-time-concept-what-pseudorandom-actually-means" class="nav-link" data-scroll-target="#just-in-time-concept-what-pseudorandom-actually-means">Just-in-Time Concept: What “Pseudorandom” Actually Means</a></li>
+  </ul></li>
+  <li><a href="#exercise-1.2-independent-repetitions" id="toc-exercise-1.2-independent-repetitions" class="nav-link" data-scroll-target="#exercise-1.2-independent-repetitions">Exercise 1.2: Independent Repetitions</a></li>
+  </ul></li>
+  <li><a href="#exercise-2-monte-carlo-reasoning" id="toc-exercise-2-monte-carlo-reasoning" class="nav-link" data-scroll-target="#exercise-2-monte-carlo-reasoning">Exercise 2: Monte Carlo Reasoning</a>
+  <ul class="collapse">
+  <li><a href="#exercise-2.1-a-monte-carlo-approximation" id="toc-exercise-2.1-a-monte-carlo-approximation" class="nav-link" data-scroll-target="#exercise-2.1-a-monte-carlo-approximation">Exercise 2.1: A Monte Carlo Approximation</a>
+  <ul class="collapse">
+  <li><a href="#just-in-time-concept-monte-carlo-standard-error" id="toc-just-in-time-concept-monte-carlo-standard-error" class="nav-link" data-scroll-target="#just-in-time-concept-monte-carlo-standard-error">Just-in-Time Concept: Monte Carlo Standard Error</a></li>
+  </ul></li>
+  <li><a href="#exercise-2.2-convergence-with-simulation-size" id="toc-exercise-2.2-convergence-with-simulation-size" class="nav-link" data-scroll-target="#exercise-2.2-convergence-with-simulation-size">Exercise 2.2: Convergence with Simulation Size</a></li>
+  </ul></li>
+  <li><a href="#exercise-3-sampling-distributions" id="toc-exercise-3-sampling-distributions" class="nav-link" data-scroll-target="#exercise-3-sampling-distributions">Exercise 3: Sampling Distributions</a>
+  <ul class="collapse">
+  <li><a href="#exercise-3.1-the-sampling-distribution-of-the-mean" id="toc-exercise-3.1-the-sampling-distribution-of-the-mean" class="nav-link" data-scroll-target="#exercise-3.1-the-sampling-distribution-of-the-mean">Exercise 3.1: The Sampling Distribution of the Mean</a>
+  <ul class="collapse">
+  <li><a href="#just-in-time-concept-the-central-limit-theorem-observed" id="toc-just-in-time-concept-the-central-limit-theorem-observed" class="nav-link" data-scroll-target="#just-in-time-concept-the-central-limit-theorem-observed">Just-in-Time Concept: The Central Limit Theorem, Observed</a></li>
+  </ul></li>
+  <li><a href="#exercise-3.2-effect-of-sample-size-on-variance" id="toc-exercise-3.2-effect-of-sample-size-on-variance" class="nav-link" data-scroll-target="#exercise-3.2-effect-of-sample-size-on-variance">Exercise 3.2: Effect of Sample Size on Variance</a></li>
+  </ul></li>
+  <li><a href="#exercise-4-statistical-inference-via-simulation" id="toc-exercise-4-statistical-inference-via-simulation" class="nav-link" data-scroll-target="#exercise-4-statistical-inference-via-simulation">Exercise 4: Statistical Inference via Simulation</a>
+  <ul class="collapse">
+  <li><a href="#exercise-4.1-confidence-interval-coverage" id="toc-exercise-4.1-confidence-interval-coverage" class="nav-link" data-scroll-target="#exercise-4.1-confidence-interval-coverage">Exercise 4.1: Confidence Interval Coverage</a>
+  <ul class="collapse">
+  <li><a href="#just-in-time-concept-type-i-and-type-ii-error-through-simulation" id="toc-just-in-time-concept-type-i-and-type-ii-error-through-simulation" class="nav-link" data-scroll-target="#just-in-time-concept-type-i-and-type-ii-error-through-simulation">Just-in-Time Concept: Type I and Type II Error Through Simulation</a></li>
+  </ul></li>
+  <li><a href="#exercise-4.2-statistical-power" id="toc-exercise-4.2-statistical-power" class="nav-link" data-scroll-target="#exercise-4.2-statistical-power">Exercise 4.2: Statistical Power</a></li>
+  </ul></li>
+  <li><a href="#exercise-5-regression" id="toc-exercise-5-regression" class="nav-link" data-scroll-target="#exercise-5-regression">Exercise 5: Regression</a>
+  <ul class="collapse">
+  <li><a href="#exercise-5.1-fitting-a-simple-linear-model" id="toc-exercise-5.1-fitting-a-simple-linear-model" class="nav-link" data-scroll-target="#exercise-5.1-fitting-a-simple-linear-model">Exercise 5.1: Fitting a Simple Linear Model</a>
+  <ul class="collapse">
+  <li><a href="#just-in-time-concept-reading-lm-output" id="toc-just-in-time-concept-reading-lm-output" class="nav-link" data-scroll-target="#just-in-time-concept-reading-lm-output">Just-in-Time Concept: Reading lm() Output</a></li>
+  </ul></li>
+  <li><a href="#exercise-5.2-residuals-and-model-assumptions" id="toc-exercise-5.2-residuals-and-model-assumptions" class="nav-link" data-scroll-target="#exercise-5.2-residuals-and-model-assumptions">Exercise 5.2: Residuals and Model Assumptions</a></li>
+  </ul></li>
+  <li><a href="#exercise-6-major-investigation-simulation-as-a-statistical-laboratory" id="toc-exercise-6-major-investigation-simulation-as-a-statistical-laboratory" class="nav-link" data-scroll-target="#exercise-6-major-investigation-simulation-as-a-statistical-laboratory">Exercise 6: Major Investigation – Simulation as a Statistical Laboratory</a></li>
+  <li><a href="#looking-ahead" id="toc-looking-ahead" class="nav-link" data-scroll-target="#looking-ahead">Looking Ahead</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content" tabindex="-1">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Lecture 10: Statistical Computing, Simulation, and Modeling</h1>
+<p class="subtitle lead">MATH 5200 – Computing Using R &amp; Python</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="central-question" class="level1">
+<h1>Central Question</h1>
+<blockquote class="blockquote">
+<p><strong>How can computation help us understand randomness, estimation, and statistical procedures?</strong></p>
+</blockquote>
+<p>Last lecture, you learned to turn messy raw data into a trustworthy analysis dataset. Today we ask a different kind of question: once you have a number – an estimated mean, a regression coefficient, a proportion – how much should you trust it? Classical statistics answers this question with formulas derived under assumptions. Today we answer it a different way: by <strong>simulating</strong> the data-generating process many times and watching what happens.</p>
+<p>This is not a replacement for mathematical statistics – it is a laboratory for understanding it. When we simulate 10,000 samples from a known population and compute the sample mean each time, we are not proving a theorem; we are directly observing the behavior that the Central Limit Theorem describes. Simulation lets you build intuition for ideas like bias, variance, confidence interval coverage, and statistical power by literally watching them happen, under conditions you fully control – including conditions (small samples, non-normal data, outliers) where the classical formulas start to break down.</p>
+<p>We will work with a simple financial risk example throughout: daily stock returns, modeled as random draws from a probability distribution. By the end of class, you will have built your own small “statistical laboratory” – a simulation that lets you investigate estimator behavior under conditions you design yourself.</p>
+</section>
+<section id="quiz" class="level1">
+<h1>1. Quiz</h1>
+<p>Before we begin, complete the short quiz covering Lecture 9 (tidyverse data wrangling and validation). It should take about 10 minutes.</p>
+</section>
+<section id="exercise-1-randomness-and-reproducibility" class="level1">
+<h1>Exercise 1: Randomness and Reproducibility</h1>
+<section id="exercise-1.1-pseudorandom-generation-and-seeds" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-1.1-pseudorandom-generation-and-seeds">Exercise 1.1: Pseudorandom Generation and Seeds</h2>
+<p>You used <code>set.seed()</code> and <code>rnorm()</code> briefly in Lecture 8. Today we use them as serious scientific tools, not just convenient examples.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Illustrative only -- the full exercise is in class.R</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2026</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>sample1 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">5</span>, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<blockquote class="blockquote">
+<p><strong>See Exercise 1.1 in <code>class.R</code>.</strong></p>
+</blockquote>
+<section id="just-in-time-concept-what-pseudorandom-actually-means" class="level3">
+<h3 class="anchored" data-anchor-id="just-in-time-concept-what-pseudorandom-actually-means">Just-in-Time Concept: What “Pseudorandom” Actually Means</h3>
+<p>Computers cannot generate truly random numbers; they generate <strong>pseudorandom</strong> sequences from a deterministic algorithm, seeded with a starting value. The same seed always produces the same sequence – which is a feature, not a limitation, for reproducible science.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rnorm</span>(<span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -0.6264538  0.1836433 -0.8356286</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rnorm</span>(<span class="dv">3</span>)  <span class="co"># identical to the previous call</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -0.6264538  0.1836433 -0.8356286</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rnorm</span>(<span class="dv">3</span>)  <span class="co"># a different seed produces a different sequence</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -0.8969145  0.1848492  1.5878453</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Reproducibility Requires Recording the Seed
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A simulation result without a recorded seed is not fully reproducible – a colleague (or you, in six months) cannot regenerate your exact numbers. Always call <code>set.seed()</code> explicitly, and record which seed you used, directly in your script or report.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-1.2-independent-repetitions" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-1.2-independent-repetitions">Exercise 1.2: Independent Repetitions</h2>
+<p>The basic unit of simulation is: generate one sample, compute a statistic, repeat many times.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Illustrative only -- the full exercise is in class.R</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>one_sample <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">30</span>, <span class="at">mean =</span> <span class="fl">0.001</span>, <span class="at">sd =</span> <span class="fl">0.02</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(one_sample)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<blockquote class="blockquote">
+<p><strong>See Exercise 1.2 in <code>class.R</code>.</strong></p>
+</blockquote>
+</section>
+</section>
+<section id="exercise-2-monte-carlo-reasoning" class="level1">
+<h1>Exercise 2: Monte Carlo Reasoning</h1>
+<section id="exercise-2.1-a-monte-carlo-approximation" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-2.1-a-monte-carlo-approximation">Exercise 2.1: A Monte Carlo Approximation</h2>
+<p>Suppose we want to know the probability that a daily return falls below -3%, assuming returns are normally distributed with mean 0.001 and sd 0.02. We can compute this exactly with <code>pnorm()</code>, but we can also <strong>approximate</strong> it by simulation – a technique that generalizes to situations with no exact formula.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Illustrative only -- the full exercise is in class.R</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>exact <span class="ot">&lt;-</span> <span class="fu">pnorm</span>(<span class="sc">-</span><span class="fl">0.03</span>, <span class="at">mean =</span> <span class="fl">0.001</span>, <span class="at">sd =</span> <span class="fl">0.02</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>simulated_draws <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">100000</span>, <span class="at">mean =</span> <span class="fl">0.001</span>, <span class="at">sd =</span> <span class="fl">0.02</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>monte_carlo_estimate <span class="ot">&lt;-</span> <span class="fu">mean</span>(simulated_draws <span class="sc">&lt;</span> <span class="sc">-</span><span class="fl">0.03</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<blockquote class="blockquote">
+<p><strong>See Exercise 2.1 in <code>class.R</code>.</strong></p>
+</blockquote>
+<section id="just-in-time-concept-monte-carlo-standard-error" class="level3">
+<h3 class="anchored" data-anchor-id="just-in-time-concept-monte-carlo-standard-error">Just-in-Time Concept: Monte Carlo Standard Error</h3>
+<p>A Monte Carlo estimate is itself a random quantity – it will differ slightly every time you rerun the simulation (unless you fix the seed). Its precision improves with the number of simulations, at a predictable rate.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>draws <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">1000</span>, <span class="at">mean =</span> <span class="fl">0.001</span>, <span class="at">sd =</span> <span class="fl">0.02</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>p_hat <span class="ot">&lt;-</span> <span class="fu">mean</span>(draws <span class="sc">&lt;</span> <span class="sc">-</span><span class="fl">0.03</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>mc_se <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(p_hat <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p_hat) <span class="sc">/</span> <span class="fu">length</span>(draws))</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>p_hat</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.066</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>mc_se</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.007851369</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Monte Carlo Error Shrinks with sqrt(n), Not n
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Quadrupling the number of simulations only halves the Monte Carlo standard error, since it scales with <code>1/sqrt(n_simulations)</code>. Going from “roughly right” to “very precise” is expensive. Always report, or at least think about, the Monte Carlo error alongside a simulation-based estimate – an estimate with no sense of its own precision is not very useful.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-2.2-convergence-with-simulation-size" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-2.2-convergence-with-simulation-size">Exercise 2.2: Convergence with Simulation Size</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Illustrative only -- the full exercise is in class.R</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>sim_sizes <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">100</span>, <span class="dv">1000</span>, <span class="dv">10000</span>, <span class="dv">100000</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co"># For each size, estimate P(return &lt; -3%) and see how the estimate stabilizes</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<blockquote class="blockquote">
+<p><strong>See Exercise 2.2 in <code>class.R</code>.</strong></p>
+</blockquote>
+</section>
+</section>
+<section id="exercise-3-sampling-distributions" class="level1">
+<h1>Exercise 3: Sampling Distributions</h1>
+<section id="exercise-3.1-the-sampling-distribution-of-the-mean" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-3.1-the-sampling-distribution-of-the-mean">Exercise 3.1: The Sampling Distribution of the Mean</h2>
+<p>A <strong>sampling distribution</strong> describes how a statistic (like the sample mean) varies across repeated samples from the same population. We build one directly by simulation.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Illustrative only -- the full exercise is in class.R</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>n_sims <span class="ot">&lt;-</span> <span class="dv">5000</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>sample_means <span class="ot">&lt;-</span> <span class="fu">numeric</span>(n_sims)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Fill sample_means by repeatedly drawing a sample and computing its mean</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<blockquote class="blockquote">
+<p><strong>See Exercise 3.1 in <code>class.R</code>.</strong></p>
+</blockquote>
+<section id="just-in-time-concept-the-central-limit-theorem-observed" class="level3">
+<h3 class="anchored" data-anchor-id="just-in-time-concept-the-central-limit-theorem-observed">Just-in-Time Concept: The Central Limit Theorem, Observed</h3>
+<p>The Central Limit Theorem (CLT) says the sampling distribution of the mean approaches a normal distribution as sample size grows, regardless of the population’s shape. We do not need to take this on faith – we can watch it happen.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">7</span>)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Population is heavily skewed (exponential), not normal at all</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>pop_sample <span class="ot">&lt;-</span> <span class="fu">rexp</span>(<span class="dv">100000</span>, <span class="at">rate =</span> <span class="dv">1</span>)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(pop_sample, <span class="at">breaks =</span> <span class="dv">50</span>, <span class="at">main =</span> <span class="st">"Population Distribution (Exponential)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="class_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Sampling distribution of the mean, n = 5 per sample</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>means_n5 <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5000</span>, <span class="cf">function</span>(i) <span class="fu">mean</span>(<span class="fu">rexp</span>(<span class="dv">5</span>, <span class="at">rate =</span> <span class="dv">1</span>)))</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(means_n5, <span class="at">breaks =</span> <span class="dv">50</span>, <span class="at">main =</span> <span class="st">"Sampling Distribution of Mean, n = 5"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="class_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Sampling distribution of the mean, n = 50 per sample</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>means_n50 <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5000</span>, <span class="cf">function</span>(i) <span class="fu">mean</span>(<span class="fu">rexp</span>(<span class="dv">50</span>, <span class="at">rate =</span> <span class="dv">1</span>)))</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(means_n50, <span class="at">breaks =</span> <span class="dv">50</span>, <span class="at">main =</span> <span class="st">"Sampling Distribution of Mean, n = 50"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="class_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>What to Notice
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The population itself is strongly right-skewed. The sampling distribution of the mean at n = 5 is still somewhat skewed. By n = 50, it looks approximately normal, bell-shaped and symmetric, even though the underlying population never was. This is the CLT, observed directly rather than proven abstractly.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-3.2-effect-of-sample-size-on-variance" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-3.2-effect-of-sample-size-on-variance">Exercise 3.2: Effect of Sample Size on Variance</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Illustrative only -- the full exercise is in class.R</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(means_n5)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(means_n50)</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare to the theoretical standard error: population sd / sqrt(n)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<blockquote class="blockquote">
+<p><strong>See Exercise 3.2 in <code>class.R</code>.</strong></p>
+</blockquote>
+</section>
+</section>
+<section id="exercise-4-statistical-inference-via-simulation" class="level1">
+<h1>Exercise 4: Statistical Inference via Simulation</h1>
+<section id="exercise-4.1-confidence-interval-coverage" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-4.1-confidence-interval-coverage">Exercise 4.1: Confidence Interval Coverage</h2>
+<p>A 95% confidence interval is supposed to contain the true parameter in 95% of repeated samples. This is a claim about <em>long-run frequency</em>, and we can check it directly, something that is impossible with a single real dataset.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Illustrative only -- the full exercise is in class.R</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>true_mean <span class="ot">&lt;-</span> <span class="fl">0.001</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>true_sd <span class="ot">&lt;-</span> <span class="fl">0.02</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">30</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>one_ci <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  sample_data <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="at">mean =</span> true_mean, <span class="at">sd =</span> true_sd)</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>  se <span class="ot">&lt;-</span> <span class="fu">sd</span>(sample_data) <span class="sc">/</span> <span class="fu">sqrt</span>(n)</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>  m <span class="ot">&lt;-</span> <span class="fu">mean</span>(sample_data)</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">lower =</span> m <span class="sc">-</span> <span class="fl">1.96</span> <span class="sc">*</span> se, <span class="at">upper =</span> m <span class="sc">+</span> <span class="fl">1.96</span> <span class="sc">*</span> se)</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<blockquote class="blockquote">
+<p><strong>See Exercise 4.1 in <code>class.R</code>.</strong></p>
+</blockquote>
+<section id="just-in-time-concept-type-i-and-type-ii-error-through-simulation" class="level3">
+<h3 class="anchored" data-anchor-id="just-in-time-concept-type-i-and-type-ii-error-through-simulation">Just-in-Time Concept: Type I and Type II Error Through Simulation</h3>
+<p>A Type I error is rejecting a true null hypothesis; a Type II error is failing to reject a false one. Both are frequencies we can estimate directly by simulation.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">99</span>)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulate under a TRUE null (mean = 0): how often does a t-test</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="co"># incorrectly reject at alpha = 0.05?</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>false_positives <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2000</span>, <span class="cf">function</span>(i) {</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  sample_data <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">30</span>, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="fl">0.02</span>)</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">t.test</span>(sample_data, <span class="at">mu =</span> <span class="dv">0</span>)<span class="sc">$</span>p.value <span class="sc">&lt;</span> <span class="fl">0.05</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(false_positives)  <span class="co"># should be close to 0.05</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.0495</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Power Is Just the Flip Side
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Statistical <strong>power</strong> is the probability of correctly rejecting a false null hypothesis – i.e., 1 minus the Type II error rate. We estimate it the same way, but simulating under an alternative (a true, nonzero effect) instead of the null.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-4.2-statistical-power" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-4.2-statistical-power">Exercise 4.2: Statistical Power</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Illustrative only -- the full exercise is in class.R</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulate under a TRUE alternative (mean = 0.005, a small but real effect):</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="co"># what fraction of simulated t-tests correctly reject?</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<blockquote class="blockquote">
+<p><strong>See Exercise 4.2 in <code>class.R</code>.</strong></p>
+</blockquote>
+</section>
+</section>
+<section id="exercise-5-regression" class="level1">
+<h1>Exercise 5: Regression</h1>
+<section id="exercise-5.1-fitting-a-simple-linear-model" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-5.1-fitting-a-simple-linear-model">Exercise 5.1: Fitting a Simple Linear Model</h2>
+<p>Regression lets us ask how one variable relates to another. In R, this is remarkably concise.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Illustrative only -- the full exercise is in class.R</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> x, <span class="at">data =</span> df)</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<blockquote class="blockquote">
+<p><strong>See Exercise 5.1 in <code>class.R</code>.</strong></p>
+</blockquote>
+<section id="just-in-time-concept-reading-lm-output" class="level3">
+<h3 class="anchored" data-anchor-id="just-in-time-concept-reading-lm-output">Just-in-Time Concept: Reading lm() Output</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">5</span>)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">50</span>, <span class="dv">0</span>, <span class="dv">10</span>)</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">+</span> <span class="fl">0.5</span> <span class="sc">*</span> x <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">50</span>, <span class="at">sd =</span> <span class="dv">1</span>)</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>df_demo <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> x, <span class="at">y =</span> y)</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>model_demo <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> x, <span class="at">data =</span> df_demo)</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_demo)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = y ~ x, data = df_demo)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-1.9564 -0.6119 -0.1489  0.6814  2.0019 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  1.70650    0.27686   6.164 1.41e-07 ***
+x            0.56276    0.04847  11.610 1.53e-15 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.9842 on 48 degrees of freedom
+Multiple R-squared:  0.7374,    Adjusted R-squared:  0.7319 
+F-statistic: 134.8 on 1 and 48 DF,  p-value: 1.532e-15</code></pre>
+</div>
+</div>
+<p>Key pieces of the output: the <strong>Estimate</strong> column gives the fitted intercept and slope; <strong>Std. Error</strong> quantifies uncertainty in each estimate (directly analogous to the Monte Carlo and sampling-distribution ideas from earlier in this lecture); the <strong>p-value</strong> tests whether each coefficient differs from zero; <strong>R-squared</strong> summarizes the proportion of variance in <code>y</code> explained by <code>x</code>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(model_demo)       <span class="co"># just the estimated coefficients</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(Intercept)           x 
+  1.7065044   0.5627559 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">residuals</span>(model_demo) <span class="sc">|&gt;</span> <span class="fu">head</span>()  <span class="co"># observed minus fitted, for the first few rows</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         1          2          3          4          5          6 
+-0.1256325  1.2820699  1.2168762 -0.5420638 -0.6249739  0.1694561 </code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Regression Coefficients Are Estimates, Not Facts
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A fitted slope of 0.5 is a single number computed from one sample. If we resampled the data (as we did throughout this lecture), we would get a slightly different slope each time. The standard error reported by <code>lm()</code> is estimating exactly the kind of sampling variability we spent the whole lecture simulating directly.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-5.2-residuals-and-model-assumptions" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-5.2-residuals-and-model-assumptions">Exercise 5.2: Residuals and Model Assumptions</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Illustrative only -- the full exercise is in class.R</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model<span class="sc">$</span>fitted.values, <span class="fu">resid</span>(model))</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="dv">0</span>, <span class="at">col =</span> <span class="st">"red"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<blockquote class="blockquote">
+<p><strong>See Exercise 5.2 in <code>class.R</code>.</strong></p>
+</blockquote>
+</section>
+</section>
+<section id="exercise-6-major-investigation-simulation-as-a-statistical-laboratory" class="level1">
+<h1>Exercise 6: Major Investigation – Simulation as a Statistical Laboratory</h1>
+<p>Working with a data-generating process for daily stock returns, you will design and run a small simulation study investigating estimator bias, sampling variance, confidence interval coverage, the effect of sample size, and the effect of non-normality (heavy tails / outliers) – while tracking Monte Carlo error throughout.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Illustrative only -- the full exercise is in class.R</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare CI coverage under normal returns versus heavy-tailed returns</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="co"># (e.g., using rt() with a small degrees-of-freedom to generate outliers)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<blockquote class="blockquote">
+<p><strong>See Exercise 6.1 in <code>class.R</code>.</strong></p>
+</blockquote>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Simulation Is Not Proof
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A simulation under one set of assumptions tells you about behavior under <em>those</em> assumptions, nothing more. Changing the data-generating process (different sample size, different distribution) can completely change your conclusion. This is a feature: it lets you map out exactly where a classical method starts to fail, something a single formula cannot show you.</p>
+</div>
+</div>
+</section>
+<section id="looking-ahead" class="level1">
+<h1>Looking Ahead</h1>
+<p>Today’s simulations produced numbers, histograms, and model summaries – but we viewed almost everything using base R’s quick-and-dirty <code>hist()</code> and <code>plot()</code>. Next lecture, we learn to build genuinely clear, publication-quality figures with <code>ggplot2</code>, and to combine code, figures, and narrative into a single reproducible Quarto report. The simulation output from today is exactly the kind of material a good figure needs to communicate; next lecture is about doing that communication well.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Homework Preview
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Tonight’s homework is a simulation-based statistical investigation: you will design a data-generating process, simulate under multiple experimental conditions, graphically examine your simulation results, and interpret what you find.</p>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/moninp\.github\.io\/intro-programming\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+          if (!link.classList.contains('no-external-icon')) {
+          }
+        }
+      }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          // Each band is positioned against its own containing block, which is
+          // not the offsetParent of the lines, so place it from client rects.
+          const placeBand = (band, firstEl, lastEl, codeBlock) => {
+            const container = band.offsetParent;
+            if (container === null) {
+              return;
+            }
+            const containerRect = container.getBoundingClientRect();
+            // Reveal.js scales slides with a transform, so convert client
+            // pixels back to the CSS pixels of the container.
+            const scale = containerRect.height / container.offsetHeight || 1;
+            const firstRect = firstEl.getBoundingClientRect();
+            const lastRect = lastEl.getBoundingClientRect();
+            const top = (firstRect.top - containerRect.top) / scale - container.clientTop + container.scrollTop;
+            const height = (lastRect.bottom - firstRect.top) / scale;
+            band.style.top = top - 2 + "px";
+            band.style.height = height + 4 + "px";
+            if (codeBlock) {
+              // Without the copy button wrapper, the containing block is wider
+              // than the code block, so span the code block explicitly.
+              const blockRect = codeBlock.getBoundingClientRect();
+              band.style.left = (blockRect.left - containerRect.left) / scale - container.clientLeft + container.scrollLeft + "px";
+              band.style.width = blockRect.width / scale + "px";
+            }
+          };
+          if (lineIds.length > 0) {
+            const el = window.document.getElementById(lineIds[0]);
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const parent = el.parentElement.parentElement;
+            // cook up a div (if necessary) and position it
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            placeBand(div, el, lastEl, parent.closest("div.sourceCode") || parent);
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            placeBand(gutterDiv, el, lastEl);
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+  <script type="application/javascript">
+  window.quartoScrollableRegionsLabels = {"code":"Scrollable code","output":"Scrollable output"};
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
