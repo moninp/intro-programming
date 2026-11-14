@@ -36,7 +36,7 @@ sample1 <- rnorm(5, mean = 0, sd = 1)
 
 > **See Exercise 1.1 in `class.R`.**
 
-### Just-in-Time Concept: What "Pseudorandom" Actually Means
+### What "Pseudorandom" Actually Means
 
 Computers cannot generate truly random numbers; they generate **pseudorandom** sequences from a deterministic algorithm, seeded with a starting value. The same seed always produces the same sequence -- which is a feature, not a limitation, for reproducible science.
 
@@ -89,7 +89,7 @@ monte_carlo_estimate <- mean(simulated_draws < -0.03)
 
 > **See Exercise 2.1 in `class.R`.**
 
-### Just-in-Time Concept: Monte Carlo Standard Error
+### Monte Carlo Standard Error
 
 A Monte Carlo estimate is itself a random quantity -- it will differ slightly every time you rerun the simulation (unless you fix the seed). Its precision improves with the number of simulations, at a predictable rate.
 
@@ -134,7 +134,7 @@ sample_means <- numeric(n_sims)
 
 > **See Exercise 3.1 in `class.R`.**
 
-### Just-in-Time Concept: The Central Limit Theorem, Observed
+### The Central Limit Theorem, Observed
 
 The Central Limit Theorem (CLT) says the sampling distribution of the mean approaches a normal distribution as sample size grows, regardless of the population's shape. We do not need to take this on faith -- we can watch it happen.
 
@@ -197,7 +197,7 @@ one_ci <- function() {
 
 > **See Exercise 4.1 in `class.R`.**
 
-### Just-in-Time Concept: Type I and Type II Error Through Simulation
+### Type I and Type II Error Through Simulation
 
 A Type I error is rejecting a true null hypothesis; a Type II error is failing to reject a false one. Both are frequencies we can estimate directly by simulation.
 
@@ -243,7 +243,7 @@ summary(model)
 
 > **See Exercise 5.1 in `class.R`.**
 
-### Just-in-Time Concept: Reading lm() Output
+### Reading lm() Output
 
 ```{r}
 set.seed(5)

@@ -1,6 +1,5 @@
 # =============================================================================
 # Lecture 10: Statistical Computing, Simulation, and Modeling
-# Live Coding Script (Stub)
 #
 # This file is worked through live in class. Each section below
 # corresponds to an Exercise/Your Turn in class.qmd with the same number.
@@ -36,8 +35,6 @@ true_sd_return <- 0.02      # 2% daily volatility
 # (c) Change the seed to 2027 and rerun. Confirm the results differ.
 
 # TODO: work this out live in class
-# PAUSE: ask students to predict whether (b) will match (a) exactly,
-#        before running it
 
 
 # ---- Your Turn 1.2: Independent Repetitions ----
