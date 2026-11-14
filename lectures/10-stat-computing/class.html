@@ -81,7 +81,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-b0bacdaee50ff9abb97ae013f25660d1.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-ea67d19c76e621e4bbc67ae8277c98bb.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -168,7 +168,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#exercise-1.1-pseudorandom-generation-and-seeds" id="toc-exercise-1.1-pseudorandom-generation-and-seeds" class="nav-link" data-scroll-target="#exercise-1.1-pseudorandom-generation-and-seeds">Exercise 1.1: Pseudorandom Generation and Seeds</a>
   <ul class="collapse">
-  <li><a href="#just-in-time-concept-what-pseudorandom-actually-means" id="toc-just-in-time-concept-what-pseudorandom-actually-means" class="nav-link" data-scroll-target="#just-in-time-concept-what-pseudorandom-actually-means">Just-in-Time Concept: What “Pseudorandom” Actually Means</a></li>
+  <li><a href="#what-pseudorandom-actually-means" id="toc-what-pseudorandom-actually-means" class="nav-link" data-scroll-target="#what-pseudorandom-actually-means">What “Pseudorandom” Actually Means</a></li>
   </ul></li>
   <li><a href="#exercise-1.2-independent-repetitions" id="toc-exercise-1.2-independent-repetitions" class="nav-link" data-scroll-target="#exercise-1.2-independent-repetitions">Exercise 1.2: Independent Repetitions</a></li>
   </ul></li>
@@ -176,7 +176,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#exercise-2.1-a-monte-carlo-approximation" id="toc-exercise-2.1-a-monte-carlo-approximation" class="nav-link" data-scroll-target="#exercise-2.1-a-monte-carlo-approximation">Exercise 2.1: A Monte Carlo Approximation</a>
   <ul class="collapse">
-  <li><a href="#just-in-time-concept-monte-carlo-standard-error" id="toc-just-in-time-concept-monte-carlo-standard-error" class="nav-link" data-scroll-target="#just-in-time-concept-monte-carlo-standard-error">Just-in-Time Concept: Monte Carlo Standard Error</a></li>
+  <li><a href="#monte-carlo-standard-error" id="toc-monte-carlo-standard-error" class="nav-link" data-scroll-target="#monte-carlo-standard-error">Monte Carlo Standard Error</a></li>
   </ul></li>
   <li><a href="#exercise-2.2-convergence-with-simulation-size" id="toc-exercise-2.2-convergence-with-simulation-size" class="nav-link" data-scroll-target="#exercise-2.2-convergence-with-simulation-size">Exercise 2.2: Convergence with Simulation Size</a></li>
   </ul></li>
@@ -184,7 +184,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#exercise-3.1-the-sampling-distribution-of-the-mean" id="toc-exercise-3.1-the-sampling-distribution-of-the-mean" class="nav-link" data-scroll-target="#exercise-3.1-the-sampling-distribution-of-the-mean">Exercise 3.1: The Sampling Distribution of the Mean</a>
   <ul class="collapse">
-  <li><a href="#just-in-time-concept-the-central-limit-theorem-observed" id="toc-just-in-time-concept-the-central-limit-theorem-observed" class="nav-link" data-scroll-target="#just-in-time-concept-the-central-limit-theorem-observed">Just-in-Time Concept: The Central Limit Theorem, Observed</a></li>
+  <li><a href="#the-central-limit-theorem-observed" id="toc-the-central-limit-theorem-observed" class="nav-link" data-scroll-target="#the-central-limit-theorem-observed">The Central Limit Theorem, Observed</a></li>
   </ul></li>
   <li><a href="#exercise-3.2-effect-of-sample-size-on-variance" id="toc-exercise-3.2-effect-of-sample-size-on-variance" class="nav-link" data-scroll-target="#exercise-3.2-effect-of-sample-size-on-variance">Exercise 3.2: Effect of Sample Size on Variance</a></li>
   </ul></li>
@@ -192,7 +192,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#exercise-4.1-confidence-interval-coverage" id="toc-exercise-4.1-confidence-interval-coverage" class="nav-link" data-scroll-target="#exercise-4.1-confidence-interval-coverage">Exercise 4.1: Confidence Interval Coverage</a>
   <ul class="collapse">
-  <li><a href="#just-in-time-concept-type-i-and-type-ii-error-through-simulation" id="toc-just-in-time-concept-type-i-and-type-ii-error-through-simulation" class="nav-link" data-scroll-target="#just-in-time-concept-type-i-and-type-ii-error-through-simulation">Just-in-Time Concept: Type I and Type II Error Through Simulation</a></li>
+  <li><a href="#type-i-and-type-ii-error-through-simulation" id="toc-type-i-and-type-ii-error-through-simulation" class="nav-link" data-scroll-target="#type-i-and-type-ii-error-through-simulation">Type I and Type II Error Through Simulation</a></li>
   </ul></li>
   <li><a href="#exercise-4.2-statistical-power" id="toc-exercise-4.2-statistical-power" class="nav-link" data-scroll-target="#exercise-4.2-statistical-power">Exercise 4.2: Statistical Power</a></li>
   </ul></li>
@@ -200,7 +200,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#exercise-5.1-fitting-a-simple-linear-model" id="toc-exercise-5.1-fitting-a-simple-linear-model" class="nav-link" data-scroll-target="#exercise-5.1-fitting-a-simple-linear-model">Exercise 5.1: Fitting a Simple Linear Model</a>
   <ul class="collapse">
-  <li><a href="#just-in-time-concept-reading-lm-output" id="toc-just-in-time-concept-reading-lm-output" class="nav-link" data-scroll-target="#just-in-time-concept-reading-lm-output">Just-in-Time Concept: Reading lm() Output</a></li>
+  <li><a href="#reading-lm-output" id="toc-reading-lm-output" class="nav-link" data-scroll-target="#reading-lm-output">Reading lm() Output</a></li>
   </ul></li>
   <li><a href="#exercise-5.2-residuals-and-model-assumptions" id="toc-exercise-5.2-residuals-and-model-assumptions" class="nav-link" data-scroll-target="#exercise-5.2-residuals-and-model-assumptions">Exercise 5.2: Residuals and Model Assumptions</a></li>
   </ul></li>
@@ -258,8 +258,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <blockquote class="blockquote">
 <p><strong>See Exercise 1.1 in <code>class.R</code>.</strong></p>
 </blockquote>
-<section id="just-in-time-concept-what-pseudorandom-actually-means" class="level3">
-<h3 class="anchored" data-anchor-id="just-in-time-concept-what-pseudorandom-actually-means">Just-in-Time Concept: What “Pseudorandom” Actually Means</h3>
+<section id="what-pseudorandom-actually-means" class="level3">
+<h3 class="anchored" data-anchor-id="what-pseudorandom-actually-means">What “Pseudorandom” Actually Means</h3>
 <p>Computers cannot generate truly random numbers; they generate <strong>pseudorandom</strong> sequences from a deterministic algorithm, seeded with a starting value. The same seed always produces the same sequence – which is a feature, not a limitation, for reproducible science.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
@@ -324,8 +324,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <blockquote class="blockquote">
 <p><strong>See Exercise 2.1 in <code>class.R</code>.</strong></p>
 </blockquote>
-<section id="just-in-time-concept-monte-carlo-standard-error" class="level3">
-<h3 class="anchored" data-anchor-id="just-in-time-concept-monte-carlo-standard-error">Just-in-Time Concept: Monte Carlo Standard Error</h3>
+<section id="monte-carlo-standard-error" class="level3">
+<h3 class="anchored" data-anchor-id="monte-carlo-standard-error">Monte Carlo Standard Error</h3>
 <p>A Monte Carlo estimate is itself a random quantity – it will differ slightly every time you rerun the simulation (unless you fix the seed). Its precision improves with the number of simulations, at a predictable rate.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
@@ -382,8 +382,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <blockquote class="blockquote">
 <p><strong>See Exercise 3.1 in <code>class.R</code>.</strong></p>
 </blockquote>
-<section id="just-in-time-concept-the-central-limit-theorem-observed" class="level3">
-<h3 class="anchored" data-anchor-id="just-in-time-concept-the-central-limit-theorem-observed">Just-in-Time Concept: The Central Limit Theorem, Observed</h3>
+<section id="the-central-limit-theorem-observed" class="level3">
+<h3 class="anchored" data-anchor-id="the-central-limit-theorem-observed">The Central Limit Theorem, Observed</h3>
 <p>The Central Limit Theorem (CLT) says the sampling distribution of the mean approaches a normal distribution as sample size grows, regardless of the population’s shape. We do not need to take this on faith – we can watch it happen.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">7</span>)</span>
@@ -471,8 +471,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <blockquote class="blockquote">
 <p><strong>See Exercise 4.1 in <code>class.R</code>.</strong></p>
 </blockquote>
-<section id="just-in-time-concept-type-i-and-type-ii-error-through-simulation" class="level3">
-<h3 class="anchored" data-anchor-id="just-in-time-concept-type-i-and-type-ii-error-through-simulation">Just-in-Time Concept: Type I and Type II Error Through Simulation</h3>
+<section id="type-i-and-type-ii-error-through-simulation" class="level3">
+<h3 class="anchored" data-anchor-id="type-i-and-type-ii-error-through-simulation">Type I and Type II Error Through Simulation</h3>
 <p>A Type I error is rejecting a true null hypothesis; a Type II error is failing to reject a false one. Both are frequencies we can estimate directly by simulation.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">99</span>)</span>
@@ -527,8 +527,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <blockquote class="blockquote">
 <p><strong>See Exercise 5.1 in <code>class.R</code>.</strong></p>
 </blockquote>
-<section id="just-in-time-concept-reading-lm-output" class="level3">
-<h3 class="anchored" data-anchor-id="just-in-time-concept-reading-lm-output">Just-in-Time Concept: Reading lm() Output</h3>
+<section id="reading-lm-output" class="level3">
+<h3 class="anchored" data-anchor-id="reading-lm-output">Reading lm() Output</h3>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">5</span>)</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">50</span>, <span class="dv">0</span>, <span class="dv">10</span>)</span>
